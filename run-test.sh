@@ -1,0 +1,1 @@
+rake clean_test
