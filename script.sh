@@ -1,2 +1,2 @@
 bundle update
-bundle install --path vendor/bundle
+bundle install
