@@ -1,1 +1,1 @@
-rake clean_test
+bundle exec rake clean_test
