@@ -1,2 +1,3 @@
 git push heroku master
-heroku logs >> heroku_logs
+heroku run bundle exec rake db:migrate
+heroku logs > heroku_logs
