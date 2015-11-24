@@ -1,5 +1,5 @@
 desc 'Migrates both development and test database'
 task :migrate_all do
-  Rake::Task["db:migrate"].invoke("RAILS_ENV=development")
-  Rake::Task["db:migrate"].invoke("RAILS_ENV=test")
+  system("rake db:migrate RAILS_ENV=development")
+  system("rake db:migrate RAILS_ENV=test")
 end
