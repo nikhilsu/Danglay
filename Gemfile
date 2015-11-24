@@ -27,6 +27,7 @@ group :development, :test do
   gem 'guard-rspec', require: false
   gem 'fuubar'
   gem 'factory_girl_rails'
+  gem 'capybara'
 end
 
 group :test do
