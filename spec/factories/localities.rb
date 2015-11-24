@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
   factory :locality do
-    name "MyString"
+    name "SomeLocality"
   end
 end
