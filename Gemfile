@@ -19,6 +19,7 @@ gem 'spring'
 gem 'pg',                      '0.18.4'
 gem 'sdoc',                    '0.4.0', group: :doc
 gem 'net-ssh'
+gem 'feature_toggle'
 
 group :development, :test do
   gem 'byebug',      '3.4.0'
