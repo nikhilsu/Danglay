@@ -1,0 +1,10 @@
+#All the features should be declared here.
+
+#feature_name:
+#  controller_name:
+#    - method_name1
+#    - method_name2
+
+user_feature:
+  users_controller:
+    - new
