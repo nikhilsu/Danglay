@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :user do
     emp_id 1
-    name "SomeName"
-    email "someemail@example.com"
-    address "Some Address"
+    name Faker::Name.name
+    email Faker::Internet.email
+    address Faker::Address.secondary_address
     locality
   end
 

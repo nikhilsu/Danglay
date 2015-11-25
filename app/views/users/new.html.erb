@@ -1,0 +1,32 @@
+<% provide(title: 'Sign Up') %>
+<h1>Sign Up</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(@user) do |f| %>
+        <%= render 'shared/error_messages_user' %>
+
+        <%= f.label :name %>
+        <%= f.text_field :name, class: 'form-control' %>
+
+        <%= f.label :email %>
+        <%= f.text_field :email, class: 'form-control' %>
+
+        <%= f.label :emp_id, "Employee ID" %>
+        <%= f.text_field :emp_id, class: 'form-control' %>
+
+        <%= f.label :address, "Address" %>
+        <%= f.text_field :address, class: 'form-control' %>
+
+        <%
+          @localities = Locality.all
+          @localities << Locality.new(id: -1, name: 'Other')
+        %>
+
+        <%= f.label :address, "Locality" %>
+        <%= f.collection_select(:locality, @localities, :id, :name, prompt: true, class: 'form-control') %>
+
+        <%= f.submit "Create my account", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
