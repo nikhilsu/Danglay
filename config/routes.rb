@@ -8,5 +8,5 @@ Rails.application.routes.draw do
   #   get 'users/new', to: 'users#new'
   # end
 
-  resource :users
+  resources :users
 end

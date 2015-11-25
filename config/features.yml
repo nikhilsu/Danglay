@@ -7,4 +7,6 @@
 
 user_feature:
   users_controller:
-    - new
+      - new
+      - show
+      - create
