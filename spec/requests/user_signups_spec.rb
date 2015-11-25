@@ -13,6 +13,15 @@ RSpec.describe "UserSignups", type: :request do
       expect(response.body).to include 'error'
     end
 
+    it 'sign up with empty locality should throw error' do
+      get signup_path
+      expect(response).to render_template(:new)
+
+      post '/users', :user => { name: 'User', emp_id: 12345, email: 'user@example', address: 'Address', locality: '' }
+      expect(response).to render_template(:new)
+      expect(response.body).to include 'error'
+    end
+
     it 'sign up with valid user' do
       get signup_path
       expect(response).to render_template(:new)
