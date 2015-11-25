@@ -2,16 +2,28 @@ FactoryGirl.define do
   factory :user do
     emp_id 1
     name "SomeName"
-    email "someemail@random.com"
+    email "someemail@example.com"
     address "Some Address"
-    association :locality, factory: :locality
+    locality
   end
 
-  factory :user_without_name, class: User do
-    emp_id 2
+  trait :without_name do
     name ""
-    email "someemail@random.com"
-    address "Some Address"
-    association :locality, factory: :locality
+  end
+
+  trait :without_emp_id do
+    emp_id ""
+  end
+
+  trait :without_email do
+    email ""
+  end
+
+  trait :without_address do
+    address ""
+  end
+
+  trait :without_locality do
+    locality nil
   end
 end
