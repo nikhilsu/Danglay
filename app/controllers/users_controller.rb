@@ -16,6 +16,8 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :emp_id, :email, :address, :locality)
+    allowed_params = params.require(:user).permit(:name, :emp_id, :email, :address)
+    locality = Locality.find_by(name: params[:locality])
+    allowed_params.merge(locality: locality)
   end
 end
