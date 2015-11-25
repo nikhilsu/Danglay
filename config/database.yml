@@ -83,3 +83,9 @@ production:
   database: danglay_production
   username: danglay
   password: <%= ENV['DANGLAY_DATABASE_PASSWORD'] %>
+
+staging:
+  <<: *default
+  database: danglay_staging
+  username: danglay
+  password: <%= ENV['DANGLAY_DATABASE_PASSWORD'] %>

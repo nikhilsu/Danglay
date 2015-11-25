@@ -13,3 +13,7 @@ end
 if Rails.env.production?
   FEATURES.deactivate('user_feature')
 end
+
+if Rails.env.staging?
+  FEATURES.activate('user_feature')
+end
