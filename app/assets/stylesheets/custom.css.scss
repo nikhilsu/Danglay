@@ -36,7 +36,12 @@ textarea {
   }
 }
 
+/* forms */
 
+input, textarea, select{
+  margin-bottom: 2%;
+  @include box_sizing;
+}
 
 /* typography */
 
