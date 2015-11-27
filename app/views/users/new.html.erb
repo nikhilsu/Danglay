@@ -19,11 +19,11 @@
         <%= f.text_area :address, class: 'form-control' %>
 
         <%
-          @localities = Locality.all
+          @localities = Locality.all.order(:name)
           @localities << Locality.new(id: -1, name: 'Other')
         %>
 
-        <%= f.label :locality, "Locality" %>
+        <%= f.label :locality %>
         <%= f.collection_select(:locality, @localities, :id, :name,{ prompt: true }, class: 'form-control') %>
 
         <input class="form-control" type="text" name="user[other]" id="otherBox" style="display: none" placeholder="(Other Location)"/>
