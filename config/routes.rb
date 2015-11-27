@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
   get 'signup' => 'users#new'
   root 'static_pages#home'
   get 'saml/init'

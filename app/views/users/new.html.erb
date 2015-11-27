@@ -26,6 +26,9 @@
         <%= f.label :locality, "Locality" %>
         <%= f.collection_select(:locality, @localities, :id, :name,{ prompt: true }, class: 'form-control') %>
 
+        <input class="form-control" type="text" name="user[other]" id="otherBox" style="display: none" placeholder="(Other Location)"/>
+
+
         <%= f.submit "Create my account", class: "btn btn-primary form-control", style: 'align: center' %>
     <% end %>
   </div>
