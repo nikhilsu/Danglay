@@ -6,6 +6,7 @@ class SamlController < ApplicationController
 
   def consume
     response = OneLogin::RubySaml::Response.new(params[:SAMLResponse])
+    request = OneLogin::RubySaml::Authrequest.new
     response.settings = saml_settings
 
     # We validate the SAML Response and check if the user already exists in the system
