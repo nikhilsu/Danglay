@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.2.3'
 gem 'rails',                   '4.2.5'
-gem 'bcrypt',                  '3.1.7'
+gem 'bcrypt'
 gem 'faker',                   '1.4.2'
 gem 'carrierwave',             '0.10.0'
 gem 'mini_magick',             '3.8.0'
@@ -20,6 +20,8 @@ gem 'pg',                      '0.18.4'
 gem 'sdoc',                    '0.4.0', group: :doc
 gem 'net-ssh'
 gem 'feature_toggle'
+gem 'ruby-saml'
+gem 'webmock'
 
 group :development, :test do
   gem 'byebug',      '3.4.0'
@@ -29,6 +31,7 @@ group :development, :test do
   gem 'fuubar'
   gem 'factory_girl_rails'
   gem 'capybara'
+  gem 'rack_session_access'
 end
 
 group :test do
