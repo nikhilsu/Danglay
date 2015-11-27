@@ -64,6 +64,16 @@ RSpec.describe UsersController, type: :controller do
       expect(after_count - before_count).to eq 0
     end
 
+    it 'should render new page on invalid signup with correct new locality but other errors' do
+      before_count = Locality.count
+      post :create, :user => { name: 'User', emp_id: 12345, email: 'user@example', address: '', locality: '-1', other: 'New Locality' }
+      after_count = Locality.count
+      user = assigns(:user)
+      expect(response).to render_template('new')
+      expect(user.errors.any?).to be true
+      expect(after_count - before_count).to eq 0
+    end
+
     it 'should render show page on valid signup with new locality' do
       before_count = Locality.count
       post :create, :user => { emp_id: 12345, address: 'Address', locality: '-1', other: 'New Locality' }
