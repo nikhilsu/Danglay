@@ -21,3 +21,24 @@
 
 en:
   hello: "Hello world"
+
+  activerecord:
+      attributes:
+
+        user:
+          locality: "Locality"
+
+        locality:
+          name: "Locality Name"
+
+      errors:
+        models:
+
+          locality:
+            attributes:
+              name:
+                taken: "already exists"
+          user:
+            attributes:
+              locality:
+                blank: "is required"
