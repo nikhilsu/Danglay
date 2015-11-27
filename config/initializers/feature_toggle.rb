@@ -3,17 +3,17 @@
 FEATURES = FeatureToggle.load(File.join(Rails.root, 'config', 'features.yml'))
 
 if Rails.env.development?
-  FEATURES.activate('user_feature')
+  FEATURES.activate('user_feature', 'okta_feature')
 end
 
 if Rails.env.test?
-  FEATURES.activate('user_feature')
+  FEATURES.activate('user_feature', 'okta_feature')
 end
 
 if Rails.env.staging?
-  FEATURES.activate('user_feature')
+  FEATURES.activate('user_feature', 'okta_feature')
 end
 
 if Rails.env.production?
-  FEATURES.deactivate('user_feature')
+  FEATURES.deactivate('user_feature', 'okta_feature')
 end

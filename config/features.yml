@@ -10,3 +10,10 @@ user_feature:
       - new
       - show
       - create
+
+okta_feature:
+  saml_controller:
+      - init
+      - consume
+      - saml_settings
+      - idp_metadata
