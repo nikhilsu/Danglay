@@ -11,10 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151124100818) do
+ActiveRecord::Schema.define(version: 20151130065752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cabpools", force: :cascade do |t|
+    t.string   "route"
+    t.integer  "number_of_people"
+    t.string   "timein"
+    t.string   "timeout"
+    t.integer  "locality_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "cabpools", ["locality_id"], name: "index_cabpools_on_locality_id", using: :btree
 
   create_table "localities", force: :cascade do |t|
     t.string   "name"
@@ -30,9 +42,11 @@ ActiveRecord::Schema.define(version: 20151124100818) do
     t.integer  "locality_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "cabpool_id"
   end
 
   add_index "users", ["locality_id"], name: "index_users_on_locality_id", using: :btree
 
+  add_foreign_key "cabpools", "localities"
   add_foreign_key "users", "localities"
 end
