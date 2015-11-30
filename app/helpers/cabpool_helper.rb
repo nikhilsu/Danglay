@@ -1,0 +1,2 @@
+module CabpoolHelper
+end
