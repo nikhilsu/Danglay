@@ -1,22 +1,43 @@
 <% provide(:title, 'Sign Up') %>
 <% if FEATURES.active?('user_feature') %>
-<h1>Sign Up</h1>
+<div class="container">
 <div class="row">
   <div class="col-md-4 col-md-offset-4">
+	  <h1>Sign Up</h1>
+	  
     <%= form_for(@user) do |f| %>
-        <%= render 'shared/error_messages_user' %>
-
-        <%= f.label :name %>
+	
+		<%= f.label :name %>
         <%= f.text_field :name, class: 'form-control' %>
+		<% if !@user.errors.full_messages_for(:name).empty? %>
+		<div class="alert alert-danger">
+			<%= @user.errors.full_messages_for(:name).first %> 
+		</div>
+		<% end %>
 
         <%= f.label :email %>
         <%= f.text_field :email, class: 'form-control' %>
+		<% if !@user.errors.full_messages_for(:email).empty? %>
+		<div class="alert alert-danger">
+			<%= @user.errors.full_messages_for(:email).first %> 
+		</div>
+		<% end %>
 
-        <%= f.label :emp_id, "Employee ID" %>
+        <%= f.label :emp_id ,"Employee ID" %>
         <%= f.text_field :emp_id, class: 'form-control' %>
+		<% if !@user.errors.full_messages_for(:emp_id).empty? %>
+		<div class="alert alert-danger">
+			<%= @user.errors.full_messages_for(:emp_id).first %> 
+		</div>
+		<% end %>
 
         <%= f.label :address %>
         <%= f.text_area :address, class: 'form-control' %>
+		<% if !@user.errors.full_messages_for(:address).empty? %>
+		<div class="alert alert-danger">
+			<%= @user.errors.full_messages_for(:address).first %> 
+		</div>
+		<% end %>
 
         <%
           @localities = Locality.all.order(:name)
@@ -25,12 +46,17 @@
 
         <%= f.label :locality %>
         <%= f.collection_select(:locality, @localities, :id, :name,{ prompt: true }, class: 'form-control') %>
+		<% if !@user.errors.full_messages_for(:locality).empty? %>
+		<div class="alert alert-danger">
+			<%= @user.errors.full_messages_for(:locality).first %> 
+		</div>
+		<% end %>
 
         <input class="form-control" type="text" name="user[other]" id="otherBox" style="display: none" placeholder="(Other Location)"/>
-
 
         <%= f.submit "Create my account", class: "btn btn-primary form-control", style: 'align: center' %>
     <% end %>
   </div>
+</div>
 </div>
 <% end %>
