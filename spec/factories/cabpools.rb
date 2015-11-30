@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :cabpool do
+  factory :cabpools do
     route "MyString"
 number_of_people 1
 timein "MyString"
