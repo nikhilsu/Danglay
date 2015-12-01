@@ -2,8 +2,8 @@ FactoryGirl.define do
   factory :cabpool do
     route "MyString"
     number_of_people 1
-    timein "MyString"
-    timeout "MyString"
+    timein '9:30'
+    timeout '5:30'
     locality nil
   end
 
@@ -29,5 +29,13 @@ FactoryGirl.define do
 
   trait :without_greater_than_one_person do
     number_of_people 0
+  end
+
+  trait :timein_in_invalid_format do
+    timein '25:50'
+  end
+
+  trait :timeout_in_invalid_format do
+    timeout '100'
   end
 end

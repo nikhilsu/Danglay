@@ -31,4 +31,19 @@ RSpec.describe Cabpool, type: :model do
       cabpool = build(:cabpool, :without_greater_than_one_person)
       expect(cabpool.valid?).to be false
   end
+
+  it 'Timein should be a in a HH:MM format' do
+      cabpool = build(:cabpool, :timein_in_invalid_format)
+      expect(cabpool.valid?).to be false
+  end
+
+  it 'Timeout should be a in a HH:MM format' do
+      cabpool = build(:cabpool, :timeout_in_invalid_format)
+      expect(cabpool.valid?).to be false
+  end
+
+  it 'Cabpool is valid if everything is valid' do
+      cabpool = build(:cabpool)
+      expect(cabpool.valid?).to be true
+  end
 end

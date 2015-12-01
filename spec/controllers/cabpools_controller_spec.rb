@@ -21,4 +21,18 @@ RSpec.describe CabpoolsController, type: :controller do
     get :new
     expect(assigns(:locality)).to eq "Blah"
   end
+
+  it 'should render new cabpool page when invalid number of people is entered' do
+    post :create, :cabpool => { number_of_people: 0, timein: "9:30", timeout: "2:30", route: 'Nagarbhavi', locality: '7' }
+    cabpool = assigns(:cabpool)
+    expect(response).to render_template 'cabpools/new'
+    expect(cabpool.errors.any?).to be true
+  end
+
+  it 'should render show cabpool page when valid details are entered' do
+    post :create, :cabpool => { number_of_people: 2, timein: "9:30", timeout: "2:30", route: 'Nagarbhavi', locality: '7' }
+    cabpool = assigns(:cabpool)
+    expect(response).to render_template 'cabpools/show'
+    expect(cabpool.errors.any?).to be false
+  end
 end
