@@ -46,6 +46,7 @@ GEM
       sass (~> 3.2)
     bootstrap-will_paginate (0.0.10)
       will_paginate
+    bootstrap_form (2.3.0)
     builder (3.2.2)
     byebug (3.4.0)
       columnize (~> 0.8)
@@ -391,6 +392,7 @@ DEPENDENCIES
   bcrypt
   bootstrap-sass (= 3.2.0.0)
   bootstrap-will_paginate (= 0.0.10)
+  bootstrap_form
   byebug (= 3.4.0)
   capybara
   carrierwave (= 0.10.0)
