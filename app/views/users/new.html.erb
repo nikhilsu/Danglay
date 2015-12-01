@@ -10,9 +10,10 @@
               <%= f.text_field :emp_id , label: 'Employee ID'%>
               <%= f.text_area :address %>
               <%= f.collection_select(:locality, @localities, :id, :name, {prompt: true}, class: 'form-control') %>
-              <div class="form-group">
+              <div class="form-group <% unless @locality_errors.nil? %> has-error <% end %>">
                 <div class="col-md-8 col-md-offset-2">
                   <input class="form-control" type="text" name="user[other]" id="otherBox" style="display: none" placeholder="(Other Location)"/>
+                  <%= render 'shared/error_messages_locality' %>
                 </div>
               </div>
               <%= f.submit "Create my account",class: "btn btn-primary col-md-offset-2"%>
