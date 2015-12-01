@@ -9,7 +9,14 @@ require 'capybara/rails'
 require 'capybara/rspec'
 require 'webmock/rspec'
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start do
+  add_filter 'spec/'
+  add_group 'Controllers', 'app/controllers'
+  add_group 'Models', 'app/models'
+  add_group 'Helpers', 'app/helpers'
+  add_group 'Mailers', 'app/mailers'
+  add_group 'Views', 'app/views'
+end
 SimpleCov.minimum_coverage 80
 SimpleCov.maximum_coverage_drop 5
 
