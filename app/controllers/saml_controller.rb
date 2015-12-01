@@ -1,4 +1,5 @@
 class SamlController < ApplicationController
+
   def init
     request = OneLogin::RubySaml::Authrequest.new
     redirect_to(request.create(saml_settings))
@@ -14,7 +15,7 @@ class SamlController < ApplicationController
       # authorize_success, log the user
       session[:userid] = response.nameid
       session[:attributes] = response.attributes
-      redirect_to root_url
+      redirect_to session[:forward_url] || root_url
     else
       redirect_to(request.create(saml_settings))
     end

@@ -5,6 +5,9 @@
       <ul class="nav navbar-nav pull-right">
         <li><%= link_to "Home", root_path %></li>
         <li><%= link_to "Help", "#" %></li>
+        <% if is_logged_in?  %>
+          <li><%= link_to "Logout", logout_path, method: "delete" %></li>
+        <% end %>
       </ul>
     </nav>
   </div>

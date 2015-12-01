@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   #protect_from_forgery with: :exception
+  include SessionsHelper
+
   if FEATURES.active?('okta_feature')
     before_action :authorized? , except: [:init, :consume]
   end
@@ -9,6 +11,7 @@ class ApplicationController < ActionController::Base
 
   def authorized?
     if session[:userid].nil?
+      store_location
       redirect_to '/saml/init'
     end
   end

@@ -36,6 +36,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'simplecov'
 end
 
 group :production, :staging do

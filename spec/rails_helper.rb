@@ -8,6 +8,9 @@ require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/rspec'
 require 'webmock/rspec'
+require 'simplecov'
+SimpleCov.start
+SimpleCov.minimum_coverage 97
 
 require "rack_session_access/capybara"
 WebMock.disable_net_connect!(allow_localhost: true)
