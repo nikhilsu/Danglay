@@ -5,4 +5,5 @@ task :clean_test do
   Rake::Task["migrate_all"].invoke
   Rake::Task["db:seed"].invoke
   Rake::Task["spec"].invoke
+  Rake::Task["spec:javascript"].invoke
 end
