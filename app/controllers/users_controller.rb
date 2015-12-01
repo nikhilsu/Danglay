@@ -3,16 +3,22 @@ class UsersController < ApplicationController
   def new
     @user = User.new
     @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
+    session[:FirstName].capitalize!
+    session[:LastName].capitalize!
+    @user.name = "#{session[:FirstName]} #{session[:LastName]}"
+    @user.email = "#{session[:Email]}"
   end
 
   def create
     @user = User.new(user_params)
+    @user.name = "#{session[:FirstName]} #{session[:LastName]}"
+    @user.email = "#{session[:Email]}"
     add_new_valid_locality
     if @user.save
       redirect_to @user
     else
       @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
-      render 'new'
+      render new_user_path
     end
   end
 
@@ -23,7 +29,7 @@ class UsersController < ApplicationController
   private
 
     def user_params
-      allowed_params = params.require(:user).permit(:name, :emp_id, :email, :address)
+      allowed_params = params.require(:user).permit(:emp_id, :address)
       locality_id = params[:user][:locality]
       locality = Locality.find_by_id(locality_id)
       allowed_params.merge(locality: locality)

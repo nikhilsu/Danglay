@@ -14,7 +14,9 @@ class SamlController < ApplicationController
     if response.is_valid?
       # authorize_success, log the user
       session[:userid] = response.nameid
-      session[:attributes] = response.attributes
+      session[:FirstName] = response.attributes[:FirstName]
+      session[:LastName] = response.attributes[:LastName]
+      session[:Email] = response.attributes[:Email]
       redirect_to session[:forward_url] || root_url
     else
       redirect_to(request.create(saml_settings))

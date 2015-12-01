@@ -15,7 +15,7 @@ RSpec.describe SessionsHelper, type: :helper do
     end
 
     it 'should return true if user logged in' do
-      session[:userid] = create(:user).id
+      session[:userid] = build_stubbed(:user).id
       expect(is_logged_in?).to eq true
       session.clear
     end
