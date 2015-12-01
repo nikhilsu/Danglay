@@ -23,5 +23,4 @@ class CabpoolsController < ApplicationController
     locality_id = Locality.find_by_name(@locality)
     allowed_params.merge(locality_id: locality_id)
   end
-
 end

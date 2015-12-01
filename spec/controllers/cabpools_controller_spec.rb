@@ -35,4 +35,11 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to render_template 'cabpools/show'
     expect(cabpool.errors.any?).to be false
   end
+
+  it 'should render new cabpool page with errors when invalid params are passed' do
+    post :create, :cabpool => { gibbrish:'hello'}
+    cabpool = assigns(:cabpool)
+    expect(response).to render_template 'cabpools/new'
+    expect(cabpool.errors.any?).to be true
+  end
 end
