@@ -32,7 +32,7 @@ FactoryGirl.define do
   end
 
   trait :timein_in_invalid_format do
-    timein '25:50'
+    timein '25'
   end
 
   trait :timeout_in_invalid_format do

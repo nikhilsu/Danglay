@@ -46,10 +46,6 @@ en:
           cabpool:
             attributes:
               number_of_people:
-                blank: "is required"
-              timein:
-                blank: "Invalid Format."
-              timeout:
-                blank: "Invalid Format."
+                not_a_number: "is required"
               route:
                 blank: "is required"

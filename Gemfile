@@ -16,6 +16,7 @@ gem 'jquery-rails',            '4.0.3'
 gem 'turbolinks',              '2.3.0'
 gem 'jbuilder',                '2.2.3'
 gem 'spring'
+gem 'jc-validates_timeliness'
 gem 'pg',                      '0.18.4'
 gem 'sdoc',                    '0.4.0', group: :doc
 gem 'net-ssh'
