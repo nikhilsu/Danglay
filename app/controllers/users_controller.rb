@@ -2,6 +2,8 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    @localities = Locality.all.order(:name)
+    @localities << Locality.new(id: -1, name: 'Other')
   end
 
   def create

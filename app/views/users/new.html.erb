@@ -9,10 +9,6 @@
               <%= f.email_field :email %>
               <%= f.text_field :emp_id , label: 'Employee ID'%>
               <%= f.text_area :address %>
-              <%
-                 @localities = Locality.all.order(:name)
-                 @localities << Locality.new(id: -1, name: 'Other')
-              %>
               <%= f.collection_select(:locality, @localities, :id, :name, {prompt: true}, class: 'form-control') %>
               <div class="form-group">
                 <div class="col-md-8 col-md-offset-2">
