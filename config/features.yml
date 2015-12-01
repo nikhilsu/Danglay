@@ -17,3 +17,7 @@ okta_feature:
       - consume
       - saml_settings
       - idp_metadata
+
+create_cabpool_feature:
+  cabpools_controller:
+      - new
