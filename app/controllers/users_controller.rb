@@ -2,8 +2,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    @localities = Locality.all.order(:name)
-    @localities << Locality.new(id: -1, name: 'Other')
+    @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
   end
 
   def create
@@ -12,6 +11,7 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to @user
     else
+      @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
       render 'new'
     end
   end
