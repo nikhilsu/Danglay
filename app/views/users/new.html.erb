@@ -2,25 +2,26 @@
 <% if FEATURES.active?('user_feature') %>
 <div class="container">
 <div class="row">
-  <div class="col-md-10 col-md-offset-1">
-    <h1><%= 'Hi, ' + ' ' + @user.name %></h1>
-    <div class="col-md-offset-2">
+  <div class="col-md-8 col-md-offset-2">
+    <h1><%= "Hi, #{@user.name}" %></h1>
+    <div class="col-md-offset-3">
 
     <p>You have signed in with <b><%= @user.email%></b></p>
 
     <p> In order to proceed, please complete your details below.</p>
 
     </div>
-    <%= bootstrap_form_for(@user, layout: :horizontal, label_col: "col-md-2", control_col: "col-md-8") do |f| %>
+    <%= bootstrap_form_for(@user, layout: :horizontal, label_col: "col-md-3", control_col: "col-md-7") do |f| %>
         <%= f.text_field :emp_id , label: 'Employee ID'%>
         <%= f.text_area :address %>
         <%= f.collection_select(:locality, @localities, :id, :name, {prompt: true}, class: 'form-control') %>
-        <div class="form-group">
-          <div class="col-md-8 col-md-offset-2">
+        <div class="form-group <% unless @locality_errors.nil? %> has-error <% end %>">
+          <div class="col-md-7 col-md-offset-3">
             <input class="form-control" type="text" name="user[other]" id="otherBox" style="display: none" placeholder="(Other Location)"/>
+            <%= render 'shared/error_messages_locality' %>
           </div>
         </div>
-        <%= f.submit "Update Profile",class: "btn btn-primary col-md-offset-2"%>
+        <%= f.submit "Update Profile",class: "btn btn-primary col-md-offset-3"%>
     <% end %>
   </div>
 </div>
