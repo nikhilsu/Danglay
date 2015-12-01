@@ -27,20 +27,24 @@ en:
 
         user:
           locality: "Locality"
+          emp_id: "Employee ID"
 
         locality:
           name: "Locality Name"
 
       errors:
         models:
-
           locality:
             attributes:
               name:
-                taken: "already exists"
+                taken: "already exists. Please choose it from the drop down menu."
           user:
             attributes:
               locality:
+                blank: "is required"
+              emp_id:
+                blank: "is required"
+              address:
                 blank: "is required"
 
           cabpool:
