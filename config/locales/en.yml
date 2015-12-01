@@ -42,3 +42,16 @@ en:
             attributes:
               locality:
                 blank: "is required"
+
+          cabpool:
+            attributes:
+              number_of_people:
+                blank: "is required"
+              timein:
+                blank: "Invalid Format."
+              timeout:
+                blank: "Invalid Format."
+              route:
+                blank: "is required"
+
+

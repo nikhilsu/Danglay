@@ -38,6 +38,11 @@ textarea {
 
 /* forms */
 
+form {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 input, textarea, select{
   margin-bottom: 2%;
   @include box_sizing;
@@ -56,14 +61,21 @@ h1 {
   text-align: center;
 }
 
-h2 {
-  font-size: 1.2em;
-  letter-spacing: -1px;
-  margin-bottom: 30px;
+.create-form-heading{
+  line-height: 1;
   text-align: center;
-  font-weight: normal;
-  color: $gray_light;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
+
+//h2 {
+//  font-size: 1.2em;
+//  letter-spacing: -1px;
+//  margin-bottom: 30px;
+//  text-align: center;
+//  font-weight: normal;
+//  color: $gray_light;
+//}
 
 p {
   font-size: 1.1em;
