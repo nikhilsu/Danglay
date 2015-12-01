@@ -10,7 +10,8 @@ require 'capybara/rspec'
 require 'webmock/rspec'
 require 'simplecov'
 SimpleCov.start
-SimpleCov.minimum_coverage 97
+SimpleCov.minimum_coverage 80
+SimpleCov.maximum_coverage_drop 5
 
 require "rack_session_access/capybara"
 WebMock.disable_net_connect!(allow_localhost: true)
