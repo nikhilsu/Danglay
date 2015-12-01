@@ -10,7 +10,6 @@ RSpec.describe CabpoolsController, type: :controller do
      stub_locality = Locality.new(:name =>"Blah")
      allow(Locality).to receive(:find).and_return(stub_locality)
     allow(stub_locality).to receive(:name).and_return("Blah")
-
   end
 
   it 'should render create cabpools page' do
