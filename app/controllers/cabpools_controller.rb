@@ -10,8 +10,10 @@ class CabpoolsController < ApplicationController
   def create
     @cabpool = Cabpool.new(cabpool_params)
     if @cabpool.save
-      render 'cabpools/show'
+      render show_cabpool_path
     else
+      user = User.find_by_email(session[:userid])
+      @locality = Locality.find(user.locality_id).name
       render 'cabpools/new'
     end
   end

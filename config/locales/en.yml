@@ -50,5 +50,10 @@ en:
             attributes:
               number_of_people:
                 not_a_number: "This is not a number."
+                blank: "This is required"
+              timein:
+                blank: "Invalid Format."
+              timeout:
+                blank: "Invalid Format."
               route:
                 blank: "This is required."
