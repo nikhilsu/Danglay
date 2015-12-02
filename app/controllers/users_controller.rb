@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :not_regitstered? , only: [:new, :create]
+  before_action :not_registered? , only: [:new, :create]
 
   def new
     @user = User.new
@@ -18,7 +18,8 @@ class UsersController < ApplicationController
     add_new_valid_locality
     if @user.save
       set_registered_uid
-      redirect_to @user
+      flash[:success] = "Your Profile has been updated"
+      redirect_back_or(root_path)
     else
       @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
       render new_user_path
@@ -31,7 +32,7 @@ class UsersController < ApplicationController
 
   private
 
-    def not_regitstered?
+    def not_registered?
       unless session[:registered_uid].nil?
         redirect_to root_path
       end

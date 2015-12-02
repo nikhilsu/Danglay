@@ -7,4 +7,9 @@ module SessionsHelper
   def is_logged_in?
     !session[:userid].nil?
   end
+
+  def redirect_back_or(default)
+    redirect_to(session[:forward_url] || default)
+    session.delete(:forward_url)
+  end
 end

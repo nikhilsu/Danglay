@@ -15,7 +15,7 @@ RSpec.describe "UserSignups", type: :feature do
     fill_in 'Address', with: 'No.322, Mars'
     select('Mars', from: 'Locality')
     click_button 'Update Profile'
-    expect(page.current_path).to match /\/users\/\d*/
+    expect(page.current_path).to eq root_path
   end
 
   scenario 'valid user signup with a new location', js: true do
@@ -30,6 +30,6 @@ RSpec.describe "UserSignups", type: :feature do
     select('Other', from: 'Locality')
     fill_in 'otherBox', with: 'Jupiter'
     click_button 'Update Profile'
-    expect(page.current_path).to match /\/users\/\d*/
+    expect(page.current_path).to eq root_path
   end
 end

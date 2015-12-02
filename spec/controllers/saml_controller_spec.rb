@@ -40,7 +40,7 @@ RSpec.describe SamlController, type: :controller do
 
     expect(stub_response.name_id).to be_truthy
     expect(stub_response.attributes).to be_truthy
-    expect(response).to redirect_to session[:forward_url]
+    expect(response).to redirect_to 'host.com'
     session.clear
   end
 

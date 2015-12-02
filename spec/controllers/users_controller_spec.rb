@@ -72,26 +72,6 @@ RSpec.describe UsersController, type: :controller do
       expect(user.errors.any?).to be true
     end
 
-    it 'should render show page on valid signup with new locality' do
-      post :create, :user => { emp_id: 12345, address: 'Address', locality: '-1', other: 'New Locality' }
-
-      user = assigns(:user)
-
-      expect(response).to redirect_to(user)
-      expect(user.save).to be true
-      expect(user.errors.any?).to be false
-    end
-
-    it 'should render show page on valid signup' do
-      locality_id = create(:locality).id
-      post :create, :user => { emp_id: 12345, address: 'Address', locality: locality_id }
-
-      user = assigns(:user)
-
-      expect(response).to redirect_to(user)
-      expect(user.errors.any?).to be false
-    end
-
     it 'should render show page while logged in' do
       user = create(:user)
       get :show, { id: user.id }
@@ -119,5 +99,13 @@ RSpec.describe UsersController, type: :controller do
       get :new
       expect(response).to redirect_to root_path
     end
+
+    it "should friendly redirect on new user creation" do
+      session[:forward_url] = '/cabpool/new'
+
+      post :create, :user => { emp_id: 12345, address: 'Address', locality: '-1', other: 'New Locality' }
+      expect(response).to redirect_to '/cabpool/new'
+    end
+
   end
 end

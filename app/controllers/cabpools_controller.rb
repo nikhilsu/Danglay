@@ -20,6 +20,7 @@ class CabpoolsController < ApplicationController
   private
 
   def registered?
+    store_location
     if session[:registered_uid].nil?
       redirect_to new_user_path
     end
