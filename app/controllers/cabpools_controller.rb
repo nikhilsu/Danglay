@@ -12,8 +12,6 @@ class CabpoolsController < ApplicationController
     if @cabpool.save
       render 'cabpools/show'
     else
-      user = User.find_by_email(session[:userid])
-      @locality = Locality.find(user.locality_id).name
       render 'cabpools/new'
     end
   end
