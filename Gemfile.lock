@@ -258,6 +258,7 @@ GEM
     minitest (5.8.3)
     multi_json (1.11.2)
     nenv (0.2.0)
+    nested_form (0.3.2)
     net-ssh (3.0.1)
     nokogiri (1.6.7)
       mini_portile2 (~> 2.0.0.rc2)
@@ -422,6 +423,7 @@ DEPENDENCIES
   jc-validates_timeliness
   jquery-rails (= 4.0.3)
   mini_magick (= 3.8.0)
+  nested_form
   net-ssh
   pg (= 0.18.4)
   poltergeist

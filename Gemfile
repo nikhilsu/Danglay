@@ -37,6 +37,7 @@ group :development, :test do
   gem 'jasmine-rails'
   gem 'poltergeist'
   gem 'database_cleaner'
+  gem "nested_form"
 end
 
 group :test do

@@ -3,12 +3,17 @@
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
         <h2 class="create-form-heading"><%= "Create a Cab Pool" %></h2>
-        <%= bootstrap_form_for(@cabpool, layout: :horizontal, label_col: "col-md-3", control_col: "col-md-7") do |f| %>
+        <%= bootstrap_nested_form_for(@cabpool, layout: :horizontal, label_col: "col-md-3", control_col: "col-md-7") do |f| %>
             <%= f.text_field :number_of_people, label: 'Number of people to travel with' %>
             <%= f.text_field :timein, label: 'Pick-up time to office', placeholder: 'HH:MM' %>
             <%= f.text_field :timeout, label: 'Pick-up time from office', placeholder: 'HH:MM' %>
-
-            <%= f.submit "Create a pool", class: "purple btn col-md-offset-3" %>
+            <div>
+              <%= render 'locality_fields' %>
+            </div>
+            <div id="localitySelections">
+            </div>
+            <%= link_to "Add Locality", "javascript:;", id: "addLocality"%>
+            <%= f.submit "Create a pool", class: "btn btn-primary col-md-offset-3" %>
         <% end %>
       </div>
     </div>

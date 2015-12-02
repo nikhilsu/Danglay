@@ -2,14 +2,14 @@ class CabpoolsController < ApplicationController
 
   before_action :registered? , except: [:show]
 
-  attr_reader :locality
-
   def new
     @cabpool = Cabpool.new
+    @cabpool.localities.build
   end
 
   def create
     @cabpool = Cabpool.new(cabpool_params)
+    add_localities_to_cabpool
     if @cabpool.save
       render 'cabpools/show'
     else
@@ -27,6 +27,12 @@ class CabpoolsController < ApplicationController
   end
 
   def cabpool_params
-    allowed_params = params.require(:cabpool).permit(:number_of_people, :timein, :timeout, :route)
+    allowed_params = params.require(:cabpool).permit(:number_of_people, :timein, :timeout)
+  end
+
+  def add_localities_to_cabpool
+    params[:localities].values.each do |locality_id|
+      @cabpool.localities << Locality.find_by_id(locality_id)
+    end
   end
 end

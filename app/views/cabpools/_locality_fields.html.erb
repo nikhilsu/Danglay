@@ -1,0 +1,4 @@
+<div class ="localityForm">
+  <%= collection_select(:localities,  DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, prompt: true) %>
+  <button class="removeNewLocality" type="button">remove</button>
+</div>
