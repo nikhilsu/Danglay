@@ -35,6 +35,8 @@ group :development, :test do
   gem 'capybara'
   gem 'rack_session_access'
   gem 'jasmine-rails'
+  gem 'selenium-webdriver'
+  gem 'database_cleaner'
 end
 
 group :test do
