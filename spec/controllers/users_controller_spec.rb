@@ -113,5 +113,11 @@ RSpec.describe UsersController, type: :controller do
 
       expect(session[:registered_uid]).to be user.id
     end
+
+    it "should not allow to registered user to register again" do
+      session[:registered_uid] = 1
+      get :new
+      expect(response).to redirect_to root_path
+    end
   end
 end
