@@ -1,4 +1,10 @@
 <h1>Welcome, <%=@username%></h1>
-<div align="center">
+<div align="center" class="tabs">
   <%= image_tag("cab.png", width: "30%", height: "30%") %>
+
+  <ul class="nav nav-tabs">
+    <li class="active"><%= link_to 'Cab Pools', '#' %></li>
+    <li><%= link_to 'Create a Cab Pool', '#' %></li>
+  </ul>
+
 </div>

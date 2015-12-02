@@ -1,0 +1,16 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+.tabs > .nav-tabs > li.active > a, .tabs > .nav-tabs > li > a:hover, .nav-tabs > li.active > a:hover {
+  background-color: #471645;
+  font-size: 100%;
+  color: white;
+}
+
+.tabs > .nav-tabs > li > a {
+  color: $gray;
+}
+
+.tabs > .nav-tabs {
+  border: none;
+}

@@ -1,0 +1,29 @@
+#logo {
+  float: left;
+  margin-right: 10px;
+  font-size: 1.7em;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  padding-top: 9px;
+  font-weight: bold;
+}
+
+#header {
+  background-color: #471645;
+}
+
+#header a {
+  color: white;
+  &:hover {
+    text-decoration: underline;
+    background: none;
+  }
+}
+
+#header > .container > a:first-child {
+  &:hover {
+    text-decoration: none;
+    background: none;
+  }
+}
