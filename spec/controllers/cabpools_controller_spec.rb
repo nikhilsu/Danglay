@@ -4,6 +4,7 @@ RSpec.describe CabpoolsController, type: :controller do
 
   before(:each) do
      session[:userid] = "thejasb@thoughtworks.com"
+     session[:registered_uid] = 1
      stub_user = User.new(:name => "Thejas", :email => "thejasb@thoughtworks.com", :locality_id => 1)
      allow(User).to receive(:find_by_email).and_return(stub_user)
      allow(stub_user).to receive(:locality_id).and_return(1)
@@ -41,5 +42,11 @@ RSpec.describe CabpoolsController, type: :controller do
     cabpool = assigns(:cabpool)
     expect(response).to render_template 'cabpools/new'
     expect(cabpool.errors.any?).to be true
+  end
+
+  it "should redirect to new user path when unregistered user tries to create a pool" do
+    session[:registered_uid] = nil
+    get :new
+    expect(response).to redirect_to new_user_path
   end
 end
