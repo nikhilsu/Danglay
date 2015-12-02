@@ -2,7 +2,7 @@
 <% if FEATURES.active?('user_feature') %>
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
-        <h2 class="create-form-heading"><%= "Create a Cab Pool from your locality, #{@locality}" %></h2>
+        <h2 class="create-form-heading"><%= "Create a Cab Pool" %></h2>
         <%= bootstrap_form_for(@cabpool, layout: :horizontal, label_col: "col-md-3", control_col: "col-md-7") do |f| %>
             <%= f.text_field :number_of_people, label: 'Number of people to travel with' %>
             <%= f.text_field :timein, label: 'Pick-up time to office', placeholder: 'HH:MM' %>

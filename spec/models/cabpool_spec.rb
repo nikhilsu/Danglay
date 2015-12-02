@@ -17,11 +17,6 @@ RSpec.describe Cabpool, type: :model do
     expect(cabpool.valid?).to be false
   end
 
-  it 'Routes of the cabpool should not be empty' do
-    cabpool = build(:cabpool, :without_routes)
-    expect(cabpool.valid?).to be false
-  end
-
   it 'Number of people should be less than or equal to 4' do
       cabpool = build(:cabpool, :without_less_than_four_people)
       expect(cabpool.valid?).to be false

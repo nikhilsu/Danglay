@@ -11,22 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151201095812) do
+ActiveRecord::Schema.define(version: 20151202093513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "cabpools", force: :cascade do |t|
-    t.string   "route"
     t.integer  "number_of_people"
-    t.integer  "locality_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
     t.time     "timein"
     t.time     "timeout"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
-  add_index "cabpools", ["locality_id"], name: "index_cabpools_on_locality_id", using: :btree
+  create_table "cabpools_localities", force: :cascade do |t|
+    t.integer "cabpool_id"
+    t.integer "locality_id"
+  end
+
+  add_index "cabpools_localities", ["cabpool_id"], name: "index_cabpools_localities_on_cabpool_id", using: :btree
+  add_index "cabpools_localities", ["locality_id"], name: "index_cabpools_localities_on_locality_id", using: :btree
 
   create_table "localities", force: :cascade do |t|
     t.string   "name"
@@ -45,8 +49,11 @@ ActiveRecord::Schema.define(version: 20151201095812) do
     t.integer  "cabpool_id"
   end
 
+  add_index "users", ["cabpool_id"], name: "index_users_on_cabpool_id", using: :btree
   add_index "users", ["locality_id"], name: "index_users_on_locality_id", using: :btree
 
-  add_foreign_key "cabpools", "localities"
+  add_foreign_key "cabpools_localities", "cabpools"
+  add_foreign_key "cabpools_localities", "localities"
+  add_foreign_key "users", "cabpools"
   add_foreign_key "users", "localities"
 end
