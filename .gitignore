@@ -8,6 +8,7 @@ coverage
 
 .idea/
 .DS_Store
+.ruby-version
 
 # Ignore bundler config.
 /.bundle
