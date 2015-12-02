@@ -20,7 +20,6 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
 
   activerecord:
       attributes:
@@ -41,15 +40,15 @@ en:
           user:
             attributes:
               locality:
-                blank: "is required"
+                blank: "This is required."
               emp_id:
-                blank: "is required"
+                blank: "This is required."
               address:
-                blank: "is required"
+                blank: "This is required."
 
           cabpool:
             attributes:
               number_of_people:
-                not_a_number: "is required"
+                not_a_number: "This is not a number."
               route:
-                blank: "is required"
+                blank: "This is required."
