@@ -43,51 +43,49 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'should render new page on invalid signup with correct new locality but other errors' do
-      before_count = Locality.count
       post :create, :user => { emp_id: 12345, address: '', locality: '-1', other: 'New Locality' }
-      after_count = Locality.count
       user = assigns(:user)
 
+      expect(user.save).to be false
       expect(response).to render_template('new')
       expect(user.errors.any?).to be true
-      expect(after_count - before_count).to eq 0
     end
 
     it 'should render new page on invalid signup with new locality which already exists' do
       locality = create(:locality)
-      before_count = Locality.count
       post :create, :user => { emp_id: 12345, address: 'Address', locality: '-1', other: locality.name }
-      after_count = Locality.count
+
       user = assigns(:user)
+
+      expect(user.save).to be false
       expect(response).to render_template('new')
       expect(user.errors.any?).to be true
-      expect(after_count - before_count).to eq 0
     end
 
     it 'should render new page on invalid signup with correct new locality but other errors' do
-      before_count = Locality.count
       post :create, :user => { name: 'User', emp_id: 12345, email: 'user@example', address: '', locality: '-1', other: 'New Locality' }
-      after_count = Locality.count
+
       user = assigns(:user)
+
       expect(response).to render_template('new')
+      expect(user.save).to be false
       expect(user.errors.any?).to be true
-      expect(after_count - before_count).to eq 0
     end
 
     it 'should render show page on valid signup with new locality' do
-      before_count = Locality.count
       post :create, :user => { emp_id: 12345, address: 'Address', locality: '-1', other: 'New Locality' }
-      after_count = Locality.count
+
       user = assigns(:user)
 
       expect(response).to redirect_to(user)
+      expect(user.save).to be true
       expect(user.errors.any?).to be false
-      expect(after_count - before_count).to eq 1
     end
 
     it 'should render show page on valid signup' do
       locality_id = create(:locality).id
       post :create, :user => { emp_id: 12345, address: 'Address', locality: locality_id }
+
       user = assigns(:user)
 
       expect(response).to redirect_to(user)
@@ -97,6 +95,7 @@ RSpec.describe UsersController, type: :controller do
     it 'should render show page while logged in' do
       user = create(:user)
       get :show, { id: user.id }
+
       expect(response).to render_template('show')
     end
 
@@ -106,6 +105,13 @@ RSpec.describe UsersController, type: :controller do
 
       expect(user.name).to eq(session[:FirstName] + ' ' + session[:LastName])
       expect(user.email).to eq(session[:Email])
+    end
+
+    it "should set registered user id for a valid user signup" do
+      post :create, :user => { emp_id: 12345, address: 'Address', locality: '-1', other: 'New Locality' }
+      user = assigns(:user)
+
+      expect(session[:registered_uid]).to be user.id
     end
   end
 end
