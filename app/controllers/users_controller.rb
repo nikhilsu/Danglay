@@ -15,6 +15,7 @@ class UsersController < ApplicationController
     @user.email = "#{session[:Email]}"
     add_new_valid_locality
     if @user.save
+      set_registered_uid
       redirect_to @user
     else
       @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
@@ -28,7 +29,12 @@ class UsersController < ApplicationController
 
   private
 
-    def user_params
+    def set_registered_uid
+      user =  User.find_by_email(@user.email)
+      session[:registered_uid] = user.id
+    end
+
+  def user_params
       allowed_params = params.require(:user).permit(:emp_id, :address)
       locality_id = params[:user][:locality]
       locality = Locality.find_by_id(locality_id)

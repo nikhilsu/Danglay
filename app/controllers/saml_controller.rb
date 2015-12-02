@@ -14,6 +14,7 @@ class SamlController < ApplicationController
     if response.is_valid?
       # authorize_success, log the user
       session[:userid] = response.nameid
+      set_registered_uid(response.attributes[:Email])
       session[:FirstName] = response.attributes[:FirstName]
       session[:LastName] = response.attributes[:LastName]
       session[:Email] = response.attributes[:Email]
@@ -24,6 +25,13 @@ class SamlController < ApplicationController
   end
 
   private
+
+  def set_registered_uid(user_id)
+    user =  User.find_by_email(user_id)
+    unless user.nil?
+      session[:registered_uid] = user.id
+    end
+  end
 
   def saml_settings
     idp_metadata_parser = OneLogin::RubySaml::IdpMetadataParser.new

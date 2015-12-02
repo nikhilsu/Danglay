@@ -22,7 +22,6 @@ RSpec.describe SamlController, type: :controller do
 
     post :consume
 
-    expect(stub_response.is_valid?).to be true
     expect(stub_response.name_id).to be_truthy
     expect(stub_response.attributes).to be_truthy
     expect(response).to redirect_to root_url
@@ -39,7 +38,6 @@ RSpec.describe SamlController, type: :controller do
 
     post :consume
 
-    expect(stub_response.is_valid?).to be true
     expect(stub_response.name_id).to be_truthy
     expect(stub_response.attributes).to be_truthy
     expect(response).to redirect_to session[:forward_url]
@@ -53,7 +51,26 @@ RSpec.describe SamlController, type: :controller do
 
     post :consume
 
-    expect(stub_response.is_valid?).to be false
     expect(response.location).to include 'https://dev-774694.oktapreview.com/app/thoughtworksdev774694_railsoktatest_1/exk5fn90zik3RdpS30h7/sso/saml'
+  end
+
+  it "should set registered user id for a registered user" do
+    locality = create(:locality)
+    user = User.create(name: "thejas", emp_id: 12345, address: 'blah', locality: locality, email: 'thejasb@thoughtworks.com')
+    stub_response = OneLogin::RubySaml::Response.new(valid_response)
+    allow(OneLogin::RubySaml::Response).to receive(:new).and_return(stub_response)
+    allow(stub_response).to receive(:is_valid?).and_return(true)
+
+    post :consume
+    expect(session[:registered_uid]).to be user.id
+  end
+
+  it "should set registered user id to nil for a unregistered user" do
+    stub_response = OneLogin::RubySaml::Response.new(valid_response)
+    allow(OneLogin::RubySaml::Response).to receive(:new).and_return(stub_response)
+    allow(stub_response).to receive(:is_valid?).and_return(true)
+
+    post :consume
+    expect(session[:registered_uid]).to be nil
   end
 end
