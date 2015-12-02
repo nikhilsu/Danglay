@@ -35,7 +35,7 @@ group :development, :test do
   gem 'capybara'
   gem 'rack_session_access'
   gem 'jasmine-rails'
-  gem 'selenium-webdriver'
+  gem 'poltergeist'
   gem 'database_cleaner'
 end
 
