@@ -31,8 +31,9 @@ class CabpoolsController < ApplicationController
   end
 
   def add_localities_to_cabpool
-    params[:localities].values.each do |locality_id|
-      @cabpool.localities << Locality.find_by_id(locality_id)
-    end
+      params[:localities].values.each do |locality_id|
+        locality = Locality.find_by_id(locality_id)
+        @cabpool.localities << locality if !locality.nil?
+      end
   end
 end

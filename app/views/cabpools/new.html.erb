@@ -5,9 +5,9 @@
         <h2 class="create-form-heading"><%= "Create a Cab Pool" %></h2>
         <%= bootstrap_nested_form_for(@cabpool, layout: :horizontal, label_col: "col-md-3", control_col: "col-md-7") do |f| %>
             <%= f.text_field :number_of_people, label: 'Number of people to travel with' %>
-            <%= f.text_field :timein, label: 'Pick-up time to office', placeholder: 'HH:MM' %>
-            <%= f.text_field :timeout, label: 'Pick-up time from office', placeholder: 'HH:MM' %>
-            <div>
+            <%= f.time_field :timein, label: 'Pick-up time to office', placeholder: 'HH:MM' %>
+            <%= f.time_field :timeout, label: 'Pick-up time from office', placeholder: 'HH:MM' %>
+            <div class="mandatoryLocalitySelection">
               <%= render 'locality_fields' %>
             </div>
             <div id="localitySelections">

@@ -37,6 +37,16 @@ RSpec.describe Cabpool, type: :model do
       expect(cabpool.valid?).to be false
   end
 
+  it 'Localities can\'t be empty' do
+    cabpool = build(:cabpool, :without_localities)
+    expect(cabpool.valid?).to be false
+  end
+
+  it 'Duplicate Localities should be invalid' do
+    cabpool = build(:cabpool, :with_duplicate_localities)
+    expect(cabpool.valid?).to be false
+  end
+
   it 'Cabpool is valid if everything is valid' do
       cabpool = build(:cabpool)
       expect(cabpool.valid?).to be true

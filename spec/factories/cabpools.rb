@@ -3,6 +3,11 @@ FactoryGirl.define do
     number_of_people 1
     timein '9:30'
     timeout '5:30'
+    after(:build) do |cabpool|
+      3.times do
+        cabpool.localities << FactoryGirl.build_stubbed(:locality, name: Faker::Address.street_name)
+      end
+    end
   end
 
   trait :without_number_of_people do
@@ -31,5 +36,21 @@ FactoryGirl.define do
 
   trait :timeout_in_invalid_format do
     timeout '100'
+  end
+
+  trait :without_localities do
+    after(:build) do |cabpool|
+      cabpool.localities.clear
+    end
+  end
+
+  trait :with_duplicate_localities do
+    after(:build) do |cabpool|
+      cabpool.localities.clear
+      l = FactoryGirl.build_stubbed(:locality)
+      2.times do
+        cabpool.localities << l
+      end
+    end
   end
 end
