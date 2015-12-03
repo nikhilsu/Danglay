@@ -10,5 +10,6 @@ RSpec.describe SessionsController, type: :controller do
     delete :destroy
     expect(response).to redirect_to 'https://dev-774694.oktapreview.com'
     expect(session[:userid]).to be nil
+    expect(session[:forward_url]).to be nil
   end
 end

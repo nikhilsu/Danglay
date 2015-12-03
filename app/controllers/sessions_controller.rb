@@ -8,6 +8,6 @@ class SessionsController < ApplicationController
   private
 
     def delete_session
-      session.delete(:userid)
+      session.clear
     end
 end
