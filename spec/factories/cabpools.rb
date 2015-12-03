@@ -53,4 +53,13 @@ FactoryGirl.define do
       end
     end
   end
+
+  trait :more_than_five_localities do
+    after(:build) do |cabpool|
+      cabpool.localities.clear
+      6.times do
+        cabpool.localities << FactoryGirl.build_stubbed(:locality)
+      end
+    end
+  end
 end

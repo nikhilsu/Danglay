@@ -47,6 +47,11 @@ RSpec.describe Cabpool, type: :model do
     expect(cabpool.valid?).to be false
   end
 
+  it 'More than Five Localities should be invalid' do
+    cabpool = build(:cabpool, :more_than_five_localities)
+    expect(cabpool.valid?).to be false
+  end
+
   it 'Cabpool is valid if everything is valid' do
       cabpool = build(:cabpool)
       expect(cabpool.valid?).to be true
