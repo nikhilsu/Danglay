@@ -15,7 +15,6 @@ RSpec.describe StaticPagesController, type: :controller do
     it 'should get the home page' do
     get :home
     expect(response).to render_template('home')
-    end
   end
 
   describe 'GET #about' do
@@ -24,4 +23,6 @@ RSpec.describe StaticPagesController, type: :controller do
       expect(response).to render_template('about')
     end
   end
+  end
 end
+
