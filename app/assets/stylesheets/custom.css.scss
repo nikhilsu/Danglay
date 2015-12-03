@@ -25,6 +25,13 @@ body {
   background-color: #471645;
   background-border: 2px solid black;
   color: white;
+
+}
+
+input[type=submit]:hover {
+  color: white !important;
+  background-color: #471645 !important;
+  background-border: 2px solid black !important;
 }
 
 .information {
