@@ -1,6 +1,9 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+.tabs {
+  padding-bottom: 5%;
+}
 .tabs > .nav-tabs > li > a, .tabs >.nav-tabs > li.active > a {
   color: $gray;
   border-top-left-radius: 8px;
@@ -15,6 +18,10 @@
   background-color: #471645;
   font-size: 100%;
   color: white;
+}
+
+.nav-tabs > li.active > a:visited {
+  background: none;
 }
 
 .tabs > .nav-tabs {
