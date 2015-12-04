@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   root 'static_pages#home'
   get 'saml/init'
   post 'saml/consume'
+  post 'show_cabpools' => 'static_pages#show'
   delete 'logout' => 'sessions#destroy'
   #If Feature toggle is to be used for a specific action
   # if FEATURES.active?('user_feature')
