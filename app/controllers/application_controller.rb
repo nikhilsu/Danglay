@@ -3,10 +3,10 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   #protect_from_forgery with: :exception
   include SessionsHelper
-
   if FEATURES.active?('okta_feature')
     before_action :authorized? , except: [:init, :consume]
   end
+  before_action :set_user_name
   before_filter :check_feature_activated?
 
   def authorized?
@@ -18,5 +18,9 @@ class ApplicationController < ActionController::Base
 
   def check_feature_activated?
     FEATURES.active_action?(params[:controller], params[:action])
+  end
+
+  def set_user_name
+    @username = session[:FirstName].capitalize
   end
 end

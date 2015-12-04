@@ -15,6 +15,7 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     fill_in 'Pick-up time to office', with: ''
     fill_in 'Pick-up time from office', with: ''
     find(:css, '.localityForm > select').find(:xpath, 'option[1]').select_option
+    page.execute_script "window.scrollBy(0,10000)"
     click_button 'Create a pool'
     expect(page.current_path).to eq '/cabpools'
     expect(page.body).to have_content("This is not a number.")
@@ -27,6 +28,7 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     find(:css, '.localityForm > select').find(:xpath, 'option[2]').select_option
     find('#addLocality').trigger('click')
     find(:css, '#localitySelections > div > div > select').find(:xpath, 'option[3]').select_option
+    page.execute_script "window.scrollBy(0,10000)"
     click_button 'Create a pool'
     expect(page.current_path).to eq '/cabpools'
   end

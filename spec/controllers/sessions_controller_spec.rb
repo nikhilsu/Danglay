@@ -3,7 +3,13 @@ require 'rails_helper'
 RSpec.describe SessionsController, type: :controller do
 
   before(:each) do
-    session[:userid] = build_stubbed(:user).id
+    user = build_stubbed(:user)
+    names = user.name.split(' ')
+    session[:userid] = user.id
+    session[:FirstName] = names[0]
+    session[:LastName] = names[1]
+    session[:Email] = user.email
+
   end
 
   it 'should redirect to okta home when logged out' do
