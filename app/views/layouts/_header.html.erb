@@ -1,8 +1,8 @@
-<header class="navbar navbar-fixed-top" id="header">
+<header class="navbar-fixed-top">
   <div class="container">
-    <%= link_to "DANGLAY", root_path, id: "logo" %>
+    <div class="team-name"><%= link_to "DANGLAY", root_path %></div>
     <nav>
-      <ul class="nav navbar-nav pull-right">
+      <ul id="header-nav", class="nav navbar-nav pull-right">
         <li><%= link_to "Home", root_path %></li>
         <% if is_logged_in?  %>
           <li><%= link_to "Logout", logout_path, method: "delete" %></li>

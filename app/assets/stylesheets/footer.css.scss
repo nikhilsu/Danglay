@@ -9,19 +9,28 @@ footer {
   border-top: 1px solid $gray-medium-light;
   color: white;
   background-color: #471645;
+  font-size: 1.3em;
+
   a {
     color: white;
     &:hover {
       text-decoration: underline;
       color: white;
     }
+    &:focus {
+      text-decoration: none;
+      color: white;
+    }
   }
+
   small {
     float: left;
   }
+
   ul {
     float: right;
     list-style: none;
+
     li {
       float: left;
       margin-left: 15px;

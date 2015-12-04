@@ -1,4 +1,4 @@
-#logo {
+.team-name {
   float: left;
   margin-right: 10px;
   font-size: 1.7em;
@@ -9,21 +9,26 @@
   font-weight: bold;
 }
 
-#header {
-  background-color: #471645;
-}
-
-#header a {
-  color: white;
-  &:hover {
-    text-decoration: underline;
-    background: none;
+#header-nav a {
+  &:hover, &:focus {
+    background: transparent;
   }
 }
 
-#header > .container > a:first-child {
-  &:hover {
-    text-decoration: none;
-    background: none;
+header {
+  background-color: #471645;
+  font-size: 1.3em;
+
+    a {
+      padding : 15px;
+      color: white;
+    &:hover {
+      text-decoration: underline;
+      color: white;
+    }
+    &:focus {
+      text-decoration: none;
+      color: white;
+    }
   }
 }
