@@ -120,3 +120,8 @@ p {
   margin-top: 45px;
   @include box_sizing;
 }
+
+/* flash */
+body > div > .alert {
+ margin-top: 1%;
+}
