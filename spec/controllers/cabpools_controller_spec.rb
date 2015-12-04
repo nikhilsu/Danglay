@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe CabpoolsController, type: :controller do
 
   before(:each) do
-    session[:registered_uid] = 1
     user = build_stubbed(:user)
     names = user.name.split(' ')
     session[:userid] = user.id
+    session[:registered_uid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email

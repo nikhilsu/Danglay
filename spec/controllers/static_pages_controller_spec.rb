@@ -11,12 +11,6 @@ RSpec.describe StaticPagesController, type: :controller do
     session[:Email] = user.email
   end
 
-  describe 'GET #home' do
-    it 'should get the home page' do
-    get :home
-    expect(response).to render_template('home')
-  end
-
   describe 'GET #about' do
     it 'should get the about page' do
       get :about
@@ -30,6 +24,4 @@ RSpec.describe StaticPagesController, type: :controller do
         expect(response).to render_template('contact')
       end
     end
-  end
 end
-

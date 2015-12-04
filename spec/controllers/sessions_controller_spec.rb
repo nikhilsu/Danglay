@@ -9,7 +9,6 @@ RSpec.describe SessionsController, type: :controller do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-
   end
 
   it 'should redirect to okta home when logged out' do

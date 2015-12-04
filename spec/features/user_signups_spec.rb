@@ -23,13 +23,13 @@ RSpec.describe "UserSignups", type: :feature do
     fill_in 'Address', with: 'No.322, Mars'
     select('Other', from: 'Locality')
     fill_in 'otherBox', with: 'Mars'
-    page.execute_script "window.scrollBy(0,10000)"
+    page.execute_script "window.scrollBy(0, 10000)"
     click_button 'Update Profile'
     expect(page.current_path).to eq '/users'
     page.document.has_content? 'locality already exists'
     select('Other', from: 'Locality')
     fill_in 'otherBox', with: 'Jupiter'
-    page.execute_script "window.scrollBy(0,10000)"
+    page.execute_script "window.scrollBy(0, 10000)"
     click_button 'Update Profile'
     expect(page.current_path).to eq root_path
   end

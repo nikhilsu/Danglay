@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   if FEATURES.active?('okta_feature')
     before_action :authorized? , except: [:init, :consume]
   end
-  before_action :set_user_name
+  before_action :set_user_name, except: [:init, :consume]
   before_filter :check_feature_activated?
 
   def authorized?
