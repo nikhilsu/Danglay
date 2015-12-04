@@ -1,6 +1,9 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+$danglay-color: #471645;
+$danglay-background-color: #DAD0D9;
+
 .tabs {
   padding-bottom: 5%;
 }
@@ -11,7 +14,7 @@
   font-weight: bold;
 
   > li > a {
-    color: #471645;
+    color: $danglay-color;
     margin-left: 0px;
     margin-right: 0px;
     border: 2px solid $gray-darker;
@@ -20,13 +23,13 @@
     border-top-right-radius: 8px;
 
     &:hover {
-      background-color: #DAD0D9;
+      background-color: $danglay-background-color;
     }
   }
 
   > li.active > a {
     color: white;
-    background-color: #471645;
+    background-color: $danglay-color;
     border: 2px solid $gray-darker;
 
     border-top-left-radius: 8px;
@@ -37,18 +40,6 @@
     border-collapse: collapse;
   }
 }
-
-
-/*
-.nav-tabs > li.active > a:hover {
-    background-color: #471645;
-    font-size: 100%;
-    color: white;
-  }
-
-.nav-tabs > li.active > a:visited {
-  background: none;
-}*/
 
 .col-md-6 {
   padding: 0px;
