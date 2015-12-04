@@ -20,7 +20,7 @@ body {
   background-color: #EAE7EC !important;
 }
 
-.purple
+input[type=submit]
 {
   background-color: #471645;
   background-border: 2px solid black;
@@ -28,15 +28,21 @@ body {
 
 }
 
-#show-form {
-  display: none;
-}
-
 input[type=submit]:hover {
   color: white !important;
   background-color: #592d57 !important;
   background-border: 2px solid black !important;
 }
+
+input[type=submit]:focus {
+  color: white !important;
+  background-border: 2px solid black !important;
+}
+
+#show-form {
+  display: none;
+}
+
 
 .information {
   background-color: white;
