@@ -1,6 +1,8 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+$danglay-color: #471645;
+
 /* mixins, variables, etc. */
 
 @mixin box_sizing {
@@ -26,19 +28,19 @@ body {
 
 input[type=submit]
 {
-  background-color: #471645;
+  background-color: $danglay-color;
   background-border: 2px solid black;
   color: white;
 
   &:hover {
-    color: white !important;
-    background-color: #592d57 !important;
-    background-border: 2px solid black !important;
+    color: white;
+    background-color: #592d57;
+    background-border: 2px solid black;
   }
 
   &:focus {
-    color: white !important;
-    background-border: 2px solid black !important;
+    color: white;
+    background-border: 2px solid black;
   }
 }
 
@@ -66,6 +68,12 @@ textarea {
   }
 }
 
+/* flash/alert */
+
+body > div > .alert {
+  margin-top: 1%;
+}
+
 /* forms */
 
 form {
@@ -82,10 +90,6 @@ input, textarea, select{
 
 h1, h2, h3, h4, h5, h6 {
   line-height: 1;
-}
-h1, h2 {
-  text-align: center;
-  color: $gray !important;
 }
 
 h1, h2 {
@@ -119,9 +123,4 @@ p {
   width: 100%;
   margin-top: 45px;
   @include box_sizing;
-}
-
-/* flash */
-body > div > .alert {
- margin-top: 1%;
 }
