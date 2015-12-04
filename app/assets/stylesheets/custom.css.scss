@@ -11,6 +11,10 @@
 
 /* universal */
 
+html, body {
+  height: 100%;
+}
+
 html {
   overflow-y: scroll;
 }
@@ -26,27 +30,25 @@ input[type=submit]
   background-border: 2px solid black;
   color: white;
 
-}
+  &:hover {
+    color: white !important;
+    background-color: #592d57 !important;
+    background-border: 2px solid black !important;
+  }
 
-input[type=submit]:hover {
-  color: white !important;
-  background-color: #592d57 !important;
-  background-border: 2px solid black !important;
-}
-
-input[type=submit]:focus {
-  color: white !important;
-  background-border: 2px solid black !important;
+  &:focus {
+    color: white !important;
+    background-border: 2px solid black !important;
+  }
 }
 
 #show-form {
   display: none;
 }
 
-
 .information {
   background-color: white;
-  padding-top: 0px;
+  height: 95%;
 }
 
 section {
