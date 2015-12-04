@@ -1,4 +1,9 @@
-.team-name {
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+$danglay-color: #471645;
+
+.application-name {
   float: left;
   margin-right: 10px;
   font-size: 1.7em;
@@ -16,16 +21,18 @@
 }
 
 header {
-  background-color: #471645;
+  background-color: $danglay-color;
   font-size: 1.3em;
 
-    a {
-      padding : 15px;
-      color: white;
+  a {
+    padding: 15px;
+    color: white;
+
     &:hover {
       text-decoration: underline;
       color: white;
     }
+
     &:focus {
       text-decoration: none;
       color: white;

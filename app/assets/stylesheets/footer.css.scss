@@ -1,14 +1,15 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-$gray-medium-light: #eaeaea;
+$gray-medium-light: #EAEAEA;
+$danglay-color: #471645;
 
 footer {
   margin-top: 45px;
   padding-top: 5px;
   border-top: 1px solid $gray-medium-light;
   color: white;
-  background-color: #471645;
+  background-color: $danglay-color;
   font-size: 1.3em;
 
   a {
@@ -17,6 +18,7 @@ footer {
       text-decoration: underline;
       color: white;
     }
+
     &:focus {
       text-decoration: none;
       color: white;
