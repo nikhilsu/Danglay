@@ -23,13 +23,17 @@ en:
 
   activerecord:
       attributes:
-
         user:
           locality: "Locality"
           emp_id: "Employee ID"
 
         locality:
           name: "Locality Name"
+
+        cabpool:
+          number_of_people: "Car Capacity"
+          timein: "Arrival time to office"
+          timeout: "Departure time from office"
 
       errors:
         models:
