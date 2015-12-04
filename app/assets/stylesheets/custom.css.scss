@@ -28,6 +28,10 @@ body {
 
 }
 
+#show-form {
+  display: none;
+}
+
 input[type=submit]:hover {
   color: white !important;
   background-color: #592d57 !important;
@@ -108,4 +112,3 @@ p {
   margin-top: 45px;
   @include box_sizing;
 }
-
