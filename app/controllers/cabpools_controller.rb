@@ -22,6 +22,7 @@ class CabpoolsController < ApplicationController
   def registered?
     store_location
     if session[:registered_uid].nil?
+      flash[:danger] = "Please update your profile to create a new cab pool."
       redirect_to new_user_path
     end
   end
