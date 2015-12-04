@@ -4,10 +4,11 @@
     <b> <%= formatted_time(cabpool.timeout) %></b>
   </span>
   <% cabpool.localities.each do |locality| %>
-      <h3><%= locality.name %></h3>
+      <h1><%= locality.name %></h1>
   <% end %>
   <% cabpool.users.each do |user| %>
       <h4><%= user.name %></h4>
       <h4><%= user.email %></h4>
   <% end %>
+  <button class="btn">Join</button>
 </div>

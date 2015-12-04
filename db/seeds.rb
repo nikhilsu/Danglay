@@ -15,7 +15,6 @@ end
 end
 User.create!(name: 'Deepika', email: 'vdeepika@thoughtworks.com', emp_id: '18078', address: "Blah on Mars", locality: Locality.first )
 
-
 3.times do
   timein = Faker::Time.between(2.days.ago, Time.now, :all)
   timeout = Faker::Time.between(2.days.ago, Time.now, :all)
@@ -38,5 +37,3 @@ User.create!(name: 'Deepika', email: 'vdeepika@thoughtworks.com', emp_id: '18078
   cabpool.users = users
   cabpool.save!
 end
-
-
