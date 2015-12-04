@@ -46,6 +46,14 @@ FactoryGirl.define do
     timeout '11:50:10.010'
   end
 
+  trait :time_in_am do
+    timeout '09:30'
+  end
+
+  trait :time_in_pm do
+    timeout '22:30'
+  end
+
   trait :without_localities do
     after(:build) do |cabpool|
       cabpool.localities.clear

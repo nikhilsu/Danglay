@@ -1,0 +1,13 @@
+<div style="border: solid #471645">
+  <span style="float: right">
+    <b> <%= formatted_time(cabpool.timein) %></b>
+    <b> <%= formatted_time(cabpool.timeout) %></b>
+  </span>
+  <% cabpool.localities.each do |locality| %>
+      <h3><%= locality.name %></h3>
+  <% end %>
+  <% cabpool.users.each do |user| %>
+      <h4><%= user.name %></h4>
+      <h4><%= user.email %></h4>
+  <% end %>
+</div>

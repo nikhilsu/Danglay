@@ -1,0 +1,17 @@
+<h1>Welcome, <%=@username%></h1>
+<div align="center" class="tabs">
+  <%= image_tag("cab.png", width: "30%", height: "30%") %>
+
+  <ul class="nav nav-tabs">
+    <li class="active col-md-6"><%= link_to 'Cab Pools', '#show-cabpools', :remote => true %></li>
+    <li class="col-md-6"><%= link_to 'Create a Cab Pool', '#show-form', :remote => true %></li>
+  </ul>
+
+  <div id="show-form">
+    <%= render 'cabpools/form' %>
+  </div>
+
+  <div id="show-cabpools">
+    <%= render @cabpools %>
+  </div>
+</div>

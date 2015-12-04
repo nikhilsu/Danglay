@@ -9,10 +9,11 @@ class CabpoolsController < ApplicationController
   def create
     @cabpool = Cabpool.new(cabpool_params)
     add_localities_to_cabpool
+    add_session_user_to_cabpool
     if @cabpool.save
-      render 'cabpools/show'
+      redirect_to root_url
     else
-      render 'cabpools/new'
+      render 'new'
     end
   end
 
@@ -28,6 +29,11 @@ class CabpoolsController < ApplicationController
 
   def cabpool_params
     allowed_params = params.require(:cabpool).permit(:number_of_people, :timein, :timeout)
+  end
+
+  def add_session_user_to_cabpool
+    user = User.find_by_id(session[:registered_uid])
+    @cabpool.users << user if !user.nil?
   end
 
   def add_localities_to_cabpool

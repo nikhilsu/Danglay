@@ -10,7 +10,7 @@ RSpec.describe CabpoolsController, type: :controller do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    end
+  end
 
   it 'should render create cabpools page' do
     get :new
@@ -52,7 +52,7 @@ RSpec.describe CabpoolsController, type: :controller do
   it 'should render show cabpool page when valid details are entered' do
     post :create, :cabpool => { number_of_people: 2, timein: "9:30", timeout: "2:30"}, :localities => { :locality_one_id => '1' }
     cabpool = assigns(:cabpool)
-    expect(response).to render_template 'cabpools/show'
+    expect(response).to redirect_to root_url
     expect(cabpool.errors.any?).to be false
   end
 
