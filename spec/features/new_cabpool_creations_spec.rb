@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.feature "NewCabpoolCreations", type: :feature do
-
   before(:each) do
     page.set_rack_session(userid: 22)
     page.set_rack_session(registered_uid: 22)
