@@ -17,7 +17,7 @@ describe 'adding multiple localities to cabpool route', ->
     expect($('.localityForm').length).toBe(1)
     return
 
-  it 'should insert localityForm and remove icon when addLocality is clicked', ->
+  it 'should insert localityForm and remove-icon when addLocality is clicked', ->
     $('#addLocality').click()
     expect($('.localityForm').length).toBe(2)
     expect($('.glyphicon-minus-sign').length).toBe(1)
@@ -27,16 +27,19 @@ describe 'adding multiple localities to cabpool route', ->
     return
 
   it 'should have a maximum of five localityForms and four remove icons', ->
-    for i in [1..6]
+    6.times do
       $('#addLocality').click()
+    end
     expect($('.localityForm').length).toBe(5)
     expect($('.glyphicon-minus-sign').length).toBe(4)
     return
 
-  it 'should delete localityForm and remove icon when remove icon is clicked', ->
+  it 'should delete localityForm and remove-icon when remove-icon is clicked', ->
     $('#addLocality').click()
     expect($('.localityForm').length).toBe(2)
+    expect($('.glyphicon-minus-sign').length).toBe(1)
     $('#removeNewLocality').click()
     expect($('.localityForm').length).toBe(1)
+    expect($('.glyphicon-minus-sign').length).toBe(0)
     return
   return
