@@ -10,7 +10,6 @@ var CabPoolListener = {
                     '<a href="javascript:;"><span class="glyphicon glyphicon-minus-sign" id="removeNewLocality"></span></a> ' +
                     '</div>';
                 $('div#localitySelections').append(locality_form_with_remove_icon);
-
                 var select_the_last_locality_form = $('div.localityForm:last > select')
                 select_the_last_locality_form.attr('name', 'localities[' + $.now() + ']')
 
