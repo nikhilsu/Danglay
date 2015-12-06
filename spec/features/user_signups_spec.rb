@@ -6,7 +6,6 @@ RSpec.describe "UserSignups", type: :feature do
     page.set_rack_session(FirstName: 'Sir Thinks ')
     page.set_rack_session(LastName: ' A Lot')
     page.set_rack_session(Email: 'SirThinksALot@blah.com')
-
   end
 
   scenario 'valid user signup with exisiting location' do

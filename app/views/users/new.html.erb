@@ -18,7 +18,7 @@
         <div class="form-group <% unless @locality_errors.nil? %> has-error <% end %>">
           <div class="col-md-7 col-md-offset-3">
             <input class="form-control" type="text" name="user[other]" id="otherBox" style="display: none" placeholder="(Other Location)"/>
-            <%= render 'shared/error_messages_locality' %>
+            <%= render 'shared/error_messages', errors: @locality_errors if !@locality_errors.nil?%>
           </div>
         </div>
         <%= f.submit "Update Profile",class: "btn center-block"%>
