@@ -17,7 +17,3 @@ var CabPoolListener = {
         });
     }
 };
-
-$(function(){
-    CabPoolListener.addListeners();
-});

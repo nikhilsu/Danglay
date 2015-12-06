@@ -15,3 +15,9 @@
 //= require jquery_nested_form
 //= require turbolinks
 //= require_tree .
+
+
+$(function(){
+    UserListener.addListeners();
+    CabPoolListener.addListeners();
+});

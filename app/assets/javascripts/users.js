@@ -12,5 +12,4 @@ var UserListener = {
 };
 
 $(function(){
-    UserListener.addListeners();
 });
