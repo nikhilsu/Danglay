@@ -16,4 +16,8 @@ describe 'other location spec', ->
     $('#user_locality').val('-1').change()
     expect($('#otherBox')).toBeVisible()
     return
+  it 'should show other location when \'Other\' is selected', ->
+    $('#user_locality').val('-1').change()
+    expect($('#otherBox')).toBeHidden()
+    return
   return
