@@ -14,7 +14,7 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     fill_in 'Number of people to travel with', with: ''
     fill_in 'Pick-up time to office', with: ''
     fill_in 'Pick-up time from office', with: ''
-    find(:css, '#mandatoryLocalitySelection > div > select').find(:xpath, 'option[1]').select_option
+    find(:css, '.localityForm > select').find(:xpath, 'option[1]').select_option
     click_button 'Create a pool'
     expect(page.current_path).to eq '/cabpools'
     expect(page.body).to have_content("This is not a number.")
@@ -24,9 +24,9 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     fill_in 'Number of people to travel with', with: '3'
     fill_in 'Pick-up time to office', with: '12:23 PM'
     fill_in 'Pick-up time from office', with: '9:00 PM'
-    find(:css, '#mandatoryLocalitySelection > div > select').find(:xpath, 'option[2]').select_option
+    find(:css, '.localityForm > select').find(:xpath, 'option[2]').select_option
     find('#addLocality').trigger('click')
-    find(:css, '#localitySelections > div > div > div > select').find(:xpath, 'option[3]').select_option
+    find(:css, '#localitySelections > div > div > select').find(:xpath, 'option[3]').select_option
     click_button 'Create a pool'
     expect(page.current_path).to eq '/cabpools'
   end

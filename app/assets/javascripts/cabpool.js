@@ -2,9 +2,7 @@ $(document).ready(function(){
     $('#addLocality').click(function(){
         if ( $("div.localityForm").length <= 4) {
             $('div#localitySelections').append('<div class="form-group"> ' +
-                '<div class="col-md-5 col-md-offset-3"> ' +
-                    '<div class="localityForm">' + $('div.localityForm').html() + '</div> ' +
-                '</div> ' +
+                    '<div class="localityForm col-md-5 col-md-offset-3">' + $('div.localityForm').html() + '</div> ' +
                 '<a href="javascript:;"><span class="glyphicon glyphicon-minus-sign" id="removeNewLocality"></span></a> ' +
             '</div>');
 

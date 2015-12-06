@@ -14,12 +14,10 @@
               <label class="control-label col-md-3 required " for="user_locality">Via</label>
 
               <div class="col-md-5">
-                <div class="mandatoryLocalitySelection" id="mandatoryLocalitySelection">
                   <div class="localityForm">
                       <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control') %>
                   </div>
                   <%= render 'shared/error_messages', errors: @cabpool.errors[:localities] if !@cabpool.errors[:localities].empty? %>
-                </div>
               </div>
               <a href="javascript:;"><span class="glyphicon glyphicon-plus" id="addLocality"></span></a>
             </div>

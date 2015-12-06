@@ -4,7 +4,6 @@ class CabpoolsController < ApplicationController
 
   def new
     @cabpool = Cabpool.new
-    @cabpool.localities.build
   end
 
   def create
