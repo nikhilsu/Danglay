@@ -34,8 +34,16 @@ FactoryGirl.define do
     timein '25'
   end
 
+  trait :timein_with_milliseconds do
+    timein '11:25:00.010'
+  end
+
   trait :timeout_in_invalid_format do
     timeout '100'
+  end
+
+  trait :timeout_with_milliseconds do
+    timeout '11:50:10.010'
   end
 
   trait :without_localities do

@@ -32,9 +32,19 @@ RSpec.describe Cabpool, type: :model do
       expect(cabpool.valid?).to be false
   end
 
+  it 'Timein can have seconds and milliseconds in its HH:MM format' do
+      cabpool = build(:cabpool, :timein_with_milliseconds)
+      expect(cabpool.valid?).to be true
+  end
+
   it 'Timeout should be a in a HH:MM format' do
       cabpool = build(:cabpool, :timeout_in_invalid_format)
       expect(cabpool.valid?).to be false
+  end
+
+  it 'Timeout can have seconds and milliseconds in its HH:MM format' do
+      cabpool = build(:cabpool, :timeout_with_milliseconds)
+      expect(cabpool.valid?).to be true
   end
 
   it 'Localities can\'t be empty' do
