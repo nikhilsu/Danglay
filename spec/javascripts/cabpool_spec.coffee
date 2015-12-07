@@ -27,9 +27,8 @@ describe 'adding multiple localities to cabpool route', ->
     return
 
   it 'should have a maximum of five localityForms and four remove icons', ->
-    6.times do
+    for i in [1..6]
       $('#addLocality').click()
-    end
     expect($('.localityForm').length).toBe(5)
     expect($('.glyphicon-minus-sign').length).toBe(4)
     return
