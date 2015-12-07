@@ -11,11 +11,20 @@ var CabPoolListener = {
 
                 var select_the_last_locality_form = $('div.localityForm:last > select')
                 select_the_last_locality_form.attr('name', 'localities[' + $.now() + ']')
+
+                if (number_of_locality_forms == 4) {
+                    $(this).parent().hide();
+                }
             }
         });
 
         $("div#localitySelections").on('click', '#removeNewLocality', function () {
             $(this).closest('.form-group').remove();
+            var number_of_locality_forms = $("div.localityForm").length;
+            var add_locality_count = $("#addLocality").length;
+            if (number_of_locality_forms <= 4 && $('#addLocality').is(':hidden')) {
+                $('#addLocality').parent().show();
+            }
         });
     }
-};
+}

@@ -8,13 +8,17 @@ describe 'adding multiple localities to cabpool route', ->
               + '<option value="2">Jupiter</option>'\
               + '</select>' \
               + '</div>'\
-              + '<a href="javascript:;"><span id="addLocality"></span></a>'\
+              + '<a href="javascript:;"><span id="addLocality" style="display: block;"></span></a>'\
               + '<div id="localitySelections"></div>'
     CabPoolListener.addListeners()
     return
 
   it 'should have only one localityForm when page is loaded', ->
     expect($('.localityForm').length).toBe(1)
+    return
+
+  it 'addLocality icon should be visible when page is loaded', ->
+    expect($('#addLocality')).toBeVisible()
     return
 
   it 'should insert localityForm and remove-icon when addLocality is clicked', ->
@@ -40,5 +44,21 @@ describe 'adding multiple localities to cabpool route', ->
     $('#removeNewLocality').click()
     expect($('.localityForm').length).toBe(1)
     expect($('.glyphicon-minus-sign').length).toBe(0)
+    return
+
+  it 'should hide addLocality icon when the fourth locality is added', ->
+    expect($('#addLocality')).toBeVisible()
+    for i in [1..5]
+      $('#addLocality').click()
+    expect($('#addLocality')).toBeHidden()
+    return
+
+  it 'should unhide addLocality icon when a localityForm is removed', ->
+    expect($('#addLocality')).toBeVisible()
+    for i in [1..5]
+      $('#addLocality').click()
+    expect($('#addLocality')).toBeHidden()
+    $('.glyphicon-minus-sign').click()
+    expect($('#addLocality')).toBeVisible()
     return
   return
