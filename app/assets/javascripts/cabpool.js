@@ -14,7 +14,7 @@ var CabPoolListener = {
                 var select_the_last_locality_form = $('div.localityForm:last > select')
                 select_the_last_locality_form.attr('name', 'localities[' + $.now() + ']')
 
-                if (number_of_locality_forms == 4) {
+                if (number_of_locality_forms == 3) {
                     $(this).parent().hide();
                 }
             }
