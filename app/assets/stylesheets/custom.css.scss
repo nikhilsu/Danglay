@@ -28,14 +28,14 @@ body {
   background-color: $body-background-color !important;
 }
 
-input[type=submit]
+input[type=submit], .btn
 {
   background-color: $danglay-color;
   background-border: 2px solid black;
   color: white;
 
   &:hover {
-    color: white;
+    color: white !important;
     background-color: $danglay-hover-color;
     background-border: 2px solid black;
   }

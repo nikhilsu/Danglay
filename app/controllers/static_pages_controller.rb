@@ -17,12 +17,12 @@ class StaticPagesController < ApplicationController
     searched_locality_id = params[:localities].values.first
     locality = Locality.find_by_id(searched_locality_id)
     if locality.nil?
-      flash[:danger] = "Select a locality"
+      flash.now[:danger] = "Select a locality"
       @cabpools = Cabpool.all
     elsif !locality.cabpools.empty?
       @cabpools = locality.cabpools
     else
-      flash[:danger] = "Locality has no cabpools"
+      flash.now[:danger] = "Locality has no cabpools"
       @cabpools = Cabpool.all
     end
     render 'home'

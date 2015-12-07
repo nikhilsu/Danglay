@@ -1,10 +1,12 @@
 var CabPoolListener = {
     addListeners: function () {
+        var select_tag = $('div.localityForm').html();
+        $('div.localityForm:first').remove();
         $('#addLocality').click(function () {
             var number_of_locality_forms = $("div.localityForm").length;
-            if (number_of_locality_forms <= 4) {
+            if (number_of_locality_forms <= 3) {
                 var locality_form_with_remove_icon = '<div class="form-group"> ' +
-                    '<div class="localityForm col-md-5 col-md-offset-3">' + $('div.localityForm').html() + '</div> ' +
+                    '<div class="localityForm col-md-5 col-md-offset-3">' + select_tag + '</div> ' +
                     '<a href="javascript:;"><span class="glyphicon glyphicon-minus-sign" id="removeNewLocality"></span></a> ' +
                     '</div>';
                 $('div#localitySelections').append(locality_form_with_remove_icon);
@@ -27,4 +29,13 @@ var CabPoolListener = {
             }
         });
     }
-}
+};
+
+$(document).ready(function() {
+    CabPoolListener.addListeners();
+});
+
+$(document).on('page:load', function() {
+    CabPoolListener.addListeners();
+});
+

@@ -15,3 +15,27 @@ div  > .form-horizontal .control-label {
   color: #471645;
   line-height: 2
 }
+
+#addLocality .form-control {
+  display: inline;
+}
+.show-cabpools {
+  padding-top: 2%;
+  border: 2px solid #471645;
+}
+
+.label-purple {
+  color: #471645;
+  background: none;
+  font-size: 25px;
+}
+
+.show-cabpools span {
+  margin-left: 120px;
+  font-size: 25px;
+}
+
+.cabpool-img{
+  width: 3%;
+  height: 3%;
+}

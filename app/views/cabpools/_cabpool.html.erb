@@ -1,14 +1,26 @@
-<div style="border: solid #471645">
-  <span style="float: right">
-    <b> <%= formatted_time(cabpool.timein) %></b>
-    <b> <%= formatted_time(cabpool.timeout) %></b>
+<div class="container-fluid show-cabpools">
+  <span>
+    <%= image_tag 'navigate.png' , :class => 'cabpool-img'%>
+    <%= cabpool.localities.first.name  %>
   </span>
+  <span>
+    <%= image_tag 'clock.png' , :class => 'cabpool-img'%>
+    <%= formatted_time(cabpool.timein) %>
+  </span>
+  <span>
+    <%= image_tag 'clock.png' , :class => 'cabpool-img'%>
+    <%= formatted_time(cabpool.timeout) %>
+  </span>
+  <div class="pull-right">
   <% cabpool.localities.each do |locality| %>
       <h1><%= locality.name %></h1>
   <% end %>
+  </div>
+  <div>
   <% cabpool.users.each do |user| %>
       <h4><%= user.name %></h4>
       <h4><%= user.email %></h4>
   <% end %>
-  <button class="btn">Join</button>
+  </div>
+  <button class="btn center-block">Join</button>
 </div>

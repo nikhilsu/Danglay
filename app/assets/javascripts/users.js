@@ -11,5 +11,10 @@ var UserListener = {
     }
 };
 
-$(function(){
+$(document).ready(function() {
+    UserListener.addListeners();
+});
+
+$(document).on('page:load', function() {
+    UserListener.addListeners();
 });

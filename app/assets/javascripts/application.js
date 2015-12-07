@@ -14,9 +14,3 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-
-
-$(function(){
-    UserListener.addListeners();
-    CabPoolListener.addListeners();
-});
