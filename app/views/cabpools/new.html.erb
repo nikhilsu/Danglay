@@ -1,4 +1,4 @@
-git lo<% provide(:title, 'Create new Cab Pool') %>
+<% provide(:title, 'Create new Cab Pool') %>
 <% if FEATURES.active?('user_feature') %>
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
@@ -24,7 +24,7 @@ git lo<% provide(:title, 'Create new Cab Pool') %>
 
             <div id="localitySelections"></div>
 
-            <%= f.submit "Create a pool", class: "purple btn btn-primary col-md-offset-3" %>
+            <%= f.submit "Create a pool", class: "btn center-block" %>
 
         <% end %>
 
