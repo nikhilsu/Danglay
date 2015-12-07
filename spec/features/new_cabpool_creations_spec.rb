@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature "NewCabpoolCreations", type: :feature do
+
   before(:each) do
     page.set_rack_session(userid: 22)
     page.set_rack_session(registered_uid: 22)
@@ -30,6 +31,6 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     find(:css, '#localitySelections > div > div > select').find(:xpath, 'option[3]').select_option
     page.execute_script "window.scrollBy(0,10000)"
     click_button 'Create a pool'
-    expect(page.current_path).to eq '/cabpools'
+    expect(page.current_path).to eq '/'
   end
 end
