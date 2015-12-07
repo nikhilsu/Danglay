@@ -61,4 +61,9 @@ RSpec.describe CabpoolsController, type: :controller do
     get :new
     expect(response).to redirect_to new_user_path
   end
+
+  it 'should showing respective cabpool id when join is clicked' do
+    post :join , cabpool: { id: 1}
+    expect(response.body).to eq '1'
+  end
 end

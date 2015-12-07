@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   post 'saml/consume'
   post 'show_cabpools' => 'static_pages#show'
   delete 'logout' => 'sessions#destroy'
+  post 'cabpools/join' => 'cabpools#join'
   #If Feature toggle is to be used for a specific action
   # if FEATURES.active?('user_feature')
   #   get 'users/new', to: 'users#new'

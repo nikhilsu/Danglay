@@ -17,6 +17,9 @@ class CabpoolsController < ApplicationController
     end
   end
 
+  def join
+    render text: params[:cabpool][:id]
+  end
   private
 
   def registered?

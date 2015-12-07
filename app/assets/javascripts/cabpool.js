@@ -37,4 +37,3 @@ $(document).ready(function() {
 $(document).on('page:load', function() {
     CabPoolListener.addListeners();
 });
-
