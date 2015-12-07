@@ -17,4 +17,13 @@ RSpec.describe SessionsController, type: :controller do
     expect(session[:userid]).to be nil
     expect(session[:forward_url]).to be nil
   end
+
+  it 'should redirect to okta home when logged out in staging' do
+    Rails.env = 'staging'
+    delete :destroy
+    expect(response).to redirect_to 'https://dev-846101.oktapreview.com'
+    expect(session[:userid]).to be nil
+    expect(session[:forward_url]).to be nil
+    Rails.env = 'test'
+  end
 end
