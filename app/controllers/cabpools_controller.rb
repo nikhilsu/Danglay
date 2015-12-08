@@ -18,7 +18,15 @@ class CabpoolsController < ApplicationController
   end
 
   def join
-    render text: params[:cabpool][:id]
+    id = params[:cabpool][:id]
+    joining_cab = Cabpool.find_by_id(id)
+    if joining_cab.number_of_people - 1 >= 0
+      flash[:success] = 'Request Sent!'
+      joining_cab.update_attribute(:number_of_people, joining_cab.number_of_people - 1)
+    else
+      flash[:danger] = 'Cab capacity exceeded!'
+    end
+    redirect_to root_path
   end
   private
 

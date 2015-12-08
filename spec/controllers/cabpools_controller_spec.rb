@@ -62,8 +62,21 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to redirect_to new_user_path
   end
 
-  it 'should showing respective cabpool id when join is clicked' do
-    post :join , cabpool: { id: 1}
-    expect(response.body).to eq '1'
+  it 'should show respective success message when join is successful' do
+    post :create, :cabpool => { number_of_people: 2, timein: "9:30", timeout: "2:30"}, :localities => { :locality_one_id => '1' }
+    cabpool = assigns(:cabpool)
+    post :join , cabpool: { id: cabpool.id}
+    expect(response).to redirect_to root_path
+    expect(flash[:success]).to eq 'Request Sent!'
+  end
+
+  it 'should show respective error message when join is unsuccessful' do
+    post :create, :cabpool => { number_of_people: 2, timein: "9:30", timeout: "2:30"}, :localities => { :locality_one_id => '1' }
+    cabpool = assigns(:cabpool)
+    post :join , cabpool: { id: cabpool.id}
+    post :join , cabpool: { id: cabpool.id}
+    post :join , cabpool: { id: cabpool.id}
+    expect(response).to redirect_to root_path
+    expect(flash[:danger]).to eq 'Cab capacity exceeded!'
   end
 end

@@ -14,7 +14,6 @@
               <label class="control-label col-md-3 required " for="user_locality">Route</label>
 
               <div class="col-md-5">
-<<<<<<< 267d54dc75eb4f8f79197e529eaa2393f2c06992
                 <span class="label-purple"><%= User.find_by_email(session[:Email]).locality.name %></span>
                 <%= hidden_field_tag 'localities[source]', User.find_by_email(session[:Email]).locality.id %>
                 <div class="localityForm">
@@ -22,15 +21,7 @@
                     <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control') %>
                 </div>
                 <%= render 'shared/error_messages', errors: @cabpool.errors[:localities] if !@cabpool.errors[:localities].empty? %>
-=======
-                <div class="mandatoryLocalitySelection" id="mandatoryLocalitySelection">
-                  <div class="localityForm">
-                      <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control') %>
-                  </div>
-                  <%= render 'shared/error_messages', errors: @cabpool.errors[:localities] if !@cabpool.errors[:localities].empty? %>
-                </div>
->>>>>>> [Thejas| Abhishek] #9 Added simple join functionality
-              </div>
+             </div>
               <a href="javascript:;"><span class="glyphicon glyphicon-plus" id="addLocality"></span></a>
             </div>
 
