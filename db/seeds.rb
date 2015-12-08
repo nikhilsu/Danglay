@@ -13,6 +13,7 @@ end
   locality = Locality.all.sample
   User.create!(name: name, email: email, emp_id: emp_id, address: address, locality: locality)
 end
+
 User.create!(name: 'Deepika', email: 'vdeepika@thoughtworks.com', emp_id: '18078', address: "Blah on Mars", locality: Locality.first )
 
 2.times do

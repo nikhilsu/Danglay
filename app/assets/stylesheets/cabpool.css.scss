@@ -12,17 +12,17 @@ div  > .form-horizontal .control-label {
 
 #addLocality {
   color: #471645;
-  line-height: 2;
+  line-height: 1.5;
 }
 
 .label-purple {
   color: #471645;
   background: none;
-  font-size: 15px;
+  font-size: 20px;
 }
 
 .show-cabpools {
-  padding-top: 2%;
+  padding-top: 1%;
   border: 2px solid #471645;
   margin-bottom: 2%;
   height: 175px;
@@ -30,11 +30,15 @@ div  > .form-horizontal .control-label {
 }
 
 .cabpool-img{
-  width: 15%;
-  height: 15%;
+  width: 20%;
+  height: 20%;
 }
 
- .show-cabpools  .row  {
-  width: auto;
+ .show-cabpools .row {
   font-size: 18px;
+  margin: 0 auto;
+}
+
+.show-cabpools .row > div > .row:first-child {
+  padding-bottom: 2%;
 }
