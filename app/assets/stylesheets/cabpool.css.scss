@@ -29,7 +29,7 @@ div  > .form-horizontal .control-label {
   padding-top: 1%;
   border: 2px solid $danglay-color;
   margin-bottom: 2%;
-  height: 270px;
+  height: 300px;
   font-size: 18px;
 }
 
@@ -44,11 +44,8 @@ div  > .form-horizontal .control-label {
 }
 
 .show-cabpools > .row:first-child {
-  height: 200px;
+  height: 230px;
   border-bottom: 2px solid $danglay-color;
-}
-.show-cabpools > .row:first-child > div:first-child {
-   border-right: 2px solid $danglay-color;
 }
 
 .show-cabpools > .row:last-child > div {
