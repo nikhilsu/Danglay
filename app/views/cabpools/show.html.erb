@@ -1,6 +1,8 @@
-<div class="extend">
+<div>
   <%= form_tag show_cabpools_path do %>
-      <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, prompt: true) %>
+      <div class='form-group col-md-4'>
+      <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control')%>
+      </div>
       <%= submit_tag "Search", class: "btn" %>
   <% end %>
   <%= render @cabpools %>
