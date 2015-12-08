@@ -17,5 +17,6 @@ if Rails.env.staging?
 end
 
 if Rails.env.production?
-  FEATURES.activate('user_feature', 'okta_feature', 'create_cabpool_feature')
+  FEATURES.activate('user_feature', 'okta_feature')
+  FEATURES.deactivate('create_cabpool_feature')
 end
