@@ -5,37 +5,47 @@ div  > .form-horizontal .control-label {
   text-align: left;
 }
 
-
 #removeNewLocality {
   color: #990000;
-  line-height: 2
+  line-height: 6;
 }
 
 #addLocality {
   color: #471645;
-  line-height: 2
+  line-height: 2;
 }
 
-#addLocality .form-control {
-  display: inline;
-}
-.show-cabpools {
-  padding-top: 2%;
-  border: 2px solid #471645;
-}
 
 .label-purple {
   color: #471645;
   background: none;
-  font-size: 25px;
+  font-size: 15px;
 }
 
-.show-cabpools span {
-  margin-left: 120px;
-  font-size: 25px;
+.show-cabpools {
+  padding-top: 2%;
+  border: 2px solid #471645;
+  margin-bottom: 2%;
+  font-size: 22px;
+}
+
+.show-cabpools > .pull-right {
+
+}
+.show-cabpools > .details {
+  width: 55%;
+  margin: 0 auto;
 }
 
 .cabpool-img{
-  width: 3%;
-  height: 3%;
+  width: 8%;
+  height: 8%;
+}
+
+ .show-cabpools > .row  {
+  width: 55%;
+  margin: 0 auto;
+  height: 50px;
+  font-size: 18px;
+  padding: 1% 0;
 }

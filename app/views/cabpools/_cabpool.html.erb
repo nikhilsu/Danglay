@@ -1,26 +1,32 @@
 <div class="container-fluid show-cabpools">
-  <span>
-    <%= image_tag 'navigate.png' , :class => 'cabpool-img'%>
-    <%= cabpool.localities.first.name  %>
-  </span>
-  <span>
-    <%= image_tag 'clock.png' , :class => 'cabpool-img'%>
-    <%= formatted_time(cabpool.timein) %>
-  </span>
-  <span>
-    <%= image_tag 'clock.png' , :class => 'cabpool-img'%>
-    <%= formatted_time(cabpool.timeout) %>
-  </span>
+  <div class="col-md-8">
+    <div class= "details">
+      <span>
+        <%= image_tag 'navigate.png' , :class => 'cabpool-img'%>
+        <%= cabpool.localities.first.name  %>
+      </span>
+      <span>
+        <%= image_tag 'clock.png' , :class => 'cabpool-img'%>
+        <%= formatted_time(cabpool.timein) %>
+      </span>
+      <span>
+        <%= image_tag 'clock.png' , :class => 'cabpool-img'%>
+        <%= formatted_time(cabpool.timeout) %>
+      </span>
+    </div>
+    <% cabpool.users.each do |user| %>
+      <div class="row">
+        <div class="col-md-4"><%= user.name %></div>
+        <div class="col-md-4"><%= user.email %></div>
+      </div>
+    <% end %>
+</div>
+<div class="col-md-4">
   <div class="pull-right">
   <% cabpool.localities.each do |locality| %>
-      <h1><%= locality.name %></h1>
+    <h4> <%= locality.name %> </h4>
   <% end %>
   </div>
-  <div>
-  <% cabpool.users.each do |user| %>
-      <h4><%= user.name %></h4>
-      <h4><%= user.email %></h4>
-  <% end %>
-  </div>
-  <button class="btn center-block">Join</button>
 </div>
+</div>
+<button class="btn center-block">Join</button>
