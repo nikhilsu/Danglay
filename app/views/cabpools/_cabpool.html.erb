@@ -21,7 +21,6 @@
             <div class="col-md-5 col-sm-12 col-xs-12"><%= user.email %></div>
           </div>
         <% end %>
-
       </div>
     <div class="col-md-2 col-sm-6 col-xs-6">
       <% cabpool.localities.each do |locality| %>
@@ -29,8 +28,14 @@
       <% end %>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-6">
+      <span class="label-purple">Available Slots: </span>
+      <span>No available slots</span>
+    </div>
+    <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
+      <%= f.hidden_field(:id) %>
+      <%= f.submit "Join", class: "btn pull-right"%>
+    <% end %>
+  </div>
 </div>
-<%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
-    <%= f.hidden_field(:id) %>
-    <%= f.submit "Join",class: "btn center-block"%>
-<% end %>

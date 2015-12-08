@@ -1,6 +1,8 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+$danglay-color: #471645;
+
 div  > .form-horizontal .control-label {
   text-align: left;
 }
@@ -11,7 +13,7 @@ div  > .form-horizontal .control-label {
 }
 
 #addLocality {
-  color: #471645;
+  color: $danglay-color;
   line-height: 1.5;
 }
 
@@ -23,10 +25,23 @@ div  > .form-horizontal .control-label {
 
 .show-cabpools {
   padding-top: 1%;
-  border: 2px solid #471645;
+  border: 2px solid $danglay-color;
   margin-bottom: 2%;
-  height: 175px;
+  height: 250px;
   font-size: 22px;
+}
+
+.show-cabpools .btn {
+    width: 20%;
+    font-size: 18px;
+}
+
+.show-cabpools form {
+  padding-top: 1%;
+}
+
+.show-cabpools > .row:first-child > div:first-child {
+  border-right: 2px solid $danglay-color;
 }
 
 .cabpool-img{
@@ -34,11 +49,23 @@ div  > .form-horizontal .control-label {
   height: 20%;
 }
 
- .show-cabpools .row {
+.show-cabpools .row {
   font-size: 18px;
   margin: 0 auto;
 }
 
+.show-cabpools > .row:last-child > div {
+    height: 62px;
+    padding-top: 1.5%;
+}
+
+.show-cabpools > .row:first-child {
+  height: 170px;
+  border-bottom: 2px solid $danglay-color;
+}
+
 .show-cabpools .row > div > .row:first-child {
-  padding-bottom: 2%;
+  padding-bottom: 1%;
+  margin-bottom: 1%;
+  border-bottom: 2px solid $danglay-color;
 }
