@@ -20,7 +20,7 @@ class CabpoolsController < ApplicationController
   def join
     id = params[:cabpool][:id]
     joining_cab = Cabpool.find_by_id(id)
-    if joining_cab.number_of_people - 1 >= 0
+    if joining_cab.number_of_people != 0
       flash[:success] = 'Request Sent!'
       joining_cab.update_attribute(:number_of_people, joining_cab.number_of_people - 1)
     else
