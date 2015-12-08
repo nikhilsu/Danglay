@@ -25,26 +25,16 @@ div  > .form-horizontal .control-label {
   padding-top: 2%;
   border: 2px solid #471645;
   margin-bottom: 2%;
+  height: 175px;
   font-size: 22px;
 }
 
-.show-cabpools > .pull-right {
-
-}
-.show-cabpools > .details {
-  width: 55%;
-  margin: 0 auto;
-}
-
 .cabpool-img{
-  width: 8%;
-  height: 8%;
+  width: 15%;
+  height: 15%;
 }
 
- .show-cabpools > .row  {
-  width: 55%;
-  margin: 0 auto;
-  height: 50px;
+ .show-cabpools  .row  {
+  width: auto;
   font-size: 18px;
-  padding: 1% 0;
 }

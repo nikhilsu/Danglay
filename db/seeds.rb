@@ -1,4 +1,4 @@
-Locality.create!(name: 'Mars')
+  Locality.create!(name: 'Mars')
 
 20.times do
   locality_name = Faker::Address.street_name
@@ -15,13 +15,13 @@ end
 end
 User.create!(name: 'Deepika', email: 'vdeepika@thoughtworks.com', emp_id: '18078', address: "Blah on Mars", locality: Locality.first )
 
-3.times do
+2.times do
   timein = Faker::Time.between(2.days.ago, Time.now, :all)
   timeout = Faker::Time.between(2.days.ago, Time.now, :all)
-  number_of_people = 2
+  number_of_people = 4
 
   localities = []
-  3.times do
+  2.times do
     locality = Locality.all.sample
     localities << locality if !localities.include? locality
   end

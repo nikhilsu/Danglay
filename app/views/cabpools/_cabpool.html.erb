@@ -1,32 +1,33 @@
 <div class="container-fluid show-cabpools">
-  <div class="col-md-8">
-    <div class= "details">
-      <span>
+  <div class="row">
+  <div class="col-md-10 col-sm-6 col-xs-6">
+    <div class= "row">
+      <span class="col-md-4">
         <%= image_tag 'navigate.png' , :class => 'cabpool-img'%>
         <%= cabpool.localities.first.name  %>
       </span>
-      <span>
+      <span class="col-md-4">
         <%= image_tag 'clock.png' , :class => 'cabpool-img'%>
         <%= formatted_time(cabpool.timein) %>
       </span>
-      <span>
+      <span class="col-md-4">
         <%= image_tag 'clock.png' , :class => 'cabpool-img'%>
         <%= formatted_time(cabpool.timeout) %>
       </span>
     </div>
     <% cabpool.users.each do |user| %>
       <div class="row">
-        <div class="col-md-4"><%= user.name %></div>
-        <div class="col-md-4"><%= user.email %></div>
+        <div class="col-md-6"><%= user.name %></div>
+        <div class="col-md-6"><%= user.email %></div>
       </div>
     <% end %>
+
 </div>
-<div class="col-md-4">
-  <div class="pull-right">
+<div class="col-md-2 col-sm-6 col-xs-6">
   <% cabpool.localities.each do |locality| %>
     <h4> <%= locality.name %> </h4>
   <% end %>
-  </div>
+</div>
 </div>
 </div>
 <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
