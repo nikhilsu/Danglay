@@ -12,4 +12,13 @@ module CabpoolsHelper
       formatted_time += time.to_formatted_s(:time) + " PM"
     end
   end
+
+  def requested_user?(cabpool)
+    if session[:registered_uid].nil?
+      false
+    else
+      user =  User.find_by_email(session[:Email])
+      user.status == 'Requested' && user.cabpool == cabpool
+    end
+  end
 end

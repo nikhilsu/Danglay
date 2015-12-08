@@ -37,7 +37,11 @@
     </div>
     <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
       <%= f.hidden_field(:id) %>
-      <%= f.submit "Join", class: "btn pull-right"%>
+        <% if requested_user?(cabpool) %>
+            <%= f.button "Requested" , class: "btn pull-right" , disabled: true %>
+        <% else %>
+          <%= f.submit "Join", class: "btn pull-right"%>
+        <% end %>
     <% end %>
   </div>
 </div>
