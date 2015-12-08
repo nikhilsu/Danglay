@@ -20,8 +20,13 @@ class CabpoolsController < ApplicationController
   def join
     id = params[:cabpool][:id]
     joining_cab = Cabpool.find_by_id(id)
-    if joining_cab.number_of_people != 0
+    requesting_user = User.find_by_email(session[:Email])
+    if requesting_user.status == "Requested"
+      flash[:danger] = 'You have already requested to a cab. Please wait for the request to be processed'
+    elsif joining_cab.number_of_people != 0
       flash[:success] = 'Request Sent!'
+      requesting_user.update_attribute(:cabpool_id, joining_cab.id)
+      requesting_user.update_attribute(:status , "Requested")
       joining_cab.update_attribute(:number_of_people, joining_cab.number_of_people - 1)
     else
       flash[:danger] = 'Cab capacity exceeded!'

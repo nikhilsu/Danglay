@@ -34,19 +34,15 @@ RSpec.describe CabpoolsController, type: :controller do
   it 'should render new carpool page with errors when no route is given' do
     post :create, :cabpool => { number_of_people: 2, timein: "9:30", timeout: "2:30"}, :localities => { :locality_one_id => '' }
     cabpool = assigns(:cabpool)
-    count = cabpool.localities.count
     expect(response).to render_template 'cabpools/new'
     expect(cabpool.errors.any?).to be true
-    expect(count).to eq 0
   end
 
   it 'should render new carpool page with errors when duplicate routes are given' do
     post :create, :cabpool => { number_of_people: 2, timein: "9:30", timeout: "2:30"}, :localities => { :locality_one_id => '1', :locality_two_id => '1' }
     cabpool = assigns(:cabpool)
-    count = cabpool.localities.count
     expect(response).to render_template 'cabpools/new'
     expect(cabpool.errors.any?).to be true
-    expect(count).to eq 0
   end
 
   it 'should render show cabpool page when valid details are entered' do
@@ -65,16 +61,22 @@ RSpec.describe CabpoolsController, type: :controller do
   it 'should show respective success message when join is successful' do
     post :create, :cabpool => { number_of_people: 2, timein: "9:30", timeout: "2:30"}, :localities => { :locality_one_id => '1' }
     cabpool = assigns(:cabpool)
+    user = build(:user)
+    allow(User).to receive(:find_by_email).and_return(user)
     post :join , cabpool: { id: cabpool.id}
     expect(response).to redirect_to root_path
     expect(flash[:success]).to eq 'Request Sent!'
+    expect(user.status).to eq 'Requested'
   end
 
   it 'should show respective error message when join is unsuccessful' do
-    post :create, :cabpool => { number_of_people: 2, timein: "9:30", timeout: "2:30"}, :localities => { :locality_one_id => '1' }
+    post :create, :cabpool => { number_of_people: 1, timein: "9:30", timeout: "2:30"}, :localities => { :locality_one_id => '1' }
     cabpool = assigns(:cabpool)
+    user = build(:user)
+    allow(User).to receive(:find_by_email).and_return(user)
     post :join , cabpool: { id: cabpool.id}
-    post :join , cabpool: { id: cabpool.id}
+    user = build(:user, :another_user)
+    allow(User).to receive(:find_by_email).and_return(user)
     post :join , cabpool: { id: cabpool.id}
     expect(response).to redirect_to root_path
     expect(flash[:danger]).to eq 'Cab capacity exceeded!'
