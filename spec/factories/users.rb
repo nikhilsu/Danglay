@@ -8,7 +8,7 @@ FactoryGirl.define do
   end
 
   trait :another_user do
-    locality {FactoryGirl.build(:locality, :another_locality)}
+    locality { FactoryGirl.build(:locality, :another_locality) }
   end
 
   trait :without_name do

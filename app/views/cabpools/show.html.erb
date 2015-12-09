@@ -1,9 +1,16 @@
+<% if user_cabpool_exists? %>
+    <div class = "your-pool">
+      <h1>Your Pool</h1>
+      <%= render users_cabpool %>
+    </div>
+<% end %>
 <div>
+  <%= render 'layouts/tabs' %>
   <%= form_tag show_cabpools_path do %>
       <div class='form-group col-md-4'>
       <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control')%>
       </div>
       <%= submit_tag "Search", class: "btn" %>
   <% end %>
-  <%= render @cabpools %>
+  <%= render cabpools_to_render %>
 </div>

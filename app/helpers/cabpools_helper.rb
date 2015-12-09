@@ -21,4 +21,31 @@ module CabpoolsHelper
       user.status == 'Requested' && user.cabpool == cabpool
     end
   end
+
+  def destination
+    "Kormangala"
+  end
+
+  def user_cabpool_exists?
+    if session[:registered_uid].nil?
+      false
+    else
+      user_cabpool = users_cabpool
+      !user_cabpool.nil?
+    end
+  end
+
+  def users_cabpool
+    user =  User.find_by_email(session[:Email])
+    user.cabpool
+  end
+
+  def cabpools_to_render()
+    if user_cabpool_exists?
+      user_cabpool = users_cabpool
+      Cabpool.where.not(id: user_cabpool.id)
+    else
+      Cabpool.all
+    end
+  end
 end

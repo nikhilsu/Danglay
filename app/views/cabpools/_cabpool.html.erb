@@ -27,7 +27,7 @@
         <h4> <%= locality.name %> </h4>
         <div class="glyphicon glyphicon-arrow-down center-block"></div>
       <% end %>
-      <h4> Koramangala </h4>
+      <h4> <%= destination %></h4>
     </div>
   </div>
   <div class="row">
@@ -37,7 +37,9 @@
     </div>
     <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
       <%= f.hidden_field(:id) %>
-        <% if requested_user?(cabpool) %>
+        <% if user_cabpool_exists? %>
+
+        <% elsif requested_user?(cabpool) %>
             <%= f.button "Requested" , class: "btn pull-right" , disabled: true %>
         <% else %>
           <%= f.submit "Join", class: "btn pull-right"%>
