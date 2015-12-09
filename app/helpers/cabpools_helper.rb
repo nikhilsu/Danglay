@@ -18,7 +18,7 @@ module CabpoolsHelper
       false
     else
       user =  User.find_by_email(session[:Email])
-      user.status == 'Requested' && user.cabpool == cabpool
+      user.requested_cabpools.include?(cabpool)
     end
   end
 end
