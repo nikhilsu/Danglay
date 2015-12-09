@@ -32,9 +32,13 @@
   </div>
   <div class="row">
     <div class="col-md-6">
-      <span class="label-purple">Available Slots: </span>
-      <span>No available slots</span>
+      <% if cabpool.available_slots != 0 %>
+          <span class="label-purple">Available Slots: <%= cabpool.available_slots %></span>
+    <% else%>
+        <span class="label-purple">No available slots</span>
+      <% end %>
     </div>
+    <% if cabpool.available_slots != 0 %>
     <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
       <%= f.hidden_field(:id) %>
         <% if user_cabpool_exists? %>
@@ -44,6 +48,7 @@
         <% else %>
           <%= f.submit "Join", class: "btn pull-right"%>
         <% end %>
+    <% end %>
     <% end %>
   </div>
 </div>
