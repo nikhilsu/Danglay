@@ -3,6 +3,26 @@
 
 $danglay-color: #471645;
 
+header {
+  background-color: $danglay-color;
+  font-size: 1.3em;
+
+  a {
+
+    color: white;
+
+    &:hover {
+      text-decoration: none;
+      color: white;
+    }
+
+    &:focus {
+      text-decoration: none;
+      color: white;
+    }
+  }
+}
+
 .application-name {
   float: left;
   margin-right: 10px;
@@ -17,25 +37,10 @@ $danglay-color: #471645;
 #header-nav a {
   &:hover, &:focus {
     background: transparent;
+    text-decoration: underline;
   }
 }
 
-header {
-  background-color: $danglay-color;
-  font-size: 1.3em;
-
-  a {
-    padding: 15px;
-    color: white;
-
-    &:hover {
-      text-decoration: underline;
-      color: white;
-    }
-
-    &:focus {
-      text-decoration: none;
-      color: white;
-    }
-  }
+#header-nav > li {
+  padding-top: 3%;
 }

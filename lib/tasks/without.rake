@@ -12,6 +12,6 @@ namespace :spec do
     end
 
     task.pattern = file_list
-  end
+  end if Rails.env.test? || Rails.env.development?
 
 end
