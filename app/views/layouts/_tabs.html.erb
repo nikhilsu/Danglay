@@ -1,8 +1,6 @@
-<div class="container">
   <div class="tabs">
     <ul class="nav nav-tabs">
       <li class="col-md-6 <%= 'active' if params[:controller] == 'static_pages'%>"><%= link_to 'Cab Pools', root_url %></li>
       <li class="col-md-6 <%= 'active' if params[:controller] == 'cabpools'  || params[:controller] =='users'%>"><%= link_to 'Create a Cab Pool', new_cabpool_path %></li>
     </ul>
   </div>
-</div>
