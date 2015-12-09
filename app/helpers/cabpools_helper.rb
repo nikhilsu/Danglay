@@ -40,7 +40,7 @@ module CabpoolsHelper
     user.cabpool
   end
 
-  def cabpools_to_render()
+  def cabpools_to_render
     if user_cabpool_exists?
       user_cabpool = users_cabpool
       Cabpool.where.not(id: user_cabpool.id)
