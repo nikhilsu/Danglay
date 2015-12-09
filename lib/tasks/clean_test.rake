@@ -4,8 +4,6 @@ task :clean_test do
   Rake::Task["db:create"].invoke
   Rake::Task["migrate_all"].invoke
   Rake::Task["db:seed"].invoke
-  Rake::Task["spec:models"].invoke
-  Rake::Task["spec:controllers"].invoke
-  Rake::Task["spec:helpers"].invoke
+  Rake::Task["spec:coverage"].invoke
   Rake::Task["spec:javascript"].invoke
 end

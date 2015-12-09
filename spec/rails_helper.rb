@@ -19,9 +19,10 @@ SimpleCov.start do
   add_group 'Helpers', 'app/helpers'
   add_group 'Mailers', 'app/mailers'
   add_group 'Views', 'app/views'
-end
-SimpleCov.minimum_coverage 60
-SimpleCov.maximum_coverage_drop 20
+end if ENV['COVERAGE']
+
+SimpleCov.minimum_coverage 80
+SimpleCov.maximum_coverage_drop 5
 
 require "rack_session_access/capybara"
 WebMock.disable_net_connect!(allow_localhost: true)
