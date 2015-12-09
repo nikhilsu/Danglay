@@ -7,7 +7,7 @@ RSpec.describe CabpoolMailer, type: :mailer do
     it "renders the headers" do
       expect(mail.subject).to eq('Request to join your Cab Pool')
       expect(mail.to).to eq(['to@example.org'])
-      expect(mail.from).to eq(['noreply@example.com'])
+      expect(mail.from).to eq(['danglay@thoughtworks.com'])
     end
 
     it "renders the body" do
