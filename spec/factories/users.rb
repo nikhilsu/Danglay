@@ -7,6 +7,10 @@ FactoryGirl.define do
     association :locality, factory: :locality, strategy: :build
   end
 
+  trait :existing_user do
+    email 'vdeepika@thoughtworks.com'
+  end
+
   trait :another_user do
     locality { FactoryGirl.build(:locality, :another_locality) }
   end

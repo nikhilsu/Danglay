@@ -12,4 +12,10 @@ module SessionsHelper
     redirect_to(session[:forward_url] || default)
     session.delete(:forward_url)
   end
+
+  def current_user
+    if email = session[:Email]
+      @current_user ||= User.find_by(email: email)
+    end
+  end
 end

@@ -1,5 +1,20 @@
-<h1>CabpoolMailer#cabpool_join_request</h1>
+<h4>Hi <%= @username.name %>,</h4>
 
-<p>
-  <%= @greeting %>, find me in app/views/cabpool_mailer/cabpool_join_request.html.erb
-</p>
+<p><strong><%= @current_user.name %> (<%= @current_user.email %>)</strong> has requested
+  to join your carpool. </p>
+
+<p> <%= @current_user.name %> lives at:</p>
+<p><%= @current_user.address %></p>
+
+<p>If you approve, <%= @current_user.name %> will be added to your carpool, and a confirmation email will
+  be sent to both <%= @current_user.name %> and to the admin folks who manage your carpool.</p>
+
+<p>What would you like to do?</p>
+
+<p>Approve this request</p>
+
+<p>Reject this request</p>
+
+Thanks!
+
+Danglay

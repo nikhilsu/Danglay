@@ -1,3 +1,18 @@
-CabpoolMailer#cabpool_join_request
+Hi <%= @username %>
 
-<%= @greeting %>, find me in app/views/cabpool_mailer/cabpool_join_request.text.erb
+<%= @current_user.name %> (<%= @current_user.email %>) has requested to join your carpool.
+
+<%= @current_user.name %> lives at: <%= @current_user.address %>
+
+If you approve, <%= @current_user.name %> will be added to your carpool, and a confirmation
+email will be sent to both <%= @current_user.name %> and to the admin folks who manage your carpool.
+
+What would you like to do?
+
+Approve this request
+
+Reject this request
+
+Thanks!
+
+Danglay

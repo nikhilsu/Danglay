@@ -23,4 +23,11 @@ RSpec.describe SessionsHelper, type: :helper do
     it 'should return false if user not logged in' do
       expect(is_logged_in?).to eq false
     end
+
+    it 'should return the current user when current user is called' do
+      user = build_stubbed(:user, :existing_user)
+      expect(current_user).to eq nil
+      session[:Email] = user.email
+      expect(current_user.email).to eq user.email
+    end
 end
