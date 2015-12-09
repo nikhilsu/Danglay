@@ -4,7 +4,7 @@ FactoryGirl.define do
     name Faker::Name.name
     email Faker::Internet.email
     address Faker::Address.secondary_address
-    locality
+    association :locality, factory: :locality, strategy: :build
   end
 
   trait :another_user do

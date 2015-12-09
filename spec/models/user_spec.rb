@@ -36,4 +36,14 @@ RSpec.describe User, type: :model do
     user = build(:user)
     expect(user.valid?).to be true
   end
+
+  it "should have only one request" do
+    user = build(:user)
+    r1 = build(:request)
+    r2 = build(:request)
+    user.requests = [r1]
+    expect(user.valid?).to be true
+    user.requests = [r1, r2]
+    expect(user.valid?).to be false
+  end
 end

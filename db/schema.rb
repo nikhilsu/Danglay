@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151208065840) do
+ActiveRecord::Schema.define(version: 20151209061907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,16 @@ ActiveRecord::Schema.define(version: 20151208065840) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "requests", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "cabpool_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "requests", ["cabpool_id"], name: "index_requests_on_cabpool_id", using: :btree
+  add_index "requests", ["user_id"], name: "index_requests_on_user_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.integer  "emp_id"
     t.string   "name"
@@ -55,6 +65,8 @@ ActiveRecord::Schema.define(version: 20151208065840) do
 
   add_foreign_key "cabpools_localities", "cabpools"
   add_foreign_key "cabpools_localities", "localities"
+  add_foreign_key "requests", "cabpools"
+  add_foreign_key "requests", "users"
   add_foreign_key "users", "cabpools"
   add_foreign_key "users", "localities"
 end

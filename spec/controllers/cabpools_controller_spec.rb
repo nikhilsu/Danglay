@@ -66,7 +66,7 @@ RSpec.describe CabpoolsController, type: :controller do
     post :join , cabpool: { id: cabpool.id}
     expect(response).to redirect_to root_path
     expect(flash[:success]).to eq 'Request Sent!'
-    expect(user.status).to eq 'Requested'
+    expect(user.requests.count).to eq 1
   end
 
   it 'should show respective error message when join is unsuccessful' do
@@ -86,7 +86,8 @@ RSpec.describe CabpoolsController, type: :controller do
     post :create, :cabpool => { number_of_people: 1, timein: "9:30", timeout: "2:30"}, :localities => { :locality_one_id => '1' }
     cabpool = assigns(:cabpool)
     user = build(:user)
-    user.status = 'Requested'
+    request = build(:request)
+    user.requests = [request]
     allow(User).to receive(:find_by_email).and_return(user)
     post :join , cabpool: { id: cabpool.id}
     expect(response).to redirect_to root_path
