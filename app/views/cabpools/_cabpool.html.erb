@@ -24,31 +24,37 @@
       </div>
     <div class="col-md-2 col-sm-6 col-xs-6">
       <% cabpool.localities.each do |locality| %>
-        <h4> <%= locality.name %> </h4>
-        <div class="glyphicon glyphicon-arrow-down center-block"></div>
+        <h4 class="center"> <%= locality.name %> </h4>
+        <div class="glyphicon glyphicon-arrow-down center-block center"></div>
       <% end %>
-      <h4> <%= destination %></h4>
+      <h4 class="center"> <%= destination %></h4>
     </div>
   </div>
   <div class="row">
     <div class="col-md-6">
       <% if cabpool.available_slots != 0 %>
           <span class="label-purple">Available Slots: <%= cabpool.available_slots %></span>
-    <% else%>
+      <% else%>
         <span class="label-purple">No available slots</span>
       <% end %>
     </div>
     <% if cabpool.available_slots != 0 %>
-    <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
-      <%= f.hidden_field(:id) %>
-        <% if user_cabpool_exists? %>
+      <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
+        <%= f.hidden_field(:id) %>
+          <% if user_cabpool_exists? %>
 
-        <% elsif requested_user?(cabpool) %>
-            <%= f.button "Requested" , class: "btn pull-right" , disabled: true %>
-        <% else %>
-          <%= f.submit "Join", class: "btn pull-right"%>
+          <% elsif requested_user?(cabpool) %>
+              <%= f.button "Requested" , class: "btn pull-right" , disabled: true %>
+          <% else %>
+            <%= f.submit "Join", class: "btn pull-right"%>
+          <% end %>
+      <% end %>
+      <%else%>
+        <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
+          <% if user_requested_cabpool_exists? && requested_user?(cabpool) %>
+              <%= f.button "Requested" , class: "btn pull-right" , disabled: true %>
+          <% end %>
         <% end %>
-    <% end %>
     <% end %>
   </div>
 </div>

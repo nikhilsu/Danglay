@@ -23,7 +23,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
   end
 
   it "should return false when user is not registered" do
-     cabpool = build(:cabpool)
+    cabpool = build(:cabpool)
     expect(requested_user?(cabpool)).to be false
   end
 
@@ -111,7 +111,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     cabpool = build(:cabpool)
     user.cabpool = cabpool
     allow(User).to receive(:find_by_email).and_return(user)
-    expect(cabpools_to_render).to_not include(cabpool)
+    expect(cabpools_to_render).to_not include cabpool
   end
 
   it "should render all cabpools if current user has no cabpool" do
@@ -124,7 +124,62 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:registered_uid] = 1
     cabpool = build(:cabpool)
     allow(User).to receive(:find_by_email).and_return(user)
-    allow(Cabpool).to receive(:all).and_return(cabpool)
-    expect(cabpools_to_render).to be cabpool
+    allow(user).to receive(:requested_cabpools).and_return([])
+    allow(Cabpool).to receive(:all).and_return([cabpool])
+    expect(cabpools_to_render).to include cabpool
+  end
+
+  it "should return requested cabpool of current user" do
+    user = build(:user)
+    names = user.name.split(' ')
+    session[:userid] = user.id
+    session[:FirstName] = names[0]
+    session[:LastName] = names[1]
+    session[:Email] = user.email
+    session[:registered_uid] = 1
+    cabpool = build(:cabpool)
+    user.requested_cabpools = [cabpool]
+    allow(User).to receive(:find_by_email).and_return(user)
+    expect(users_requested_cabpool).to be cabpool
+  end
+
+  it 'should return true if current user has requested for cabpool' do
+    user = build(:user)
+    names = user.name.split(' ')
+    session[:userid] = user.id
+    session[:FirstName] = names[0]
+    session[:LastName] = names[1]
+    session[:Email] = user.email
+    session[:registered_uid] = 1
+    cabpool = build(:cabpool)
+    user.requested_cabpools = [cabpool]
+    allow(User).to receive(:find_by_email).and_return(user)
+    expect(user_requested_cabpool_exists?).to be true
+  end
+
+  it 'should return false if current user has not requested for cabpool' do
+    user = build(:user)
+    names = user.name.split(' ')
+    session[:userid] = user.id
+    session[:FirstName] = names[0]
+    session[:LastName] = names[1]
+    session[:Email] = user.email
+    session[:registered_uid] = 1
+    allow(User).to receive(:find_by_email).and_return(user)
+    expect(user_requested_cabpool_exists?).to be false
+  end
+
+  it "should render all cabpools except the requested cabpool" do
+    user = build(:user)
+    names = user.name.split(' ')
+    session[:userid] = user.id
+    session[:FirstName] = names[0]
+    session[:LastName] = names[1]
+    session[:Email] = user.email
+    session[:registered_uid] = 1
+    cabpool = build(:cabpool)
+    user.requested_cabpools = [cabpool]
+    allow(User).to receive(:find_by_email).and_return(user)
+    expect(cabpools_to_render).to_not include cabpool
   end
 end
