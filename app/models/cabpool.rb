@@ -2,6 +2,8 @@ class Cabpool < ActiveRecord::Base
 
   has_and_belongs_to_many :localities
   has_many :users
+  has_many :requests
+  has_many :requested_users, through: :requests, source: :user
 
   validates_time :timein, :timeout
   validates_numericality_of :number_of_people, less_than_or_equal_to: 4, greater_than_or_equal_to: 1
@@ -24,5 +26,9 @@ class Cabpool < ActiveRecord::Base
     if localities.length > 5
       errors.add(:localities, "More than 5 localities")
     end
+  end
+
+  def available_slots
+    number_of_people - users.size - requested_users.size
   end
 end

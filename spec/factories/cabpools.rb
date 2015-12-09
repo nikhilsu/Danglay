@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :cabpool do
-    number_of_people 1
+    number_of_people 4
     timein '9:30'
     timeout '5:30'
     after(:build) do |cabpool|

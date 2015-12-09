@@ -21,13 +21,11 @@ class CabpoolsController < ApplicationController
     id = params[:cabpool][:id]
     joining_cab = Cabpool.find_by_id(id)
     requesting_user = User.find_by_email(session[:Email])
-    if requesting_user.status == "Requested"
+    if !requesting_user.requests.empty?
       flash[:danger] = 'You have already requested to a cab. Please wait for the request to be processed'
-    elsif joining_cab.number_of_people != 0
+    elsif joining_cab.available_slots != 0
       flash[:success] = 'Request Sent!'
-      requesting_user.update_attribute(:cabpool_id, joining_cab.id)
-      requesting_user.update_attribute(:status , "Requested")
-      joining_cab.update_attribute(:number_of_people, joining_cab.number_of_people - 1)
+      Request.create(user: requesting_user, cabpool: joining_cab)
     else
       flash[:danger] = 'Cab capacity exceeded!'
     end

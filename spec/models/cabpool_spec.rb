@@ -66,4 +66,23 @@ RSpec.describe Cabpool, type: :model do
       cabpool = build(:cabpool)
       expect(cabpool.valid?).to be true
   end
+
+  it "should show available slots when no users present" do
+    cabpool = build(:cabpool)
+    expect(cabpool.available_slots).to eq 4
+  end
+
+  it "should show available slots when one user is present" do
+    cabpool = build(:cabpool)
+    user = build(:user)
+    cabpool.users = [user]
+    expect(cabpool.available_slots).to eq 3
+  end
+
+  it "should show available slots when one request made" do
+    cabpool = build(:cabpool)
+    user = build(:user)
+    cabpool.requested_users = [user]
+    expect(cabpool.available_slots).to eq 3
+  end
 end
