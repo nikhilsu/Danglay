@@ -23,7 +23,7 @@ RSpec.describe "UserSignups", type: :feature do
     fill_in 'Address', with: 'No.322, Mars'
     find(:xpath, '//*[@id="new_user"]/div[3]/div/div/div[1]/input').set('Other')
     find(:xpath, '//*[@id="new_user"]/div[3]/div/div/div[1]/input').native.send_keys(:return)
-    fill_in 'otherBox', with: 'AF station yelahanka'
+    fill_in 'otherBox', with: 'AF Station Yelahanka'
     page.execute_script "window.scrollBy(0, 10000)"
     click_button 'Update Profile'
     expect(page.current_path).to eq '/users'
