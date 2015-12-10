@@ -11,31 +11,17 @@ footer {
   color: white;
   background-color: $danglay-color;
   font-size: 1.3em;
+}
 
-  a {
+footer > .container > ul > li > a {
+  color: white;
+  &:hover {
+    background: none;
+    text-decoration: underline;
     color: white;
-    &:hover {
-      text-decoration: underline;
-      color: white;
-    }
-
-    &:focus {
-      text-decoration: none;
-      color: white;
-    }
   }
+}
 
-  small {
-    float: left;
-  }
-
-  ul {
-    float: right;
-    list-style: none;
-
-    li {
-      float: left;
-      margin-left: 15px;
-    }
-  }
+footer > .container > small {
+  padding-top: 1%;
 }
