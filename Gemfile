@@ -24,6 +24,7 @@ gem 'feature_toggle'
 gem 'ruby-saml'
 gem 'webmock'
 gem 'bootstrap_form'
+gem 'json'
 
 group :development, :test do
   gem 'byebug',      '3.4.0'

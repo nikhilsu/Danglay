@@ -12,7 +12,7 @@ RSpec.describe "UserSignups", type: :feature do
     visit new_user_path
     fill_in 'Employee ID', with: '12345'
     fill_in 'Address', with: 'No.322, Mars'
-    select('Mars', from: 'Locality')
+    select('AF station yelahanka', from: 'Locality')
     click_button 'Update Profile'
     expect(page.current_path).to eq root_path
   end
@@ -22,7 +22,7 @@ RSpec.describe "UserSignups", type: :feature do
     fill_in 'Employee ID', with: '12345'
     fill_in 'Address', with: 'No.322, Mars'
     select('Other', from: 'Locality')
-    fill_in 'otherBox', with: 'Mars'
+    fill_in 'otherBox', with: 'AF station yelahanka'
     page.execute_script "window.scrollBy(0, 10000)"
     click_button 'Update Profile'
     expect(page.current_path).to eq '/users'

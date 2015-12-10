@@ -1,7 +1,9 @@
-  Locality.create!(name: 'Mars')
+require 'json'
 
-20.times do
-  locality_name = Faker::Address.street_name
+localities = JSON.parse(File.read('localities/localitiesBangalore.json'))
+
+localities.each do |locality|
+  locality_name = locality["LOCATION"]
   Locality.create!(name: locality_name)
 end
 
