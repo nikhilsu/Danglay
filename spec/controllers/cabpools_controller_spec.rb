@@ -93,4 +93,16 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to redirect_to root_path
     expect(flash[:danger]).to eq 'You have already requested to a cab. Please wait for the request to be processed'
   end
+
+  it 'should send emails to cabpool users when a user joins that cabpool' do
+    post :create, :cabpool => { number_of_people: 4, timein: "9:30", timeout: "2:30"}, :localities => { :locality_one_id => '1' }
+    cabpool = assigns(:cabpool)
+    user = build(:user, :existing_user)
+    cabpool.users = [build(:user)]
+    allow(Cabpool).to receive(:find_by_id).and_return(cabpool)
+    allow(User).to receive(:find_by_email).and_return(user)
+    post :join , cabpool: { id: cabpool.id}
+    expect(cabpool.users.count).to eq  ActionMailer::Base.deliveries.size
+    expect(response).to redirect_to root_path
+  end
 end

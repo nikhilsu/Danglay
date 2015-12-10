@@ -1,5 +1,5 @@
 class CabpoolsController < ApplicationController
-
+  include CabpoolsHelper
   before_action :registered? , except: [:show]
 
   def new
@@ -26,11 +26,13 @@ class CabpoolsController < ApplicationController
     elsif joining_cab.available_slots != 0
       flash[:success] = 'Request Sent!'
       Request.create(user: requesting_user, cabpool: joining_cab)
+      send_emails_to_cabpool_users(joining_cab.users, current_user)
     else
       flash[:danger] = 'Cab capacity exceeded!'
     end
     redirect_to root_path
   end
+
   private
 
   def registered?
@@ -55,5 +57,11 @@ class CabpoolsController < ApplicationController
         locality = Locality.find_by_id(locality_id)
         @cabpool.localities << locality if !locality.nil?
       end
+  end
+
+  def send_emails_to_cabpool_users(users, current_user)
+    users.collect do |user|
+      CabpoolMailer.cabpool_join_request(user, current_user).deliver_now
+    end
   end
 end

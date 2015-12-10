@@ -6,7 +6,6 @@ class CabpoolMailer < ApplicationMailer
   #   en.cabpool_mailer.cabpool_join_request.subject
   #
   def cabpool_join_request(user, current_user)
-    @greeting = "Hi"
     @username = user
     @current_user = current_user
     mail to: "to@example.org", subject: 'Someone wants to join your carpool!'

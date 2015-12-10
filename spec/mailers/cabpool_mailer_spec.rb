@@ -11,8 +11,7 @@ RSpec.describe CabpoolMailer, type: :mailer do
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to match("Hi")
+      expect(mail.body.encoded).to include "has requested to join your carpool."
     end
   end
-
 end
