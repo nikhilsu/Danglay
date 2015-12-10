@@ -25,6 +25,7 @@ gem 'ruby-saml'
 gem 'webmock'
 gem 'bootstrap_form'
 gem 'json'
+gem 'selectize-rails'
 
 group :development, :test do
   gem 'byebug',      '3.4.0'

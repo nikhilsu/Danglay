@@ -13,8 +13,14 @@ var UserListener = {
 
 $(document).ready(function() {
     UserListener.addListeners();
+
+    $('#user_locality').selectize();
+
 });
 
 $(document).on('page:load', function() {
     UserListener.addListeners();
+
+    $('#user_locality').selectize();
+
 });
