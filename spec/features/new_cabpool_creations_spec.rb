@@ -24,7 +24,8 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     fill_in 'Pick-up time to office', with: '12:23 PM'
     fill_in 'Pick-up time from office', with: '9:00 PM'
     find('#addLocality').trigger('click')
-    find(:css, '#localitySelections > div > div > select').find(:xpath, 'option[6]').select_option
+    find(:xpath, '//*[@id="localitySelections"]/div[1]/div/div/div[1]/input').set("HAL")
+    find(:xpath, '//*[@id="localitySelections"]/div[1]/div/div/div[1]/input').native.send_keys(:return)
     page.execute_script "window.scrollBy(0,10000)"
     click_button 'Create a pool'
     expect(page.current_path).to eq '/'

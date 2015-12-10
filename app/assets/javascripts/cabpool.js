@@ -12,6 +12,7 @@ var CabPoolListener = {
                 $('div#localitySelections').append(locality_form_with_remove_icon);
                 var select_the_last_locality_form = $('div.localityForm:last > select')
                 select_the_last_locality_form.attr('name', 'localities[' + $.now() + ']')
+                select_the_last_locality_form.selectize();
 
                 if (number_of_locality_forms == 3) {
                     $(this).parent().hide();
