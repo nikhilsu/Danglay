@@ -4,7 +4,7 @@
         <div class= "row">
           <span class="col-md-3 col-sm-12 col-xs-12" title="Destination">
             <%= image_tag 'navigate.png' , :class => 'cabpool-img'%>
-            <%= cabpool.localities.first.name  %>
+            <%= cabpool.ordered_localities.first.name  %>
           </span>
           <span class="col-md-3 col-sm-12 col-xs-12 col-md-offset-2" title="Arrival time to office">
             <%= image_tag 'clock.png' , :class => 'cabpool-img'%>
@@ -23,7 +23,7 @@
         <% end %>
       </div>
     <div class="col-md-2 col-sm-6 col-xs-6">
-      <% cabpool.localities.each do |locality| %>
+      <% cabpool.ordered_localities.each do |locality| %>
         <h4 class="center"> <%= locality.name %> </h4>
         <div class="glyphicon glyphicon-arrow-down center-block center"></div>
       <% end %>

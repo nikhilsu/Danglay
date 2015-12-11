@@ -44,7 +44,7 @@ class CabpoolsController < ApplicationController
   end
 
   def cabpool_params
-    allowed_params = params.require(:cabpool).permit(:number_of_people, :timein, :timeout)
+    params.require(:cabpool).permit(:number_of_people, :timein, :timeout)
   end
 
   def add_session_user_to_cabpool
@@ -53,10 +53,10 @@ class CabpoolsController < ApplicationController
   end
 
   def add_localities_to_cabpool
-      params[:localities].values.each do |locality_id|
-        locality = Locality.find_by_id(locality_id)
-        @cabpool.localities << locality if !locality.nil?
-      end
+    params[:localities].values.each do |locality_id|
+      locality = Locality.find_by_id(locality_id)
+      @cabpool.localities << locality if !locality.nil?
+    end
   end
 
   def send_emails_to_cabpool_users(users, current_user)

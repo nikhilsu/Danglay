@@ -85,4 +85,14 @@ RSpec.describe Cabpool, type: :model do
     cabpool.requested_users = [user]
     expect(cabpool.available_slots).to eq 3
   end
+
+  it 'should show localities in order' do
+    cabpool = build(:cabpool, :without_localities)
+    locality1 = create(:locality, name: "L1")
+    locality2 = create(:locality, name: "L2")
+    locality3 = create(:locality, name: "L3")
+    cabpool.localities = [locality3, locality2, locality1]
+    cabpool.save
+    expect(cabpool.ordered_localities).to eq [locality3, locality2, locality1]
+  end
 end
