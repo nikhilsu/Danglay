@@ -2,11 +2,11 @@ module CabpoolsHelper
 
   def formatted_time(time)
     formatted_time = ''
-    if(time.hour == 0)
+    if (time.hour == 0)
       formatted_time += time.advance(hours: 12).to_formatted_s(:time) + " AM"
-    elsif(time.hour < 12)
+    elsif (time.hour < 12)
       formatted_time += time.to_formatted_s(:time) + " AM"
-    elsif(time.hour > 12)
+    elsif (time.hour > 12)
       formatted_time += time.change(hour: time.hour - 12, min: time.min).to_formatted_s(:time) + " PM"
     else
       formatted_time += time.to_formatted_s(:time) + " PM"
@@ -17,7 +17,7 @@ module CabpoolsHelper
     if session[:registered_uid].nil?
       false
     else
-      user =  User.find_by_email(session[:Email])
+      user = User.find_by_email(session[:Email])
       user.requested_cabpools.include?(cabpool)
     end
   end
@@ -45,22 +45,33 @@ module CabpoolsHelper
   end
 
   def users_requested_cabpool
-    user =  User.find_by_email(session[:Email])
+    user = User.find_by_email(session[:Email])
     user.requested_cabpools.first
   end
 
   def users_cabpool
-    user =  User.find_by_email(session[:Email])
+    user = User.find_by_email(session[:Email])
     user.cabpool
   end
 
-  def cabpools_to_render
-    cabpools = Cabpool.all
+  def button(cabpool)
+    if is_registered?
+      if requested_user?(cabpool)
+        "Requested"
+      elsif current_user.cabpool != cabpool && cabpool.available_slots > 0 && !user_requested_cabpool_exists?
+        "Join"
+      end
+    else
+      "Join"
+    end
+  end
+
+  def cabpools_to_render(cabpools)
     if user_cabpool_exists?
-      cabpools = cabpools.reject { |cabpool| cabpool.id ==  users_cabpool.id}
+      cabpools = cabpools.reject { |cabpool| cabpool.id == users_cabpool.id }
     end
     if user_requested_cabpool_exists?
-      cabpools = cabpools.reject { |cabpool| cabpool.id ==  users_requested_cabpool.id}
+      cabpools = cabpools.reject { |cabpool| cabpool.id == users_requested_cabpool.id }
     end
     cabpools
   end

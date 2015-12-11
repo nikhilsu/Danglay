@@ -4,10 +4,10 @@ Rails.application.routes.draw do
   get 'signup' => 'users#new'
   get 'about' => 'static_pages#about'
   get 'contact' => 'static_pages#contact'
-  root 'static_pages#home'
+  root 'cabpools#show'
   get 'saml/init'
   post 'saml/consume'
-  post 'show_cabpools' => 'static_pages#show'
+  post 'show_cabpools' => 'cabpools#show'
   delete 'logout' => 'sessions#destroy'
   post 'cabpools/join' => 'cabpools#join'
   #If Feature toggle is to be used for a specific action

@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe CabpoolsHelper, type: :helper do
 
+  include SessionsHelper
+
   it 'should return time in proper format for AM' do
     cabpool = build(:cabpool, :time_in_am)
     expect(formatted_time(cabpool.timeout)).to eq '09:30 AM'
@@ -111,7 +113,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     cabpool = build(:cabpool)
     user.cabpool = cabpool
     allow(User).to receive(:find_by_email).and_return(user)
-    expect(cabpools_to_render).to_not include cabpool
+    expect(cabpools_to_render(Cabpool.all)).to_not include cabpool
   end
 
   it "should render all cabpools if current user has no cabpool" do
@@ -126,7 +128,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     allow(User).to receive(:find_by_email).and_return(user)
     allow(user).to receive(:requested_cabpools).and_return([])
     allow(Cabpool).to receive(:all).and_return([cabpool])
-    expect(cabpools_to_render).to include cabpool
+    expect(cabpools_to_render(Cabpool.all)).to include cabpool
   end
 
   it "should return requested cabpool of current user" do
@@ -180,6 +182,94 @@ RSpec.describe CabpoolsHelper, type: :helper do
     cabpool = build(:cabpool)
     user.requested_cabpools = [cabpool]
     allow(User).to receive(:find_by_email).and_return(user)
-    expect(cabpools_to_render).to_not include cabpool
+    expect(cabpools_to_render(Cabpool.all)).to_not include cabpool
+  end
+
+  it 'should return join as the button to be shown if user is not registered' do
+    cabpool = double()
+    session.delete(:registered_uid)
+    expect(button(cabpool)).to eq "Join"
+  end
+
+  it 'should return requested as the button to be shown if cabpool is requested by user' do
+    cabpool = double()
+    user = build(:user)
+    names = user.name.split(' ')
+    session[:userid] = user.id
+    session[:FirstName] = names[0]
+    session[:LastName] = names[1]
+    session[:Email] = user.email
+    session[:registered_uid] = 1
+    allow(User).to receive(:find_by_email).and_return(user)
+    allow(user).to receive(:requested_cabpools).and_return([cabpool])
+    expect(button(cabpool)).to eq "Requested"
+  end
+
+  it 'should return no button if user is of the same cabpool' do
+    cabpool = double()
+    user = build(:user)
+    names = user.name.split(' ')
+    session[:userid] = user.id
+    session[:FirstName] = names[0]
+    session[:LastName] = names[1]
+    session[:Email] = user.email
+    session[:registered_uid] = 1
+    allow(User).to receive(:find_by_email).and_return(user)
+    allow(user).to receive(:requested_cabpools).and_return([])
+    allow(current_user).to receive(:cabpool).and_return(cabpool)
+    allow(cabpool).to receive(:available_slots).and_return(2)
+    expect(button(cabpool)).to eq nil
+  end
+
+  it 'should return no button if cabpool has no available slots' do
+    cabpool = double()
+    another_cabpool = double()
+    user = build(:user)
+    names = user.name.split(' ')
+    session[:userid] = user.id
+    session[:FirstName] = names[0]
+    session[:LastName] = names[1]
+    session[:Email] = user.email
+    session[:registered_uid] = 1
+    allow(User).to receive(:find_by_email).and_return(user)
+    allow(user).to receive(:requested_cabpools).and_return([])
+    allow(current_user).to receive(:cabpool).and_return(another_cabpool)
+    allow(cabpool).to receive(:available_slots).and_return(0)
+    expect(button(cabpool)).to eq nil
+  end
+
+  it 'should return no button if user has existing requests' do
+    cabpool = double()
+    two_cabpool = double()
+    three_cabpool = double()
+    user = build(:user)
+    names = user.name.split(' ')
+    session[:userid] = user.id
+    session[:FirstName] = names[0]
+    session[:LastName] = names[1]
+    session[:Email] = user.email
+    session[:registered_uid] = 1
+    allow(User).to receive(:find_by_email).and_return(user)
+    allow(user).to receive(:requested_cabpools).and_return([three_cabpool])
+    allow(current_user).to receive(:cabpool).and_return(two_cabpool)
+    allow(cabpool).to receive(:available_slots).and_return(2)
+    expect(button(cabpool)).to eq nil
+  end
+
+  it 'should show join button when current user has no requests, has another assigned cabpool, and available slots present' do
+    cabpool = double()
+    two_cabpool = double()
+    user = build(:user)
+    names = user.name.split(' ')
+    session[:userid] = user.id
+    session[:FirstName] = names[0]
+    session[:LastName] = names[1]
+    session[:Email] = user.email
+    session[:registered_uid] = 1
+    allow(User).to receive(:find_by_email).and_return(user)
+    allow(user).to receive(:requested_cabpools).and_return([])
+    allow(current_user).to receive(:cabpool).and_return(two_cabpool)
+    allow(cabpool).to receive(:available_slots).and_return(2)
+    expect(button(cabpool)).to eq "Join"
   end
 end

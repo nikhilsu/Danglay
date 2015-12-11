@@ -1,59 +1,52 @@
 <div class="container-fluid show-cabpools">
-    <div class="row">
-      <div class="col-md-10 col-sm-6 col-xs-6">
-        <div class= "row">
+  <div class="row">
+    <div class="col-md-10 col-sm-6 col-xs-6">
+      <div class="row">
           <span class="col-md-3 col-sm-12 col-xs-12" title="Destination">
-            <%= image_tag 'navigate.png' , :class => 'cabpool-img'%>
-            <%= cabpool.ordered_localities.first.name  %>
+            <%= image_tag 'navigate.png', :class => 'cabpool-img' %>
+            <%= cabpool.ordered_localities.first.name %>
           </span>
           <span class="col-md-3 col-sm-12 col-xs-12 col-md-offset-2" title="Arrival time to office">
-            <%= image_tag 'clock.png' , :class => 'cabpool-img'%>
+            <%= image_tag 'clock.png', :class => 'cabpool-img' %>
             <%= formatted_time(cabpool.timein) %>
           </span>
           <span class="col-md-3 col-sm-12 col-xs-12" title="Departure time from office">
-            <%= image_tag 'clock.png' , :class => 'cabpool-img'%>
+            <%= image_tag 'clock.png', :class => 'cabpool-img' %>
             <%= formatted_time(cabpool.timeout) %>
           </span>
-        </div>
-        <% cabpool.users.each do |user| %>
+      </div>
+      <% cabpool.users.each do |user| %>
           <div class="row">
             <div class="col-md-5 col-sm-12 col-xs-12"><%= user.name %></div>
             <div class="col-md-5 col-sm-12 col-xs-12"><%= user.email %></div>
           </div>
-        <% end %>
-      </div>
+      <% end %>
+    </div>
     <div class="col-md-2 col-sm-6 col-xs-6">
       <% cabpool.ordered_localities.each do |locality| %>
-        <h4 class="center"> <%= locality.name %> </h4>
-        <div class="glyphicon glyphicon-arrow-down center-block center"></div>
+          <h4 class="center"> <%= locality.name %> </h4>
+
+          <div class="glyphicon glyphicon-arrow-down center-block center"></div>
       <% end %>
       <h4 class="center"> <%= destination %></h4>
     </div>
   </div>
   <div class="row">
     <div class="col-md-6">
-      <% if cabpool.available_slots != 0 %>
+      <% if cabpool.available_slots > 0 %>
           <span class="label-purple">Available Slots: <%= cabpool.available_slots %></span>
-      <% else%>
-        <span class="label-purple">No available slots</span>
+      <% else %>
+          <span class="label-purple">No available slots</span>
       <% end %>
     </div>
-    <% if cabpool.available_slots != 0 %>
-      <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
+    <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
         <%= f.hidden_field(:id) %>
-          <% if user_cabpool_exists? %>
-
-          <% elsif requested_user?(cabpool) %>
-              <%= f.button "Requested" , class: "btn pull-right" , disabled: true %>
-          <% else %>
-            <%= f.submit "Join", class: "btn pull-right"%>
-          <% end %>
-      <% end %>
-      <%else%>
-        <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
-          <% if user_requested_cabpool_exists? && requested_user?(cabpool) %>
-              <%= f.button "Requested" , class: "btn pull-right" , disabled: true %>
-          <% end %>
+        <% if !button(cabpool).nil? %>
+            <% if button(cabpool) == "Requested" %>
+                <%= f.submit button(cabpool), class: "btn pull-right", disabled: true %>
+            <% else %>
+                <%= f.submit button(cabpool), class: "btn pull-right" %>
+            <% end %>
         <% end %>
     <% end %>
   </div>

@@ -33,6 +33,24 @@ class CabpoolsController < ApplicationController
     redirect_to root_path
   end
 
+  def show
+    if params[:localities].nil?
+      @cabpools = cabpools_to_render(Cabpool.all)
+    else
+      searched_locality_id = params[:localities].values.first
+      locality = Locality.find_by_id(searched_locality_id)
+      if locality.nil?
+        flash.now[:danger] = "Select a locality"
+        @cabpools = cabpools_to_render(Cabpool.all)
+      elsif !locality.cabpools.empty?
+        @cabpools = cabpools_to_render(locality.cabpools)
+      else
+        flash.now[:danger] = "Locality has no cabpools"
+        @cabpools = cabpools_to_render(Cabpool.all)
+      end
+    end
+  end
+
   private
 
   def registered?

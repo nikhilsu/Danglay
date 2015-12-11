@@ -18,4 +18,8 @@ module SessionsHelper
       @current_user ||= User.find_by(email: email)
     end
   end
+
+  def is_registered?
+    !session[:registered_uid].nil?
+  end
 end

@@ -20,9 +20,9 @@
   <div>
   <%= form_tag show_cabpools_path do %>
       <div class='form-group col-md-4'>
-      <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control')%>
+      <%= collection_select(:localities, :search, Locality.all, :id, :name, {prompt: true}, class: 'form-control')%>
       </div>
       <%= submit_tag "Search", class: "btn" %>
   <% end %>
-  <%= render cabpools_to_render %>
+  <%= render @cabpools %>
 </div>
