@@ -33,8 +33,10 @@ var CabPoolListener = {
 
 $(document).ready(function() {
     CabPoolListener.addListeners();
+    $('#localities_search').selectize();
 });
 
 $(document).on('page:load', function() {
     CabPoolListener.addListeners();
+    $('#localities_search').selectize();    
 });

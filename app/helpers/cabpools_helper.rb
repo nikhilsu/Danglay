@@ -23,7 +23,7 @@ module CabpoolsHelper
   end
 
   def destination
-    "Kormangala"
+    "Koramangala"
   end
 
   def user_cabpool_exists?

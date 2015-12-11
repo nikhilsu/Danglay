@@ -58,8 +58,8 @@ RSpec.describe CabpoolsHelper, type: :helper do
     expect(requested_user?(cabpool)).to be true
   end
 
-  it 'should return destination as Kormangala' do
-    expect(destination).to eq 'Kormangala'
+  it 'should return destination as Koramangala' do
+    expect(destination).to eq 'Koramangala'
   end
 
   it 'should return the current user\'s cabpool' do
