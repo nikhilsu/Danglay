@@ -157,14 +157,54 @@ RSpec.describe CabpoolsController, type: :controller do
   it 'should set the current user\'s cabppol to nil if the user leaves the cab pool' do
     post :create, :cabpool => {number_of_people: 3, timein: "9:30", timeout: "2:30"}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)
-    before_count = Cabpool.all.count;
+    before_count = Cabpool.all.count
     user = build(:user)
     user.cabpool = cabpool
     allow(User).to receive(:find_by).and_return(user)
     post :leave
-    after_count = Cabpool.all.count;
+    after_count = Cabpool.all.count
     expect(current_user.cabpool).to eq nil
     expect(before_count - after_count).to eq 1
     expect(flash[:success]).to eq 'You have left your cab pool.'
+  end
+
+  it 'should render error message when request is deleted from the request table' do
+    user = build(:user)
+    allow(User).to receive(:find).and_return(user)
+    allow(Request).to receive(:find_by_user_id).and_return(nil)
+    get :approve_reject_handler, approve: "true", token: "ABCD", user: '1'
+    expect(response.body).to eq "Someone else from your cabpool has accepted or rejected this user"
+  end
+
+  it 'should render error message when token is not the same' do
+    user = build(:user)
+    allow(User).to receive(:find).and_return(user)
+    request = build_stubbed(:request)
+    allow(Request).to receive(:find_by_user_id).and_return(request)
+    get :approve_reject_handler, approve: "true", token: "ABCD", user: '1'
+    expect(response.body).to eq "Invalid User"
+  end
+
+  it 'should render Accept message when token is same and approve is true' do
+    request = build_stubbed(:request)
+    user = request.user
+    allow(user).to receive(:save).and_return(true)
+    allow(request).to receive(:destroy!).and_return(true)
+    allow(User).to receive(:find).and_return(user)
+    allow(Request).to receive(:find_by_user_id).and_return(request)
+    allow(request).to receive(:approve_digest).and_return("ABCD")
+    get :approve_reject_handler, approve: "true", token: "ABCD", user: '1'
+    expect(response.body).to eq "accept"
+  end
+
+  it 'should render reject message when token is same and approve is false' do
+    request = build_stubbed(:request)
+    user = request.user
+    allow(request).to receive(:destroy!).and_return(true)
+    allow(User).to receive(:find).and_return(user)
+    allow(Request).to receive(:find_by_user_id).and_return(request)
+    allow(request).to receive(:approve_digest).and_return("ABCD")
+    get :approve_reject_handler, approve: "false", token: "ABCD", user: '1'
+    expect(response.body).to eq "reject"
   end
 end

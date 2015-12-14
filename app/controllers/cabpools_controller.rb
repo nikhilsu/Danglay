@@ -35,8 +35,8 @@ class CabpoolsController < ApplicationController
       flash[:danger] = 'You have already requested to a cab. Please wait for the request to be processed'
     elsif joining_cab.available_slots != 0
       flash[:success] = 'Request Sent!'
-      Request.create(user: requesting_user, cabpool: joining_cab)
-      send_emails_to_cabpool_users(joining_cab.users, current_user)
+      request = Request.create(user: requesting_user, cabpool: joining_cab)
+      send_emails_to_cabpool_users(joining_cab.users, current_user, request.approve_digest)
     else
       flash[:danger] = 'Cab capacity exceeded!'
     end
@@ -61,7 +61,43 @@ class CabpoolsController < ApplicationController
     end
   end
 
+  def approve_reject_handler
+    approve = params[:approve]
+    token = params[:token]
+    user_id = params[:user]
+    user = User.find(user_id)
+    request = Request.find_by_user_id(user_id)
+    if request.nil?
+      render :text => "Someone else from your cabpool has accepted or rejected this user"
+    else
+      digest = request.approve_digest
+      if digest == token
+        if approve == "true"
+          approve_user user
+        else
+          reject_user user
+        end
+      else
+        render text: "Invalid User"
+      end
+    end
+  end
+
   private
+
+  def reject_user user
+    Request.find_by_user_id(user.id).destroy!
+    render text: 'reject'
+  end
+
+  def approve_user user
+    request = Request.find_by_user_id(user.id)
+    user.cabpool = request.cabpool
+    user.status = 'Approved'
+    user.save
+    request.destroy!
+    render text: 'accept'
+  end
 
   def registered?
     store_location
@@ -87,9 +123,9 @@ class CabpoolsController < ApplicationController
     end
   end
 
-  def send_emails_to_cabpool_users(users, current_user)
+  def send_emails_to_cabpool_users(users, current_user, digest)
     users.collect do |user|
-      CabpoolMailer.cabpool_join_request(user, current_user).deliver_now
+      CabpoolMailer.cabpool_join_request(user, current_user, digest).deliver_now
     end
   end
 
