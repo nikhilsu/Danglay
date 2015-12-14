@@ -16,4 +16,10 @@ Rails.application.routes.draw do
   # end
   resources :cabpools
   resources :users
+
+  if Rails.env.production? || Rails.env.staging? || Rails.env.test?
+    match '404', :to => 'custom_errors#page_not_found', via: [:get, :post]
+    match '422', :to => 'custom_errors#server_error', via: [:get, :post]
+    match '500', :to => 'custom_errors#server_error', via: [:get, :post]
+  end
 end
