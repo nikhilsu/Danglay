@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe CabpoolsController, type: :controller do
 
+  include SessionsHelper
+
   before(:each) do
     user = build_stubbed(:user)
     names = user.name.split(' ')
@@ -143,5 +145,26 @@ RSpec.describe CabpoolsController, type: :controller do
     post :join, cabpool: {id: cabpool.id}
     expect(cabpool.users.count).to eq ActionMailer::Base.deliveries.size
     expect(response).to redirect_to root_path
+  end
+
+  it 'should redirect to home page if current user does not have a cab pool' do
+    user = build(:user)
+    allow(User).to receive(:find_by).and_return(user)
+    post :leave
+    expect(response).to redirect_to root_path
+  end
+
+  it 'should set the current user\'s cabppol to nil if the user leaves the cab pool' do
+    post :create, :cabpool => {number_of_people: 3, timein: "9:30", timeout: "2:30"}, :localities => {:locality_one_id => '1'}
+    cabpool = assigns(:cabpool)
+    before_count = Cabpool.all.count;
+    user = build(:user)
+    user.cabpool = cabpool
+    allow(User).to receive(:find_by).and_return(user)
+    post :leave
+    after_count = Cabpool.all.count;
+    expect(current_user.cabpool).to eq nil
+    expect(before_count - after_count).to eq 1
+    expect(flash[:success]).to eq 'You have left your cab pool.'
   end
 end

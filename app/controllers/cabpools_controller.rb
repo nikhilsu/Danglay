@@ -1,9 +1,19 @@
 class CabpoolsController < ApplicationController
   include CabpoolsHelper
   before_action :registered? , except: [:show]
+  before_action :has_cabpool, only: [:leave]
 
   def new
     @cabpool = Cabpool.new
+  end
+
+  def leave
+    current_user_cabpool = current_user.cabpool
+    current_user.cabpool = nil
+    current_user.save
+    current_user_cabpool.destroy if current_user_cabpool.users.size == 0
+    flash[:success] = "You have left your cab pool."
+    redirect_to root_url
   end
 
   def create
@@ -80,6 +90,12 @@ class CabpoolsController < ApplicationController
   def send_emails_to_cabpool_users(users, current_user)
     users.collect do |user|
       CabpoolMailer.cabpool_join_request(user, current_user).deliver_now
+    end
+  end
+
+  def has_cabpool
+    if current_user.cabpool.nil?
+      redirect_to root_url
     end
   end
 end

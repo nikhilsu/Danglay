@@ -205,7 +205,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     expect(button(cabpool)).to eq "Requested"
   end
 
-  it 'should return no button if user is of the same cabpool' do
+  it 'should return leave button if user is of the same cabpool' do
     cabpool = double()
     user = build(:user)
     names = user.name.split(' ')
@@ -218,7 +218,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     allow(user).to receive(:requested_cabpools).and_return([])
     allow(current_user).to receive(:cabpool).and_return(cabpool)
     allow(cabpool).to receive(:available_slots).and_return(2)
-    expect(button(cabpool)).to eq nil
+    expect(button(cabpool)).to eq "Leave"
   end
 
   it 'should return no button if cabpool has no available slots' do

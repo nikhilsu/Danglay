@@ -58,7 +58,9 @@ module CabpoolsHelper
     if is_registered?
       if requested_user?(cabpool)
         "Requested"
-      elsif current_user.cabpool != cabpool && cabpool.available_slots > 0 && !user_requested_cabpool_exists?
+      elsif current_user.cabpool == cabpool
+        "Leave"
+      elsif cabpool.available_slots > 0 && !user_requested_cabpool_exists?
         "Join"
       end
     else

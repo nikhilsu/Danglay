@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'saml/init'
   post 'saml/consume'
   post 'show_cabpools' => 'cabpools#show'
+  post 'leave_cabpool' => 'cabpools#leave'
   delete 'logout' => 'sessions#destroy'
   post 'cabpools/join' => 'cabpools#join'
   #If Feature toggle is to be used for a specific action

@@ -39,13 +39,20 @@
           <span class="label-purple">No available slots</span>
       <% end %>
     </div>
-    <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
-        <%= f.hidden_field(:id) %>
-        <% if !button(cabpool).nil? %>
-            <% if button(cabpool) == "Requested" %>
-                <%= f.submit button(cabpool), class: "btn pull-right", disabled: true %>
-            <% else %>
-                <%= f.submit button(cabpool), class: "btn pull-right" %>
+
+    <% if button(cabpool) == "Leave"%>
+        <%= form_for(cabpool, url: 'leave_cabpool', method: 'post') do |f| %>
+            <%= f.submit button(cabpool), class: "btn pull-right" %>
+        <% end %>
+    <% else %>
+        <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
+            <%= f.hidden_field(:id) %>
+            <% if !button(cabpool).nil? %>
+                <% if button(cabpool) == "Requested" %>
+                    <%= f.submit button(cabpool), class: "btn pull-right", disabled: true %>
+                <% else %>
+                    <%= f.submit button(cabpool), class: "btn pull-right" %>
+                <% end %>
             <% end %>
         <% end %>
     <% end %>
