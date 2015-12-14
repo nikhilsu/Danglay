@@ -87,7 +87,12 @@ class CabpoolsController < ApplicationController
 
   def reject_user user
     Request.find_by_user_id(user.id).destroy!
+    send_email_to_rejected_user user
     render text: 'reject'
+  end
+
+  def send_email_to_rejected_user(rejected_user)
+    CabpoolMailer.cabpool_approve_request(rejected_user).deliver_now
   end
 
   def approve_user user

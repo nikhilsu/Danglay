@@ -207,6 +207,7 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(Request).to receive(:find_by_user_id).and_return(request)
     allow(request).to receive(:approve_digest).and_return("ABCD")
     get :approve_reject_handler, approve: "false", token: "ABCD", user: '1'
+    expect(ActionMailer::Base.deliveries.size).to eq 1
     expect(response.body).to eq "reject"
   end
 end
