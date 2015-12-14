@@ -40,3 +40,5 @@ User.create!(name: 'Deepika Srinivasa Iyengar Varadarajan', email: 'vdeepika@tho
   cabpool.users = users
   cabpool.save!
 end
+
+Request.create!(user_id: 1, cabpool_id: 1)
