@@ -16,4 +16,9 @@ class CabpoolMailer < ApplicationMailer
     @username = approved_user.name
     mail to: approved_user.email, subject: 'Your cabpool request has been approved!'
   end
+
+  def cabpool_reject_request(rejected_user)
+    @username = rejected_user.name
+    mail to: rejected_user.email, subject: 'Your cabpool request has been rejected'
+  end
 end

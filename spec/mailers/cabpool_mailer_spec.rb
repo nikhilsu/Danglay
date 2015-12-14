@@ -38,4 +38,22 @@ RSpec.describe CabpoolMailer, type: :mailer do
       expect(mail.body.encoded).to include "has just been approved!"
     end
   end
+
+  describe "cabpool_reject_request" do
+
+    let(:mail) {
+      @rejected_user = build(:user)
+      CabpoolMailer.cabpool_reject_request(@rejected_user)
+    }
+
+    it "renders the headers" do
+      expect(mail.subject).to eq('Your cabpool request has been rejected')
+      expect(mail.to).to eq([@rejected_user.email])
+      expect(mail.from).to eq(['danglay@thoughtworks.com'])
+    end
+
+    it "renders the body" do
+      expect(mail.body.encoded).to include "has been rejected."
+    end
+  end
 end

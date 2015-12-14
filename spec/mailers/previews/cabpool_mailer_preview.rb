@@ -13,4 +13,9 @@ class CabpoolMailerPreview < ActionMailer::Preview
     CabpoolMailer.cabpool_approve_request(User.first)
   end
 
+# Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/cabpool_reject_request
+  def cabpool_reject_request
+    CabpoolMailer.cabpool_reject_request(User.first)
+  end
+
 end
