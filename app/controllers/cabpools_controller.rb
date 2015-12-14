@@ -38,7 +38,7 @@ class CabpoolsController < ApplicationController
     requesting_user = User.find_by_email(session[:Email])
     if !requesting_user.requests.empty?
       flash[:danger] = 'You have already requested to a cab. Please wait for the request to be processed'
-    elsif joining_cab.available_slots != 0
+    elsif joining_cab.available_slots > 0
       flash[:success] = 'Request Sent!'
       request = Request.create(user: requesting_user, cabpool: joining_cab)
       send_emails_to_cabpool_users(joining_cab.users, current_user, request.approve_digest)
