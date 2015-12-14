@@ -96,7 +96,12 @@ class CabpoolsController < ApplicationController
     user.status = 'Approved'
     user.save
     request.destroy!
+    send_email_to_approved_user user
     render text: 'accept'
+  end
+
+  def send_email_to_approved_user(approved_user)
+    CabpoolMailer.cabpool_approve_request(approved_user).deliver_now
   end
 
   def registered?

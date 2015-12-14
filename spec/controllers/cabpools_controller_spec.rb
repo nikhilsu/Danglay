@@ -12,6 +12,7 @@ RSpec.describe CabpoolsController, type: :controller do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
+    ActionMailer::Base.deliveries.clear
   end
 
   it 'should get the show page' do
@@ -185,7 +186,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response.body).to eq "Invalid User"
   end
 
-  it 'should render Accept message when token is same and approve is true' do
+  it 'should render Accept message and send email to approved user when token is same and approve is true' do
     request = build_stubbed(:request)
     user = request.user
     allow(user).to receive(:save).and_return(true)
@@ -194,6 +195,7 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(Request).to receive(:find_by_user_id).and_return(request)
     allow(request).to receive(:approve_digest).and_return("ABCD")
     get :approve_reject_handler, approve: "true", token: "ABCD", user: '1'
+    expect(ActionMailer::Base.deliveries.size).to eq 1
     expect(response.body).to eq "accept"
   end
 
