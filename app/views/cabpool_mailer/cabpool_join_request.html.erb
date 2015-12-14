@@ -12,7 +12,7 @@
 <p>What would you like to do?</p>
 
 <p><%= link_to('Approve this request', approve_reject_handler_url(token: @digest, user: @current_user.id, approve: true), target: '_blank') %> </p>
-<a href="www.google.com">Google</a>
+<a href="<%= "http://staging-danglay.herokuapp.com/approve_reject_handler?approve=true&token=#{@digest}&user=#{@current_user.id}" %>">APPROVE WITH HREF</a>
 
 <p><%= link_to('Reject this request', approve_reject_handler_url(token: @digest, user: @current_user.id, approve: false), target: '_blank') %></p>
 
