@@ -11,10 +11,12 @@ Rails.application.routes.draw do
   post 'leave_cabpool' => 'cabpools#leave'
   delete 'logout' => 'sessions#destroy'
   post 'cabpools/join' => 'cabpools#join'
+  get 'approve_reject_handler' => 'cabpools#approve_reject_handler'
   #If Feature toggle is to be used for a specific action
   # if FEATURES.active?('user_feature')
   #   get 'users/new', to: 'users#new'
   # end
+  default_url_options :host => "localhost:3000"
   resources :cabpools
   resources :users
 

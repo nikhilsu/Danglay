@@ -2,7 +2,12 @@ require "rails_helper"
 
 RSpec.describe CabpoolMailer, type: :mailer do
   describe "cabpool_join_request" do
-    let(:mail) { CabpoolMailer.cabpool_join_request(build_stubbed(:user), build_stubbed(:user))}
+
+    let(:mail) {
+      user = build_stubbed(:user)
+      request = build_stubbed(:request)
+      CabpoolMailer.cabpool_join_request(build_stubbed(:user), user, request.approve_digest )
+    }
 
     it "renders the headers" do
       expect(mail.subject).to eq('Someone wants to join your carpool!')

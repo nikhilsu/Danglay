@@ -5,9 +5,9 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
 
   if FEATURES.active?('okta_feature')
-    before_action :authorized? , except: [:init, :consume]
+    before_action :authorized? , except: [:init, :consume, :approve_reject_handler]
   end
-  before_action :set_user_name, except: [:init, :consume]
+  before_action :set_user_name, except: [:init, :consume, :approve_reject_handler]
   before_filter :check_feature_activated?
 
   def authorized?
