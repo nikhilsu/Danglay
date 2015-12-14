@@ -1,4 +1,7 @@
-<%= render 'layouts/tabs' %>
+<%= render 'layouts/welcome' %>
+<% unless user_cabpool_exists? || user_requested_cabpool_exists? %>
+    <%= render 'layouts/tabs' %>
+<% end %>
 <% provide(:title, 'Create new Cab Pool') %>
 <% if FEATURES.active?('user_feature') %>
     <div class="row">
@@ -7,22 +10,24 @@
         <h2 class="create-form-heading"><%= "Create a Cab Pool" %></h2>
 
         <%= bootstrap_form_for(@cabpool, layout: :horizontal, label_col: "col-md-3", control_col: "col-md-7") do |f| %>
-            <%= f.text_field :number_of_people, label: 'Number of people to travel with' %>
-            <%= f.time_field :timein, label: 'Pick-up time to office', placeholder: 'HH:MM' %>
-            <%= f.time_field :timeout, label: 'Pick-up time from office', placeholder: 'HH:MM' %>
+            <%= f.text_field :number_of_people, label: 'Capacity of Cab' %>
+            <%= f.time_field :timein, label: 'Arrival time to office', placeholder: 'HH:MM' %>
+            <%= f.time_field :timeout, label: 'Departure time from office', placeholder: 'HH:MM' %>
 
-            <div class="form-group <% unless @cabpool.errors[:localities].empty? %> has-error <% end %> ">
+            <div class="form-group
+                  <% unless @cabpool.errors[:localities].empty? %> has-error
+                  <% end %> ">
               <label class="control-label col-md-3 required " for="user_locality">Route</label>
 
               <div class="col-md-5">
                 <span class="label-purple"><%= User.find_by_email(session[:Email]).locality.name %></span>
                 <%= hidden_field_tag 'localities[source]', User.find_by_email(session[:Email]).locality.id %>
                 <div class="localityForm">
-                    <label class="control-label col-md-3 required pull-left" for="user_locality">Via</label>
-                    <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control') %>
+                  <label class="control-label col-md-3 required pull-left" for="user_locality">Via</label>
+                  <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control') %>
                 </div>
                 <%= render 'shared/error_messages', errors: @cabpool.errors[:localities] if !@cabpool.errors[:localities].empty? %>
-             </div>
+              </div>
               <a href="javascript:;"><span class="glyphicon glyphicon-plus" id="addLocality"></span></a>
             </div>
 
