@@ -11,9 +11,9 @@
 
 <p>What would you like to do?</p>
 
-<p>Approve this request</p>
+<p><%= link_to('Approve this request', approve_reject_handler_url(token: @digest, user: @current_user.id, approve: true), target: '_blank') %> </p>
 
-<p>Reject this request</p>
+<p><%= link_to('Reject this request', approve_reject_handler_url(token: @digest, user: @current_user.id, approve: false), target: '_blank') %></p>
 
 Thanks!
 
