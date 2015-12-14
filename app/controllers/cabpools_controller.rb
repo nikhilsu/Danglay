@@ -1,6 +1,6 @@
 class CabpoolsController < ApplicationController
   include CabpoolsHelper
-  before_action :registered? , except: [:show]
+  before_action :registered? , except: [:show, :approve_reject_handler]
   before_action :has_cabpool, only: [:leave]
 
   def new
