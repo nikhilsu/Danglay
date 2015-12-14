@@ -4,14 +4,15 @@ RSpec.describe CabpoolMailer, type: :mailer do
   describe "cabpool_join_request" do
 
     let(:mail) {
-      user = build_stubbed(:user)
       request = build_stubbed(:request)
-      CabpoolMailer.cabpool_join_request(build_stubbed(:user), user, request.approve_digest )
+      @requesting_user = request.user
+      @cabpool_user = build(:user, :existing_user)
+      CabpoolMailer.cabpool_join_request(@cabpool_user, @requesting_user, request.approve_digest )
     }
 
     it "renders the headers" do
       expect(mail.subject).to eq('Someone wants to join your carpool!')
-      expect(mail.to).to eq(['to@example.org'])
+      expect(mail.to).to eq([@cabpool_user.email])
       expect(mail.from).to eq(['danglay@thoughtworks.com'])
     end
 

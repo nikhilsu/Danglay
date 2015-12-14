@@ -9,6 +9,10 @@ class CabpoolMailer < ApplicationMailer
     @username = user.name
     @current_user = current_user
     @digest = digest
-    mail to: "to@example.org", subject: 'Someone wants to join your carpool!'
+    mail to: user.email, subject: 'Someone wants to join your carpool!'
+  end
+
+  def cabpool_approve_request(user)
+    mail to: ''
   end
 end
