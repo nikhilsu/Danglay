@@ -108,6 +108,9 @@ class CabpoolsController < ApplicationController
 
   def approve_user user
     request = Request.find_by_user_id(user.id)
+    if !user.cabpool.nil?
+      send_email_to_cabpool_users_on_member_leaving(user.cabpool.users.reject { |u| u.id == user.id } ,user)
+    end
     user.cabpool = request.cabpool
     user.status = 'Approved'
     user.save

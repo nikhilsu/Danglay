@@ -215,6 +215,23 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to render_template 'request_accept'
   end
 
+  it 'should render Accept message and send email to approved user and send email to previous cabpoolers when token is same and approve is true' do
+    request = build_stubbed(:request)
+    user = request.user
+    another_user = create(:user, :another_user)
+    cabpool = build(:cabpool)
+    cabpool.users << [user ,another_user]
+
+    allow(user).to receive(:save).and_return(true)
+    allow(request).to receive(:destroy!).and_return(true)
+    allow(User).to receive(:find).and_return(user)
+    allow(Request).to receive(:find_by_user_id).and_return(request)
+    allow(request).to receive(:approve_digest).and_return("ABCD")
+    get :approve_reject_handler, approve: "true", token: "ABCD", user: '1'
+    expect(ActionMailer::Base.deliveries.size).to eq 2
+    expect(response.body).to eq "accept"
+  end
+
   it 'should render reject message when token is same and approve is false' do
     request = build_stubbed(:request)
     user = request.user
