@@ -18,4 +18,9 @@ class CabpoolMailerPreview < ActionMailer::Preview
     CabpoolMailer.cabpool_reject_request(User.first)
   end
 
+# Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/cabpool_leave_notifier
+  def cabpool_leave_notifier
+    CabpoolMailer.cabpool_leave_notifier(User.first, User.second)
+  end
+
 end
