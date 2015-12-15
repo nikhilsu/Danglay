@@ -68,7 +68,7 @@ class CabpoolsController < ApplicationController
     user = User.find(user_id)
     request = Request.find_by_user_id(user_id)
     if request.nil?
-      render :text => "Someone else from your cabpool has accepted or rejected this user"
+      render 'request_duplicate'
     else
       digest = request.approve_digest
       if digest == token
@@ -78,7 +78,7 @@ class CabpoolsController < ApplicationController
           reject_user user
         end
       else
-        render text: "Invalid User"
+        render 'request_invalid'
       end
     end
   end
@@ -88,7 +88,7 @@ class CabpoolsController < ApplicationController
   def reject_user user
     Request.find_by_user_id(user.id).destroy!
     send_email_to_rejected_user user
-    render text: 'reject'
+    render 'request_reject'
   end
 
   def send_email_to_rejected_user(rejected_user)
@@ -102,7 +102,7 @@ class CabpoolsController < ApplicationController
     user.save
     request.destroy!
     send_email_to_approved_user user
-    render text: 'accept'
+    render 'request_accept'
   end
 
   def send_email_to_approved_user(approved_user)

@@ -174,7 +174,7 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(User).to receive(:find).and_return(user)
     allow(Request).to receive(:find_by_user_id).and_return(nil)
     get :approve_reject_handler, approve: "true", token: "ABCD", user: '1'
-    expect(response.body).to eq "Someone else from your cabpool has accepted or rejected this user"
+    expect(response).to render_template 'request_duplicate'
   end
 
   it 'should render error message when token is not the same' do
@@ -183,7 +183,7 @@ RSpec.describe CabpoolsController, type: :controller do
     request = build_stubbed(:request)
     allow(Request).to receive(:find_by_user_id).and_return(request)
     get :approve_reject_handler, approve: "true", token: "ABCD", user: '1'
-    expect(response.body).to eq "Invalid User"
+    expect(response).to render_template 'request_invalid'
   end
 
   it 'should render Accept message and send email to approved user when token is same and approve is true' do
@@ -196,7 +196,7 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(request).to receive(:approve_digest).and_return("ABCD")
     get :approve_reject_handler, approve: "true", token: "ABCD", user: '1'
     expect(ActionMailer::Base.deliveries.size).to eq 1
-    expect(response.body).to eq "accept"
+    expect(response).to render_template 'request_accept'
   end
 
   it 'should render reject message when token is same and approve is false' do
@@ -208,6 +208,6 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(request).to receive(:approve_digest).and_return("ABCD")
     get :approve_reject_handler, approve: "false", token: "ABCD", user: '1'
     expect(ActionMailer::Base.deliveries.size).to eq 1
-    expect(response.body).to eq "reject"
+    expect(response).to render_template 'request_reject'
   end
 end
