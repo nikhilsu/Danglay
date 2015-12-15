@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   delete 'logout' => 'sessions#destroy'
   post 'cabpools/join' => 'cabpools#join'
   get 'approve_reject_handler' => 'cabpools#approve_reject_handler'
+  get 'your_cabpools' => 'cabpools#your_cabpools'
   #If Feature toggle is to be used for a specific action
   # if FEATURES.active?('user_feature')
   #   get 'users/new', to: 'users#new'

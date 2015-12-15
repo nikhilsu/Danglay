@@ -1,22 +1,6 @@
 <%= render 'layouts/welcome' %>
 <% if user_cabpool_exists? || user_requested_cabpool_exists? %>
-    <h1>Your Pool(s)</h1>
-<% end %>
-
-<% if user_cabpool_exists? %>
-    <div class="your-pool">
-      <%= render users_cabpool %>
-    </div>
-<% end %>
-
-<% if user_requested_cabpool_exists? %>
-    <div class="your-pool">
-      <%= render users_requested_cabpool %>
-    </div>
-<% end %>
-
-<% if user_cabpool_exists? || user_requested_cabpool_exists? %>
-    <h2>Cab Pools</h2>
+    <%= render 'layouts/cabpools_tab' %>
 <% else %>
     <%= render 'layouts/tabs' %>
 <% end %>
