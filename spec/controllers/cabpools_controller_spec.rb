@@ -229,7 +229,7 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(request).to receive(:approve_digest).and_return("ABCD")
     get :approve_reject_handler, approve: "true", token: "ABCD", user: '1'
     expect(ActionMailer::Base.deliveries.size).to eq 2
-    expect(response.body).to eq "accept"
+    expect(response).to render_template 'request_accept'
   end
 
   it 'should render reject message when token is same and approve is false' do
