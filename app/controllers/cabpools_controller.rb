@@ -11,7 +11,12 @@ class CabpoolsController < ApplicationController
     current_user_cabpool = current_user.cabpool
     current_user.cabpool = nil
     current_user.save
-    current_user_cabpool.destroy if current_user_cabpool.users.size == 0
+    users = current_user_cabpool.users
+    if current_user_cabpool.users.size == 0
+      current_user_cabpool.destroy
+    else
+      send_email_to_cabpool_users_on_member_leaving(users,current_user)
+    end
     flash[:success] = "You have left your cab pool."
     redirect_to root_url
   end
@@ -93,6 +98,12 @@ class CabpoolsController < ApplicationController
 
   def send_email_to_rejected_user(rejected_user)
     CabpoolMailer.cabpool_approve_request(rejected_user).deliver_now
+  end
+
+  def send_email_to_cabpool_users_on_member_leaving(users,current_user)
+    users.collect do |user|
+      CabpoolMailer.cabpool_leave_notifier(user,current_user).deliver_now
+    end
   end
 
   def approve_user user

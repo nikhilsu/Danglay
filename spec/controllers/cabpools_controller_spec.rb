@@ -155,13 +155,29 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to redirect_to root_path
   end
 
-  it 'should set the current user\'s cabppol to nil if the user leaves the cab pool' do
+  it 'should set the current user\'s cabppol to nil if the user leaves the cab pool and send email to existing members' do
+    post :create, :cabpool => {number_of_people: 3, timein: "9:30", timeout: "2:30"}, :localities => {:locality_one_id => '1'}
+    cabpool = assigns(:cabpool)
+    user = build(:user)
+    user.cabpool = cabpool
+    another_user = build(:user, :another_user)
+    cabpool.users << another_user
+    allow(User).to receive(:find_by).and_return(user)
+
+    post :leave
+    expect(current_user.cabpool).to eq nil
+    expect(ActionMailer::Base.deliveries.size).to eq 1
+    expect(flash[:success]).to eq 'You have left your cab pool.'
+  end
+
+  it 'should set the current user\'s cabppol to nil if the user leaves the cab pool with no existing members in the cabpool' do
     post :create, :cabpool => {number_of_people: 3, timein: "9:30", timeout: "2:30"}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)
     before_count = Cabpool.all.count
     user = build(:user)
     user.cabpool = cabpool
     allow(User).to receive(:find_by).and_return(user)
+
     post :leave
     after_count = Cabpool.all.count
     expect(current_user.cabpool).to eq nil
