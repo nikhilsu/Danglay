@@ -21,4 +21,10 @@ class CabpoolMailer < ApplicationMailer
     @username = rejected_user.name
     mail to: rejected_user.email, subject: 'Your cabpool request has been rejected'
   end
+
+  def cabpool_leave_notifier(user,left_user)
+    @username = user.name
+    @left_user = left_user
+    mail to: user.email, subject: 'Someone has left your cabpool!'
+  end
 end

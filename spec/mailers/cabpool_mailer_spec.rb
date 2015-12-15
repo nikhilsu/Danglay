@@ -56,4 +56,22 @@ RSpec.describe CabpoolMailer, type: :mailer do
       expect(mail.body.encoded).to include "has been rejected."
     end
   end
+
+  describe "cabpool leave notifier" do
+    let(:mail) {
+      @user = build(:user)
+      @left_user = build(:user, :another_user)
+      CabpoolMailer.cabpool_leave_notifier(@user, @left_user)
+    }
+
+    it 'should render the headers' do
+      expect(mail.subject).to eq('Someone has left your cabpool!')
+      expect(mail.to).to eq([@user.email])
+      expect(mail.from).to eq(['danglay@thoughtworks.com'])
+    end
+
+    it 'should render the body' do
+      expect(mail.body.encoded).to include "has left your carpool."
+    end
+  end
 end
