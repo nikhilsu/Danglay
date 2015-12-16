@@ -40,3 +40,10 @@ $(document).on('page:load', function() {
     CabPoolListener.addListeners();
     $('#localities_search').selectize();    
 });
+
+function initMap() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 14,
+        center: {lat: 12.9287258, lng: 77.6267284}
+    });
+}

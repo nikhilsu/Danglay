@@ -9,6 +9,7 @@ describe 'adding multiple localities to cabpool route', ->
               + '</select>' \
               + '</div>'\
               + '<a href="javascript:;"><span id="addLocality" style="display: block;"></span></a>'\
+              + '<div id="map"></div>'\
               + '<div id="localitySelections"></div>'
     CabPoolListener.addListeners()
     return
@@ -61,4 +62,9 @@ describe 'adding multiple localities to cabpool route', ->
     $('.glyphicon-minus-sign').click()
     expect($('#addLocality')).toBeVisible()
     return
+
+  it 'should have map when loaded', ->
+    expect($('#map')).toBeVisible()
+    return
+
   return
