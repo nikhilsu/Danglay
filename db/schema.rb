@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151211055705) do
+ActiveRecord::Schema.define(version: 20151216093922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20151211055705) do
     t.time     "timeout"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.string   "route"
   end
 
   create_table "cabpools_localities", force: :cascade do |t|
