@@ -64,7 +64,9 @@ module CabpoolsHelper
         "Join"
       end
     else
-      "Join"
+      if cabpool.available_slots > 0
+        "Join"
+      end
     end
   end
 

@@ -243,4 +243,11 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(ActionMailer::Base.deliveries.size).to eq 1
     expect(response).to render_template 'request_reject'
   end
+
+  it 'should redirect your_cabpools if user has no cabpools and requests' do
+    user = build(:user)
+    allow(User).to receive(:find_by).and_return(user)
+    get :your_cabpools
+    expect(response).to redirect_to root_path
+  end
 end

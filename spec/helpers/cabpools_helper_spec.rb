@@ -185,9 +185,17 @@ RSpec.describe CabpoolsHelper, type: :helper do
     expect(cabpools_to_render(Cabpool.all)).to_not include cabpool
   end
 
-  it 'should return join as the button to be shown if user is not registered' do
+  it 'should return no button if user is not registered and no available slots' do
     cabpool = double()
     session.delete(:registered_uid)
+    allow(cabpool).to receive(:available_slots).and_return(0)
+    expect(button(cabpool)).to eq nil
+  end
+
+  it 'should show Join button if user is not registered and 2 available slots' do
+    cabpool = double()
+    session.delete(:registered_uid)
+    allow(cabpool).to receive(:available_slots).and_return(2)
     expect(button(cabpool)).to eq "Join"
   end
 
