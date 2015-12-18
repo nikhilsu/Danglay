@@ -40,6 +40,7 @@ group :development, :test do
   gem 'poltergeist'
   gem 'database_cleaner'
   gem "nested_form"
+  gem "selenium-webdriver"
 end
 
 group :test do

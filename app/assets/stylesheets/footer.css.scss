@@ -15,7 +15,7 @@ footer {
 
 footer > .container > ul > li > a {
   color: white;
-  &:hover {
+  &:hover, &:focus {
     background: none;
     text-decoration: underline;
     color: white;

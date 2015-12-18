@@ -16,28 +16,37 @@ end
   User.create!(name: name, email: email, emp_id: emp_id, address: address, locality: locality)
 end
 
-User.create!(name: 'Deepika Srinivasa Iyengar Varadarajan', email: 'vdeepika@thoughtworks.com', emp_id: '18078', address: "Blah on Mars", locality: Locality.first )
+User.create!(id: 100, name: 'Deepika Srinivasa Iyengar Varadarajan', email: 'vdeepika@thoughtworks.com', emp_id: '18078', address: "Blah on Mars", locality: Locality.first )
 
-4.times do
+current_localities = Locality.all
+current_users = User.all
+current_users = current_users.reject{ |user| user.id == 100 }
+
+
+4.times do |cabpool_number|
   timein = Faker::Time.between(2.days.ago, Time.now, :all)
   timeout = Faker::Time.between(2.days.ago, Time.now, :all)
-  number_of_people = 4
+  capacity = 4
+  built_localities = []
+  built_users = []
 
-  localities = []
   3.times do
-    locality = Locality.all.sample
-    localities << locality if !localities.include? locality
+    locality = current_localities.sample
+    built_localities << locality
+    current_localities = current_localities.reject{ |l| l.name == locality.name }
   end
 
-  users = []
-  4.times do
-    user = User.all.sample
-    users << user if !users.include? user
+  no_of_users_in_cabpool = cabpool_number == 3 ? capacity : (capacity - 2)
+
+  no_of_users_in_cabpool.times do
+    user = current_users.sample
+    built_users << user
+    current_users = current_users.reject{ |u| u.name == user.name }
   end
 
-  cabpool = Cabpool.new(timein: timein, timeout: timeout, number_of_people: number_of_people)
-  cabpool.localities = localities
-  cabpool.users = users
+  cabpool = Cabpool.new(timein: timein, timeout: timeout, number_of_people: capacity)
+  cabpool.localities = built_localities
+  cabpool.users = built_users
   cabpool.save!
 end
 

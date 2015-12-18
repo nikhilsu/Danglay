@@ -2,14 +2,16 @@ require 'rails_helper'
 
 RSpec.feature "NewCabpoolCreations", type: :feature do
   before(:each) do
-    page.set_rack_session(userid: 22)
-    page.set_rack_session(registered_uid: 22)
+    page.set_rack_session(userid: 100)
+    page.set_rack_session(registered_uid: 100)
     page.set_rack_session(FirstName: 'Deepika')
     page.set_rack_session(LastName: 'Vasudevan')
     page.set_rack_session(Email: 'vdeepika@thoughtworks.com')
   end
 
   scenario 'valid creation of cabpool', js: true do
+    visit root_path
+    page.assert_selector('div.glyphicon-bell', :count => 0)
     visit new_cabpool_path
     fill_in 'Capacity of Cab', with: ''
     fill_in 'Arrival time to office', with: ''
@@ -29,5 +31,6 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     page.execute_script "window.scrollBy(0,10000)"
     click_button 'Create a pool'
     expect(page.current_path).to eq '/'
+    page.assert_selector('div.glyphicon-bell', :count => 1)
   end
 end

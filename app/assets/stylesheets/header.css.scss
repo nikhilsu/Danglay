@@ -25,15 +25,36 @@ header {
   letter-spacing: -1px;
   padding-top: 9px;
   font-weight: bold;
-}
-
-#header-nav a {
-  &:hover, &:focus {
-    background: none;
-    text-decoration: underline;
+  &:focus {
+    color: white;
   }
 }
 
-#header-nav > li {
-  padding-top: 3%;
+#header-nav {
+
+  a {
+    background: none;
+    &:hover, &:focus {
+      text-decoration: underline;
+      color: white;
+    }
+  }
+
+  > li.dropdown.open  li a {
+    &:hover, &:focus {
+      color: $danglay-color;
+    }
+  }
+
+  > li.dropdown ul.dropdown-menu{
+      padding: 10px;
+  }
+
+  > li.dropdown ul.dropdown-menu li{
+    white-space: nowrap;
+  }
 }
+
+  #header-nav > li {
+    padding-top: 3%;
+  }
