@@ -17,10 +17,11 @@ end
 end
 
 User.create!(id: 100, name: 'Deepika Srinivasa Iyengar Varadarajan', email: 'vdeepika@thoughtworks.com', emp_id: '18078', address: "Blah on Mars", locality: Locality.first )
+User.create!(id: 101, name: 'Sandeep Hegde', email: 'sandeeph@thoughtworks.com', emp_id: '18071', address: "Blah on Mars", locality: Locality.first )
 
 current_localities = Locality.all
 current_users = User.all
-current_users = current_users.reject{ |user| user.id == 100 }
+current_users = current_users.reject{ |user| user.id == 100 || user.id == 101 }
 
 
 4.times do |cabpool_number|

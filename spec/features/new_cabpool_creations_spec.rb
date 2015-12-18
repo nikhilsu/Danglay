@@ -32,5 +32,24 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     click_button 'Create a pool'
     expect(page.current_path).to eq '/'
     page.assert_selector('div.glyphicon-bell', :count => 1)
+
+    page.set_rack_session(userid: 101)
+    page.set_rack_session(registered_uid: 101)
+    page.set_rack_session(FirstName: 'Sandeep')
+    page.set_rack_session(LastName: 'Hegde')
+    page.set_rack_session(Email: 'sandeeph@thoughtworks.com')
+
+    visit root_path
+    all("input[value='Join']")[-1].click
+
+    page.set_rack_session(userid: 100)
+    page.set_rack_session(registered_uid: 100)
+    page.set_rack_session(FirstName: 'Deepika')
+    page.set_rack_session(LastName: 'Vasudevan')
+    page.set_rack_session(Email: 'vdeepika@thoughtworks.com')
+
+    visit root_path
+    expect(page.body).to have_content("Sandeep Hegde has requested for a cabpool")
   end
 end
+
