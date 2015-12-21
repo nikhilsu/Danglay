@@ -42,6 +42,11 @@ RSpec.describe User, type: :model do
     expect(user.valid?).to be false
   end
 
+  it 'phone_no should not be have invalid characters' do
+    user = build(:user, :invalid_chars_phone_no)
+    expect(user.valid?).to be false
+  end
+
   it 'should be valid if everything is valid' do
     user = build(:user)
     expect(user.valid?).to be true

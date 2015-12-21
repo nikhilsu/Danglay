@@ -44,4 +44,8 @@ FactoryGirl.define do
     phone_no "01234567891011121314151617"
   end
 
+  trait :invalid_chars_phone_no do
+    phone_no "+91 456 xaaa56"
+  end
+
 end
