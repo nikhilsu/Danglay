@@ -64,8 +64,19 @@ div  > .form-horizontal .control-label {
   height: 20%;
 }
 
-#map {
+.map {
   height: 400px;
   margin-bottom: 20px;
   margin-right: 40px;
+}
+
+.map_show {
+  height: 100px;
+  margin: 10px;
+}
+
+.fullScreen {
+  height: 100%;
+  width: 100%;
+  z-index: 10;
 }

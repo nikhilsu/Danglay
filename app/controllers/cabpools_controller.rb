@@ -136,7 +136,7 @@ class CabpoolsController < ApplicationController
   end
 
   def cabpool_params
-    params.require(:cabpool).permit(:number_of_people, :timein, :timeout)
+    params.require(:cabpool).permit(:number_of_people, :timein, :timeout, :route)
   end
 
   def add_session_user_to_cabpool
