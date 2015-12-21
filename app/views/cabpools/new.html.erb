@@ -13,13 +13,14 @@
             <%= f.text_field :number_of_people, label: 'Capacity of Cab' %>
             <%= f.time_field :timein, label: 'Arrival time to office', placeholder: 'HH:MM' %>
             <%= f.time_field :timeout, label: 'Departure time from office', placeholder: 'HH:MM' %>
+            <%= f.hidden_field :route , value: '' %>
             <div class="form-group
                   <% unless @cabpool.errors[:localities].empty? %> has-error
                   <% end %> ">
               <label class="control-label col-md-3 required " for="user_locality">Route</label>
 
               <div class="col-md-5">
-                <span class="label-purple"><%= User.find_by_email(session[:Email]).locality.name %></span>
+                <span class="label-purple" id="locality"><%= User.find_by_email(session[:Email]).locality.name %></span>
                 <%= hidden_field_tag 'localities[source]', User.find_by_email(session[:Email]).locality.id %>
                 <div class="localityForm">
                   <label class="control-label col-md-3 required pull-left" for="user_locality">Via</label>
@@ -31,7 +32,7 @@
             </div>
 
             <div id="localitySelections"></div>
-            <div id="map" class="col-md-7 col-md-offset-3"></div>
+            <div id="map" class="map col-md-7 col-md-offset-3"></div>
             <%= f.submit "Create a pool", class: "btn center-block" %>
             <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuETg3lyde0IR6XSO1WhVZY69bAp5owcs&callback=initMap">

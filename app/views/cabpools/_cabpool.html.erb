@@ -30,6 +30,9 @@
       <% end %>
       <h4 class="center"> <%= destination %></h4>
     </div>
+    <%= hidden_field_tag 'route', cabpool.route %>
+    <div id="map" class="map_show col-md-2 pull-right" ondblclick="fullScreenMapDisplay(this,<%=cabpool.route%>)">
+    </div>
   </div>
   <div class="row">
     <div class="col-md-6">
@@ -56,5 +59,8 @@
             <% end %>
         <% end %>
     <% end %>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuETg3lyde0IR6XSO1WhVZY69bAp5owcs&callback=initMap_show">
+    </script>
   </div>
 </div>

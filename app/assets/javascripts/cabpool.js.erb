@@ -1,0 +1,143 @@
+var CabPoolListener = {
+    addListeners: function () {
+        var select_tag = $('div.localityForm').html();
+        $('div.localityForm:first').remove();
+        $('#addLocality').click(function () {
+            var number_of_locality_forms = $("div.localityForm").length;
+            if (number_of_locality_forms <= 3) {
+                var locality_form_with_remove_icon = '<div class="form-group"> ' +
+                    '<div class="localityForm col-md-5 col-md-offset-3">' + select_tag + '</div> ' +
+                    '<a href="javascript:;"><span class="glyphicon glyphicon-minus-sign" id="removeNewLocality"></span></a> ' +
+                    '</div>';
+                $('div#localitySelections').append(locality_form_with_remove_icon);
+                var select_the_last_locality_form = $('div.localityForm:last > select')
+                select_the_last_locality_form.attr('name', 'localities[' + $.now() + ']')
+                select_the_last_locality_form.selectize();
+
+                if (number_of_locality_forms == 3) {
+                    $(this).parent().hide();
+                }
+            }
+        });
+
+        $("div#localitySelections").on('click', '#removeNewLocality', function () {
+            $(this).closest('.form-group').remove();
+            var number_of_locality_forms = $("div.localityForm").length;
+            var add_locality_count = $("#addLocality").length;
+            if (number_of_locality_forms <= 4 && $('#addLocality').is(':hidden')) {
+                $('#addLocality').parent().show();
+            }
+        });
+    }
+};
+
+$(document).ready(function() {
+    CabPoolListener.addListeners();
+    $('#localities_search').selectize();
+});
+
+$(document).on('page:load', function() {
+    CabPoolListener.addListeners();
+    $('#localities_search').selectize();    
+});
+
+var directionsService, directionsDisplay;
+var data = {};
+var JSON_STRING = "";
+
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 14,
+    center: {lat: 12.9287258, lng: 77.6267284}
+  });
+  directionsService = new google.maps.DirectionsService;
+  directionsDisplay = new google.maps.DirectionsRenderer({
+    draggable: true,
+    map: map
+  });
+
+  data = {};
+  data.source = document.getElementById("locality").textContent + " Bangalore, Karnataka ";
+  data.destination = {lat: 12.9287258, lng: 77.6267284};
+  displayRoute(data.source , data.destination, directionsService, directionsDisplay);
+
+  directionsDisplay.addListener('directions_changed', function() {
+    computewaypoints();
+  });
+}
+
+function displayRoute(origin, destination, service, display) {
+  service.route({
+    origin: origin,
+    destination: destination,
+    travelMode: google.maps.TravelMode.DRIVING,
+    avoidTolls: true
+  }, function(response, status) {
+    if (status === google.maps.DirectionsStatus.OK) {
+      display.setDirections(response);
+    } else {
+      alert('Could not display directions due to: ' + status);
+    }
+  });
+}
+
+function computewaypoints() {
+    var w=[];
+    var waypoints = directionsDisplay.directions.routes[0].legs[0].via_waypoints;
+    for(var i=0;i<waypoints.length;i++) {
+        w[i] = [waypoints[i].lat(),waypoints[i].lng()];
+    }
+    data.waypoints = w;
+    data.source = directionsDisplay.directions.routes[0].legs[0].start_location;
+
+    JSON_STRING = JSON.stringify(data);
+    document.getElementById('cabpool_route').value = JSON_STRING;
+}
+
+function initMap_show() {
+  var maps = document.getElementsByClassName('map_show');
+  var datas = document.getElementsByName('route');
+  for(i=0; i< maps.length; i++) {
+    setMap(maps[i], 14, JSON.parse(datas[i].value));
+  }
+}
+
+function setroute(data, directionsService ,directionsDisplay)
+{
+  var wp = [];
+  for(var i=0;i<data.waypoints.length;i++)
+    wp[i] = {'location': new google.maps.LatLng(data.waypoints[i][0], data.waypoints[i][1]),'stopover':false }
+
+  directionsService.route({'origin':data.source,
+    'destination':data.destination,
+    'waypoints': wp,
+    'travelMode': google.maps.DirectionsTravelMode.DRIVING}
+    , function(response, status) {
+    if (status === google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+    } else {
+      alert('Could not display directions due to: ' + status);
+    }
+  });
+}
+
+function setMap(a_map,zoom,data) {
+  var map = new google.maps.Map(a_map, {zoom: zoom,center: {lat: 12.9287258, lng: 77.6267284}});
+  directionsService = new google.maps.DirectionsService;
+  directionsDisplay = new google.maps.DirectionsRenderer({
+    draggable: false,
+    map: map
+  });
+  setroute(data, directionsService, directionsDisplay);
+}
+
+function fullScreenMapDisplay(a, route){
+  if(a.className == 'map_show col-md-2 pull-right') {
+    a.className = 'fullScreen';
+    setMap(a,14,route);
+  }
+  else {
+    a.className = 'map_show col-md-2 pull-right';
+    setMap(a,14,route);
+  }
+}
