@@ -98,7 +98,10 @@ function initMap_show() {
   var maps = document.getElementsByClassName('map_show');
   var datas = document.getElementsByName('route');
   for(i=0; i< maps.length; i++) {
-    setMap(maps[i], 14, JSON.parse(datas[i].value));
+    if(datas[i].value != "") {
+      map_data = JSON.parse(datas[i].value);
+      setMap(maps[i], 14,map_data);
+    }
   }
 }
 
