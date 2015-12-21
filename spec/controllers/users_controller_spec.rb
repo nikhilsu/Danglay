@@ -27,7 +27,16 @@ RSpec.describe UsersController, type: :controller do
 
     it 'should render new page on invalid signup with blank address' do
       locality_id = create(:locality).id
-      post :create, :user => {emp_id: 12345, address: '', locality: locality_id }
+      post :create, :user => {emp_id: 12345, address: '', locality: locality_id, phone_no: '+91 9080706044' }
+      user = assigns(:user)
+
+      expect(response).to render_template('new')
+      expect(user.errors.any?).to be true
+    end
+
+    it 'should render new page on invalid signup with blank phone no' do
+      locality_id = create(:locality).id
+      post :create, :user => {emp_id: 12345, address: 'Address', locality: locality_id, phone_no: '' }
       user = assigns(:user)
 
       expect(response).to render_template('new')
@@ -35,7 +44,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'should render new page on invalid signup with blank locality' do
-      post :create, :user => { emp_id: 12345, address: 'Address', locality: '-1' }
+      post :create, :user => { emp_id: 12345, address: 'Address', locality: '-1', phone_no: '+91 9080706044' }
       user = assigns(:user)
 
       expect(response).to render_template('new')
@@ -43,7 +52,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'should render new page on invalid signup with correct new locality but other errors' do
-      post :create, :user => { emp_id: 12345, address: '', locality: '-1', other: 'New Locality' }
+      post :create, :user => { emp_id: 12345, address: '', locality: '-1', other: 'New Locality', phone_no: '+91 9080706044' }
       user = assigns(:user)
 
       expect(user.save).to be false
@@ -53,7 +62,7 @@ RSpec.describe UsersController, type: :controller do
 
     it 'should render new page on invalid signup with new locality which already exists' do
       locality = create(:locality)
-      post :create, :user => { emp_id: 12345, address: 'Address', locality: '-1', other: locality.name }
+      post :create, :user => { emp_id: 12345, address: 'Address', locality: '-1', other: locality.name, phone_no: '+91 9080706044' }
 
       user = assigns(:user)
 
@@ -63,7 +72,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'should render new page on invalid signup with correct new locality but other errors' do
-      post :create, :user => { name: 'User', emp_id: 12345, email: 'user@example', address: '', locality: '-1', other: 'New Locality' }
+      post :create, :user => { name: 'User', emp_id: 12345, email: 'user@example', address: '', locality: '-1', other: 'New Locality', phone_no: '+91 9080706044' }
 
       user = assigns(:user)
 
@@ -88,7 +97,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it "should set registered user id for a valid user signup" do
-      post :create, :user => { emp_id: 12345, address: 'Address', locality: '-1', other: 'New Locality' }
+      post :create, :user => { emp_id: 12345, address: 'Address', locality: '-1', other: 'New Locality', phone_no: '+91 9080706044' }
       user = assigns(:user)
 
       expect(session[:registered_uid]).to be user.id
@@ -103,7 +112,7 @@ RSpec.describe UsersController, type: :controller do
     it "should friendly redirect on new user creation" do
       session[:forward_url] = '/cabpool/new'
 
-      post :create, :user => { emp_id: 12345, address: 'Address', locality: '-1', other: 'New Locality' }
+      post :create, :user => { emp_id: 12345, address: 'Address', locality: '-1', other: 'New Locality', phone_no: '+91 9080706044' }
       expect(response).to redirect_to '/cabpool/new'
     end
 

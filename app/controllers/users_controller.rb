@@ -44,13 +44,13 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      allowed_params = params.require(:user).permit(:emp_id, :address)
+      allowed_params = params.require(:user).permit(:emp_id, :address, :phone_no)
       locality_id = params[:user][:locality]
       locality = Locality.find_by_id(locality_id)
       allowed_params.merge(locality: locality)
     end
 
-    def add_new_valid_locality
+  def add_new_valid_locality
       locality_id = params[:user][:locality]
       other_name = params[:user][:other]
       if locality_id == '-1'

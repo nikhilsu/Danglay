@@ -26,6 +26,7 @@ en:
         user:
           locality: "Locality"
           emp_id: "Employee ID"
+          phone_no: "Phone No"
 
         locality:
           name: "Locality Name"
@@ -48,6 +49,8 @@ en:
               emp_id:
                 blank: "This is required."
               address:
+                blank: "This is required."
+              phone_no:
                 blank: "This is required."
 
           cabpool:

@@ -13,11 +13,12 @@ end
   emp_id = Faker::Number.number(5)
   address = Faker::Address.street_address
   locality = Locality.all.sample
-  User.create!(name: name, email: email, emp_id: emp_id, address: address, locality: locality)
+  phone_no = Faker::PhoneNumber.phone_number
+  User.create!(name: name, email: email, emp_id: emp_id, address: address, locality: locality, "phone_no": phone_no)
 end
 
-User.create!(id: 100, name: 'Deepika Srinivasa Iyengar Varadarajan', email: 'vdeepika@thoughtworks.com', emp_id: '18078', address: "Blah on Mars", locality: Locality.first )
-User.create!(id: 101, name: 'Sandeep Hegde', email: 'sandeeph@thoughtworks.com', emp_id: '18071', address: "Blah on Mars", locality: Locality.first )
+User.create!(id: 100, name: 'Deepika Srinivasa Iyengar Varadarajan', email: 'vdeepika@thoughtworks.com', emp_id: '18078', address: "Blah on Mars", locality: Locality.first , phone_no: "+91 9080706021")
+User.create!(id: 101, name: 'Sandeep Hegde', email: 'sandeeph@thoughtworks.com', emp_id: '18071', address: "Blah on Mars", locality: Locality.first , phone_no: "+91 9080706033")
 
 current_localities = Locality.all
 current_users = User.all
