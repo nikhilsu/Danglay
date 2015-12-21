@@ -39,4 +39,9 @@ FactoryGirl.define do
   trait :without_phone_no do
     phone_no nil
   end
+
+  trait :greater_than_25_phone_no do
+    phone_no "01234567891011121314151617"
+  end
+
 end
