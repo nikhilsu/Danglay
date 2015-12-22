@@ -10,6 +10,10 @@ FactoryGirl.define do
     end
   end
 
+  trait :without_cabpool_type do
+    cabpool_type nil
+  end
+
   trait :without_number_of_people do
     number_of_people nil
   end

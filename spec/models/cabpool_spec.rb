@@ -52,6 +52,13 @@ RSpec.describe Cabpool, type: :model do
     expect(cabpool.valid?).to be false
   end
 
+  it 'cabpool_type should be there' do
+    cabpool = build(:cabpool, :without_cabpool_type)
+    cabpool_type = build(:cabpool_type)
+    cabpool.cabpool_type = cabpool_type
+    expect(cabpool.cabpool_type.name).to eq(cabpool_type.name)
+  end
+
   it 'Duplicate Localities should be invalid' do
     cabpool = build(:cabpool, :with_duplicate_localities)
     expect(cabpool.valid?).to be false

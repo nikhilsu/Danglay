@@ -11,10 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151221063231) do
+ActiveRecord::Schema.define(version: 20151222123823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cabpool_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "cabpools", force: :cascade do |t|
     t.integer  "number_of_people"
@@ -23,7 +29,10 @@ ActiveRecord::Schema.define(version: 20151221063231) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.string   "route"
+    t.integer  "cabpool_type_id"
   end
+
+  add_index "cabpools", ["cabpool_type_id"], name: "index_cabpools_on_cabpool_type_id", using: :btree
 
   create_table "cabpools_localities", force: :cascade do |t|
     t.integer "cabpool_id"
@@ -66,6 +75,7 @@ ActiveRecord::Schema.define(version: 20151221063231) do
   add_index "users", ["cabpool_id"], name: "index_users_on_cabpool_id", using: :btree
   add_index "users", ["locality_id"], name: "index_users_on_locality_id", using: :btree
 
+  add_foreign_key "cabpools", "cabpool_types"
   add_foreign_key "cabpools_localities", "cabpools"
   add_foreign_key "cabpools_localities", "localities"
   add_foreign_key "requests", "cabpools"

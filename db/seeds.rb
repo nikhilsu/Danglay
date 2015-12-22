@@ -1,10 +1,16 @@
 require 'json'
 
 localities = JSON.parse(File.read('localities/localitiesBangalore.json'))
+cabpool_types = JSON.parse(File.read('cabpool_type/cabpool_types.json'))
 
 localities.each do |locality|
   locality_name = locality["LOCATION"]
   Locality.create!(name: locality_name)
+end
+
+cabpool_types.each do |cabpool_type|
+  cabpool_type_name = cabpool_type["TYPE"]
+  CabpoolType.create!(name: cabpool_type_name)
 end
 
 20.times do
@@ -21,6 +27,7 @@ User.create!(id: 100, name: 'Deepika Srinivasa Iyengar Varadarajan', email: 'vde
 User.create!(id: 101, name: 'Sandeep Hegde', email: 'sandeeph@thoughtworks.com', emp_id: '18071', address: "Blah on Mars", locality: Locality.first , phone_no: "+91 9080706033")
 
 current_localities = Locality.all
+current_cabpool_types = CabpoolType.all
 current_users = User.all
 current_users = current_users.reject{ |user| user.id == 100 || user.id == 101 }
 
@@ -49,6 +56,7 @@ current_users = current_users.reject{ |user| user.id == 100 || user.id == 101 }
   cabpool = Cabpool.new(timein: timein, timeout: timeout, number_of_people: capacity)
   cabpool.localities = built_localities
   cabpool.users = built_users
+  cabpool.cabpool_type = current_cabpool_types.first
   cabpool.save!
 end
 

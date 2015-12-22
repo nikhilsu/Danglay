@@ -1,5 +1,6 @@
 class Cabpool < ActiveRecord::Base
 
+  belongs_to :cabpool_type
   has_and_belongs_to_many :localities
   has_many :users
   has_many :requests

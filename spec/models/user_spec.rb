@@ -9,6 +9,7 @@ RSpec.describe User, type: :model do
   it 'locality should be there' do
     user = build(:user)
     locality = build(:locality)
+    user.locality = locality
     expect(user.locality.name).to eq(locality.name)
   end
 
