@@ -37,9 +37,9 @@
   <div class="row">
     <div class="col-md-6">
       <% if cabpool.available_slots > 0 %>
-          <span class="label-purple">Available Slots: <%= cabpool.available_slots %></span>
+          <span class="label-purple"><%= cabpool.cabpool_type.name %> | Available Slots: <%= cabpool.available_slots %></span>
       <% else %>
-          <span class="label-purple">No available slots</span>
+          <span class="label-purple"><%= cabpool.cabpool_type.name %> | No available slots</span>
       <% end %>
     </div>
 
