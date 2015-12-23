@@ -1,3 +1,9 @@
+var directionsService, directionsDisplay, map;
+var data = {};
+var JSON_STRING = "";
+var marker_pointer=0;
+var marker = [];
+
 var CabPoolListener = {
     addListeners: function () {
         var select_tag = $('div.localityForm').html();
@@ -10,8 +16,11 @@ var CabPoolListener = {
                     '<a href="javascript:;"><span class="glyphicon glyphicon-minus-sign" id="removeNewLocality"></span></a> ' +
                     '</div>';
                 $('div#localitySelections').append(locality_form_with_remove_icon);
-                var select_the_last_locality_form = $('div.localityForm:last > select')
-                select_the_last_locality_form.attr('name', 'localities[' + $.now() + ']')
+                var select_the_last_locality_form = $('div.localityForm:last > select');
+                select_the_last_locality_form.change(function(){
+                  update_map();
+                });
+                select_the_last_locality_form.attr('name', 'localities[' + $.now() + ']');
                 select_the_last_locality_form.selectize();
 
                 if (number_of_locality_forms == 3) {
@@ -27,9 +36,40 @@ var CabPoolListener = {
             if (number_of_locality_forms <= 4 && $('#addLocality').is(':hidden')) {
                 $('#addLocality').parent().show();
             }
+            update_map();
         });
     }
 };
+
+function update_map() {
+  var options = document.getElementsByClassName('form-control selectized');
+  data.waypoints = [];
+  marker_pointer=0;
+  reset_markers();
+  for (var counter=0; counter < options.length; counter++)
+  {
+    reset_markers();
+    marker = [];
+    if(options[counter].textContent != ""){
+    var address = options[counter].textContent + ' Bengaluru, Karnataka';
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({'address': address}, function(results, status) {
+      if (status === google.maps.GeocoderStatus.OK) {
+      marker[marker_pointer] = new google.maps.Marker({
+                   map: map,
+                   position: results[0].geometry.location
+             });
+      data.waypoints[marker_pointer++] = [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
+      setroute(data, directionsService, directionsDisplay);
+      }
+      else {
+        alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+ }
+}
+  setroute(data, directionsService, directionsDisplay);
+}
 
 $(document).ready(function() {
     CabPoolListener.addListeners();
@@ -38,21 +78,16 @@ $(document).ready(function() {
 
 $(document).on('page:load', function() {
     CabPoolListener.addListeners();
-    $('#localities_search').selectize();    
+    $('#localities_search').selectize();
 });
 
-var directionsService, directionsDisplay;
-var data = {};
-var JSON_STRING = "";
-
 function initMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     zoom: 14,
     center: {lat: 12.9287258, lng: 77.6267284}
   });
   directionsService = new google.maps.DirectionsService;
   directionsDisplay = new google.maps.DirectionsRenderer({
-    draggable: true,
     map: map
   });
 
@@ -71,6 +106,10 @@ function displayRoute(origin, destination, service, display) {
     origin: origin,
     destination: destination,
     travelMode: google.maps.TravelMode.DRIVING,
+    transitOptions: {
+    routingPreference: google.maps.TransitRoutePreference.FEWER_TRANSFERS
+    },
+    optimizeWaypoints: true,
     avoidTolls: true
   }, function(response, status) {
     if (status === google.maps.DirectionsStatus.OK) {
@@ -142,5 +181,24 @@ function fullScreenMapDisplay(a, route){
   else {
     a.className = 'map_show col-md-2 pull-right';
     setMap(a,14,route);
+  }
+}
+
+function reset_map() {
+  reset_markers();
+  data.waypoints = [];
+  var number_of_locality_forms = $("div.localityForm").length;
+  var e = document.getElementById('localitySelections');
+  e.innerHTML = "";
+  if (number_of_locality_forms <= 4 && $('#addLocality').is(':hidden')) {
+      $('#addLocality').parent().show();
+  }
+  setroute(data, directionsService ,directionsDisplay);
+}
+
+function reset_markers() {
+  for(var marker_counter=0; marker_counter < marker.length; marker_counter++)
+  {
+    marker[marker_counter].setMap(null);
   }
 }
