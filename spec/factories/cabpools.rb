@@ -3,15 +3,13 @@ FactoryGirl.define do
     number_of_people 4
     timein '9:30'
     timeout '5:30'
+    association :cabpool_type, factory: :cabpool_type, strategy: :build
+
     after(:build) do |cabpool|
       3.times do
         cabpool.localities << FactoryGirl.build_stubbed(:locality, name: Faker::Address.street_name)
       end
     end
-  end
-
-  trait :without_cabpool_type do
-    cabpool_type nil
   end
 
   trait :without_number_of_people do
@@ -56,6 +54,10 @@ FactoryGirl.define do
 
   trait :time_in_pm do
     timeout '22:30'
+  end
+
+  trait :without_cabpool_type do
+    cabpool_type nil
   end
 
   trait :without_localities do

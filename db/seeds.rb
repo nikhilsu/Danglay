@@ -53,10 +53,9 @@ current_users = current_users.reject{ |user| user.id == 100 || user.id == 101 }
     current_users = current_users.reject{ |u| u.name == user.name }
   end
 
-  cabpool = Cabpool.new(timein: timein, timeout: timeout, number_of_people: capacity)
+  cabpool = Cabpool.new(timein: timein, timeout: timeout, number_of_people: capacity, cabpool_type: current_cabpool_types.first)
   cabpool.localities = built_localities
   cabpool.users = built_users
-  cabpool.cabpool_type = current_cabpool_types.first
   cabpool.save!
 end
 

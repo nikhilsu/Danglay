@@ -136,7 +136,12 @@ class CabpoolsController < ApplicationController
   end
 
   def cabpool_params
-    params.require(:cabpool).permit(:number_of_people, :timein, :timeout, :route)
+    allowed_params = params.require(:cabpool).permit(:number_of_people, :timein, :timeout, :route)
+    cabpool_type = CabpoolType.new
+    params[:cabpool_type].values.each do |cabpool_type_id|
+      cabpool_type = CabpoolType.find_by_id(cabpool_type_id)
+    end
+    allowed_params.merge(cabpool_type: cabpool_type)
   end
 
   def add_session_user_to_cabpool

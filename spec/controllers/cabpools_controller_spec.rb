@@ -53,42 +53,49 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(flash[:danger]).to eq "Select a locality"
   end
 
-
   it 'should render create cabpools page' do
     get :new
     expect(response).to render_template('new')
   end
 
   it 'should render new cabpool page when invalid number of people is entered' do
-    post :create, :cabpool => {number_of_people: 0, timein: "9:30", timeout: "2:30"}, :localities => {:locality_one_id => '1'}
+    post :create, :cabpool => {number_of_people: 0, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)
     expect(response).to render_template 'cabpools/new'
     expect(cabpool.errors.any?).to be true
   end
 
   it 'should render new cabpool page with errors when invalid params are passed' do
-    post :create, :cabpool => {gibbrish: 'hello'}, :localities => {:a => '1'}
+    post :create, :cabpool => {gibbrish: 'hello'}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:a => '1'}
     cabpool = assigns(:cabpool)
     expect(response).to render_template 'cabpools/new'
     expect(cabpool.errors.any?).to be true
   end
 
   it 'should render new carpool page with errors when no route is given' do
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :localities => {:locality_one_id => ''}
+    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => ''}
+    cabpool = assigns(:cabpool)
+    expect(response).to render_template 'cabpools/new'
+    expect(cabpool.errors.any?).to be true
+  end
+
+  it 'should render new carpool page with errors when no cabpool_type is given' do
+    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => ''}, :localities => {:locality_one_id => ''}
     cabpool = assigns(:cabpool)
     expect(response).to render_template 'cabpools/new'
     expect(cabpool.errors.any?).to be true
   end
 
   it 'should render new carpool page with errors when duplicate routes are given' do
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :localities => {:locality_one_id => '1', :locality_two_id => '1'}
+    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1', :locality_two_id => '1'}
     cabpool = assigns(:cabpool)
     expect(response).to render_template 'cabpools/new'
     expect(cabpool.errors.any?).to be true
   end
 
   it 'should render show cabpool page when valid details are entered' do
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :localities => {:locality_one_id => '1'}
+    cabpool_type = create(:cabpool_type).id
+    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)
     expect(response).to redirect_to root_url
     expect(cabpool.errors.any?).to be false
@@ -101,7 +108,7 @@ RSpec.describe CabpoolsController, type: :controller do
   end
 
   it 'should show respective success message when join is successful' do
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :localities => {:locality_one_id => '1'}
+    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
@@ -112,7 +119,8 @@ RSpec.describe CabpoolsController, type: :controller do
   end
 
   it 'should show respective error message when join is unsuccessful' do
-    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :localities => {:locality_one_id => '1'}
+     
+    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
@@ -125,7 +133,7 @@ RSpec.describe CabpoolsController, type: :controller do
   end
 
   it 'should show already requested for user who is already requested' do
-    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :localities => {:locality_one_id => '1'}
+    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)
     user = build(:user)
     request = build(:request)
@@ -137,7 +145,7 @@ RSpec.describe CabpoolsController, type: :controller do
   end
 
   it 'should send emails to cabpool users when a user joins that cabpool' do
-    post :create, :cabpool => {number_of_people: 4, timein: "9:30", timeout: "2:30"}, :localities => {:locality_one_id => '1'}
+    post :create, :cabpool => {number_of_people: 4, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)
     user = build(:user, :existing_user)
     cabpool.users = [build(:user)]
@@ -156,7 +164,7 @@ RSpec.describe CabpoolsController, type: :controller do
   end
 
   it 'should set the current user\'s cabppol to nil if the user leaves the cab pool and send email to existing members' do
-    post :create, :cabpool => {number_of_people: 3, timein: "9:30", timeout: "2:30"}, :localities => {:locality_one_id => '1'}
+    post :create, :cabpool => {number_of_people: 3, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)
     user = build(:user)
     user.cabpool = cabpool
@@ -171,7 +179,7 @@ RSpec.describe CabpoolsController, type: :controller do
   end
 
   it 'should set the current user\'s cabppol to nil if the user leaves the cab pool with no existing members in the cabpool' do
-    post :create, :cabpool => {number_of_people: 3, timein: "9:30", timeout: "2:30"}, :localities => {:locality_one_id => '1'}
+    post :create, :cabpool => {number_of_people: 3, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)
     before_count = Cabpool.all.count
     user = build(:user)

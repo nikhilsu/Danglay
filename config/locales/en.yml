@@ -64,3 +64,5 @@ en:
                 blank: "Invalid Format."
               route:
                 blank: "This is required."
+              cabpool_type:
+                blank: "This is required."

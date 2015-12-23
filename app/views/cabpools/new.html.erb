@@ -14,6 +14,17 @@
             <%= f.time_field :timein, label: 'Arrival time to office', placeholder: 'HH:MM' %>
             <%= f.time_field :timeout, label: 'Departure time from office', placeholder: 'HH:MM' %>
             <%= f.hidden_field :route , value: '' %>
+
+            <div id="cabpool_type" class="form-group
+                  <% unless @cabpool.errors[:cabpool_types].empty? %> has-error
+                  <% end %>">
+              <label class="control-label col-md-3 required" for="cabpool_type">Cabpool  Type</label>
+              <div class="col-md-7">
+                <%= collection_select(:cabpool_type, DateTime.now.strftime('%Q').to_i, CabpoolType.all, :id, :name, {prompt: true}, class: 'form-control cabpool_type') %>
+                <%= render 'shared/error_messages', errors: @cabpool.errors[:cabpool_types] if !@cabpool.errors[:cabpool_types].empty? %>
+              </div>
+            </div>
+
             <div class="form-group
                   <% unless @cabpool.errors[:localities].empty? %> has-error
                   <% end %> ">
