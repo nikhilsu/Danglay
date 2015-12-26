@@ -92,23 +92,30 @@ class CabpoolsController < ApplicationController
     end
   end
 
-  private
 
-  def reject_user user
-    Request.find_by_user_id(user.id).destroy!
-    send_email_to_rejected_user user
-    render 'request_reject'
-  end
-
-  def send_email_to_rejected_user(rejected_user)
-    CabpoolMailer.cabpool_approve_request(rejected_user).deliver_now
-  end
-
-  def send_email_to_cabpool_users_on_member_leaving(users,current_user)
-    users.collect do |user|
-      CabpoolMailer.cabpool_leave_notifier(user,current_user).deliver_now
+  def approve_via_notification
+    requested_users_id = params[:user_id]
+    user = User.find_by_email(session[:Email])
+    requested_user = User.find(requested_users_id)
+    if (user.cabpool.requested_users.exists?(:id => requested_users_id))
+      approve_user requested_user
+    else
+      render 'request_invalid'
     end
   end
+
+  def reject_via_notification
+    requested_users_id = params[:user_id]
+    user = User.find_by_email(session[:Email])
+    requested_user = User.find(requested_users_id)
+    if (user.cabpool.requested_users.exists?(:id => requested_users_id))
+        reject_user requested_user
+      else
+        render 'request_invalid'
+      end
+  end
+
+  private
 
   def approve_user user
     request = Request.find_by_user_id(user.id)
@@ -121,6 +128,23 @@ class CabpoolsController < ApplicationController
     request.destroy!
     send_email_to_approved_user user
     render 'request_accept'
+  end
+
+  def reject_user user
+    request = Request.find_by_user_id(user.id)
+    request.destroy!
+    send_email_to_rejected_user user
+    render 'request_reject'
+  end
+
+  def send_email_to_rejected_user(rejected_user)
+    CabpoolMailer.cabpool_approve_request(rejected_user).deliver_now
+  end
+
+  def send_email_to_cabpool_users_on_member_leaving(users,current_user)
+    users.collect do |user|
+      CabpoolMailer.cabpool_leave_notifier(user,current_user).deliver_now
+    end
   end
 
   def send_email_to_approved_user(approved_user)

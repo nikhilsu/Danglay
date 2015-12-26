@@ -258,4 +258,75 @@ RSpec.describe CabpoolsController, type: :controller do
     get :your_cabpools
     expect(response).to redirect_to root_path
   end
+
+  it 'should render accept message if request is accept via notification and user has requested for this cabpool' do
+    request = build(:request)
+    requested_user = request.user
+    cabpool = request.cabpool
+    user = build_stubbed(:user)
+    cabpool.users << [user]
+    cabpool.localities << [build_stubbed(:locality)]
+
+    allow(User).to receive(:find_by_email).and_return(user)
+    allow(User).to receive(:find_by_cabpool_id).and_return(cabpool)
+    allow(Request).to receive(:find_by_user_id).and_return(request)
+    allow(User).to receive(:find).and_return(requested_user)
+    allow(user.cabpool.requested_users).to receive(:exists?).and_return(true)
+    post :approve_via_notification, user: '2'
+    expect(response).to render_template 'cabpools/request_accept'
+  end
+
+  it 'should render invalid message if request is accept via notification and user has not requested for this cabpool' do
+    request = build(:request)
+    requested_user = request.user
+    cabpool = request.cabpool
+    user = build_stubbed(:user)
+    cabpool.users << [user]
+    cabpool.localities << [build_stubbed(:locality)]
+
+    allow(User).to receive(:find_by_email).and_return(user)
+    allow(User).to receive(:find_by_cabpool_id).and_return(cabpool)
+    allow(Request).to receive(:find_by_user_id).and_return(request)
+    allow(User).to receive(:find).and_return(requested_user)
+    allow(user.cabpool.requested_users).to receive(:exists?).and_return(false)
+    post :approve_via_notification, user: '2'
+    expect(response).to render_template 'cabpools/request_invalid'
+  end
+
+  it 'should render rejected message if request is reject via notification and user has requested for this cabpool' do
+    request = build(:request)
+    requested_user = request.user
+    cabpool = request.cabpool
+    user = build_stubbed(:user)
+    cabpool.users << [user]
+    cabpool.localities << [build_stubbed(:locality)]
+
+    allow(User).to receive(:find_by_email).and_return(user)
+    allow(User).to receive(:find_by_cabpool_id).and_return(cabpool)
+    allow(Request).to receive(:find_by_user_id).and_return(request)
+    allow(User).to receive(:find).and_return(requested_user)
+    allow(user.cabpool.requested_users).to receive(:exists?).and_return(true)
+
+    post :reject_via_notification, user: '2'
+    expect(response).to render_template 'cabpools/request_reject'
+  end
+
+  it 'should render rejected message if request is reject via notification and user has not requested for this cabpool' do
+    request = build(:request)
+    requested_user = request.user
+    cabpool = request.cabpool
+    user = build_stubbed(:user)
+    cabpool.users << [user]
+    cabpool.localities << [build_stubbed(:locality)]
+
+    allow(User).to receive(:find_by_email).and_return(user)
+    allow(User).to receive(:find_by_cabpool_id).and_return(cabpool)
+    allow(Request).to receive(:find_by_user_id).and_return(request)
+    allow(User).to receive(:find).and_return(requested_user)
+    allow(user.cabpool.requested_users).to receive(:exists?).and_return(false)
+
+    post :reject_via_notification, user: '2'
+    expect(response).to render_template 'cabpools/request_invalid'
+  end
+
 end

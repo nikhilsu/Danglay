@@ -16,3 +16,23 @@
 //= require bootstrap
 //= require_tree
 //= require selectize
+
+$('.dropdown-toggle').click(function() {
+    var dropdownList = $('.dropdown-menu');
+    var dropdownOffset = $(this).offset();
+    var offsetLeft = dropdownOffset.left;
+    var dropdownWidth = dropdownList.width();
+    var docWidth = $(window).width();
+
+    var subDropdown = $('.dropdown-menu').eq(1);
+    var subDropdownWidth = subDropdown.width();
+
+    var isDropdownVisible = (offsetLeft + dropdownWidth <= docWidth);
+    var isSubDropdownVisible = (offsetLeft + dropdownWidth + subDropdownWidth <= docWidth);
+
+    if (!isDropdownVisible || !isSubDropdownVisible) {
+        $('.dropdown-menu').addClass('pull-right');
+    } else {
+        $('.dropdown-menu').removeClass('pull-right');
+    }
+});
