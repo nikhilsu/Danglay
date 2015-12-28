@@ -24,7 +24,7 @@
                 <% else %>
                     <% current_user.cabpool.requested_users.each do |user| %>
                         <li  class = "notification-row" >
-                          <p><%= user.name %> has requested for a cabpool</p>
+                          <p><%= user.name %> from <%= user.locality.name%> has requested for a cabpool</p>
                           <div class = 'inline_block'>
                           <%=form_tag controller: "cabpools", action: "approve_via_notification", method: 'post'  do %>
                               <%= hidden_field_tag "user_id", user.id %>
