@@ -35,3 +35,10 @@ README
   **Run the following command to view the application in the browser.**
     $rails server
   **Now you can view the application at localhost:3000**
+
+##Building for mobile
+  **Install node and run the command `npm install -g cordova`
+  **Install xcode and android sdk 
+  **Go to path/to/project_folder/`danglay-mobile` run `cordova platform add ios` and `cordova platform add android`
+  **To build the project for mobile, run `rake build_mobile`
+  **To serve the project on mobile, run `rake serve_mobile`

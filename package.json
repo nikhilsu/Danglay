@@ -1,0 +1,23 @@
+{
+  "name": "danglay",
+  "version": "1.0.0",
+  "description": "Cabpool App",
+  "main": "index.js",
+  "scripts": {
+    "test": "rake all_test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@sifygitlab01.thoughtworks.com:cabapp/danglay.git"
+  },
+  "keywords": [
+    "Cabpool",
+    "App",
+    "Rails"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ios-sim": "^5.0.4"
+  }
+}
