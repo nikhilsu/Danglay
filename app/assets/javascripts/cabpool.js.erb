@@ -1,7 +1,5 @@
 var directionsService, directionsDisplay, map;
 var data = {};
-var marker_pointer=0;
-var marker = [];
 
 var CabPoolListener = {
     addListeners: function () {
@@ -41,29 +39,21 @@ var CabPoolListener = {
 var update_map = function() {
   var viaLocations = document.getElementsByClassName('form-control selectized');
   data.waypoints = [];
-  marker_pointer=0;
-  reset_markers();
   for (var counter=0; counter < viaLocations.length; counter++)
   {
-    reset_markers();
-    marker = [];
     if(viaLocations[counter].textContent != ""){
       var address = viaLocations[counter].textContent + ' Bengaluru, Karnataka';
       var geocoder = new google.maps.Geocoder();
       geocoder.geocode({'address': address}, geocodeCallback);
     }
   }
-  setroute(data, directionsService, directionsDisplay);
+  setroute();
 };
 
 var geocodeCallback = function(results, status) {
   if (status === google.maps.GeocoderStatus.OK) {
-    marker[marker_pointer] = new google.maps.Marker({
-      map: map,
-      position: results[0].geometry.location
-    });
-    data.waypoints[marker_pointer++] = [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
-    setroute(data, directionsService, directionsDisplay);
+    data.waypoints.push([results[0].geometry.location.lat(), results[0].geometry.location.lng()]);
+    setroute();
   }
   else {
     alert('Geocode was not successful for the following reason: ' + status);
@@ -96,7 +86,7 @@ function initMap() {
   displayRoute(data.source , data.destination, directionsService, directionsDisplay);
 
   directionsDisplay.addListener('directions_changed', function() {
-    computewaypoints();
+    updateWaypoints();
   });
 }
 
@@ -119,15 +109,7 @@ function displayRoute(origin, destination, service, display) {
   });
 }
 
-function computewaypoints() {
-    var w=[];
-    var waypoints = directionsDisplay.directions.routes[0].legs[0].via_waypoints;
-    for(var i=0;i<waypoints.length;i++) {
-        w[i] = [waypoints[i].lat(),waypoints[i].lng()];
-    }
-    data.waypoints = w;
-    data.source = directionsDisplay.directions.routes[0].legs[0].start_location;
-
+function updateWaypoints() {
     var JSON_STRING = JSON.stringify(data);
     document.getElementById('cabpool_route').value = JSON_STRING;
 }
@@ -143,16 +125,21 @@ function initMap_show() {
   }
 }
 
-function setroute(data, directionsService ,directionsDisplay)
+function setroute()
 {
   var wp = [];
   for(var i=0;i<data.waypoints.length;i++)
-    wp[i] = {'location': new google.maps.LatLng(data.waypoints[i][0], data.waypoints[i][1]),'stopover':false }
+    wp[i] = {'location': new google.maps.LatLng(data.waypoints[i][0], data.waypoints[i][1]),'stopover': true }
 
   directionsService.route({'origin':data.source,
     'destination':data.destination,
     'waypoints': wp,
-    'travelMode': google.maps.DirectionsTravelMode.DRIVING}
+    'travelMode': google.maps.DirectionsTravelMode.DRIVING,
+    transitOptions: {
+    routingPreference: google.maps.TransitRoutePreference.FEWER_TRANSFERS
+    },
+    optimizeWaypoints: true,
+  }
     , function(response, status) {
     if (status === google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(response);
@@ -169,7 +156,7 @@ function setMap(a_map,zoom,data) {
     draggable: false,
     map: map
   });
-  setroute(data, directionsService, directionsDisplay);
+  setroute();
 }
 
 function fullScreenMapDisplay(a, route){
@@ -184,18 +171,10 @@ function fullScreenMapDisplay(a, route){
 }
 
 function reset_map() {
-  reset_markers();
   data.waypoints = [];
   var number_of_locality_forms = $("div.localityForm").length;
   var localitySelectionsElement = document.getElementById('localitySelections');
   localitySelectionsElement.innerHTML = "";
   $('#addLocality').parent().show();
-  setroute(data, directionsService ,directionsDisplay);
-}
-
-function reset_markers() {
-  for(var marker_counter=0; marker_counter < marker.length; marker_counter++)
-  {
-    marker[marker_counter].setMap(null);
-  }
+  setroute();
 }

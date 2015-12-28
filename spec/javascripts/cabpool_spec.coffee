@@ -125,17 +125,9 @@ describe 'Google Maps', ->
     return
 
   it 'should set route when route is changed', ->
-    display = new google.maps.DirectionsRenderer({
-    draggable: true,
-    })
-    display.directions = Object {geocoded_waypoints: Array[2], routes: Array[1], status: "OK", request: Object}
-    display.directions.routes = [Object {copyrights: "Map data ©2015 Google", legs: Array[1], overview_polyline: "mv~mAc{txMtRkIrEqB`D{AnHiDpEqB`KoE|CmA|EaC|Aw@fBmA?_@Ba@fCwJxBeIrCuJOGHQnBiGpAaEDOQGaHgBlEsNyHeB", summary: "Hosur Rd and Sarjapur Main Rd"}]
-    display.directions.routes[0].legs = [Object {distance: Object, duration: Object, end_address: "866, 12th Main Rd, Koramangala 3 Block, Koramangala, Bengaluru, Karnataka 560034, India", start_address: "Adugodi, Bengaluru, Karnataka, India"}]
-    display.directions.routes[0].legs[0].via_waypoints = []
     spyOn(window, 'displayRoute')
     initMap()
-    directionsDisplay.directions = display.directions
-    computewaypoints()
+    updateWaypoints()
     expect($('#cabpool_route').val()).toEqual(JSON.stringify(data))
     return
 
@@ -158,10 +150,8 @@ describe 'Google Maps', ->
 
   it 'should reset map', ->
     spyOn(window, 'setroute')
-    spyOn(window, 'reset_markers')
     reset_map()
     expect(window.setroute).toHaveBeenCalled()
-    expect(window.reset_markers).toHaveBeenCalled()
     return
 
   return
