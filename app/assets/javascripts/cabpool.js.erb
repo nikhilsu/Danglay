@@ -119,8 +119,11 @@ function initMap_show() {
   var datas = document.getElementsByName('route');
   for(i=0; i< maps.length; i++) {
     if(datas[i].value != "") {
-      map_data = JSON.parse(datas[i].value);
-      setMap(maps[i], 14,map_data);
+      data = JSON.parse(datas[i].value);
+      if(!data.hasOwnProperty('waypoints')){
+        data.waypoints = [];
+      }
+      setMap(maps[i], 14,data);
     }
   }
 }
