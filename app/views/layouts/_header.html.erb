@@ -5,6 +5,9 @@
       <ul id="header-nav" , class="nav navbar-nav pull-right">
         <li><%= link_to "Home", root_path %></li>
 
+        <% if !is_registered? %>
+        <li><%= link_to "Update Profile", signup_path %> </li>
+        <% end %>
         <!-- -->
 
         <% if is_registered? && user_cabpool_exists? %>
