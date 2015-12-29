@@ -47,6 +47,8 @@ https://github.com/nikhilsu/meta
     $rails server
   **Now you can view the application at localhost:3000**
 
+
+
 ##Building for mobile
   **Install node and run the command `npm install -g cordova`
   **Install xcode and android sdk
