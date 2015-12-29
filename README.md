@@ -22,6 +22,17 @@ README
       Mac OS X: https://gorails.com/setup/osx/10.10-yosemite
       Ubuntu 12.04: https://www.digitalocean.com/community/tutorials/how-to-install-ruby-on-rails-on-ubuntu-12-04-lts-precise-pangolin-with-rvm*
 
+#Before Building
+
+**Clone and follow instructions in the given README.md for the following repositories.**
+
+      *To view the go server*
+
+https://github.com/nikhilsu/ip
+
+      *To initialize okta meta data*
+      
+https://github.com/nikhilsu/meta
 
 
 #Building the application
