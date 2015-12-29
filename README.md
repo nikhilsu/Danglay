@@ -31,7 +31,7 @@ README
 https://github.com/nikhilsu/ip
 
       *To initialize okta meta data*
-      
+
 https://github.com/nikhilsu/meta
 
 
@@ -40,7 +40,7 @@ https://github.com/nikhilsu/meta
     $cd <path-to-project-directory>
     $bundle update
     $bundle install
-    $bundle exec rake clean_test
+    $bundle exec rake all_test
 
 ##Running the application##
   **Run the following command to view the application in the browser.**
@@ -49,7 +49,7 @@ https://github.com/nikhilsu/meta
 
 ##Building for mobile
   **Install node and run the command `npm install -g cordova`
-  **Install xcode and android sdk 
+  **Install xcode and android sdk
   **Go to path/to/project_folder/`danglay-mobile` run `cordova platform add ios` and `cordova platform add android`
   **To build the project for mobile, run `rake build_mobile`
   **To serve the project on mobile, run `rake serve_mobile`
