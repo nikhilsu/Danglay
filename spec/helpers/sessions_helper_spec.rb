@@ -13,6 +13,13 @@ RSpec.describe SessionsHelper, type: :helper do
       session[:forward_url]
       allow(request).to receive(:get?).and_return(false)
       store_location
+    end
+
+    it 'should return nil and destroy forward url if not get' do
+      allow(request).to receive(:get?).and_return(false)
+      session[:forward_url] = "anything"
+      store_location
+      expect(store_location).to eq nil
       expect(session[:forward_url]).to eq nil
     end
 
