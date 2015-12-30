@@ -9,9 +9,11 @@ RSpec.describe SessionsHelper, type: :helper do
       expect(store_location).to eq 'host.com'
     end
 
-    it 'should return nil if not get' do
+    it 'should delete the forward_url in the session if not get' do
+      session[:forward_url]
       allow(request).to receive(:get?).and_return(false)
-      expect(store_location).to eq nil
+      store_location
+      expect(session[:forward_url]).to eq nil
     end
 
     it 'should return true if user logged in' do

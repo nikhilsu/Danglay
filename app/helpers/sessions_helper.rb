@@ -1,7 +1,11 @@
 module SessionsHelper
 
   def store_location
-    session[:forward_url] = request.url if request.get?
+    if request.get?
+      session[:forward_url] = request.url
+    else
+      session.delete(:forward_url)
+    end
   end
 
   def is_logged_in?
