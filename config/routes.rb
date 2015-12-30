@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   post 'approve_via_notification' => 'cabpools#approve_via_notification'
   post 'reject_via_notification' => 'cabpools#reject_via_notification'
   get 'your_cabpools' => 'cabpools#your_cabpools'
+  get 'edit' => 'users#edit'
   #If Feature toggle is to be used for a specific action
   # if FEATURES.active?('user_feature')
   #   get 'users/new', to: 'users#new'

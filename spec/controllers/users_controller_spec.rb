@@ -116,5 +116,37 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to redirect_to '/cabpool/new'
     end
 
+    it "should render edit profile page" do
+      get :edit
+
+      expect(response).to render_template('edit')
+    end
+
+    it "should render edit profile page if there are errors while editing profile" do
+      post :create, :user => { emp_id: 12345, address: 'Address', locality: '-1', other: 'New Locality', phone_no: '+91 9080706044' }
+      user = assigns(:user)
+
+      get :edit, :id => user.id
+      patch :update,  :id => user.id, :user => { emp_id: 12345, address: ' ', locality: '-1', other: '', phone_no: 'abc' }
+      user = assigns(:user)
+
+      expect(user.errors.any?).to be true
+    end
+
+    it "should render home page if there are no errors while editing profile" do
+      post :create, :user => { emp_id: 12345, address: 'Address', locality: '-1', other: 'New Locality', phone_no: '+91 9080706044' }
+      user = assigns(:user)
+
+      expect(user.address).to eq 'Address'
+
+      get :edit, id: user.id
+      patch :update, :id => user.id, :user => { emp_id: 12345, address: 'Some New Address', locality: '1', phone_no: '9736484247', }
+      user = assigns(:user)
+
+      expect(user.address).to eq 'Some New Address'
+      expect(user.errors.any?).to be false
+      expect(response).to redirect_to(root_url)
+     end
+
   end
 end

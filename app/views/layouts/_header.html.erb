@@ -6,7 +6,11 @@
         <li><%= link_to "Home", root_path %></li>
 
         <% if !is_registered? %>
-        <li><%= link_to "Update Profile", signup_path %> </li>
+          <li><%= link_to "Update Profile", signup_path %> </li>
+
+        <% else %>
+          <li><%= link_to "Edit Profile", edit_path(current_user) %> </li>
+
         <% end %>
         <!-- -->
 

@@ -30,6 +30,22 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def edit
+    @user = current_user
+    @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
+  end
+
+  def update
+    @user = current_user
+    @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
+      if (@user.update_attributes(user_params))
+        flash[:success] = "Profile updated"
+        redirect_to root_path
+    else
+      render 'edit'
+    end
+  end
+
   private
 
     def not_registered?
