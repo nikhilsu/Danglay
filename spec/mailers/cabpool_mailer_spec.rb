@@ -74,4 +74,19 @@ RSpec.describe CabpoolMailer, type: :mailer do
       expect(mail.body.encoded).to include "has left your carpool."
     end
   end
+
+  describe "admin mail notifier" do
+    let(:mail) {
+      @user = build(:user)
+      @user.cabpool = build(:cabpool)
+      locality = build_stubbed(:locality)
+      localities = [locality, locality]
+      allow(@user.cabpool).to receive(:ordered_localities).and_return(localities)
+      CabpoolMailer.admin_notifier_for_new_cabpool(@user)
+    }
+
+    it 'should send mail to admin' do
+      expect(mail.subject).to eq('A new cabpool is created!')
+    end
+  end
 end

@@ -27,4 +27,11 @@ class CabpoolMailer < ApplicationMailer
     @left_user = left_user
     mail to: user.email, subject: 'Someone has left your cabpool!'
   end
+
+  def admin_notifier_for_new_cabpool(user)
+    @locality = user.cabpool.ordered_localities.first.name
+    @cabpool = user.cabpool.id
+
+    mail to: "thejasb99@gmail.com", subject: "A new cabpool is created!"
+  end
 end

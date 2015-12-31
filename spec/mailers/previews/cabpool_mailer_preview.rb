@@ -23,4 +23,8 @@ class CabpoolMailerPreview < ActionMailer::Preview
     CabpoolMailer.cabpool_leave_notifier(User.first, User.second)
   end
 
+# Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/admin_notifier_for_new_cabpool
+  def admin_notifier_for_new_cabpool
+    CabpoolMailer.admin_notifier_for_new_cabpool(User.first)
+  end
 end

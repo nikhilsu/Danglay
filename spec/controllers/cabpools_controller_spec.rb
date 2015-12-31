@@ -327,6 +327,29 @@ RSpec.describe CabpoolsController, type: :controller do
 
     post :reject_via_notification, user: '2'
     expect(response).to render_template 'cabpools/request_invalid'
+
+  end
+
+  it 'should render Accept message and send email to admin saying a new cabpool is created when number of people in the cab is 2' do
+    request = build_stubbed(:request)
+    locality = build_stubbed(:locality)
+    user = request.user
+    locality.name = "blah"
+    localities = [locality, locality]
+    cabpool = request.cabpool
+    user.cabpool = cabpool
+    allow(user).to receive(:save).and_return(true)
+    allow(request).to receive(:destroy!).and_return(true)
+    allow(User).to receive(:find).and_return(user)
+    allow(Request).to receive(:find_by_user_id).and_return(request)
+    allow(user.cabpool).to receive(:ordered_localities).and_return(localities)
+    allow(user.cabpool.ordered_localities).to receive(:first).and_return(locality)
+    allow(user.cabpool).to receive(:id).and_return(1)
+    allow(request).to receive(:approve_digest).and_return("ABCD")
+    allow(request.cabpool.users).to receive(:count).and_return 2
+    get :approve_reject_handler, approve: "true", token: "ABCD", user: '1'
+    expect(ActionMailer::Base.deliveries.size).to eq 2
+    expect(response).to render_template 'request_accept'
   end
 
 end
