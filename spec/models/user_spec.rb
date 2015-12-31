@@ -62,4 +62,11 @@ RSpec.describe User, type: :model do
     user.requests = [r1, r2]
     expect(user.valid?).to be false
   end
+
+  it "emp_id cannot be re-written" do
+    user = build(:user)
+    expect{
+      user.update_attribute(:emp_id, 1921)
+    }.to raise_error(ActiveRecord::ActiveRecordError, 'emp_id is marked as readonly')
+  end
 end

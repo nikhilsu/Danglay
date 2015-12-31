@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :requested_cabpools, through: :requests, source: :cabpool
   validates_presence_of :emp_id, :name, :email, :address, :locality, :phone_no
   validate :only_one_request, :validate_phone_no
+  attr_readonly :emp_id
 
   private
 
@@ -31,4 +32,5 @@ class User < ActiveRecord::Base
       errors.add(:requests, "Already requested")
     end
   end
+
 end
