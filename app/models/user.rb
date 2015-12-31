@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
+  before_create :set_default_role
   belongs_to :locality
   belongs_to :cabpool
+  belongs_to :role
   has_many :requests
   has_many :requested_cabpools, through: :requests, source: :cabpool
   validates_presence_of :emp_id, :name, :email, :address, :locality, :phone_no
@@ -31,6 +33,11 @@ class User < ActiveRecord::Base
     if requests.size > 1
       errors.add(:requests, "Already requested")
     end
+  end
+
+  private
+  def set_default_role
+    self.role ||= Role.find_by_name('user')
   end
 
 end

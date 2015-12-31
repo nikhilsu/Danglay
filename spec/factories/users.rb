@@ -48,4 +48,8 @@ FactoryGirl.define do
     phone_no "+91 456 xaaa56"
   end
 
+  trait :with_admin_role do
+    association :role, factory: [:role, :admin_role], strategy: :build
+  end
+
 end

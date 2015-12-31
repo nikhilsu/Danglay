@@ -69,4 +69,14 @@ RSpec.describe User, type: :model do
       user.update_attribute(:emp_id, 1921)
     }.to raise_error(ActiveRecord::ActiveRecordError, 'emp_id is marked as readonly')
   end
+
+  it 'should have default role as user' do
+    user = create(:user)
+    expect(user.role.name).to eq "user"
+  end
+
+  it 'should have role as admin if user with admin role is created' do
+    user = create(:user, :with_admin_role)
+    expect(user.role.name).to eq "admin"
+  end
 end
