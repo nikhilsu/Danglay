@@ -123,5 +123,22 @@ RSpec.describe CabpoolMailer, type: :mailer do
         expect(mail.subject).to eq("A Cabpool is inactive")
         expect(mail.to).to include("sandeeph@thoughtworks.com")
       end
+    end
+
+  describe "admin mail when a user leaves" do
+    let(:mail) {
+      @user = build(:user)
+      @user.cabpool = build(:cabpool)
+      locality = build_stubbed(:locality)
+      localities = [locality, locality]
+      allow(@user.cabpool).to receive(:ordered_localities).and_return(localities)
+      CabpoolMailer.admin_notifier_for_member_leaving(@user.cabpool, @user)
+
+    }
+
+    it 'should send mail to admin about new user' do
+      expect(mail.subject).to eq("A member is leaving the cabpool")
+      expect(mail.to).to include("sandeeph@thoughtworks.com")
+    end
   end
 end

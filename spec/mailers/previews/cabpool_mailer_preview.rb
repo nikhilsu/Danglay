@@ -37,4 +37,9 @@ class CabpoolMailerPreview < ActionMailer::Preview
   def admin_notifier_for_invalid_cabpool
     CabpoolMailer.admin_notifier_for_invalid_cabpool(Cabpool.first)
   end
+
+# Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/admin_notifier_for_member_leaving
+  def admin_notifier_for_member_leaving
+    CabpoolMailer.admin_notifier_for_member_leaving(Cabpool.first, User.first)
+  end
 end

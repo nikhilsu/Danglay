@@ -16,6 +16,10 @@ FactoryGirl.define do
     locality { FactoryGirl.build(:locality, :another_locality) }
   end
 
+  trait :yet_another_user do
+    locality { FactoryGirl.build(:locality, :another_locality) }
+  end
+
   trait :without_name do
     name ""
   end

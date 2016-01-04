@@ -17,8 +17,10 @@ class CabpoolsController < ApplicationController
       current_user_cabpool.destroy
     elsif current_user_cabpool.users.size == 1
       send_email_to_admin_about_invalid_cabpool(current_user_cabpool)
+      send_email_to_cabpool_users_on_member_leaving(users,current_user)
     else
       send_email_to_cabpool_users_on_member_leaving(users,current_user)
+      send_email_to_admin_when_user_leaves(users, current_user)
     end
     flash[:success] = "You have left your cab pool."
     redirect_to root_url
@@ -159,6 +161,11 @@ class CabpoolsController < ApplicationController
 
   def send_email_to_rejected_user(rejected_user)
     CabpoolMailer.cabpool_approve_request(rejected_user).deliver_now
+  end
+
+  def send_email_to_admin_when_user_leaves(users, leaving_user)
+    cabpool = users.first.cabpool
+    CabpoolMailer.admin_notifier_for_member_leaving(cabpool, leaving_user).deliver_now
   end
 
   def send_email_to_cabpool_users_on_member_leaving(users,current_user)

@@ -168,10 +168,12 @@ RSpec.describe CabpoolsController, type: :controller do
     cabpool = assigns(:cabpool)
     user = build(:user)
     user.cabpool = cabpool
+    another_user = build(:user, :another_user)
+    cabpool.users << another_user
     allow(User).to receive(:find_by).and_return(user)
     allow(cabpool.users).to receive(:size).and_return(1)
     post :leave
-    expect(ActionMailer::Base.deliveries.size).to eq 1
+    expect(ActionMailer::Base.deliveries.size).to eq 2
   end
 
 
@@ -181,12 +183,14 @@ RSpec.describe CabpoolsController, type: :controller do
     user = build(:user)
     user.cabpool = cabpool
     another_user = build(:user, :another_user)
+    user_two = build(:user, :yet_another_user)
     cabpool.users << another_user
+    cabpool.users << user_two
     allow(User).to receive(:find_by).and_return(user)
 
     post :leave
     expect(current_user.cabpool).to eq nil
-    expect(ActionMailer::Base.deliveries.size).to eq 1
+    expect(ActionMailer::Base.deliveries.size).to eq 3
     expect(flash[:success]).to eq 'You have left your cab pool.'
   end
 
@@ -384,6 +388,5 @@ RSpec.describe CabpoolsController, type: :controller do
     get :approve_reject_handler, approve: "true", token: "ABCD", user: '1'
     expect(ActionMailer::Base.deliveries.size).to eq 2
     expect(response).to render_template 'request_accept'
-
   end
 end
