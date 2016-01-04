@@ -9,6 +9,12 @@
     "installed_plugins": {
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.thoughtworks.danglay"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.thoughtworks.danglay"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.thoughtworks.danglay"
         }
     },
     "dependent_plugins": {}

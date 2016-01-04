@@ -27,13 +27,29 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        document.addEventListener('offline', this.onOffline, false);
+        document.addEventListener('online', this.onOnline, false);
+    },
+    onOffline: function(){
+        setTimeout(function(){
+            document.getElementById('spinner-image').style.display = 'none';
+            document.getElementById('offline').style.display = 'block';
+        }, 3000);
+    },
+    onOnline: function(){
+        setTimeout(function(){
+        window.location = "http://danglay-dev-qeu3mjhpby.elasticbeanstalk.com"
+        }, 1000);
     },
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        app.receivedEvent('deviceready');
+        setTimeout(function() {
+            navigator.splashscreen.hide();
+        }, 1000);
+
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
