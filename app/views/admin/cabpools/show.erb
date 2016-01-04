@@ -1,0 +1,10 @@
+<h1>Welcome Admin</h1>
+<div>
+  <%= form_tag show_cabpools_path do %>
+      <div class='form-group col-md-4'>
+        <%= collection_select(:localities, :search, Locality.all, :id, :name, {prompt: true}) %>
+      </div>
+      <%= submit_tag "Search", class: "btn" %>
+  <% end %>
+  <%= render @cabpools %>
+</div>

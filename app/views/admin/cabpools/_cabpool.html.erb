@@ -1,0 +1,50 @@
+<div class="container-fluid show-cabpools">
+  <div class="row">
+    <div class="col-md-10 col-sm-6 col-xs-6">
+      <div class="row">
+          <span class="col-md-3 col-sm-12 col-xs-12" title="Destination">
+            <%= image_tag 'navigate.png', :class => 'cabpool-img' %>
+            <%= cabpool.ordered_localities.first.name %>
+          </span>
+          <span class="col-md-3 col-sm-12 col-xs-12 col-md-offset-2" title="Arrival time to office">
+            <%= image_tag 'clock.png', :class => 'cabpool-img' %>
+            <%= formatted_time(cabpool.timein) %>
+          </span>
+          <span class="col-md-3 col-sm-12 col-xs-12" title="Departure time from office">
+            <%= image_tag 'clock.png', :class => 'cabpool-img' %>
+            <%= formatted_time(cabpool.timeout) %>
+          </span>
+      </div>
+      <% cabpool.users.each do |user| %>
+          <div class="row">
+            <div class="col-md-5 col-sm-12 col-xs-12"><%= user.name %></div>
+            <div class="col-md-5 col-sm-12 col-xs-12"><%= user.phone_no %></div>
+          </div>
+      <% end %>
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-6">
+      <% cabpool.ordered_localities.each do |locality| %>
+          <h4 class="center"> <%= locality.name %> </h4>
+
+          <div class="glyphicon glyphicon-arrow-down center-block center"></div>
+      <% end %>
+      <h4 class="center"> <%= destination %></h4>
+    </div>
+    <%= hidden_field_tag 'route', cabpool.route %>
+    <div id="map" class="map_show col-md-2 pull-right" ondblclick="fullScreenMapDisplay(this,<%=cabpool.route%>)">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <% if cabpool.available_slots > 0 %>
+          <span class="label-purple"><%= cabpool.cabpool_type.name %> | Available Slots: <%= cabpool.available_slots %></span>
+      <% else %>
+          <span class="label-purple"><%= cabpool.cabpool_type.name %> | No available slots</span>
+      <% end %>
+    </div>
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuETg3lyde0IR6XSO1WhVZY69bAp5owcs&callback=initMap_show">
+    </script>
+  </div>
+</div>
