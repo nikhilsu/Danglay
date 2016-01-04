@@ -19,7 +19,6 @@ RSpec.describe SessionsHelper, type: :helper do
       allow(request).to receive(:get?).and_return(false)
       session[:forward_url] = "anything"
       store_location
-      expect(store_location).to eq nil
       expect(session[:forward_url]).to eq nil
     end
 

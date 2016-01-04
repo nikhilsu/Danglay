@@ -63,7 +63,7 @@ RSpec.describe SamlController, type: :controller do
 
   it "should set registered user id for a registered user" do
     locality = create(:locality)
-    user = User.create(id: 10, name: "thejas", emp_id: 12345, address: 'blah', locality: locality, email: 'thejasb@thoughtworks.com')
+    user = User.create(name: "thejas", emp_id: 12345, address: 'blah', locality: locality, email: 'thejasb@thoughtworks.com')
     stub_response = OneLogin::RubySaml::Response.new(valid_response)
     allow(OneLogin::RubySaml::Response).to receive(:new).and_return(stub_response)
     allow(stub_response).to receive(:is_valid?).and_return(true)
