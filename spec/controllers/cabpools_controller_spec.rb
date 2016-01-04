@@ -163,6 +163,18 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to redirect_to root_path
   end
 
+  it "should send inactive email to admin when cabpool has only 1 memeber in it" do
+    post :create, :cabpool => {number_of_people: 3, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
+    cabpool = assigns(:cabpool)
+    user = build(:user)
+    user.cabpool = cabpool
+    allow(User).to receive(:find_by).and_return(user)
+    allow(cabpool.users).to receive(:size).and_return(1)
+    post :leave
+    expect(ActionMailer::Base.deliveries.size).to eq 1
+  end
+
+
   it 'should set the current user\'s cabppol to nil if the user leaves the cab pool and send email to existing members' do
     post :create, :cabpool => {number_of_people: 3, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)

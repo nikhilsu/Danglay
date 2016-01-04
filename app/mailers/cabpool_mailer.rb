@@ -49,4 +49,14 @@ class CabpoolMailer < ApplicationMailer
     admins.each do |admin| emails << admin.email end
     mail to: emails , subject: "A new member has joined a cabpool"
   end
+
+  def admin_notifier_for_invalid_cabpool deleting_cabpool
+    @cabpool = deleting_cabpool.id
+
+    admins = Role.find_by_name("admin").users
+    emails = []
+    admins.each do |admin| emails << admin.email end
+    mail to: emails , subject: "A Cabpool is inactive"
+
+  end
 end

@@ -15,6 +15,8 @@ class CabpoolsController < ApplicationController
     users = current_user_cabpool.users
     if current_user_cabpool.users.size == 0
       current_user_cabpool.destroy
+    elsif current_user_cabpool.users.size == 1
+      send_email_to_admin_about_invalid_cabpool(current_user_cabpool)
     else
       send_email_to_cabpool_users_on_member_leaving(users,current_user)
     end
@@ -142,6 +144,10 @@ class CabpoolsController < ApplicationController
 
   def send_email_to_admin_about_new_cabpool joining_user
     CabpoolMailer.admin_notifier_for_new_cabpool(joining_user).deliver_now
+  end
+
+  def send_email_to_admin_about_invalid_cabpool deleting_cabpool
+    CabpoolMailer.admin_notifier_for_invalid_cabpool(deleting_cabpool).deliver_now
   end
 
   def reject_user user
