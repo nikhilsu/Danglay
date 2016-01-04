@@ -127,10 +127,17 @@ class CabpoolsController < ApplicationController
     user.save
     request.destroy!
     send_email_to_approved_user user
+
     if request.cabpool.users.count == 2
        send_email_to_admin_about_new_cabpool user
+    else
+       send_email_to_admin_about_new_user user
     end
     render 'request_accept'
+  end
+
+  def send_email_to_admin_about_new_user joining_user
+    CabpoolMailer.admin_notifier_for_new_user(joining_user).deliver_now
   end
 
   def send_email_to_admin_about_new_cabpool joining_user
@@ -203,5 +210,6 @@ class CabpoolsController < ApplicationController
     if current_user.cabpool.nil? && current_user.requested_cabpools.empty?
       redirect_to root_url
     end
+
   end
 end

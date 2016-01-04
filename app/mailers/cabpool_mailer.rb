@@ -32,6 +32,21 @@ class CabpoolMailer < ApplicationMailer
     @locality = user.cabpool.ordered_localities.first.name
     @cabpool = user.cabpool.id
 
-    mail to: "thejasb99@gmail.com", subject: "A new cabpool is created!"
+    admins = Role.find_by_name("admin").users
+    emails = []
+    admins.each do |admin| emails << admin.email end
+
+    mail to: emails , subject: "A new cabpool is created!"
+  end
+
+  def admin_notifier_for_new_user(user)
+    @username = user.name
+    @locality = user.locality.name
+    @cabpool = user.cabpool_id
+
+    admins = Role.find_by_name("admin").users
+    emails = []
+    admins.each do |admin| emails << admin.email end
+    mail to: emails , subject: "A new member has joined a cabpool"
   end
 end

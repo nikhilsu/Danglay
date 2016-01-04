@@ -85,8 +85,27 @@ RSpec.describe CabpoolMailer, type: :mailer do
       CabpoolMailer.admin_notifier_for_new_cabpool(@user)
     }
 
-    it 'should send mail to admin' do
+    it 'should send mail to admin when new cabpool is created' do
       expect(mail.subject).to eq('A new cabpool is created!')
+      expect(mail.to).to include("sandeeph@thoughtworks.com")
+    end
+
+  end
+
+  describe "admin mail for new member" do
+    let(:mail) {
+      @user = build(:user)
+      @user.cabpool = build(:cabpool)
+      locality = build_stubbed(:locality)
+      localities = [locality, locality]
+      allow(@user.cabpool).to receive(:ordered_localities).and_return(localities)
+      CabpoolMailer.admin_notifier_for_new_user(@user)
+    }
+
+    it 'should send mail to admin about new user' do
+
+      expect(mail.subject).to eq('A new member has joined a cabpool')
+      expect(mail.to).to include("sandeeph@thoughtworks.com")
     end
   end
 end
