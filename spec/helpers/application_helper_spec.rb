@@ -24,4 +24,25 @@ RSpec.describe CabpoolsHelper, type: :helper do
 
     expect(is_admin?).to be true
   end
+
+  it 'should return current users cabpools requested users number if user status is nil' do
+    user = build(:user)
+    cabpool = build(:cabpool)
+    cabpool.requested_users = [user]
+    user.cabpool = cabpool
+    allow(User).to receive(:find_by).and_return(user)
+
+    expect(number_of_notifications).to eq 1
+  end
+
+  it 'should return current users cabpools requested users number plus 1 if user status is not nil' do
+    user = build(:user)
+    cabpool = build(:cabpool)
+    cabpool.requested_users = [user]
+    user.cabpool = cabpool
+    user.status = 'approved'
+    allow(User).to receive(:find_by).and_return(user)
+
+    expect(number_of_notifications).to eq 2
+  end
 end

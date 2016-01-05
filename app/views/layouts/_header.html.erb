@@ -18,9 +18,9 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <div class="glyphicon glyphicon-bell">
-                  <% if current_user.cabpool.requested_users.size != 0 %>
+                  <% if number_of_notifications != 0 %>
                     <span class='badge badge_notify'>
-                      <%= current_user.cabpool.requested_users.size %>
+                      <%= number_of_notifications %>
                     </span>
                   <% end %>
                 </div>
