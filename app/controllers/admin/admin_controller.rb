@@ -6,5 +6,4 @@ class Admin::AdminController < ApplicationController
       render 'custom_errors/not_found_error'
     end
   end
-
 end
