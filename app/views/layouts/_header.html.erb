@@ -6,10 +6,10 @@
         <li><%= link_to "Home", root_path %></li>
 
         <% if !is_registered? %>
-          <li><%= link_to "Update Profile", signup_path %> </li>
+            <li><%= link_to "Update Profile", signup_path %> </li>
 
         <% else %>
-          <li><%= link_to "Edit Profile", edit_path(current_user) %> </li>
+            <li><%= link_to "Edit Profile", edit_path(current_user) %> </li>
 
         <% end %>
         <!-- -->
@@ -18,32 +18,41 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <div class="glyphicon glyphicon-bell">
-                  <% if current_user.cabpool.requested_users.size != 0%>
-                    <span class = 'badge badge_notify'>
-                      <%=  current_user.cabpool.requested_users.size%>
+                  <% if current_user.cabpool.requested_users.size != 0 %>
+                    <span class='badge badge_notify'>
+                      <%= current_user.cabpool.requested_users.size %>
                     </span>
-                  <%end%>
+                  <% end %>
                 </div>
               </a>
               <ul class="dropdown-menu">
-                <% if current_user.cabpool.requested_users.empty? %>
-                    <li>You have no notifications! </li>
+                <% if current_user.cabpool.requested_users.empty? && current_user.status.nil? %>
+                    <li>You have no notifications!</li>
+                <% elsif not current_user.status.nil? %>
+                    <% store_location %>
+                    <li class="notification-row">
+                      <%= form_tag controller: "/cabpools", action: "view_notification", method: 'post' do %>
+                          <p id="notification-<%= current_user.status %>" onclick="$(this).parents('form:first').submit();">
+                            Your request for the cabpool has been <%= current_user.status %></p>
+                      <% end %>
+                    </li>
                 <% else %>
                     <% current_user.cabpool.requested_users.each do |user| %>
-                        <li  class = "notification-row" >
-                          <p><%= user.name %> from <%= user.locality.name%> has requested for a cabpool</p>
-                          <div class = 'inline_block'>
-                          <%=form_tag controller: "cabpools", action: "approve_via_notification", method: 'post'  do %>
-                              <%= hidden_field_tag "user_id", user.id %>
-                              <%= submit_tag 'Approve' , class: "btn"%>
-                          <% end %>
+                        <li class="notification-row">
+                          <p><%= user.name %> from <%= user.locality.name %> has requested for a cabpool</p>
+
+                          <div class='inline_block'>
+                            <%= form_tag controller: "cabpools", action: "approve_via_notification", method: 'post' do %>
+                                <%= hidden_field_tag "user_id", user.id %>
+                                <%= submit_tag 'Approve', class: "btn" %>
+                            <% end %>
                           </div>
-                          <div class = 'inline_block'>
-                          <%=form_tag controller: "cabpools", action: "reject_via_notification", method: 'post'  do %>
-                              <%= hidden_field_tag "user_id", user.id %>
-                              <%= submit_tag 'Reject' , class: "btn" %>
-                          <% end %>
-                        </div>
+                          <div class='inline_block'>
+                            <%= form_tag controller: "cabpools", action: "reject_via_notification", method: 'post' do %>
+                                <%= hidden_field_tag "user_id", user.id %>
+                                <%= submit_tag 'Reject', class: "btn" %>
+                            <% end %>
+                          </div>
                         </li>
                     <% end %>
                 <% end %>

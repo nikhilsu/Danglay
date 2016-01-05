@@ -119,6 +119,21 @@ class CabpoolsController < ApplicationController
       end
   end
 
+  def view_notification
+    user = current_user
+    if user.status == "approved"
+      user.status = nil
+      user.save!
+      redirect_to your_cabpools_path
+    else
+        if user.status == "rejected"
+          user.status = nil
+          user.save!
+        end
+        redirect_to root_path
+    end
+  end
+
   private
 
   def approve_user user
@@ -127,7 +142,7 @@ class CabpoolsController < ApplicationController
       send_email_to_cabpool_users_on_member_leaving(user.cabpool.users.reject { |u| u.id == user.id } ,user)
     end
     user.cabpool = request.cabpool
-    user.status = 'Approved'
+    user.status = 'approved'
     user.save
     request.destroy!
     send_email_to_approved_user user
@@ -155,6 +170,8 @@ class CabpoolsController < ApplicationController
   def reject_user user
     request = Request.find_by_user_id(user.id)
     request.destroy!
+    user.status = 'rejected'
+    user.save
     send_email_to_rejected_user user
     render 'request_reject'
   end

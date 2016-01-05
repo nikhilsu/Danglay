@@ -259,6 +259,7 @@ RSpec.describe CabpoolsController, type: :controller do
   it 'should render reject message when token is same and approve is false' do
     request = build_stubbed(:request)
     user = request.user
+    allow(user).to receive(:save).and_return(true)
     allow(request).to receive(:destroy!).and_return(true)
     allow(User).to receive(:find).and_return(user)
     allow(Request).to receive(:find_by_user_id).and_return(request)
@@ -388,5 +389,37 @@ RSpec.describe CabpoolsController, type: :controller do
     get :approve_reject_handler, approve: "true", token: "ABCD", user: '1'
     expect(ActionMailer::Base.deliveries.size).to eq 2
     expect(response).to render_template 'request_accept'
+  end
+
+  it 'should update user status on notification view for approved user' do
+    user = build_stubbed(:user)
+    user.status = 'approved'
+    allow(User).to receive(:find_by).and_return(user)
+
+    post :view_notification
+
+    expect(user.status).to eq nil
+    expect(response).to redirect_to your_cabpools_path
+  end
+
+  it 'should update user status on notification view for rejected user' do
+    user = build_stubbed(:user)
+    user.status = 'rejected'
+    allow(User).to receive(:find_by).and_return(user)
+
+    post :view_notification
+
+    expect(user.status).to eq nil
+    expect(response).to redirect_to root_path
+  end
+
+  it 'should redirect to root path if user status is not approved nor rejected' do
+    user = build_stubbed(:user)
+    user.status = 'not'
+    allow(User).to receive(:find_by).and_return(user)
+
+    post :view_notification
+
+    expect(response).to redirect_to root_path
   end
 end
