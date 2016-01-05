@@ -89,7 +89,7 @@ RSpec.describe Cabpool, type: :model do
     cabpool = build(:cabpool)
     user = build(:user)
     cabpool.requested_users = [user]
-    expect(cabpool.available_slots).to eq 3
+    expect(cabpool.available_slots).to eq 4
   end
 
   it 'should show localities in order' do

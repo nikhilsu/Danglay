@@ -119,12 +119,12 @@ RSpec.describe CabpoolsController, type: :controller do
   end
 
   it 'should show respective error message when join is unsuccessful' do
-     
     post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
     post :join, cabpool: {id: cabpool.id}
+    cabpool.users << user
     user = build(:user, :another_user)
     allow(User).to receive(:find_by_email).and_return(user)
     post :join, cabpool: {id: cabpool.id}

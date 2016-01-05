@@ -36,7 +36,7 @@ class Cabpool < ActiveRecord::Base
   end
 
   def available_slots
-    number_of_people - users.size - requested_users.size
+    number_of_people - users.size
   end
 
   private
