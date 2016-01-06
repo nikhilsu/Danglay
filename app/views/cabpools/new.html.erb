@@ -31,7 +31,7 @@
               <label class="control-label col-md-3 required " for="user_locality">Route</label>
 
               <div class="col-md-5">
-                <span class="label-purple" id="locality"><%= User.find_by_email(session[:Email]).locality.name %></span>
+                <span class="label-purple" id="locality"> <%= User.find_by_email(session[:Email]).locality.name %> </span>
                 <%= hidden_field_tag 'localities[source]', User.find_by_email(session[:Email]).locality.id %>
                 <div class="localityForm">
                   <label class="control-label col-md-3 required pull-left" for="user_locality">Via</label>
