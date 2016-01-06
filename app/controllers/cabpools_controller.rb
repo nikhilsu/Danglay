@@ -156,15 +156,21 @@ class CabpoolsController < ApplicationController
   end
 
   def send_email_to_admin_about_new_user joining_user
-    CabpoolMailer.admin_notifier_for_new_user(joining_user).deliver_now
+    if joining_user.cabpool.cabpool_type_id == 1
+      CabpoolMailer.admin_notifier_for_new_user(joining_user).deliver_now
+    end
   end
 
   def send_email_to_admin_about_new_cabpool joining_user
-    CabpoolMailer.admin_notifier_for_new_cabpool(joining_user).deliver_now
+    if joining_user.cabpool.cabpool_type_id == 1
+      CabpoolMailer.admin_notifier_for_new_cabpool(joining_user).deliver_now
+    end
   end
 
   def send_email_to_admin_about_invalid_cabpool deleting_cabpool
-    CabpoolMailer.admin_notifier_for_invalid_cabpool(deleting_cabpool).deliver_now
+    if deleting_cabpool.cabpool_type_id == 1
+      CabpoolMailer.admin_notifier_for_invalid_cabpool(deleting_cabpool).deliver_now
+    end
   end
 
   def reject_user user
@@ -182,7 +188,9 @@ class CabpoolsController < ApplicationController
 
   def send_email_to_admin_when_user_leaves(users, leaving_user)
     cabpool = users.first.cabpool
-    CabpoolMailer.admin_notifier_for_member_leaving(cabpool, leaving_user).deliver_now
+    if cabpool.cabpool_type_id ==1
+      CabpoolMailer.admin_notifier_for_member_leaving(cabpool, leaving_user).deliver_now
+    end
   end
 
   def send_email_to_cabpool_users_on_member_leaving(users,current_user)

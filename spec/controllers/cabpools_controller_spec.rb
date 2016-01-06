@@ -235,7 +235,7 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(Request).to receive(:find_by_user_id).and_return(request)
     allow(request).to receive(:approve_digest).and_return("ABCD")
     get :approve_reject_handler, approve: "true", token: "ABCD", user: '1'
-    expect(ActionMailer::Base.deliveries.size).to eq 2
+    expect(ActionMailer::Base.deliveries.size).to eq 1
     expect(response).to render_template 'request_accept'
   end
 
@@ -244,6 +244,7 @@ RSpec.describe CabpoolsController, type: :controller do
     user = request.user
     another_user = create(:user, :another_user)
     cabpool = build(:cabpool)
+    cabpool.cabpool_type_id = 1
     cabpool.users << [user ,another_user]
 
     allow(user).to receive(:save).and_return(true)
@@ -252,7 +253,7 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(Request).to receive(:find_by_user_id).and_return(request)
     allow(request).to receive(:approve_digest).and_return("ABCD")
     get :approve_reject_handler, approve: "true", token: "ABCD", user: '1'
-    expect(ActionMailer::Base.deliveries.size).to eq 3
+    expect(ActionMailer::Base.deliveries.size).to eq 2
     expect(response).to render_template 'request_accept'
   end
 
@@ -354,6 +355,7 @@ RSpec.describe CabpoolsController, type: :controller do
     locality.name = "blah"
     localities = [locality, locality]
     cabpool = request.cabpool
+    cabpool.cabpool_type_id = 1
     user.cabpool = cabpool
     allow(user).to receive(:save).and_return(true)
     allow(request).to receive(:destroy!).and_return(true)
@@ -376,6 +378,7 @@ RSpec.describe CabpoolsController, type: :controller do
     locality.name = "blah"
     localities = [locality, locality]
     cabpool = request.cabpool
+    cabpool.cabpool_type_id = 1
     user.cabpool = cabpool
     allow(user).to receive(:save).and_return(true)
     allow(request).to receive(:destroy!).and_return(true)
