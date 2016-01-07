@@ -1,10 +1,18 @@
 <h1>Welcome Admin</h1>
+<div class="container pool-list">
+    <%= button_to "click here for registration", admin_new_path, method: :get %>
+</div>
 <div>
-  <%= form_tag show_cabpools_path do %>
-      <div class='form-group col-md-4'>
-        <%= collection_select(:localities, :search, Locality.all, :id, :name, {prompt: true}) %>
-      </div>
-      <%= submit_tag "Search", class: "btn" %>
-  <% end %>
-  <%= render @cabpools %>
+  <div class="container pool-list">
+    <div class="row list-label">
+      <div class="col-2 vendors">Vendors</div>
+      <div class="col-2 location">Location</div>
+      <div class="col-2 timer">Timing</div>
+      <div class="col-3 seats">Seat left</div>
+      <div class="col-1"></div>
+    </div>
+    <ul>
+      <%= render @cabpools %>
+    </ul>
+    </div>
 </div>
