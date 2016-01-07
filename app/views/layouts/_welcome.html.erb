@@ -1,4 +1,12 @@
-<!--<h1>Welcome, <%=@username%></h1>-->
-<!--<div align="center">-->
-  <!--<%= image_tag("cab.png", width: "30%", height: "30%") %>-->
-<!--</div>-->
+<section class="hero-module">
+  <div class="container">
+    <div class="row">
+      <h1>Carpool</h1>
+      <ul>
+        <li><%= link_to "Create", new_cabpool_path, class: 'create' %></li>
+        <li><%= link_to "Join", root_path, class: 'join' %></li>
+        <li><%= link_to "Ride", your_cabpools_path, class: 'ride' %></li>
+      </ul>
+    </div>
+  </div>
+</section><!-- End of banner section -->
