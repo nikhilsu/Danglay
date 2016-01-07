@@ -36,7 +36,7 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     page.execute_script "window.scrollBy(0,10000)"
     click_button 'Create a pool'
     expect(page.current_path).to eq '/'
-    page.assert_selector('div.glyphicon-bell', :count => 1)
+    page.assert_selector('div.notification', :count => 1)
 
     page.set_rack_session(userid: 101)
     page.set_rack_session(registered_uid: 101)
@@ -45,7 +45,7 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     page.set_rack_session(Email: 'sandeeph@thoughtworks.com')
 
     visit root_path
-    all("input[value='Join']")[-1].click
+    all("button[name='Join Ride']")[-1].click
 
     page.set_rack_session(userid: 100)
     page.set_rack_session(registered_uid: 100)

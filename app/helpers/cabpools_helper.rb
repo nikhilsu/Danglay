@@ -59,13 +59,13 @@ module CabpoolsHelper
       if requested_user?(cabpool)
         "Requested"
       elsif current_user.cabpool == cabpool
-        "Leave"
+        "Leave Ride"
       elsif cabpool.available_slots > 0 && !user_requested_cabpool_exists?
-        "Join"
+        "Join Ride"
       end
     else
       if cabpool.available_slots > 0
-        "Join"
+        "Join Ride"
       end
     end
   end

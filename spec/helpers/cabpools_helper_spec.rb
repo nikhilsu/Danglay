@@ -196,7 +196,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     cabpool = double()
     session.delete(:registered_uid)
     allow(cabpool).to receive(:available_slots).and_return(2)
-    expect(button(cabpool)).to eq "Join"
+    expect(button(cabpool)).to eq "Join Ride"
   end
 
   it 'should return requested as the button to be shown if cabpool is requested by user' do
@@ -226,7 +226,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     allow(user).to receive(:requested_cabpools).and_return([])
     allow(current_user).to receive(:cabpool).and_return(cabpool)
     allow(cabpool).to receive(:available_slots).and_return(2)
-    expect(button(cabpool)).to eq "Leave"
+    expect(button(cabpool)).to eq "Leave Ride"
   end
 
   it 'should return no button if cabpool has no available slots' do
@@ -278,6 +278,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     allow(user).to receive(:requested_cabpools).and_return([])
     allow(current_user).to receive(:cabpool).and_return(two_cabpool)
     allow(cabpool).to receive(:available_slots).and_return(2)
-    expect(button(cabpool)).to eq "Join"
+    expect(button(cabpool)).to eq "Join Ride"
   end
 end

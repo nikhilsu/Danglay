@@ -1,0 +1,35 @@
+/* To customize the grid and other style,
+ *  you can change the variables.
+ * Developer :prakashupadhyay770@gmail.com
+*/
+*{
+    margin: 0;padding: 0;
+    box-sizing: border-box;
+}
+/* Screen declaration */
+$large-screen : 1280px;
+$desktop : 1024px;
+$ipad : 768px;
+$potrait: 320px;
+$landscape: 480px;
+
+/* grid Declaration */
+$col-no : 10; /* 10 col grid */
+$gutter: 5px;
+
+/* font family */
+$primary-font : 'Open Sans', sans-serif;
+$font-size: 14px;
+$line-height: 1.4;
+
+
+/* Colors declaration */
+$white:              #fff !default;
+$light:              #ccc !default;
+$calm:               #11c1f3 !default;
+$balanced:           #33cd5f !default;
+$energized:          #ffc900 !default;
+$red:                #ef473a !default;
+$royal:              #886aea !default;
+$dark:               #444444 !default;
+$alert:              #F13179 !default;

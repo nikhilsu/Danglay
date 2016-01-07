@@ -1,9 +1,4 @@
 <%= render 'layouts/welcome' %>
-<% if user_cabpool_exists? || user_requested_cabpool_exists? %>
-    <%= render 'layouts/cabpools_tab' %>
-<% else %>
-    <%= render 'layouts/tabs' %>
-<% end %>
 <div>
   <%= form_tag show_cabpools_path do %>
       <div class='form-group col-md-4'>
@@ -11,5 +6,17 @@
       </div>
       <%= submit_tag "Search", class: "btn" %>
   <% end %>
-  <%= render @cabpools %>
+  <div class="container pool-list">
+    <div class="row list-label">
+      <div class="col-2 vendors">Vendors</div>
+      <div class="col-2 location">Location</div>
+      <div class="col-2 timer">Timing</div>
+      <div class="col-3 seats">Seat left</div>
+      <div class="col-1"></div>
+    </div>
+    <ul>
+      <%= render @cabpools %>
+    </ul>
+    </div>
 </div>
+

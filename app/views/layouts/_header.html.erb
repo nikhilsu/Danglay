@@ -1,76 +1,67 @@
-<header class="navbar-fixed-top">
+<header>
   <div class="container">
-    <div class="pull-left application-name"><%= link_to "DANGLAY", root_path %></div>
-    <nav>
-      <ul id="header-nav" , class="nav navbar-nav pull-right">
-        <li><%= link_to "Home", root_path %></li>
-
-        <% if !is_registered? %>
-            <li><%= link_to "Update Profile", signup_path %> </li>
-
-        <% else %>
-            <li><%= link_to "Edit Profile", edit_path(current_user) %> </li>
-
-        <% end %>
-        <!-- -->
-
-        <% if is_registered? && user_cabpool_exists? %>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <div class="glyphicon glyphicon-bell">
-                  <% if number_of_notifications != 0 %>
+    <div class="row">
+      <div class="col-4"><%= link_to "Danglay", root_path, class: 'brand-logo' %></div>
+      <div class="col-6">
+        <div class="nav-right pull-right">
+          <%= link_to "Home", root_path %>
+          <%= link_to "Contact us", contact_path %>
+          <% if is_registered? && user_cabpool_exists? %>
+          <div class="notification">
+            <button class="noti">
+              <% if number_of_notifications != 0 %>
                     <span class='badge badge_notify'>
                       <%= number_of_notifications %>
                     </span>
-                  <% end %>
-                </div>
-              </a>
-              <ul class="dropdown-menu">
-                <% if current_user.cabpool.requested_users.empty? && current_user.status.nil? %>
-                    <li>You have no notifications!</li>
-                <% elsif not current_user.status.nil? %>
-                    <% store_location %>
-                    <li class="notification-row">
-                      <%= form_tag controller: "/cabpools", action: "view_notification", method: 'post' do %>
-                          <p id="notification-<%= current_user.status %>" onclick="$(this).parents('form:first').submit();">
-                            Your request for the cabpool has been <%= current_user.status %></p>
-                      <% end %>
-                    </li>
-                <% else %>
-                    <% current_user.cabpool.requested_users.each do |user| %>
-                        <li class="notification-row">
-                          <p><%= user.name %> from <%= user.locality.name %> has requested for a cabpool</p>
-
-                          <div class='inline_block'>
-                            <%= form_tag controller: "cabpools", action: "approve_via_notification", method: 'post' do %>
-                                <%= hidden_field_tag "user_id", user.id %>
-                                <%= submit_tag 'Approve', class: "btn" %>
-                            <% end %>
-                          </div>
-                          <div class='inline_block'>
-                            <%= form_tag controller: "cabpools", action: "reject_via_notification", method: 'post' do %>
-                                <%= hidden_field_tag "user_id", user.id %>
-                                <%= submit_tag 'Reject', class: "btn" %>
-                            <% end %>
-                          </div>
-                        </li>
+              <% end %>
+            </button>
+            <ul>
+              <% if current_user.cabpool.requested_users.empty? && current_user.status.nil? %>
+                  <li><p>You have no notifications!</p></li>
+              <% elsif not current_user.status.nil? %>
+                  <li>
+                    <%= form_tag controller: "/cabpools", action: "view_notification", method: 'post' do %>
+                        <p onclick="$(this).parents('form:first').submit();">
+                          Your request for the cabpool has been <%= current_user.status %></p>
                     <% end %>
-                <% end %>
-              </ul>
-            </li>
-        <% end %>
-
-        <!-- -->
-
-        <% if is_logged_in? %>
-            <li><%= link_to "Logout", logout_path, method: "delete" %></li>
-        <% end %>
-
-        <% if is_admin? %>
-            <li><%= link_to "Admin", admin_path, method: "get" %></li>
-        <% end %>
-      </ul>
-    </nav>
+                  </li>
+              <% else %>
+                  <% current_user.cabpool.requested_users.each do |user| %>
+                      <li>
+                        <p><%= user.name %> from <%= user.locality.name %> has requested for a cabpool</p>
+                          <%= form_tag controller: "cabpools", action: "reject_via_notification", method: 'post' do %>
+                              <%= hidden_field_tag "user_id", user.id %>
+                              <%= button_tag 'Reject', class: "btn-alert" %>
+                          <% end %>
+                          <%= form_tag controller: "cabpools", action: "approve_via_notification", method: 'post' do %>
+                              <%= hidden_field_tag "user_id", user.id %>
+                              <%= button_tag 'Approve', class: "btn-success" %>
+                          <% end %>
+                      </li>
+                  <% end %>
+              <% end %>
+            </ul>
+          </div><!--end of notification -->
+          <% end %>
+          <% if is_logged_in? %>
+          <div class="user-profile">
+            <button class="text-center user-btn"><span class="user-icon"></span> <span class="user-name"><%= @username %></span></button>
+            <ul>
+              <li><%= link_to "My Carpool", your_cabpools_path %></li>
+              <% if !is_registered? %>
+                  <li><%= link_to "Update Profile", signup_path %></li>
+              <% else %>
+                  <li><%= link_to "Edit Profile", edit_path(current_user) %></li>
+              <% end %>
+              <li><%= link_to "Logout", logout_path, method: "delete" %></li>
+            </ul>
+          </div><!--end of user-profile -->
+          <% end %>
+          <% if is_admin? %>
+              <%= link_to "Admin", admin_path, method: "get" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
-
 </header>

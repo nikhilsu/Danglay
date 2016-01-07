@@ -1,0 +1,50 @@
+/* Mixins Declaration */
+@import 'variables';
+/* helper classes */
+.clearfix{
+    display: inline-block;
+    &:after{
+        clear: both;
+        content: ".";
+        display: block;
+        height: 0;
+        visibility: hidden;
+    }
+}
+.pull-left{
+    float: left;
+}
+.pull-right{
+    float: right;
+}
+.text-center{
+    text-align: center;
+}
+.text-right{
+    text-align: right;
+}
+@mixin buttons($bg, $color){
+    background: $bg;
+    color: $color;
+    font-size: 12px;
+    border: 0;
+    padding: 8px 20px;
+    border-radius: 4px;
+    text-align: center;
+    text-transform: uppercase;
+    &:hover{
+        opacity: 0.9;
+    }
+    &:focus{
+        outline: none;
+    }
+    
+}
+
+@mixin input($border-color, $bg){
+    border: 1px solid $border-color;
+    background: $bg;
+    height: 35px;
+    padding: 10px;
+    border-radius: 4px;
+}

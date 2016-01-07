@@ -1,0 +1,27 @@
+@import 'variables';
+
+.container{
+    max-width:$large-screen;
+    width: 100%;
+    margin: 0 auto;
+}
+.row{
+    width: 100%;
+    display: inline-block;
+    &:after{
+        clear: both;
+        content: " ";
+        display: block;
+        height: 0;
+        visibility: hidden;
+    }
+}
+/* coloumn style */
+@for $i from 1 through $col-no {
+    .col-#{$i}{
+     width: 100%/$col-no * $i;
+     float:left;
+     padding: 0 $gutter;
+     display: inline-block;
+    }
+}
