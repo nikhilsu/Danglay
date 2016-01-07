@@ -1,11 +1,15 @@
 <div>
-  <%= form_tag show_cabpools_path do %>
-      <div class='form-group col-md-4'>
-        <%= collection_select(:localities, :search, Locality.all, :id, :name, {prompt: true}) %>
-      </div>
-      <%= submit_tag "Search", class: "btn" %>
-  <% end %>
   <div class="container pool-list">
+    <div class="row list-label">
+        <%= form_tag show_cabpools_path do %>
+          <div class="col-2">
+            <%= collection_select(:localities, :search, Locality.all, :id, :name, {prompt: true}) %>
+          </div>
+          <div class="col-2">
+            <%= button_tag "Search", class: "btn" %>
+          </div>
+        <% end %>
+    </div>
     <div class="row list-label">
       <div class="col-2 vendors">Vendors</div>
       <div class="col-2 location">Location</div>
@@ -16,6 +20,6 @@
     <ul>
       <%= render @cabpools %>
     </ul>
-    </div>
+  </div>
 </div>
 
