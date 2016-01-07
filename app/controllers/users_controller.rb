@@ -49,7 +49,7 @@ class UsersController < ApplicationController
   private
 
     def not_registered?
-      unless session[:registered_uid].nil?
+      if !session[:registered_uid].nil?
         redirect_to root_path
       end
     end
