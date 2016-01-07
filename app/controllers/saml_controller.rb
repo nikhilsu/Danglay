@@ -10,14 +10,8 @@ class SamlController < ApplicationController
     request = OneLogin::RubySaml::Authrequest.new
     response.settings = saml_settings
 
-    # We validate the SAML Response and check if the user already exists in the system
     if response.is_valid?
-      # authorize_success, log the user
-      session[:userid] = response.nameid
-      set_registered_uid(response.attributes[:Email])
-      session[:FirstName] = response.attributes[:FirstName]
-      session[:LastName] = response.attributes[:LastName]
-      session[:Email] = response.attributes[:Email]
+      set_session response
       redirect_back_or(root_url)
     else
       redirect_to(request.create(saml_settings))
@@ -31,6 +25,14 @@ class SamlController < ApplicationController
     unless user.nil?
       session[:registered_uid] = user.id
     end
+  end
+
+  def set_session response
+    session[:userid] = response.nameid
+    set_registered_uid(response.attributes[:Email])
+    session[:FirstName] = response.attributes[:FirstName]
+    session[:LastName] = response.attributes[:LastName]
+    session[:Email] = response.attributes[:Email]
   end
 
   def saml_settings

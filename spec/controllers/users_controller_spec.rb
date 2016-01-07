@@ -16,6 +16,7 @@ RSpec.describe UsersController, type: :controller do
     it 'should redirect to create saml request when session is not set' do
       session.delete(:userid)
       get :new
+
       expect(response).to redirect_to('/saml/init')
     end
 
