@@ -1,25 +1,19 @@
 <div>
   <div class="container pool-list">
     <div class="row list-label">
-        <%= form_tag show_cabpools_path do %>
-          <div class="col-2">
-            <%= collection_select(:localities, :search, Locality.all, :id, :name, {prompt: true}) %>
-          </div>
-          <div class="col-2">
-            <%= button_tag "Search", class: "btn" %>
-          </div>
-        <% end %>
-    </div>
-    <div class="row list-label">
       <div class="col-2 vendors">Vendors</div>
       <div class="col-2 location">Location</div>
       <div class="col-2 timer">Timing</div>
-      <div class="col-3 seats">Seat left</div>
-      <div class="col-1"></div>
+      <div class="col-2 seats">Seat left</div>
+      <div class="col-2">
+        <%= form_tag show_cabpools_path do %>
+            <%= collection_select(:localities, :search, Locality.all, :id, :name, {prompt: 'Search Locality'}) %>
+            <%= button_tag "", class: "btn-search" %>
+        <% end %>
+      </div>
     </div>
     <ul>
       <%= render @cabpools %>
     </ul>
   </div>
 </div>
-

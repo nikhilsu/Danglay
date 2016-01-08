@@ -503,6 +503,26 @@ header{
             }
         }
     }
+  form{
+    position: relative;
+    .selectize-input{
+      input{
+        height: auto;
+      }
+    }
+    .btn-search{
+      background: #11C1F3 url("search.png") no-repeat 6px 1px;
+      background-size: 30px;
+      width: 40px;
+      height: 34px;
+      position: absolute;
+      right: 0;
+      top: 0px;
+      z-index: 1;
+      border: 1px solid #11C1F3;
+      border-radius: 0 4px 4px 0;
+    }
+  }
 }
 .list-label{
     border: 1px solid #ddd;
