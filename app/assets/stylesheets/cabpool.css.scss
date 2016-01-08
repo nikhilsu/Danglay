@@ -8,12 +8,12 @@ div  > .form-horizontal .control-label {
   text-align: left;
 }
 
-#removeNewLocality {
+#removeNewLocality, #removeNewPassenger {
   color: $red-minus-button-color;
   line-height: 6;
 }
 
-#addLocality {
+#addLocality, #addPassenger {
   color: $danglay-color;
   line-height: 1.5;
 }

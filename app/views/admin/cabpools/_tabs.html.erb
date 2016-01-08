@@ -1,0 +1,6 @@
+<div class="tabs">
+  <ul class="nav nav-tabs">
+    <li class="col-md-6 <%= 'active' if params[:action] == 'show' %>"><%= link_to 'List of current cab pools', admin_url %></li>
+    <li class="col-md-6 <%= 'active' if params[:action] == 'new' %>"><%= link_to 'Create a pool', admin_cabpool_new_url %></li>
+  </ul>
+</div>

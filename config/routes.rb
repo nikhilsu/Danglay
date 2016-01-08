@@ -17,9 +17,11 @@ Rails.application.routes.draw do
   get 'your_cabpools' => 'cabpools#your_cabpools'
   get 'edit' => 'users#edit'
   get 'admin' => 'admin/cabpools#show'
-  get 'admin_new' => "admin/users#new"
-  post 'admin_create' => "admin/users#create"
+  get 'admin_user_new' => "admin/users#new"
+  post 'admin_user_create' => "admin/users#create"
   post 'view_notification' => 'cabpools#view_notification'
+  get 'admin_cabpool_new' => 'admin/cabpools#new'
+  post 'admin_cabpool_create' => 'admin/cabpools#create'
   #If Feature toggle is to be used for a specific action
   # if FEATURES.active?('user_feature')
   #   get 'users/new', to: 'users#new'

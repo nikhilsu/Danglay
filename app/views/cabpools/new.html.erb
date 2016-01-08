@@ -35,7 +35,7 @@
                 <%= hidden_field_tag 'localities[source]', User.find_by_email(session[:Email]).locality.id %>
                 <div class="localityForm">
                   <label class="control-label col-md-3 required pull-left" for="user_locality">Via</label>
-                  <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control') %>
+                  <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control add-locality') %>
                 </div>
                 <%= render 'shared/error_messages', errors: @cabpool.errors[:localities] if !@cabpool.errors[:localities].empty? %>
               </div>

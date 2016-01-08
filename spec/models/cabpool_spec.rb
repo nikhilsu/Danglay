@@ -44,6 +44,7 @@ RSpec.describe Cabpool, type: :model do
 
   it 'Timeout can have seconds and milliseconds in its HH:MM format' do
       cabpool = build(:cabpool, :timeout_with_milliseconds)
+
       expect(cabpool.valid?).to be true
   end
 
@@ -74,19 +75,19 @@ RSpec.describe Cabpool, type: :model do
   end
 
   it "should show available slots when no users present" do
-    cabpool = build(:cabpool)
+    cabpool = build(:cabpool, :without_users)
     expect(cabpool.available_slots).to eq 4
   end
 
   it "should show available slots when one user is present" do
-    cabpool = build(:cabpool)
+    cabpool = build(:cabpool, :without_users)
     user = build(:user)
     cabpool.users = [user]
     expect(cabpool.available_slots).to eq 3
   end
 
   it "should show available slots when one request made" do
-    cabpool = build(:cabpool)
+    cabpool = build(:cabpool, :without_users)
     user = build(:user)
     cabpool.requested_users = [user]
     expect(cabpool.available_slots).to eq 4
@@ -101,4 +102,11 @@ RSpec.describe Cabpool, type: :model do
     cabpool.save
     expect(cabpool.ordered_localities).to eq [locality3, locality2, locality1]
   end
+
+  it 'users should not be empty' do
+      cabpool = build(:cabpool, :without_users)
+      expect(cabpool.users.length).to eq 0
+      expect(cabpool.valid?).to be false
+  end
+
 end

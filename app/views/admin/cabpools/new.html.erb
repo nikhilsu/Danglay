@@ -1,0 +1,75 @@
+<h1>Welcome Admin</h1>
+
+<%= render 'admin/cabpools/tabs'%>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+
+    <h2 class="create-form-heading"><%= "Create a Cab Pool" %></h2>
+
+    <%= bootstrap_form_for(@cabpool, layout: :horizontal, label_col: "col-md-3", control_col: "col-md-7", url: admin_cabpool_create_path) do |f| %>
+        <%= f.text_field :number_of_people, label: 'Capacity of Cab' %>
+
+        <div class="form-group
+          <% unless @cabpool.errors[:cabpool_types].empty? %> has-error
+          <% end %>">
+          <label class = 'control-label col-md-3 required '> Passengers </label>
+
+          <div class = 'col-md-5'>
+          <span class="label-purple  ">Add a passenger </span>
+          <div class="passengersForm">
+            <label class="control-label col-md-3 required pull-left" for="cabpool_users">Name</label>
+            <%= collection_select(:users, DateTime.now.strftime('%Q').to_i, User.all, :id, :name, {prompt: true}, class: 'form-control') %>
+          </div>
+          </div>
+          <a href="javascript:;"><span class="glyphicon glyphicon-plus" id="addPassenger"></span></a>
+        </div>
+        <div id="passengersSelection"></div>
+
+        <%= render 'shared/error_messages', errors: @cabpool.errors[:users] if !@cabpool.errors[:users].empty? %>
+          <%= f.time_field :timein, label: 'Arrival time to office', placeholder: 'HH:MM' %>
+        <%= f.time_field :timeout, label: 'Departure time from office', placeholder: 'HH:MM' %>
+        <%= f.hidden_field :route , value: '' %>
+
+        <div id="cabpool_type" class="form-group
+              <% unless @cabpool.errors[:cabpool_types].empty? %> has-error
+              <% end %> ">
+          <label class="control-label col-md-3 required" for="cabpool_type">Cabpool  Type</label>
+          <div class="col-md-7">
+            <%= collection_select(:cabpool_type, DateTime.now.strftime('%Q').to_i, CabpoolType.all, :id, :name, {prompt: true}, class: 'form-control cabpool_type') %>
+            <%= render 'shared/error_messages', errors: @cabpool.errors[:cabpool_types] if !@cabpool.errors[:cabpool_types].empty? %>
+          </div>
+        </div>
+
+        <div class="form-group
+              <% unless @cabpool.errors[:localities].empty? %> has-error
+              <% end %> ">
+              <label class="control-label col-md-3 required">Enter source</label>
+              <div class="col-md-7 selectize">
+                <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control add-locality', id: 'sourceLocation') %>
+                <%= render 'shared/error_messages', errors: @cabpool.errors[:localities] if !@cabpool.errors[:localities].empty? %>
+              </div >
+        </div>
+
+        <div class = "form-group">
+          <label class="control-label col-md-3 required " for="user_locality">Route</label>
+          <div class="col-md-5">
+
+            <span class="label-purple">Add a location</span>
+            <div class="localityForm">
+              <label class="control-label col-md-3 required pull-left" for="user_locality">Via</label>
+              <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control add-locality') %>
+            </div>
+          </div>
+          <a href="javascript:;"><span class="glyphicon glyphicon-plus" id="addLocality"></span></a>
+        </div>
+
+        <div id="localitySelections"></div>
+        <label class = "glyphicon glyphicon-refresh pull-right btn" onclick="reset_map();">Reset</label>
+        <div id="map" class="map col-md-7 col-md-offset-3"></div>
+        <%= f.submit "Create a pool", class: "btn center-block" %>
+        <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuETg3lyde0IR6XSO1WhVZY69bAp5owcs&callback=initMap">
+        </script>
+        <% end %>
+        </div>
+      </div>
