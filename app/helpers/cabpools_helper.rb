@@ -22,6 +22,16 @@ module CabpoolsHelper
     end
   end
 
+  def image_to_be_displayed cabpool
+    if cabpool.cabpool_type_id == 1
+       "tw.png"
+    elsif cabpool.cabpool_type_id == 2
+       "ola.png"
+    else
+       "carpool.png"
+    end
+  end
+
   def destination
     "Koramangala"
   end

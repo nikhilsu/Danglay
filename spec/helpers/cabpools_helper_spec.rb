@@ -280,4 +280,26 @@ RSpec.describe CabpoolsHelper, type: :helper do
     allow(cabpool).to receive(:available_slots).and_return(2)
     expect(button(cabpool)).to eq "Join Ride"
   end
+
+  it 'should return tw.png when cabpool is of type company provided cab' do
+    cabpool = build(:cabpool)
+    cabpool.cabpool_type_id = 1
+
+    expect(image_to_be_displayed(cabpool)).to eq "tw.png"
+  end
+
+  it 'should return ola.png when cabpool is of type external cab' do
+    cabpool = build(:cabpool)
+    cabpool.cabpool_type_id = 2
+
+    expect(image_to_be_displayed(cabpool)).to eq "ola.png"
+  end
+
+  it 'should return carpool.png when cabpool is of type own cab cab' do
+    cabpool = build(:cabpool)
+    cabpool.cabpool_type_id = 3
+
+    expect(image_to_be_displayed(cabpool)).to eq "carpool.png"
+  end
+
 end
