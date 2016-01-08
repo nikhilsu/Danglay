@@ -562,6 +562,11 @@ header{
     thead{
         background: #ddd;
     }
+    tbody{
+      tr td{
+        color:#666;
+      }
+    }
     tr{
         border-bottom: 1px solid #ddd;
         td,th{
@@ -608,7 +613,7 @@ footer{
 button {
     @include buttons($calm, $white);
 }
-input{
+input,textarea{
     @include input($light, $white);
 }
 @media only screen and (max-width: 1025px){
@@ -626,4 +631,173 @@ input{
   .pool-list ul li .pool-title .view-details{
         display: none;
     }
+}
+@media only screen and (max-width: 767px){
+  .pool-description {
+    .col-4,.col-3{
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+  body{
+    padding-top: 45px;
+    header{
+      height: 45px;
+    }
+  }
+
+  .nav-right {
+    a{
+      display: none;
+    }
+    .notification{
+      top: -1px;
+      ul{
+        top: 42px;
+      }
+    }
+    .user-profile{
+      ul{
+        top: 42px;
+        width: 150px;
+        right: 5px;
+        &:after{
+          position: absolute;
+          right: 10px;
+          top: -7px;
+          content: "";
+          width: 0;
+          border-right: 8px solid transparent;
+          border-left: 8px solid transparent;
+          border-bottom: 8px solid #fff;
+        }
+      }
+      .user-name{
+        display: none;
+      }
+      button{
+        min-width: auto;
+        padding: 0px 5px 0 0;
+        top: -1px;
+        &:after{
+          display: none;
+        }
+      }
+    }
+  }
+  .list-label{
+    margin: 20px 0 10px;
+  }
+  .hero-module {
+    min-height: 200px;
+    h1{
+      margin: 4% auto 10px;
+      font-size: 28px;
+    }
+    ul {
+      width: 240px;
+      li > a{
+        width: 90px;
+        height: 90px;
+        padding: 31px 0;
+        font-size: 18px;
+      }
+    }
+  }
+  .brand-logo{
+    padding: 2px 10px;
+    border-radius: 0 9px;
+    font-size: 14px;
+    margin-top: 11px;
+  }
+  .pool-list ul li .pool-title{
+    img{
+      width: 55px;
+    }
+    button{
+      font-size: 10px;
+      padding: 8px 15px;
+    }
+    span{
+      font-size: 10px;
+    }
+  }
+  .pool-list ul li .roundtrip .local span{
+    padding-top: 5px;
+  }
+  .pool-list ul li .roundtrip .local span:last-child:after{
+    left: 10px;
+  }
+  .table tr td, .table tr th{
+    padding: 8px;
+    font-size: 12px;
+  }
+  .pool-list ul li .pool-description{
+    padding: 10px 0 0 0;
+    .route span{
+      font-size: 12px;
+    }
+    .inner-header{
+      font-size: 12px;
+      margin: 0 0 15px;
+      padding: 8px;
+    }
+  }
+
+}
+@media only screen and (max-width: 470px){
+  .list-label{
+    .col-2.no-value{
+      display: none;
+    }
+    .col-2{
+      width: 25%;
+      font-size: 11px;
+      padding-top: 3px;
+    }
+
+  }
+  .hero-module {
+    min-height: 190px;
+    h1{
+      margin: 6% auto 10px;
+      font-size: 24px;
+    }
+  }
+  .pool-list{
+    ul li {
+      .pool-title {
+        padding: 6px 2px;
+        .col-2:nth-of-type(5){
+          display: none;
+        }
+        span{
+          padding-top: 9px;
+        }
+        img{
+          width: 45px;
+        }
+      }
+      .col-2{
+        width: 25%;
+      }
+      .pool-title .col-2:nth-of-type(1){
+        width: 20%;
+      }
+      .pool-title .col-2:nth-of-type(4){
+        width: 20%;
+      }
+      .pool-title .col-2:nth-of-type(3){
+        width: 35%;
+      }
+    }
+  }
+  .pool-list ul li .pool-description .btn-ride{
+    display: block;
+    float: right;
+    margin-top: 10px;
+  }
+  footer{
+    font-size: 10px;
+  }
 }

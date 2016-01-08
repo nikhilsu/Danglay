@@ -59,6 +59,22 @@
           <%= hidden_field_tag 'route', cabpool.route %>
           <div id="map" class="map_show pull-right"></div>
           <button class="btn-ride">Join ride</button>
+          <% if button(cabpool) == "Leave Ride"%>
+              <%= form_for(cabpool, url: 'leave_cabpool', method: 'post') do |f| %>
+                  <%= f.button button(cabpool) ,class: 'btn-ride' %>
+              <% end %>
+          <% else %>
+              <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
+                  <%= f.hidden_field(:id) %>
+                  <% if !button(cabpool).nil? %>
+                      <% if button(cabpool) == "Requested" %>
+                          <%= f.button button(cabpool),class: 'btn-ride'  , disabled: true %>
+                      <% else %>
+                          <%= f.button button(cabpool) ,class: 'btn-ride' , name: 'Join Ride'%>
+                      <% end %>
+                  <% end %>
+              <% end %>
+          <% end %>
         </div>
       </div>
     </div>
