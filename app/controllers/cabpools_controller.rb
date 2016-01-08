@@ -3,6 +3,16 @@ class CabpoolsController < ApplicationController
   before_action :registered? , except: [:show, :approve_reject_handler]
   before_action :has_cabpool, only: [:leave]
   before_action :has_cabpool_or_request, only: [:your_cabpools]
+  before_action :user_should_not_have_cabpool, only: :new
+
+  def user_should_not_have_cabpool
+    user = User.find_by_email(session[:Email])
+    if ! user.nil?
+       if user.cabpool
+         redirect_to(root_path)
+       end
+    end
+  end
 
   def new
     @cabpool = Cabpool.new
