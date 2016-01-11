@@ -4,7 +4,11 @@
     <div class="col-2 local"><span><%= cabpool.ordered_localities.first.name %></span> <span>ThoughtWorks</span></div>
     <div class="col-2 time"><span>Arrival: <%= formatted_time(cabpool.timein) %></span> <span>Departure: <%= formatted_time(cabpool.timeout) %></span></div>
     <div class="col-2"><span <% if cabpool.available_slots == 0 %> class="no-seats" <% end %>  ><%= cabpool.available_slots %></span></div>
-    <div class="col-2"><span class="view-details">View details</span></div>
+    <div class="col-2">
+      <%= form_for(cabpool, url: "admin_cabpool/#{cabpool.id}/edit", method: 'get') do |f| %>
+          <%= f.button :Edit %>
+      <% end %>
+      <span class="view-details">View details</span></div>
   </div>
   <div class="pool-description">
     <div class="row">
@@ -41,6 +45,9 @@
         <div class="map-wrap">
           <%= hidden_field_tag 'route', cabpool.route %>
           <div id="map" class="map_show pull-right"></div>
+          <%= form_for(cabpool, url: "admin_cabpool/#{cabpool.id}/edit", method: 'get') do |f| %>
+              <%= f.button :Edit, class: 'btn-ride' %>
+          <% end %>
         </div>
       </div>
     </div>
