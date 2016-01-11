@@ -3,6 +3,16 @@ class CabpoolsController < ApplicationController
   before_action :registered? , except: [:show, :approve_reject_handler]
   before_action :has_cabpool, only: [:leave]
   before_action :has_cabpool_or_request, only: [:your_cabpools]
+  before_action :user_should_not_have_cabpool, only: :new
+
+  def user_should_not_have_cabpool
+    user = User.find_by_email(session[:Email])
+    if ! user.nil?
+       if user.cabpool
+         redirect_to(root_path)
+       end
+    end
+  end
 
   def new
     @cabpool = Cabpool.new
@@ -41,9 +51,7 @@ class CabpoolsController < ApplicationController
     id = params[:cabpool][:id]
     joining_cab = Cabpool.find_by_id(id)
     requesting_user = User.find_by_email(session[:Email])
-    if !requesting_user.requests.empty?
-      flash[:danger] = 'You have already requested to a cab. Please wait for the request to be processed'
-    elsif joining_cab.available_slots > 0
+    if joining_cab.available_slots > 0
       flash[:success] = 'Request Sent!'
       request = Request.create(user: requesting_user, cabpool: joining_cab)
       send_emails_to_cabpool_users(joining_cab.users, current_user, request.approve_digest)
@@ -156,15 +164,21 @@ class CabpoolsController < ApplicationController
   end
 
   def send_email_to_admin_about_new_user joining_user
-    CabpoolMailer.admin_notifier_for_new_user(joining_user).deliver_now
+    if joining_user.cabpool.cabpool_type_id == 1
+      CabpoolMailer.admin_notifier_for_new_user(joining_user).deliver_now
+    end
   end
 
   def send_email_to_admin_about_new_cabpool joining_user
-    CabpoolMailer.admin_notifier_for_new_cabpool(joining_user).deliver_now
+    if joining_user.cabpool.cabpool_type_id == 1
+      CabpoolMailer.admin_notifier_for_new_cabpool(joining_user).deliver_now
+    end
   end
 
   def send_email_to_admin_about_invalid_cabpool deleting_cabpool
-    CabpoolMailer.admin_notifier_for_invalid_cabpool(deleting_cabpool).deliver_now
+    if deleting_cabpool.cabpool_type_id == 1
+      CabpoolMailer.admin_notifier_for_invalid_cabpool(deleting_cabpool).deliver_now
+    end
   end
 
   def reject_user user
@@ -182,7 +196,9 @@ class CabpoolsController < ApplicationController
 
   def send_email_to_admin_when_user_leaves(users, leaving_user)
     cabpool = users.first.cabpool
-    CabpoolMailer.admin_notifier_for_member_leaving(cabpool, leaving_user).deliver_now
+    if cabpool.cabpool_type_id ==1
+      CabpoolMailer.admin_notifier_for_member_leaving(cabpool, leaving_user).deliver_now
+    end
   end
 
   def send_email_to_cabpool_users_on_member_leaving(users,current_user)

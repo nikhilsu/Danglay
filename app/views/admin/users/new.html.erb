@@ -6,7 +6,7 @@
   <p> In order to proceed, please complete the user's details below.</p>
 </div>
 
-<%= bootstrap_form_for(@user, layout: :horizontal, label_col: "col-md-3", control_col: "col-md-7", url: admin_create_path) do |f| %>
+<%= bootstrap_form_for(@user, layout: :horizontal, label_col: "col-md-3", control_col: "col-md-7", url: admin_user_create_path) do |f| %>
     <%= f.text_field :name %>
     <%= f.text_field :email %>
     <%= f.text_field :emp_id %>
@@ -20,7 +20,7 @@
         <%= render 'shared/error_messages', errors: @locality_errors if !@locality_errors.nil?%>
       </div>
     </div>
-    <%= f.submit "Update Profile",class: "btn center-block"%>
+    <%= f.submit "Create the User",class: "btn center-block"%>
  <% end %>
   </div>
  </div>

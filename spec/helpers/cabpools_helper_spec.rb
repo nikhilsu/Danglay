@@ -140,9 +140,9 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:Email] = user.email
     session[:registered_uid] = 1
     cabpool = build(:cabpool)
-    user.requested_cabpools = [cabpool]
+    user.requested_cabpools << cabpool
     allow(User).to receive(:find_by_email).and_return(user)
-    expect(users_requested_cabpool).to be cabpool
+    expect(users_requested_cabpool).to be user.requested_cabpools
   end
 
   it 'should return true if current user has requested for cabpool' do
@@ -246,7 +246,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     expect(button(cabpool)).to eq nil
   end
 
-  it 'should return no button if user has existing requests' do
+  it 'should return join button if user has multiple requests' do
     cabpool = double()
     two_cabpool = double()
     three_cabpool = double()
@@ -261,7 +261,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     allow(user).to receive(:requested_cabpools).and_return([three_cabpool])
     allow(current_user).to receive(:cabpool).and_return(two_cabpool)
     allow(cabpool).to receive(:available_slots).and_return(2)
-    expect(button(cabpool)).to eq nil
+    expect(button(cabpool)).to eq "Join Ride"
   end
 
   it 'should show join button when current user has no requests, has another assigned cabpool, and available slots present' do

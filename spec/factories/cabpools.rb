@@ -10,6 +10,12 @@ FactoryGirl.define do
         cabpool.localities << FactoryGirl.build_stubbed(:locality, name: Faker::Address.street_name)
       end
     end
+
+    after(:build) do |cabpool|
+      2.times do
+        cabpool.users << FactoryGirl.build(:user, name: Faker::Name.name)
+      end
+    end
   end
 
   trait :without_number_of_people do
@@ -82,6 +88,12 @@ FactoryGirl.define do
       6.times do
         cabpool.localities << FactoryGirl.build_stubbed(:locality)
       end
+    end
+  end
+
+  trait :without_users do
+    after(:build) do |cabpool|
+      cabpool.users.clear
     end
   end
 end

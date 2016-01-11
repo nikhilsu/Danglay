@@ -50,13 +50,13 @@ module CabpoolsHelper
       false
     else
       user_requested_cabpool = users_requested_cabpool
-      !user_requested_cabpool.nil?
+      !user_requested_cabpool.empty?
     end
   end
 
   def users_requested_cabpool
     user = User.find_by_email(session[:Email])
-    user.requested_cabpools.first
+    user.requested_cabpools
   end
 
   def users_cabpool
@@ -70,7 +70,7 @@ module CabpoolsHelper
         "Requested"
       elsif current_user.cabpool == cabpool
         "Leave Ride"
-      elsif cabpool.available_slots > 0 && !user_requested_cabpool_exists?
+      elsif cabpool.available_slots > 0
         "Join Ride"
       end
     else
@@ -85,7 +85,10 @@ module CabpoolsHelper
       cabpools = cabpools.reject { |cabpool| cabpool.id == users_cabpool.id }
     end
     if user_requested_cabpool_exists?
-      cabpools = cabpools.reject { |cabpool| cabpool.id == users_requested_cabpool.id }
+      requested_cabpools = users_requested_cabpool
+      requested_cabpools.each do |requested_cabpool|
+        cabpools = cabpools.reject { |cabpool| cabpool.id == requested_cabpool.id }
+      end
     end
     cabpools
   end

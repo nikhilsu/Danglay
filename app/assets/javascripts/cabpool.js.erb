@@ -3,6 +3,7 @@ var data = {};
 
 var CabPoolListener = {
     addListeners: function () {
+        $('div.selectize:first > select').selectize()
         var select_tag = $('div.localityForm').html();
         $('div.localityForm:first').remove();
         $('#addLocality').click(function () {
@@ -33,11 +34,16 @@ var CabPoolListener = {
             }
             update_map();
         });
+
+        $('#sourceLocation').change (function() {
+          data.source = $('#sourceLocation :selected').text() + " Bangalore, Karnataka ";
+          update_map();
+        })
     }
 };
 
 var update_map = function() {
-  var viaLocations = document.getElementsByClassName('form-control selectized');
+  var viaLocations = document.getElementsByClassName('form-control selectized add-locality');
   data.waypoints = [];
   for (var counter=0; counter < viaLocations.length; counter++)
   {
@@ -62,12 +68,15 @@ var geocodeCallback = function(results, status) {
 
 $(document).ready(function() {
     CabPoolListener.addListeners();
+    CabPoolListenerPassenger.addListeners();
     $('#localities_search').selectize();
 });
 
 $(document).on('page:load', function() {
     CabPoolListener.addListeners();
+    CabPoolListenerPassenger.addListeners();
     $('#localities_search').selectize();
+
 });
 
 function initMap() {
@@ -81,7 +90,9 @@ function initMap() {
   });
 
   data = {};
-  data.source = document.getElementById("locality").textContent + " Bangalore, Karnataka ";
+  if(document.getElementById("locality") != null ){
+    data.source = document.getElementById("locality").textContent + " Bangalore, Karnataka ";
+  }
   data.destination = {lat: 12.9287258, lng: 77.6267284};
   displayRoute(data.source , data.destination, directionsService, directionsDisplay);
 
@@ -132,7 +143,8 @@ function setroute()
   for(var i=0;i<data.waypoints.length;i++)
     wp[i] = {'location': new google.maps.LatLng(data.waypoints[i][0], data.waypoints[i][1]),'stopover': true }
 
-  directionsService.route({'origin':data.source,
+  directionsService.route({
+    'origin':data.source,
     'destination':data.destination,
     'waypoints': wp,
     'travelMode': google.maps.DirectionsTravelMode.DRIVING,
@@ -168,3 +180,46 @@ function reset_map() {
   $('#addLocality').parent().show();
   setroute();
 }
+
+
+var CabPoolListenerPassenger = {
+    addListeners: function () {
+        var select_tag = $('div.passengersForm').html();
+        $('div.passengersForm:first > select').selectize()
+        $('#addPassenger').click(function () {
+            var number_of_people = $("div.passengersForm").length + $('label#userName').length;
+            if (number_of_people <= 4) {
+                var passenger_form_with_remove_icon = '<div class="form-group"> ' +
+                    '<div class="passengersForm col-md-5 col-md-offset-3">' + select_tag + '</div> ' +
+                    '<a href="javascript:;"><span class="glyphicon glyphicon-minus-sign" id="removeNewPassenger"></span></a> ' +
+                    '</div>';
+                $('div#passengersSelection').append(passenger_form_with_remove_icon);
+                var select_the_last_passenger_form = $('div.passengersForm:last > select');
+                select_the_last_passenger_form.attr('name', 'passengers[' + $.now() + ']');
+                select_the_last_passenger_form.selectize();
+
+                if (number_of_people == 4) {
+                    $(this).parent().hide();
+                }
+            }
+        });
+
+        $("div#passengersSelection").on('click', '#removeNewPassenger', function () {
+            $(this).closest('.form-group').remove();
+            var number_of_locality_forms = $("div.passengersForm").length + $('label#userName').length;
+            var add_locality_count = $("#addPassenger").length;
+            if (number_of_locality_forms <= 4 && $('#addPassenger').is(':hidden')) {
+                $('#addPassenger').parent().show();
+            }
+        });
+
+        $('div#passenger').on('click', '#removePassenger', function() {
+          $(this).closest('#userName').remove();
+          var number_of_locality_forms = $("div.passengersForm").length + $('label#userName').length;
+          var add_locality_count = $("#addPassenger").length;
+          if (number_of_locality_forms <= 4 && $('#addPassenger').is(':hidden')) {
+            $('#addPassenger').parent().show();
+          }
+        });
+    }
+};
