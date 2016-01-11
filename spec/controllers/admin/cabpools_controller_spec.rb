@@ -123,11 +123,14 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     user.role = admin_role
     allow(User).to receive(:find_by_email).and_return(user)
     cabpool_type = create(:cabpool_type).id
-    another_user = build_stubbed(:user)
-    allow(User).to receive(:find_by_id).and_return(another_user)
-    allow(another_user).to receive(:save).and_return(true)
+    first_user = build_stubbed(:user)
+    allow(User).to receive(:find_by_id).and_return(first_user)
+    allow(first_user).to receive(:save).and_return(true)
+    second_user = build_stubbed(:user)
+    allow(User).to receive(:find_by_id).and_return(second_user)
+    allow(second_user).to receive(:save).and_return(true)
 
-    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :users => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
+    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :users => {:user_id => first_user.id}, :passengers => {:user_id => second_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
 
     cabpool = assigns(:cabpool)
 
