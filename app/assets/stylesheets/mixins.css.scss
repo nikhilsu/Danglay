@@ -1,5 +1,5 @@
 /* Mixins Declaration */
-@import 'variables';
+@import 'variables.css.scss';
 /* helper classes */
 .clearfix{
     display: inline-block;
@@ -23,6 +23,11 @@
 .text-right{
     text-align: right;
 }
+
+.center {
+  text-align: center;
+}
+
 @mixin buttons($bg, $color){
     background: $bg;
     color: $color;
@@ -38,7 +43,7 @@
     &:focus{
         outline: none;
     }
-    
+
 }
 
 @mixin input($border-color, $bg){

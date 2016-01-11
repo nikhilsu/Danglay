@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,800,600,300);
-@import "variables";
-@import "mixins";
-@import "grid";
+@import 'variables.css.scss';
+@import "mixins.css.scss";
+@import "grid.css.scss";
 
 /* To customize the grid and other style,
  *  you can change the variables.
@@ -91,7 +91,7 @@ header{
     a{
         color:#fff;
         text-decoration: none;
-        
+
     }
 }
 .brand-logo{
@@ -105,7 +105,7 @@ header{
     background: #fff;
     padding: 2px 15px;
     border-radius: 0 15px;
-    
+
 }
 .nav-right{
     margin-top: 5px;
@@ -799,5 +799,12 @@ input,textarea{
   }
   footer{
     font-size: 10px;
+  }
+}
+
+.plain-text {
+  line-height: 1.5em;
+  p {
+    margin: 1em;
   }
 }
