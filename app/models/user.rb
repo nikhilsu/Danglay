@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_many :requests
   has_many :requested_cabpools, through: :requests, source: :cabpool
   validates_presence_of :emp_id, :name, :email, :address, :locality, :phone_no
-  validate :only_one_request, :validate_phone_no
+  validate :validate_phone_no
   attr_readonly :emp_id
 
   private
@@ -26,12 +26,6 @@ class User < ActiveRecord::Base
       end
     else
       errors.add(:users, "Phone no should be of length not more than 25 characters")
-    end
-  end
-
-  def only_one_request
-    if requests.size > 1
-      errors.add(:requests, "Already requested")
     end
   end
 

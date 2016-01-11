@@ -53,14 +53,14 @@ RSpec.describe User, type: :model do
     expect(user.valid?).to be true
   end
 
-  it "should have only one request" do
+  it "can have multiple requests" do
     user = build(:user)
     r1 = build(:request)
     r2 = build(:request)
     user.requests = [r1]
     expect(user.valid?).to be true
     user.requests = [r1, r2]
-    expect(user.valid?).to be false
+    expect(user.valid?).to be true
   end
 
   it "emp_id cannot be re-written" do

@@ -139,18 +139,6 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(flash[:danger]).to eq 'Cab capacity exceeded!'
   end
 
-  it 'should show already requested for user who is already requested' do
-    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
-    cabpool = assigns(:cabpool)
-    user = build(:user)
-    request = build(:request)
-    user.requests = [request]
-    allow(User).to receive(:find_by_email).and_return(user)
-    post :join, cabpool: {id: cabpool.id}
-    expect(response).to redirect_to root_path
-    expect(flash[:danger]).to eq 'You have already requested to a cab. Please wait for the request to be processed'
-  end
-
   it 'should send emails to cabpool users when a user joins that cabpool' do
     post :create, :cabpool => {number_of_people: 4, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)
