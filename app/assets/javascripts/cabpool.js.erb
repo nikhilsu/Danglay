@@ -202,7 +202,7 @@ var CabPoolListenerPassenger = {
         var select_tag = $('div.passengersForm').html();
         $('div.passengersForm:first > select').selectize()
         $('#addPassenger').click(function () {
-            var number_of_people = $("div.passengersForm").length;
+            var number_of_people = $("div.passengersForm").length + $('label#userName').length;
             if (number_of_people <= 4) {
                 var passenger_form_with_remove_icon = '<div class="form-group"> ' +
                     '<div class="passengersForm col-md-5 col-md-offset-3">' + select_tag + '</div> ' +
@@ -221,11 +221,20 @@ var CabPoolListenerPassenger = {
 
         $("div#passengersSelection").on('click', '#removeNewPassenger', function () {
             $(this).closest('.form-group').remove();
-            var number_of_locality_forms = $("div.passengersForm").length;
+            var number_of_locality_forms = $("div.passengersForm").length + $('label#userName').length;
             var add_locality_count = $("#addPassenger").length;
             if (number_of_locality_forms <= 4 && $('#addPassenger').is(':hidden')) {
                 $('#addPassenger').parent().show();
             }
+        });
+
+        $('div#passenger').on('click', '#removePassenger', function() {
+          $(this).closest('#userName').remove();
+          var number_of_locality_forms = $("div.passengersForm").length + $('label#userName').length;
+          var add_locality_count = $("#addPassenger").length;
+          if (number_of_locality_forms <= 4 && $('#addPassenger').is(':hidden')) {
+            $('#addPassenger').parent().show();
+          }
         });
     }
 };

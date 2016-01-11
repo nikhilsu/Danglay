@@ -137,4 +137,46 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(response).to redirect_to '/admin'
     expect(cabpool.errors.any?).to be false
   end
+
+  it 'should render Edit' do
+    user = build_stubbed(:user)
+    admin_role = build_stubbed(:role, :admin_role)
+    user.role = admin_role
+    allow(User).to receive(:find_by_email).and_return(user)
+    cabpool = build_stubbed(:cabpool)
+    allow(Cabpool).to receive(:find).and_return(cabpool)
+
+    get :edit, :id=> cabpool.id
+
+    expect(response).to render_template "admin/cabpools/edit"
+  end
+
+  it 'should update cabpool users' do
+    user = build_stubbed(:user)
+    admin_role = build_stubbed(:role, :admin_role)
+    user.role = admin_role
+    allow(User).to receive(:find_by_email).and_return(user)
+    cabpool = build_stubbed(:cabpool)
+    allow(Cabpool).to receive(:find).and_return(cabpool)
+    allow(cabpool).to receive(:save).and_return(true)
+
+    patch :update, :id => cabpool.id , :users => {:user_id => user.id}
+
+    expect(response).to redirect_to admin_path
+  end
+
+  it 'should not update cabpool users if form is not valid' do
+    user = build_stubbed(:user)
+    admin_role = build_stubbed(:role, :admin_role)
+    user.role = admin_role
+    allow(User).to receive(:find_by_email).and_return(user)
+    cabpool = build_stubbed(:cabpool)
+    allow(Cabpool).to receive(:find).and_return(cabpool)
+    allow(cabpool).to receive(:save).and_return(false)
+
+    patch :update, :id => cabpool.id , :users => {:user_id => user.id}
+
+    expect(response).to redirect_to "/admin_cabpool/#{cabpool.id}/edit"
+
+  end
 end

@@ -20,6 +20,19 @@ class Admin::CabpoolsController < Admin::AdminController
     end
   end
 
+  def edit
+    @cabpool = Cabpool.find(params[:id])
+  end
+
+  def update
+    @cabpool = Cabpool.find(params[:id])
+    add_users_to_cabpool
+    if @cabpool.save
+      redirect_to '/admin'
+    else
+      redirect_to "/admin_cabpool/#{params[:id]}/edit"
+    end
+  end
 
 private
 
