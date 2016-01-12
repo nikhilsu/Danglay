@@ -738,3 +738,29 @@ input,textarea{
     margin: 1em;
   }
 }
+
+.alert {
+   border: solid;
+   border-width: 0.1em;
+   border-radius: 1em;
+   padding: 1em;
+   margin-top: 1em;
+}
+
+.alert-success {
+  background-color: #D1EDC8;
+  color: #4B9E32;
+  border-color: #6FC954;
+}
+
+.alert-danger {
+  background-color: #EAB0B6;
+  color: #7D222C;
+  border-color: #7D222C;
+}
+
+.alert-prompt {
+  color: #D63301;
+  background-color: #FFCCBA;
+  border-color:#D63301;
+}

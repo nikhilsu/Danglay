@@ -3,7 +3,7 @@ class CabpoolsController < ApplicationController
   before_action :registered? , except: [:show, :approve_reject_handler]
   before_action :has_cabpool, only: [:leave]
   before_action :has_cabpool_or_request, only: [:your_cabpools]
-  before_action :does_not_have_cabpool_or_request, only: [:your_cabpools]
+  before_action :has_cabpool_or_request, only: [:your_cabpools]
   before_action :user_should_not_have_cabpool, only: :new
 
   def user_should_not_have_cabpool
@@ -257,7 +257,7 @@ class CabpoolsController < ApplicationController
   def has_cabpool_or_request
     if current_user.cabpool.nil? && current_user.requested_cabpools.empty?
       redirect_to root_path
-      flash[:alert] = "You are not part of any cab pool. Please create or join a cab pool"
+      flash[:prompt] = "You are not part of any cab pool. Please create or join a cab pool."
     end
   end
 
