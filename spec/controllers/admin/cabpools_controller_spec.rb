@@ -56,9 +56,8 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     allow(User).to receive(:find_by_email).and_return(user)
     another_user = build_stubbed(:user)
     allow(User).to receive(:find_by_id).and_return(another_user)
-    post :create, :cabpool => {number_of_people: 0, timein: "9:30", timeout: "2:30"}, :users => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
+    post :create, :cabpool => {number_of_people: 0, timein: "9:30", timeout: "2:30"}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)
-
     expect(response).to render_template 'admin/cabpools/new'
     expect(cabpool.errors.any?).to be true
   end
@@ -67,10 +66,10 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     admin_role = build(:role, :admin_role)
     user.role = admin_role
     allow(User).to receive(:find_by_email).and_return(user)
-    another_user = build(:user)
+    another_user = build_stubbed(:user)
     allow(User).to receive(:find_by_id).and_return(another_user)
 
-    post :create, :cabpool => {gibbrish: 'hello'}, :users => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:a => '1'}
+    post :create, :cabpool => {number_of_people: 0, gibbrish: 'hello'}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:a => '1'}
     cabpool = assigns(:cabpool)
     expect(response).to render_template 'admin/cabpools/new'
     expect(cabpool.errors.any?).to be true
@@ -84,7 +83,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     allow(User).to receive(:find_by_id).and_return(another_user)
     allow(another_user).to receive(:save).and_return(true)
 
-    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :users => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => ''}
+    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => ''}
     cabpool = assigns(:cabpool)
     expect(response).to render_template 'cabpools/new'
     expect(cabpool.errors.any?).to be true
@@ -98,7 +97,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     allow(User).to receive(:find_by_id).and_return(another_user)
     allow(another_user).to receive(:save).and_return(true)
 
-    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :users => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => ''}, :localities => {:locality_one_id => '1'}
+    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => ''}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)
     expect(response).to render_template 'cabpools/new'
     expect(cabpool.errors.any?).to be true
@@ -111,10 +110,32 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     another_user = build_stubbed(:user)
     allow(User).to receive(:find_by_id).and_return(another_user)
 
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :users => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1', :locality_two_id => '1'}
+    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1', :locality_two_id => '1'}
     cabpool = assigns(:cabpool)
     expect(response).to render_template 'cabpools/new'
     expect(cabpool.errors.any?).to be true
+  end
+
+  it 'should render new capool page with flash message if no passengers are added' do
+    admin_role = build_stubbed(:role, :admin_role)
+    user.role = admin_role
+    allow(User).to receive(:find_by_email).and_return(user)
+
+    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1', :locality_two_id => '1'}
+    cabpool = assigns(:cabpool)
+    expect(response).to render_template 'cabpools/new'
+    expect(flash[:danger]).to be_present
+  end
+
+  it 'should render new capool page with flash message if the add passenger field is left empty' do
+    admin_role = build_stubbed(:role, :admin_role)
+    user.role = admin_role
+    allow(User).to receive(:find_by_email).and_return(user)
+
+    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :passengers => {:user_id => ''},:cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1', :locality_two_id => '1'}
+    cabpool = assigns(:cabpool)
+    expect(response).to render_template 'cabpools/new'
+    expect(flash[:danger]).to be_present
   end
 
   it 'should render show cabpool page when valid details are entered' do
@@ -130,7 +151,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     allow(User).to receive(:find_by_id).and_return(second_user)
     allow(second_user).to receive(:save).and_return(true)
 
-    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :users => {:user_id => first_user.id}, :passengers => {:user_id => second_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
+    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :passengers => {:user_id=> first_user.id, :user_id => second_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
 
     cabpool = assigns(:cabpool)
 

@@ -200,7 +200,8 @@ function reset_map() {
 var CabPoolListenerPassenger = {
     addListeners: function () {
         var select_tag = $('div.passengersForm').html();
-        $('div.passengersForm:first > select').selectize()
+        $('div.passengersForm:first').remove();
+        // $('div.passengersForm:first > select').selectize()
         $('#addPassenger').click(function () {
             var number_of_people = $("div.passengersForm").length + $('label#userName').length;
             if (number_of_people <= 4) {
