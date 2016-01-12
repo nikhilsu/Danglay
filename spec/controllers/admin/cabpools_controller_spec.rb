@@ -138,6 +138,23 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(flash[:danger]).to be_present
   end
 
+  it 'should render new capool page with flash message if the number of  passengers is greater than the capacity' do
+    admin_role = build_stubbed(:role, :admin_role)
+    user.role = admin_role
+    allow(User).to receive(:find_by_email).and_return(user)
+    first_user = build_stubbed(:user)
+    allow(User).to receive(:find_by_id).and_return(first_user)
+    allow(first_user).to receive(:save).and_return(true)
+    second_user = build_stubbed(:user)
+    allow(User).to receive(:find_by_id).and_return(second_user)
+    allow(second_user).to receive(:save).and_return(true)
+
+    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :passengers => {:user_id_one => first_user.id, :user_id_two => second_user.id},:cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1', :locality_two_id => '1'}
+    cabpool = assigns(:cabpool)
+    expect(response).to render_template 'cabpools/new'
+    expect(flash[:danger]).to be_present
+  end
+
   it 'should render show cabpool page when valid details are entered' do
     user = build(:user)
     admin_role = build_stubbed(:role, :admin_role)
@@ -151,7 +168,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     allow(User).to receive(:find_by_id).and_return(second_user)
     allow(second_user).to receive(:save).and_return(true)
 
-    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :passengers => {:user_id=> first_user.id, :user_id => second_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
+    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :passengers => {:user_id_one => first_user.id, :user_id_two=> second_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
 
     cabpool = assigns(:cabpool)
 

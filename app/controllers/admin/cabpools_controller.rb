@@ -74,6 +74,6 @@ private
   end
 
   def passengers_are_greater_than_capacity
-    params[:passengers].length > params[:cabpool][:number_of_people].to_i && params[:cabpool][:number_of_people].to_i > 0
+    (params[:passengers].length > params[:cabpool][:number_of_people].to_i) && (params[:cabpool][:number_of_people].to_i > 0)
   end
 end
