@@ -43,6 +43,9 @@
       <% end %>
     </div>
 
+    <%= form_for(cabpool, url: "admin_cabpool/#{cabpool.id}/edit", method: 'get') do |f| %>
+        <%= f.submit :Edit, class: "btn pull-right" %>
+    <% end %>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuETg3lyde0IR6XSO1WhVZY69bAp5owcs&callback=initMap_show">
     </script>
