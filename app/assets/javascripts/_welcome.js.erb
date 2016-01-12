@@ -1,0 +1,31 @@
+var listener = {
+  addListeners: function() {
+    var path = window.location.href;
+    var path_substring = path.substring(path.lastIndexOf('/')+1);
+    if (path_substring == "") {
+      $(".pink-bubble").css("background", "#b11c54");
+      bubble_select(".pink-bubble")
+    }
+    if (path_substring == "new") {
+      $(".blue-bubble").css("background", "#11c1f3");
+      bubble_select(".blue-bubble")
+    }
+    if (path_substring == "your_cabpools") {
+      $(".green-bubble").css("background", "#05A054");
+      bubble_select(".green-bubble")
+    }
+  }
+}
+
+$(document).ready(function() {
+    listener.addListeners();
+});
+
+$(document).on('page:load', function() {
+  listener.addListeners();
+});
+
+function bubble_select(class_name) {
+  $(class_name).css("z-index", "2");
+  $(class_name).css("position", "relative");
+}

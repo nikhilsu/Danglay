@@ -248,22 +248,9 @@ header{
                     transition: all .5s ease;
                     text-decoration: none;
             }
-            .create{
+            .blue-bubble{
                 &:hover{
                     background: $calm;
-                    z-index: 2;
-                    position: relative;
-                    -webkit-transform: scale(1.2);
-                    -moz-transform: scale(1.2);
-                    -ms-transform: scale(1.2);
-                    transform: scale(1.2);
-                }
-            }
-            .join{
-                background: #b11c54;
-                z-index: 1;
-                position: relative;
-                &:hover{
                     z-index: 1;
                     position: relative;
                     -webkit-transform: scale(1.2);
@@ -272,7 +259,18 @@ header{
                     transform: scale(1.2);
                 }
             }
-            .ride{
+            .pink-bubble{
+                &:hover{
+                    background: #b11c54;
+                    z-index: 1;
+                    position: relative;
+                    -webkit-transform: scale(1.2);
+                    -moz-transform: scale(1.2);
+                    -ms-transform: scale(1.2);
+                    transform: scale(1.2);
+                }
+            }
+            .green-bubble{
                 &:hover{
                     background: #05A054;
                     z-index: 1;
