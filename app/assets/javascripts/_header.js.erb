@@ -48,6 +48,9 @@ var func = function(){
     $('.pool-title').click(function(){
       $(this).next('.pool-description').slideToggle('fast');
       $(this).toggleClass('grey-bg');
+      if($(this).hasClass('grey-bg')) {
+        initMap_show($(this).next('.pool-description').find('div.map-wrap'));
+      }
     });
     $('.pool-list ul li .pool-title button').click(function(e){e.stopPropagation();});
   }
