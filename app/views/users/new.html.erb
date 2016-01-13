@@ -21,8 +21,10 @@
             <%= render 'shared/error_messages', errors: @user.errors[:phone_no] if !@user.errors[:phone_no].empty? %>
             <%= label_tag 'Locality' %>
 
-            <%= f.collection_select(:locality, @localities, :id, :name, {prompt: true}) %>
-
+            <div class="full-width-selectize">
+              <%= f.collection_select(:locality, @localities, :id, :name, {prompt: true}) %>
+              <%= render 'shared/error_messages', errors: @user.errors[:locality] if !@user.errors[:locality].nil? %>
+            </div>
             <div class="form-group
               <% unless @locality_errors.nil? %> has-error
               <% end %>">

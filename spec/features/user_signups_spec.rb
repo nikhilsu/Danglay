@@ -24,16 +24,16 @@ RSpec.describe "UserSignups", type: :feature do
     fill_in 'user_address', with: 'No.322, Mars'
     fill_in 'user_phone_no', with: '+91 9080706055'
     page.execute_script "window.scrollBy(0, 10000)"
-    find(:xpath, '//*[@id="new_user"]/div/div/div/input').set('Other')
-    find(:xpath, '//*[@id="new_user"]/div/div/div/input').native.send_keys(:return)
+    find(:xpath, '//*[@id="new_user"]/div/div/div/div/input').set('Other')
+    find(:xpath, '//*[@id="new_user"]/div/div/div/div/input').native.send_keys(:return)
     fill_in 'otherBox', with: 'AF Station Yelahanka'
     page.execute_script "window.scrollBy(0, 10000)"
     click_button 'Update Profile'
     expect(page.current_path).to eq '/users'
     page.document.has_content? 'locality already exists'
     page.execute_script "window.scrollBy(0, 10000)"
-    find(:xpath, '//*[@id="new_user"]/div/div/div/div/input').set('Other')
-    find(:xpath, '//*[@id="new_user"]/div/div/div/div/input').native.send_keys(:return)
+    find(:xpath, '//*[@id="new_user"]/div/div/div/div/div/input').set('Other')
+    find(:xpath, '//*[@id="new_user"]/div/div/div/div/div/input').native.send_keys(:return)
     fill_in 'otherBox', with: 'Jupiter'
     page.execute_script "window.scrollBy(0, 10000)"
     click_button 'Update Profile'
