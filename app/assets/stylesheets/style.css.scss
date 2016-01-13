@@ -278,6 +278,9 @@ header{
     margin-right: 100px;
     display: inline-block;
     position: relative;
+      #userName{
+        margin-top: 25px;
+      }
     #addLocality, #addPassenger{
       float: left;
       display: inline-block;
@@ -295,6 +298,15 @@ header{
       font-weight: 600;
       color: #666;
     }
+      #removePassenger{
+        float: right;
+        padding: 3px 14px 7px;
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 1;
+        right: 0;
+        bottom: -3px;
+      }
     #removeNewLocality, #removeNewPassenger{
       float: right;
       padding: 3px 14px 7px;
