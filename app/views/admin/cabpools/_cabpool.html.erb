@@ -1,10 +1,10 @@
 <li>
   <div class="pool-title roundtrip">
-    <div class="col-2"><%= image_tag("tw.png") %></div>
-    <div class="col-2 local"><span><%= cabpool.ordered_localities.first.name %></span> <span>ThoughtWorks</span></div>
-    <div class="col-2 time"><span>Arrival: <%= formatted_time(cabpool.timein) %></span> <span>Departure: <%= formatted_time(cabpool.timeout) %></span></div>
-    <div class="col-2"><span <% if cabpool.available_slots == 0 %> class="no-seats" <% end %>  ><%= cabpool.available_slots %></span></div>
-    <div class="col-2">
+    <div class="col-20"><%= image_tag("tw.png") %></div>
+    <div class="col-20 local"><span><%= cabpool.ordered_localities.first.name %></span> <span>ThoughtWorks</span></div>
+    <div class="col-20 time"><span>Arrival: <%= formatted_time(cabpool.timein) %></span> <span>Departure: <%= formatted_time(cabpool.timeout) %></span></div>
+    <div class="col-20"><span <% if cabpool.available_slots == 0 %> class="no-seats" <% end %>  ><%= cabpool.available_slots %></span></div>
+    <div class="col-20">
       <%= form_for(cabpool, url: "admin_cabpool/#{cabpool.id}/edit", method: 'get') do |f| %>
           <%= f.button :Edit %>
       <% end %>
@@ -12,7 +12,7 @@
   </div>
   <div class="pool-description">
     <div class="row">
-      <div class="col-4">
+      <div class="col-40">
         <table class="table">
           <thead>
           <tr>
@@ -32,7 +32,7 @@
           </tbody>
         </table>
       </div>
-      <div class="col-3 route">
+      <div class="col-30 route">
         <h4 class="inner-header">Route</h4>
         <div>
           <% cabpool.ordered_localities.each do |locality| %>
@@ -41,7 +41,7 @@
           <span>Thoughtworks</span>
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-30">
         <div class="map-wrap">
           <%= hidden_field_tag 'route', cabpool.route %>
           <div id="map" class="map_show pull-right"></div>

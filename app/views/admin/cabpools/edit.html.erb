@@ -1,6 +1,6 @@
 <div class="row form-elements">
   <%= form_for(@cabpool, layout: :horizontal, url: admin_cabpool_update_path) do |f| %>
-      <div class="col-5">
+      <div class="col-50">
         <h2 class="create-form-heading"><%= "Edit Cab Pool" %></h2>
         <%= label_tag 'Capacity of Cab' %>
         <%= f.text_field :number_of_people, disabled: true %>
@@ -44,7 +44,7 @@
         <%= hidden_field_tag 'route', @cabpool.route %>
         <%= f.submit "Update pool", class: "btn-submit" %>
       </div>
-      <div class="col-5">
+      <div class="col-50">
         <div id="map" class="map_show" style="height: 400px"></div>
       </div>
       <script async defer

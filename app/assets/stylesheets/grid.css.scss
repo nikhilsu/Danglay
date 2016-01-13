@@ -25,3 +25,8 @@
      display: inline-block;
     }
 }
+@for $i from 1 through $col-no {
+  .col-offset-#{$i}{
+    margin-left: 100%/$col-no * $i;
+  }
+}

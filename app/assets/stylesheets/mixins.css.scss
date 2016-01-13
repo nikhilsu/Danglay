@@ -28,6 +28,11 @@
   text-align: center;
 }
 
+.display-block {
+  display: block;
+}
+
+
 @mixin buttons($bg, $color){
     background: $bg;
     color: $color;

@@ -197,9 +197,19 @@ header{
 .btn-alert{
     background: #F13179;
 }
+.center-form{
+  @extend .col-offset-38;
+}
 //common form elements
 .form-elements{
   padding: 20px;
+  h1 {
+    color: $calm;
+  }
+  p {
+    font-style: italic;
+    margin: 30px;
+  }
   h2{
     color: $calm;
     font-size: 24px;
@@ -265,7 +275,7 @@ header{
         line-height: 0.5em;
       }
     }
-    input, select{
+    input, select, textarea{
       border-color: #CE5050;
     }
     .selectize-control,.selectize-input{
@@ -702,18 +712,21 @@ input,textarea{
     }
 }
 @media only screen and (max-width: 767px){
-  .form-elements .col-5{
+  .form-elements .col-50{
     width: 100%;
     margin-bottom: 20px;
   }
-  .pool-list .list-label form{
+  .center-form {
+    margin-left: 0;
+  }
+    .pool-list .list-label form{
     display: none;
   }
   .map{
     margin-right: 0;
   }
   .pool-description {
-    .col-4,.col-3{
+    .col-40,.col-30{
       width: 100%;
       margin-bottom: 20px;
     }
@@ -826,10 +839,10 @@ input,textarea{
 }
 @media only screen and (max-width: 470px){
   .list-label{
-    .col-2.no-value{
+    .col-20.no-value{
       display: none;
     }
-    .col-2{
+    .col-20{
       width: 25%;
       font-size: 11px;
       padding-top: 3px;
@@ -847,7 +860,7 @@ input,textarea{
     ul li {
       .pool-title {
         padding: 6px 2px;
-        .col-2:nth-of-type(5){
+        .col-20:nth-of-type(5){
           display: none;
         }
         span{
@@ -857,16 +870,16 @@ input,textarea{
           width: 45px;
         }
       }
-      .col-2{
+      .col-20{
         width: 25%;
       }
-      .pool-title .col-2:nth-of-type(1){
+      .pool-title .col-20:nth-of-type(1){
         width: 20%;
       }
-      .pool-title .col-2:nth-of-type(4){
+      .pool-title .col-20:nth-of-type(4){
         width: 20%;
       }
-      .pool-title .col-2:nth-of-type(3){
+      .pool-title .col-20:nth-of-type(3){
         width: 35%;
       }
     }
