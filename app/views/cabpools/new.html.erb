@@ -5,7 +5,7 @@
 
       <%= form_for(@cabpool, layout: :horizontal) do |f| %>
           <div class="col-5">
-            <h2 class="create-form-heading"><%= "Create a Cab Pool" %></h2>
+            <h2><%= "Create a Cab Pool" %></h2>
             <%= label_tag 'Capacity of Cab' %>
             <%= f.text_field :number_of_people %>
             <%= render 'shared/error_messages', errors: @cabpool.errors[:number_of_people] if !@cabpool.errors[:number_of_people].empty? %>
@@ -28,7 +28,7 @@
             <div class="form-group">
               <label class="label-blue" for="user_locality">Route</label>
               <div>
-                <span class="label-purple" id="locality"> <%= User.find_by_email(session[:Email]).locality.name %> </span>
+                <span class="label-name" id="locality"> <%= User.find_by_email(session[:Email]).locality.name %> </span>
                 <%= hidden_field_tag 'localities[source]', User.find_by_email(session[:Email]).locality.id %>
                 <div class="localityForm">
                   <label class="control-label required pull-left" for="user_locality">Via</label>

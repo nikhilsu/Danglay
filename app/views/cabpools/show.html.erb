@@ -8,7 +8,7 @@
       <div class="col-2 seats">Seat left</div>
       <div class="col-2">
         <%= form_tag show_cabpools_path do %>
-            <%= collection_select(:localities, :search, Locality.all, :id, :name, {prompt: 'Search Locality'}) %>
+            <%= collection_select(:localities, :search, Locality.all, :id, :name, {prompt: 'Locality'}) %>
             <%= button_tag "", class: "btn-search" %>
         <% end %>
       </div>
