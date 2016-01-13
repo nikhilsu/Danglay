@@ -13,10 +13,18 @@ class Admin::CabpoolsController < Admin::AdminController
     @cabpool = Cabpool.new(cabpool_params)
     add_localities_to_cabpool
     add_users_to_cabpool
-    if @cabpool.save
-      redirect_to '/admin'
-    else
+    if(no_passengers_added)
+      flash[:danger] = "Please add some people to the cab"
       render 'admin/cabpools/new'
+    elsif (passengers_are_greater_than_capacity)
+      flash[:danger] = "Number of people are more than the capacity of the cab"
+      render 'admin/cabpools/new'
+    else
+      if @cabpool.save
+        redirect_to '/admin'
+      else
+        render 'admin/cabpools/new'
+      end
     end
   end
 
@@ -53,16 +61,19 @@ private
   end
 
   def add_users_to_cabpool
-    params[:users].values.each do |user_id|
-      user = User.find_by_id(user_id)
-      @cabpool.users << user if !user.nil?
-    end
-
     if params[:passengers] != nil
       params[:passengers].values.each do |user_id|
         user = User.find_by_id(user_id)
         @cabpool.users << user if !user.nil?
       end
     end
+  end
+
+  def no_passengers_added
+    params[:passengers] == nil || params[:passengers].values.first.empty?
+  end
+
+  def passengers_are_greater_than_capacity
+    (params[:passengers].length > params[:cabpool][:number_of_people].to_i) && (params[:cabpool][:number_of_people].to_i > 0)
   end
 end

@@ -194,10 +194,10 @@ function reset_map() {
 var CabPoolListenerPassenger = {
     addListeners: function () {
         var select_tag = $('div.passengersForm').html();
-        $('div.passengersForm:first > select').selectize()
+        $('div.passengersForm:first').remove();
         $('#addPassenger').click(function () {
             var number_of_people = $("div.passengersForm").length + $('label#userName').length;
-            if (number_of_people <= 4) {
+            if (number_of_people <= 3) {
                 var passenger_form_with_remove_icon = '<div class="form-group"> ' +
                     '<div class="passengersForm col-md-5 col-md-offset-3">' + select_tag + '</div> ' +
                     '<a href="javascript:;"><span class="glyphicon glyphicon-minus-sign" id="removeNewPassenger"></span></a> ' +
@@ -207,7 +207,7 @@ var CabPoolListenerPassenger = {
                 select_the_last_passenger_form.attr('name', 'passengers[' + $.now() + ']');
                 select_the_last_passenger_form.selectize();
 
-                if (number_of_people == 4) {
+                if (number_of_people == 3) {
                     $(this).parent().hide();
                 }
             }
@@ -217,7 +217,7 @@ var CabPoolListenerPassenger = {
             $(this).closest('.form-group').remove();
             var number_of_locality_forms = $("div.passengersForm").length + $('label#userName').length;
             var add_locality_count = $("#addPassenger").length;
-            if (number_of_locality_forms <= 4 && $('#addPassenger').is(':hidden')) {
+            if (number_of_locality_forms <= 3 && $('#addPassenger').is(':hidden')) {
                 $('#addPassenger').parent().show();
             }
         });
@@ -226,7 +226,7 @@ var CabPoolListenerPassenger = {
           $(this).closest('#userName').remove();
           var number_of_locality_forms = $("div.passengersForm").length + $('label#userName').length;
           var add_locality_count = $("#addPassenger").length;
-          if (number_of_locality_forms <= 4 && $('#addPassenger').is(':hidden')) {
+          if (number_of_locality_forms <= 3 && $('#addPassenger').is(':hidden')) {
             $('#addPassenger').parent().show();
           }
         });
