@@ -197,6 +197,120 @@ header{
 .btn-alert{
     background: #F13179;
 }
+//common form elements
+.form-elements{
+  padding: 20px;
+  h2{
+    color: $calm;
+    font-size: 24px;
+    font-weight:800;
+    border-bottom: 1px solid $calm;
+    display: inline-block;
+  }
+    label{
+      color: #525151;
+      display: block;
+      font-weight: 600;
+      text-transform: capitalize;
+      margin: 15px 0 5px 0;
+      font-size: 14px;
+    }
+  input{
+    width: 100%;
+    max-width:300px;
+    -webkit-border-radius:2px;
+    -moz-border-radius:2px;
+    border-radius:2px;
+    font-size: 14px;
+    color: #666;
+  }
+  textarea{
+    width: 100%;
+    max-width:300px;
+    -webkit-border-radius:2px;
+    -moz-border-radius:2px;
+    border-radius:2px;
+    font-size: 14px;
+    color: #666;
+    height: auto;
+  }
+  select{
+    width: 100%;
+    max-width: 300px;
+    height: 35px;
+    padding-left: 10px;
+    -webkit-appearance: none;
+    border:1px solid #ddd;
+    -webkit-border-radius:2px;
+    -moz-border-radius:2px;
+    border-radius:2px;
+    background: #fff;
+    font-size: 14px;
+    color: #666;
+  }
+  .selectize-control {
+    width: 100%;
+    max-width: 300px;
+    input {
+      height: auto;
+    }
+  }
+  div.field_with_errors{
+    display: inline;
+    input, select{
+      border-color: #CE5050;
+    }
+  }
+    .form-group{
+    width: 100%;
+    max-width: 300px;
+    margin-right: 100px;
+    display: inline-block;
+    position: relative;
+    #addLocality{
+      float: left;
+      display: inline-block;
+      margin-left: 5px;
+      font-size: 16px;
+      font-weight: 800;
+      padding: 6px 13px 10px;
+      line-height: 1;
+      position: absolute;
+      right: 0px;
+    }
+    #locality{
+      float: left;
+      display: inline-block;
+      font-weight: 600;
+      color: #666;
+    }
+    #removeNewLocality{
+      float: right;
+      padding: 3px 14px 7px;
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 1;
+      position: absolute;
+      right: 0;
+      bottom: 5px;
+    }
+    .selectize-control{
+      width: 100%;
+      max-width: 250px;
+      input{
+        height: auto;
+      }
+    }
+
+  }
+  .btn-submit{
+    @include buttons($calm, $white);
+    margin-top: 30px;
+  }
+}
+label.label-blue{
+  color: $calm;
+}
 .hero-module{
     background: $dark url('banner.jpg') no-repeat 50%;
     background-size: cover;
@@ -561,6 +675,16 @@ input,textarea{
     }
 }
 @media only screen and (max-width: 767px){
+  .form-elements .col-5{
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .pool-list .list-label form{
+    display: none;
+  }
+  .map{
+    margin-right: 0;
+  }
   .pool-description {
     .col-4,.col-3{
       width: 100%;
@@ -729,7 +853,10 @@ input,textarea{
     font-size: 10px;
   }
 }
-
+.help-block{
+  color: #CE5050;
+  margin-left: 10px;
+}
 .plain-text {
   line-height: 1.5em;
   p {
