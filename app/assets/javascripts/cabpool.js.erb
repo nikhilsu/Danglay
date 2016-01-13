@@ -40,7 +40,8 @@ var CabPoolListener = {
         $('#sourceLocation').change (function() {
           data.source = $('#sourceLocation :selected').text() + " Bangalore, Karnataka ";
           update_map();
-        })
+        });
+      $('#sourceLocation').selectize();
     }
 };
 
@@ -199,8 +200,8 @@ var CabPoolListenerPassenger = {
             var number_of_people = $("div.passengersForm").length + $('label#userName').length;
             if (number_of_people <= 3) {
                 var passenger_form_with_remove_icon = '<div class="form-group"> ' +
-                    '<div class="passengersForm col-md-5 col-md-offset-3">' + select_tag + '</div> ' +
-                    '<a href="javascript:;"><span class="glyphicon glyphicon-minus-sign" id="removeNewPassenger"></span></a> ' +
+                    '<div class="passengersForm">' + select_tag + '</div> ' +
+                    '<button id="removeNewPassenger">-</button>' +
                     '</div>';
                 $('div#passengersSelection').append(passenger_form_with_remove_icon);
                 var select_the_last_passenger_form = $('div.passengersForm:last > select');
@@ -208,9 +209,10 @@ var CabPoolListenerPassenger = {
                 select_the_last_passenger_form.selectize();
 
                 if (number_of_people == 3) {
-                    $(this).parent().hide();
+                    $(this).hide();
                 }
             }
+          return false;
         });
 
         $("div#passengersSelection").on('click', '#removeNewPassenger', function () {
@@ -218,8 +220,9 @@ var CabPoolListenerPassenger = {
             var number_of_locality_forms = $("div.passengersForm").length + $('label#userName').length;
             var add_locality_count = $("#addPassenger").length;
             if (number_of_locality_forms <= 3 && $('#addPassenger').is(':hidden')) {
-                $('#addPassenger').parent().show();
+                $('#addPassenger').show();
             }
+          return false;
         });
 
         $('div#passenger').on('click', '#removePassenger', function() {
@@ -227,7 +230,7 @@ var CabPoolListenerPassenger = {
           var number_of_locality_forms = $("div.passengersForm").length + $('label#userName').length;
           var add_locality_count = $("#addPassenger").length;
           if (number_of_locality_forms <= 3 && $('#addPassenger').is(':hidden')) {
-            $('#addPassenger').parent().show();
+            $('#addPassenger').show();
           }
         });
     }

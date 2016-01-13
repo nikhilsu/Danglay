@@ -1,80 +1,78 @@
-<h1>Welcome Admin</h1>
+<% provide(:title, 'Create new Cab Pool') %>
+<div class="row form-elements">
 
-<div class="row">
-  <div class="col-md-8 col-md-offset-2">
+  <%= form_for(@cabpool, layout: :horizontal, url: admin_cabpool_create_path) do |f| %>
+      <div class="col-5">
+        <h2><%= "Create a Cab Pool" %></h2>
+        <%= label_tag 'Capacity of Cab' %>
+        <%= f.text_field :number_of_people %>
+        <%= render 'shared/error_messages', errors: @cabpool.errors[:number_of_people] if !@cabpool.errors[:number_of_people].empty? %>
 
-    <h2 class="create-form-heading"><%= "Create a Cab Pool" %></h2>
+        <div class="form-group">
+          <label class='label-blue'> Passengers </label>
 
-    <%= bootstrap_form_for(@cabpool, layout: :horizontal, label_col: "col-md-3", control_col: "col-md-7", url: admin_cabpool_create_path) do |f| %>
-        <%= f.text_field :number_of_people, label: 'Capacity of Cab' %>
-
-        <div class="form-group
-          <% unless @cabpool.errors[:cabpool_types].empty? %> has-error
-          <% end %>">
-          <label class='control-label col-md-3 required '> Passengers </label>
-
-          <div class='col-md-5'>
-            <span class="label-purple  ">Add a passenger </span>
+          <div>
+            <span class="label-name">Add a passenger </span>
 
             <div class="passengersForm">
-              <label class="control-label col-md-3 required pull-left" for="cabpool_users">Name</label>
+              <label for="cabpool_users">Name</label>
               <%= collection_select(:users, DateTime.now.strftime('%Q').to_i, User.all, :id, :name, {prompt: true}, class: 'form-control') %>
             </div>
           </div>
-          <a href="javascript:;"><span class="glyphicon glyphicon-plus" id="addPassenger"></span></a>
+          <button id="addPassenger">+</button>
         </div>
         <div id="passengersSelection"></div>
 
-        <%= render 'shared/error_messages', errors: @cabpool.errors[:users] if !@cabpool.errors[:users].empty? %>
-        <%= f.time_field :timein, label: 'Arrival time to office', placeholder: 'HH:MM' %>
-        <%= f.time_field :timeout, label: 'Departure time from office', placeholder: 'HH:MM' %>
+        <%= label_tag 'Arrival time to office' %>
+        <%= f.time_field :timein, placeholder: 'HH:MM' %>
+        <%= render 'shared/error_messages', errors: @cabpool.errors[:timein] if !@cabpool.errors[:timein].empty? %>
+        <%= label_tag 'Departure time from office' %>
+        <%= f.time_field :timeout, placeholder: 'HH:MM' %>
+        <%= render 'shared/error_messages', errors: @cabpool.errors[:timeout] if !@cabpool.errors[:timeout].empty? %>
         <%= f.hidden_field :route, value: '' %>
 
         <div id="cabpool_type" class="form-group
-              <% unless @cabpool.errors[:cabpool_types].empty? %> has-error
+              <% unless @cabpool.errors[:cabpool_types].empty? %> field_with_errors
               <% end %> ">
-          <label class="control-label col-md-3 required" for="cabpool_type">Cabpool Type</label>
+          <label for="cabpool_type">Cabpool Type</label>
 
-          <div class="col-md-7">
+          <div>
             <%= collection_select(:cabpool_type, DateTime.now.strftime('%Q').to_i, CabpoolType.all, :id, :name, {prompt: true}, class: 'form-control cabpool_type') %>
             <%= render 'shared/error_messages', errors: @cabpool.errors[:cabpool_types] if !@cabpool.errors[:cabpool_types].empty? %>
           </div>
         </div>
 
-        <div class="form-group
-              <% unless @cabpool.errors[:localities].empty? %> has-error
-              <% end %> ">
-          <label class="control-label col-md-3 required">Enter source</label>
-
-          <div class="col-md-7 selectize">
+        <div class="form-group<% unless @cabpool.errors[:localities].empty? %> field_with_errors<% end %> ">
+          <label>Enter source</label>
+          <div class="full-width-selectize">
             <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control add-locality', id: 'sourceLocation') %>
-            <%= render 'shared/error_messages', errors: @cabpool.errors[:localities] if !@cabpool.errors[:localities].empty? %>
+          <%= render 'shared/error_messages', errors: @cabpool.errors[:localities] if !@cabpool.errors[:localities].empty? %>
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="control-label col-md-3 required " for="user_locality">Route</label>
-
-          <div class="col-md-5">
-
-            <span class="label-purple">Add a location</span>
+        <div class="form-group pull-left" >
+          <label class = "label-blue" for="user_locality">Route</label>
+          <div>
+            <span class="label-name">Add a location</span>
 
             <div class="localityForm">
-              <label class="control-label col-md-3 required pull-left" for="user_locality">Via</label>
+              <label class="control-label required pull-left" for="user_locality">Via</label>
               <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control add-locality') %>
             </div>
           </div>
-          <a href="javascript:;"><span class="glyphicon glyphicon-plus" id="addLocality"></span></a>
+          <button id="addLocality">+</button>
+
         </div>
 
         <div id="localitySelections"></div>
-        <label class="glyphicon glyphicon-refresh pull-right btn" onclick="reset_map();">Reset</label>
+        <%= f.submit "Create a pool", class: "btn-submit" %>
+      </div>
+      <div class="col-5">
+        <div id="map" class="map"></div>
+      </div>
 
-        <div id="map" class="map col-md-7 col-md-offset-3"></div>
-        <%= f.submit "Create a pool", class: "btn center-block" %>
-        <script async defer
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuETg3lyde0IR6XSO1WhVZY69bAp5owcs&callback=initMap">
-        </script>
-    <% end %>
-  </div>
+      <script async defer
+              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuETg3lyde0IR6XSO1WhVZY69bAp5owcs&callback=initMap">
+      </script>
+  <% end %>
 </div>

@@ -257,8 +257,19 @@ header{
   }
   div.field_with_errors{
     display: inline;
+    .full-width-selectize {
+      span {
+        display: inline-block;
+        height: 40px;
+        vertical-align: middle;
+        line-height: 0.5em;
+      }
+    }
     input, select{
       border-color: #CE5050;
+    }
+    .selectize-control,.selectize-input{
+      display: inline-block;
     }
   }
     .form-group{
@@ -267,7 +278,7 @@ header{
     margin-right: 100px;
     display: inline-block;
     position: relative;
-    #addLocality{
+    #addLocality, #addPassenger{
       float: left;
       display: inline-block;
       margin-left: 5px;
@@ -278,13 +289,13 @@ header{
       position: absolute;
       right: 0px;
     }
-    #locality{
+    .label-name{
       float: left;
       display: inline-block;
       font-weight: 600;
       color: #666;
     }
-    #removeNewLocality{
+    #removeNewLocality, #removeNewPassenger{
       float: right;
       padding: 3px 14px 7px;
       font-size: 22px;
@@ -301,7 +312,11 @@ header{
         height: auto;
       }
     }
-
+    .full-width-selectize{
+      .selectize-control {
+        max-width: 300px;
+      }
+    }
   }
   .btn-submit{
     @include buttons($calm, $white);

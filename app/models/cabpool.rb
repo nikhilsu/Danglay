@@ -19,7 +19,7 @@ class Cabpool < ActiveRecord::Base
 
   def invalidate_empty_localities
     if localities.empty?
-      errors.add(:localities, "Empty")
+      errors.add(:localities, "Should not be empty")
     end
   end
 
@@ -43,7 +43,7 @@ class Cabpool < ActiveRecord::Base
   private
   def invalidate_empty_cabpool_type
     if cabpool_type.nil?
-      errors.add(:cabpool_types, "should not be empty")
+      errors.add(:cabpool_types, "Should not be empty")
     end
   end
 
