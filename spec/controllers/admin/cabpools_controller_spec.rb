@@ -229,5 +229,30 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(response).to redirect_to '/admin'
     expect(cabpool.users).to_not include(first_user)
     expect(cabpool.users).to include(second_user)
+    end
+
+  it 'should be able to remove existing users from cabpool sad path' do
+    user = build_stubbed(:user)
+    admin_role = build_stubbed(:role, :admin_role)
+    user.role = admin_role
+    allow(User).to receive(:find_by_email).and_return(user)
+    first_user = build_stubbed(:user)
+    allow(first_user).to receive(:save).and_return(true)
+    allow(User).to receive(:find_by_id).and_return(first_user)
+    second_user = build_stubbed(:user, :another_user)
+    allow(User).to receive(:find_by_id).and_return(second_user)
+    allow(second_user).to receive(:save).and_return(true)
+    old_users = []
+    old_users << first_user
+    old_users << second_user
+    cabpool = build(:cabpool, :without_users)
+    cabpool.users = old_users
+    cabpool.users << first_user
+    cabpool.users << second_user
+    cabpool.localities = [Locality.find_by_id(1)]
+    allow(Cabpool).to receive(:find).and_return(cabpool)
+
+    patch :update, :id => cabpool.id, :oldPassenger1 => {:user_id => first_user.id} ,:oldPassenger2 => {:user_id => first_user.id}, :oldPassenger3 => {:user_id => first_user.id}, :oldPassenger4 => {:user_id => first_user.id} , :oldPassenger5 => {:user_id => first_user.id} , :passengers => {:user_id => user.id}
+    expect(response).to redirect_to "/admin_cabpool/#{cabpool.id}/edit"
   end
 end
