@@ -39,7 +39,7 @@ var CabPoolListener = {
 
         $('#sourceLocation').change (function() {
           data.source = $('#sourceLocation :selected').text() + " Bangalore, Karnataka ";
-          update_map();
+          displayRoute(data.source, data.destination, directionsService, directionsDisplay);
         });
       $('#sourceLocation').selectize();
     }
