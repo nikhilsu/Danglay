@@ -57,7 +57,7 @@ header {
       margin: 0;
       position: relative;
       color: #fff;
-      background: url("noti.png") no-repeat 23px 12px;
+      background: url(image-path("noti.png")) no-repeat 23px 12px;
       width: 50px;
       height: 35px;
       background-size: 20px;
@@ -132,7 +132,7 @@ header {
       background: none;
       position: relative;
       span.user-icon {
-        background: url("user.png") no-repeat;
+        background: url(image-path("user.png")) no-repeat;
         display: inline-block;
         width: 25px;
         height: 25px;
@@ -506,7 +506,7 @@ label.label-blue {
             position: absolute;
             top: -1px;
             left: 14px;
-            background: url("arrow.png") no-repeat;
+            background: url(image-path("arrow.png")) no-repeat;
             background-size: 45px;
             content: "";
             width: 100%;
@@ -561,7 +561,7 @@ label.label-blue {
       .route {
         padding: 0 20px;
         > div {
-          background: url("car.png") no-repeat;
+          background: url(image-path("car.png")) no-repeat;
           background-size: 35px;
           padding-left: 32px;
         }
@@ -577,7 +577,7 @@ label.label-blue {
             top: 5px;
             content: "";
             color: #11c1f3;
-            background: url("arrow-right.png") no-repeat;
+            background: url(image-path("arrow-right.png")) no-repeat;
             width: 6px;
             height: 15px;
             background-size: contain;
@@ -602,7 +602,7 @@ label.label-blue {
       }
     }
     .btn-search {
-      background: #11C1F3 url("search.png") no-repeat 6px 1px;
+      background: #11C1F3 url(image-path("search.png")) no-repeat 6px 1px;
       background-size: 30px;
       width: 40px;
       height: 34px;
@@ -623,25 +623,25 @@ label.label-blue {
   padding: 15px 10px 12px;
   font-weight: 600;
   .vendors {
-    background: url("vendor.png") no-repeat 0 -2px;
+    background: url(image-path("vendor.png")) no-repeat 0 -2px;
     padding-left: 25px;
     background-size: 23px;
     height: 24px;
   }
   .seats {
-    background: url("seat.png") no-repeat 0 -1px;
+    background: url(image-path("seat.png")) no-repeat 0 -1px;
     padding-left: 24px;
     background-size: 23px;
     height: 24px;
   }
   .location {
-    background: url("location.png") no-repeat 0 -1px;
+    background: url(image-path("location.png")) no-repeat 0 -1px;
     padding-left: 24px;
     background-size: 22px;
     height: 24px;
   }
   .timer {
-    background: url("timer.png") no-repeat 0 1px;
+    background: url(image-path("timer.png")) no-repeat 0 1px;
     padding-left: 24px;
     background-size: 20px;
     height: 24px;
