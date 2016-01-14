@@ -37,8 +37,7 @@
           <label for="cabpool_type">Cabpool Type</label>
 
           <div>
-            <%= collection_select(:cabpool_type, DateTime.now.strftime('%Q').to_i, CabpoolType.all, :id, :name, {prompt: true}, class: 'form-control cabpool_type') %>
-            <%= render 'shared/error_messages', errors: @cabpool.errors[:cabpool_types] if !@cabpool.errors[:cabpool_types].empty? %>
+            <input disabled="disabled" value="<%= CabpoolType.find_by_name('Company provided Cab').name  %>">
           </div>
         </div>
 

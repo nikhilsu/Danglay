@@ -89,20 +89,6 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(cabpool.errors.any?).to be true
   end
 
-  it 'should render new carpool page with errors when no cabpool_type is given' do
-    admin_role = build_stubbed(:role, :admin_role)
-    user.role = admin_role
-    allow(User).to receive(:find_by_email).and_return(user)
-    another_user = build_stubbed(:user)
-    allow(User).to receive(:find_by_id).and_return(another_user)
-    allow(another_user).to receive(:save).and_return(true)
-
-    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => ''}, :localities => {:locality_one_id => '1'}
-    cabpool = assigns(:cabpool)
-    expect(response).to render_template 'cabpools/new'
-    expect(cabpool.errors.any?).to be true
-  end
-
   it 'should render new carpool page with errors when duplicate routes are given' do
     admin_role = build_stubbed(:role, :admin_role)
     user.role = admin_role
