@@ -58,7 +58,6 @@
         <div class="map-wrap">
           <%= hidden_field_tag 'route', cabpool.route %>
           <div id="map" class="map_show pull-right"></div>
-          <button class="btn-ride">Join ride</button>
           <% if button(cabpool) == "Leave Ride"%>
               <%= form_for(cabpool, url: 'leave_cabpool', method: 'post') do |f| %>
                   <%= f.button button(cabpool) ,class: 'btn-ride' %>
