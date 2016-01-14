@@ -927,9 +927,8 @@ input, textarea {
 .alert {
   border: solid;
   border-width: 0.1em;
-  border-radius: 1em;
   padding: 1em;
-  margin-top: 1em;
+  margin-top: 2em;
 }
 
 .alert-success {
@@ -939,13 +938,7 @@ input, textarea {
 }
 
 .alert-danger {
-  background-color: #EAB0B6;
-  color: #7D222C;
-  border-color: #7D222C;
-}
-
-.alert-prompt {
-  color: #D63301;
-  background-color: #FFCCBA;
-  border-color: #D63301;
+  background-color: #F2DEDE;
+  color: #D63309;
+  border-color: #FFADAD;
 }

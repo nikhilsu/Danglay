@@ -258,7 +258,7 @@ class CabpoolsController < ApplicationController
   def has_cabpool_or_request
     if current_user.cabpool.nil? && current_user.requested_cabpools.empty?
       redirect_to root_path
-      flash[:prompt] = "You are not part of any cab pool. Please create or join a cab pool."
+      flash[:danger] = "You are not part of any cab pool. Please create or join a cab pool."
     end
   end
 
