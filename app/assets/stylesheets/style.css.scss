@@ -171,6 +171,9 @@ header {
       right: -20px;
       width: 190px;
       display: none;
+      #admin{
+        display: none;
+      }
       li {
         list-style: none;
         text-align: center;
@@ -770,6 +773,9 @@ input, textarea {
         top: 42px;
         width: 150px;
         right: 5px;
+        #admin{
+          display: block;
+        }
         &:after {
           position: absolute;
           right: 10px;

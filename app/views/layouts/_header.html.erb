@@ -5,7 +5,6 @@
       <div class="col-70">
         <div class="nav-right pull-right">
           <%= link_to "Home", root_path %>
-          <%= link_to "Contact us", contact_path %>
           <% if is_registered? && user_cabpool_exists? %>
           <div class="notification">
             <button class="noti">
@@ -47,6 +46,9 @@
           <div class="user-profile">
             <button class="text-center user-btn"><span class="user-icon"></span> <span class="user-name"><%= @username %></span></button>
             <ul>
+              <% if is_admin? %>
+                  <li id="admin"><%= link_to "Admin", admin_path, method: "get" %></li>
+              <% end %>
               <li><%= link_to "My Carpool", your_cabpools_path %></li>
               <% if !is_registered? %>
                   <li><%= link_to "Update Profile", signup_path %></li>
