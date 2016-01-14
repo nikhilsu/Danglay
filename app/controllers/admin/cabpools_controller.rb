@@ -14,10 +14,10 @@ class Admin::CabpoolsController < Admin::AdminController
     add_localities_to_cabpool
     add_users_to_cabpool
     if(no_passengers_added)
-      flash[:danger] = "Please add some people to the cab"
+      flash.now[:danger] = "Please add some people to the cab"
       render 'admin/cabpools/new'
     elsif (passengers_are_greater_than_capacity)
-      flash[:danger] = "Number of people are more than the capacity of the cab"
+      flash.now[:danger] = "Number of people are more than the capacity of the cab"
       render 'admin/cabpools/new'
     else
       if @cabpool.save
