@@ -735,6 +735,9 @@ input, textarea {
   .form-elements .col-50 {
     width: 100%;
     margin-bottom: 20px;
+    div {
+      margin-right: 0;
+    }
   }
   .center-form {
     margin-left: 0;

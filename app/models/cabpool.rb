@@ -9,7 +9,7 @@ class Cabpool < ActiveRecord::Base
   validates_time :timein, :timeout
   validates_numericality_of :number_of_people, less_than_or_equal_to: 4, greater_than_or_equal_to: 1
   validate :invalidate_empty_localities, :invalidate_duplicate_localities, :invalidate_more_than_five_localities,
-                  :invalidate_empty_cabpool_type, :invalidate_empty_users
+                  :invalidate_empty_cabpool_type, :invalidate_empty_users, :invalidate_having_more_users_than_capacity
 
   def ordered_localities
     sql = "SELECT locality_id FROM cabpools_localities WHERE cabpool_id = #{id}"
@@ -49,7 +49,13 @@ class Cabpool < ActiveRecord::Base
 
   def invalidate_empty_users
     if users.length == 0 
-      errors.add(:users, "should not be empty")
+      errors.add(:users, "Should not be empty")
+    end
+  end
+
+  def invalidate_having_more_users_than_capacity
+    if users.length > number_of_people.to_i
+      errors.add(:users, "Users cannot be greater than capacity")
     end
   end
 end

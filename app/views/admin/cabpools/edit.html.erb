@@ -7,17 +7,18 @@
 
         <div class="form-group">
           <label class="label-blue"> Passengers </label>
-
           <div>
             <span class="label-name">Add a passenger </span>
             <button id="addPassenger">+</button>
           </div>
           <div class="form-group">
             <div id="passenger">
+              <% count = 0 %>
               <% @cabpool.users.each do |user| %>
                   <div id="userName">
                     <button id="removePassenger">-</button>
                     <label><%= user.name %></label>
+                    <%= hidden_field_tag "oldPassenger#{count += 1}", user.id %>
                   </div>
               <% end %>
             </div>
