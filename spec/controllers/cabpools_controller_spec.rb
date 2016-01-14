@@ -421,4 +421,16 @@ RSpec.describe CabpoolsController, type: :controller do
 
     expect(response).to redirect_to root_path
   end
+
+  it 'should not route to new if user has already a part of cabpool' do
+    user = build_stubbed(:user)
+    cabpool = build_stubbed(:cabpool)
+    user.cabpool = cabpool
+    allow(User).to receive(:find_by).and_return(user)
+
+    get :new
+
+    expect(flash[:danger]).to eq "You are already part of a Cabpool. Leave the cabpool to Create new."
+    expect(response).to redirect_to root_path
+  end
 end

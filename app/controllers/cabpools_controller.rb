@@ -8,8 +8,9 @@ class CabpoolsController < ApplicationController
 
   def user_should_not_have_cabpool
     user = User.find_by_email(session[:Email])
-    if ! user.nil?
+    if !user.nil?
        if user.cabpool
+         flash[:danger] = "You are already part of a Cabpool. Leave the cabpool to Create new."
          redirect_to(root_path)
        end
     end
