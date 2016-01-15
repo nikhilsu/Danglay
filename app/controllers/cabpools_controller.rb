@@ -10,7 +10,7 @@ class CabpoolsController < ApplicationController
     user = User.find_by_email(session[:Email])
     if !user.nil?
        if user.cabpool
-         flash[:danger] = "You are already part of a Cabpool. Leave the cabpool to Create new."
+         flash[:danger] = "You are already part of a Cab pool. Please leave the cabpool to create a new cab pool."
          redirect_to(root_path)
        end
     end
@@ -43,6 +43,7 @@ class CabpoolsController < ApplicationController
     add_localities_to_cabpool
     add_session_user_to_cabpool
     if @cabpool.save
+      flash[:success] = "You have successfully created your cab pool. Please check the 'MyRide' tab for details."
       redirect_to root_url
     else
       render 'new'
