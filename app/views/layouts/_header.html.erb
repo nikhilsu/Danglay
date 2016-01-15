@@ -49,7 +49,7 @@
               <% if is_admin? %>
                   <li id="admin"><%= link_to "Admin", admin_path, method: "get" %></li>
               <% end %>
-              <li><%= link_to "My Carpool", your_cabpools_path %></li>
+              <li><%= link_to "My Ride", your_cabpools_path %></li>
               <% if !is_registered? %>
                   <li><%= link_to "Update Profile", signup_path %></li>
               <% else %>
