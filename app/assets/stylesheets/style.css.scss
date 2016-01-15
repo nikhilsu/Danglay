@@ -413,7 +413,7 @@ label.label-blue {
       .blue-bubble {
         &:hover {
           background: $calm;
-          z-index: 1;
+          z-index: 3;
           position: relative;
           -webkit-transform: scale(1.2);
           -moz-transform: scale(1.2);
@@ -424,7 +424,7 @@ label.label-blue {
       .pink-bubble {
         &:hover {
           background: #b11c54;
-          z-index: 1;
+          z-index: 3;
           position: relative;
           -webkit-transform: scale(1.2);
           -moz-transform: scale(1.2);
@@ -435,7 +435,7 @@ label.label-blue {
       .green-bubble {
         &:hover {
           background: #05A054;
-          z-index: 1;
+          z-index: 3;
           position: relative;
           -webkit-transform: scale(1.2);
           -moz-transform: scale(1.2);

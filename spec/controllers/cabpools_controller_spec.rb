@@ -430,7 +430,7 @@ RSpec.describe CabpoolsController, type: :controller do
 
     get :new
 
-    expect(flash[:danger]).to eq "You are already part of a Cabpool. Leave the cabpool to Create new."
+    expect(flash[:danger]).to eq "You are already part of a Cab pool. Please leave the cabpool to create a new cab pool."
     expect(response).to redirect_to root_path
   end
 end
