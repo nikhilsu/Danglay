@@ -23,6 +23,10 @@ module SessionsHelper
     end
   end
 
+  def is_admin?
+    is_registered? && current_user.role.name == 'admin'
+  end
+
   def is_registered?
     !session[:registered_uid].nil?
   end

@@ -10,10 +10,6 @@ module ApplicationHelper
     end
   end
 
-  def is_admin?
-      is_registered? && current_user.role.name == 'admin'
-  end
-
   def number_of_notifications
     if current_user.status.nil?
       current_user.cabpool.requested_users.size

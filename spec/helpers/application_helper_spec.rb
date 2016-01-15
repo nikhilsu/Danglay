@@ -17,14 +17,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:Email] = user.email
   end
 
-  it 'should return true if the current user is an admin' do
-    role = build_stubbed(:role, :admin_role)
-    user.role = role
-    allow(User).to receive(:find_by).and_return(user)
-
-    expect(is_admin?).to be true
-  end
-
   it 'should return current users cabpools requested users number if user status is nil' do
     user = build(:user)
     cabpool = build(:cabpool)
