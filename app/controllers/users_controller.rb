@@ -38,7 +38,8 @@ class UsersController < ApplicationController
   def update
     @user = current_user
     @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
-      if (@user.update_attributes(user_params))
+    add_new_valid_locality
+      if (@user.update_attributes(user_params_edit))
         flash[:success] = "Profile updated"
         redirect_to root_path
     else
@@ -65,6 +66,11 @@ class UsersController < ApplicationController
       locality = Locality.find_by_id(locality_id)
       allowed_params.merge(locality: locality)
     end
+
+  def user_params_edit
+    allowed_params = params.require(:user).permit(:emp_id, :address, :phone_no)
+    allowed_params.merge(locality: @user.locality)
+  end
 
   def add_new_valid_locality
       locality_id = params[:user][:locality]
