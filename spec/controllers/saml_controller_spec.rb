@@ -34,6 +34,31 @@ RSpec.describe SamlController, type: :controller do
     expect(response).to redirect_to root_url
   end
 
+  it 'consume should parse valid saml response if admin should redirect to admin home' do
+    stub_response = OneLogin::RubySaml::Response.new(valid_response)
+
+    allow(OneLogin::RubySaml::Response).to receive(:new).and_return(stub_response)
+
+    allow(stub_response).to receive(:is_valid?).and_return(true)
+
+    user = build_stubbed(:user)
+    names = user.name.split(' ')
+    session[:userid] = user.id
+    session[:registered_uid] = user.id
+    session[:FirstName] = names[0]
+    session[:LastName] = names[1]
+    session[:Email] = user.email
+    role = build_stubbed(:role, :admin_role)
+    user.role = role
+    allow(User).to receive(:find_by).and_return(user)
+
+    post :consume
+
+    expect(stub_response.name_id).to be_truthy
+    expect(stub_response.attributes).to be_truthy
+    expect(response).to redirect_to admin_url
+  end
+
   it 'consume should parse valid saml response with friendly forwarding' do
     stub_response = OneLogin::RubySaml::Response.new(valid_response)
 
