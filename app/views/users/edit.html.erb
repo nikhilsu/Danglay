@@ -18,6 +18,7 @@
             <%= f.text_field :phone_no %>
             <%= render 'shared/error_messages', errors: @user.errors[:phone_no] if !@user.errors[:phone_no].empty? %>
             <%= label_tag 'Locality' %>
+            <%= hidden_field_tag 'user_locality_name', @user.locality.name %>
 
             <div class="full-width-selectize">
               <%= f.collection_select(:locality, @localities, :id, :name, {prompt: true}) %>
