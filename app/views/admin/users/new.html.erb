@@ -10,15 +10,15 @@
 
       <%= form_for(@user, layout: :horizontal, url: admin_user_create_path) do |f| %>
           <div class="col-50 center-form">
+            <%= label_tag 'Employee ID' %>
+            <%= f.text_field :emp_id %>
+            <%= render 'shared/error_messages', errors: @user.errors[:emp_id] if !@user.errors[:emp_id].empty? %>
             <%= label_tag 'Name' %>
             <%= f.text_field :name %>
             <%= render 'shared/error_messages', errors: @user.errors[:name] if !@user.errors[:name].empty? %>
             <%= label_tag 'Email' %>
             <%= f.text_field :email %>
             <%= render 'shared/error_messages', errors: @user.errors[:email] if !@user.errors[:email].empty? %>
-            <%= label_tag 'Employee ID' %>
-            <%= f.text_field :emp_id %>
-            <%= render 'shared/error_messages', errors: @user.errors[:emp_id] if !@user.errors[:emp_id].empty? %>
             <%= label_tag 'Address' %>
             <%= f.text_area :address %>
             <%= render 'shared/error_messages', errors: @user.errors[:address] if !@user.errors[:address].empty? %>
