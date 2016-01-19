@@ -1,5 +1,6 @@
 var UserListener = {
     addListeners: function () {
+        $('#user_locality').selectize();
         var $select = $('div.full-width-selectize:first > select').selectize();
         var selectize = $select[0].selectize;
         var location = $('#user_locality_name');
@@ -18,14 +19,8 @@ var UserListener = {
 
 $(document).ready(function () {
     UserListener.addListeners();
-
-    $('#user_locality').selectize();
-
 });
 
 $(document).on('page:load', function () {
     UserListener.addListeners();
-
-    $('#user_locality').selectize();
-
 });
