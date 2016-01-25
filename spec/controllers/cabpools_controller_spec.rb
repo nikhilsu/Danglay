@@ -224,8 +224,9 @@ RSpec.describe CabpoolsController, type: :controller do
   end
 
   it 'should render Accept message and send email to approved user when token is same and approve is true' do
-    request = build_stubbed(:request)
+    request = build(:request)
     user = request.user
+    user.requests = [request]
     allow(user).to receive(:save).and_return(true)
     allow(request).to receive(:destroy!).and_return(true)
     allow(User).to receive(:find).and_return(user)

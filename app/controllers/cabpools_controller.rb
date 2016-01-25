@@ -156,7 +156,9 @@ class CabpoolsController < ApplicationController
     user.cabpool = request.cabpool
     user.status = 'approved'
     user.save
-    request.destroy!
+    request.user.requests.each do |req|
+      req.destroy!
+    end
     send_email_to_approved_user user
 
     if request.cabpool.users.count == 2
