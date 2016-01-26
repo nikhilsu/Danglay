@@ -255,4 +255,19 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     patch :update, :id => cabpool.id, :oldPassenger1 => {:user_id => first_user.id} ,:oldPassenger2 => {:user_id => first_user.id}, :oldPassenger3 => {:user_id => first_user.id}, :oldPassenger4 => {:user_id => first_user.id} , :oldPassenger5 => {:user_id => first_user.id} , :passengers => {:user_id => user.id}
     expect(response).to redirect_to "/admin_cabpool/#{cabpool.id}/edit"
   end
+
+  it 'should be able to delete a cabpool' do
+    user = build_stubbed(:user)
+    admin_role = build_stubbed(:role, :admin_role)
+    user.role = admin_role
+    allow(User).to receive(:find_by_email).and_return(user)
+    cabpool = build_stubbed(:cabpool)
+    allow(Cabpool).to receive(:find).and_return(cabpool)
+    allow(cabpool).to receive(:destroy).and_return(true)
+
+    delete :delete, :id => cabpool.id
+
+    expect(flash[:success]).to eq 'Cabpool has been Deleted'
+    expect(response).to redirect_to admin_path
+  end
 end

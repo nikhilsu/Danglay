@@ -45,11 +45,16 @@
         <%= hidden_field_tag 'route', @cabpool.route %>
         <%= f.submit "Update pool", class: "btn-submit" %>
       </div>
-      <div class="col-50">
-        <div id="map" class="map_show" style="height: 400px"></div>
-      </div>
-      <script async defer
-              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuETg3lyde0IR6XSO1WhVZY69bAp5owcs&callback=initMap_show">
-      </script>
   <% end %>
+  <div class="col-50">
+    <h2>Route Map</h2>
+    <div id="map" class="map" style="height: 400px"></div>
+    <%= form_for(@cabpool, url: '/admin/cabpools/delete', method: :delete) do %>
+        <%= hidden_field_tag 'id', @cabpool.id %>
+        <%= button_tag 'Delete Pool' ,class: "btn-alert" %>
+    <% end %>
+  </div>
+  <script async defer
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuETg3lyde0IR6XSO1WhVZY69bAp5owcs&callback=initMap_show">
+  </script>
 </div>
