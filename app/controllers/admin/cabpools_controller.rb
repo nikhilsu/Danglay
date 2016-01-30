@@ -56,8 +56,8 @@ class Admin::CabpoolsController < Admin::AdminController
   private
 
   def destroy cabpool
-    cabpool.users = []
-    cabpool.requests = []
+    cabpool.users.clear
+    cabpool.requests.clear
     cabpool.destroy!
   end
 
