@@ -713,6 +713,14 @@ input, textarea {
   @include input($light, $white);
 }
 
+@media only screen and (max-width: 2160px) {
+  .plain-text{
+    div{
+      margin-left: 100px;
+      margin-right: 100px;
+    }
+  }
+}
 @media only screen and (max-width: 1025px) {
   .nav-right .notification ul {
     right: 0;
@@ -728,6 +736,12 @@ input, textarea {
 
   .pool-list ul li .pool-title .view-details {
     display: none;
+  }
+  .plain-text{
+    div{
+      margin-left: 90px;
+      margin-right: 90px;
+    }
   }
 }
 
@@ -861,7 +875,12 @@ input, textarea {
       padding: 8px;
     }
   }
-
+  .plain-text{
+    div{
+      margin-left: 60px;
+      margin-right: 60px;
+    }
+  }
 }
 
 @media only screen and (max-width: 470px) {
@@ -919,6 +938,13 @@ input, textarea {
   footer {
     font-size: 10px;
   }
+
+  .plain-text{
+    div{
+      margin-left: 15px;
+      margin-right: 15px;
+    }
+  }
 }
 
 .help-block {
@@ -929,8 +955,6 @@ input, textarea {
 .plain-text {
   line-height: 1.5em;
   div{
-    margin-left: 100px;
-    margin-right: 100px;
     p {
       margin: 1em;
       text-align: justify;
