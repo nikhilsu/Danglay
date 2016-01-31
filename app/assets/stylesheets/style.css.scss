@@ -928,8 +928,13 @@ input, textarea {
 
 .plain-text {
   line-height: 1.5em;
-  p {
-    margin: 1em;
+  div{
+    margin-left: 100px;
+    margin-right: 100px;
+    p {
+      margin: 1em;
+      text-align: justify;
+    }
   }
 }
 
@@ -954,5 +959,9 @@ input, textarea {
 
 div h1 {
   color: $calm;
-  padding: 10px;
+  padding: 20px;
+}
+
+.sub-heading {
+  padding: 15px;
 }

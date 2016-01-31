@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get 'signup' => 'users#new'
   get 'about' => 'static_pages#about'
   get 'contact' => 'static_pages#contact'
+  get 'terms_and_conditions' => 'static_pages#terms_and_conditions'
+  get 'privacy_policy' => 'static_pages#privacy_policy'
   root 'cabpools#show'
   get 'saml/init'
   post 'saml/consume'
