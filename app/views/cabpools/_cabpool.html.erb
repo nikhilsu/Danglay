@@ -2,12 +2,14 @@
   <div class="pool-title roundtrip">
     <div class="col-20"><%= image_tag(image_to_be_displayed(cabpool)) %></div>
     <div class="col-20 local"><span><%= cabpool.ordered_localities.first.name %></span> <span>ThoughtWorks</span></div>
-    <div class="col-20 time"><span>Arrival: <%= formatted_time(cabpool.timein) %></span> <span>Departure: <%= formatted_time(cabpool.timeout) %></span></div>
-    <div class="col-20"><span <% if cabpool.available_slots == 0 %> class="no-seats" <% end %>  ><%= cabpool.available_slots %></span></div>
+    <div class="col-20 time"><span>Arrival: <%= formatted_time(cabpool.timein) %></span>
+      <span>Departure: <%= formatted_time(cabpool.timeout) %></span></div>
+    <div class="col-20"><span
+    <% if cabpool.available_slots == 0 %> class="no-seats" <% end %>  ><%= cabpool.available_slots %></span></div>
     <div class="col-20">
-      <% if button(cabpool) == "Leave Ride"%>
+      <% if button(cabpool) == "Leave Ride" %>
           <%= form_for(cabpool, url: 'leave_cabpool', method: 'post') do |f| %>
-              <%= f.button button(cabpool)%>
+              <%= f.button button(cabpool) %>
           <% end %>
       <% else %>
           <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
@@ -16,7 +18,7 @@
                   <% if button(cabpool) == "Requested" %>
                       <%= f.button button(cabpool), disabled: true %>
                   <% else %>
-                      <%= f.button button(cabpool), name: 'Join Ride'%>
+                      <%= f.button button(cabpool), name: 'Join Ride' %>
                   <% end %>
               <% end %>
           <% end %>
@@ -50,30 +52,31 @@
         <div>
           <% cabpool.ordered_localities.each do |locality| %>
               <span> <%= locality.name %> </span>
-        <% end %>
+          <% end %>
           <span>Thoughtworks</span>
         </div>
       </div>
       <div class="col-30">
         <div class="map-wrap">
           <%= hidden_field_tag 'route', cabpool.route %>
-          <div id="map" class="map_show pull-right"></div>                                                
-          <% if button(cabpool) == "Leave Ride"%>
+          <div id="map" class="map_show pull-right"></div>
+          <% if button(cabpool) == "Leave Ride" %>
               <%= form_for(cabpool, url: 'leave_cabpool', method: 'post') do |f| %>
-                  <%= f.button button(cabpool) ,class: 'btn-ride' %>
+                  <%= f.button button(cabpool), class: 'btn-ride' %>
               <% end %>
           <% else %>
               <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
                   <%= f.hidden_field(:id) %>
                   <% if !button(cabpool).nil? %>
                       <% if button(cabpool) == "Requested" %>
-                          <%= f.button button(cabpool),class: 'btn-ride'  , disabled: true %>
+                          <%= f.button button(cabpool), class: 'btn-ride', disabled: true %>
                       <% else %>
-                          <%= f.button button(cabpool) ,class: 'btn-ride' , name: 'Join Ride'%>
+                          <%= f.button button(cabpool), class: 'btn-ride', name: 'Join Ride' %>
                       <% end %>
                   <% end %>
               <% end %>
           <% end %>
+          <div class="distance"></div>
         </div>
       </div>
     </div>

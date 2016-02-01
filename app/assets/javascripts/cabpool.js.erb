@@ -143,15 +143,19 @@ function initMap_show(element) {
     if (!data.hasOwnProperty('waypoints')) {
       data.waypoints = [];
     }
-    setMap(a_map, 14);
+    var zoom_level = 14;
+    setMap(a_map, zoom_level);
   }
 }
 
-function setroute()
+function setroute_and_show_distance(a_map)
 {
   var wp = [];
-  for(var i=0;i<data.waypoints.length;i++)
-    wp[i] = {'location': new google.maps.LatLng(data.waypoints[i][0], data.waypoints[i][1]),'stopover': true }
+  for(var i=0;i<data.waypoints.length;i++) {
+    wp[i] = {'location': new google.maps.LatLng(data.waypoints[i][0], data.waypoints[i][1]), 'stopover': true}
+  }
+
+  var total_distance = 0;
 
   directionsService.route({
     'origin':data.source,
@@ -162,8 +166,48 @@ function setroute()
     routingPreference: google.maps.TransitRoutePreference.FEWER_TRANSFERS
     },
     optimizeWaypoints: true
+  }, function(response, status) {
+    if (status === google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+
+      var route = response.routes[0];
+      for (var i=0;i< route.legs.length;i++){
+        total_distance += (route.legs[i].distance.value)/1000;
+      }
+
+      var distanceStringToBeDisplayed = "";
+
+      if (total_distance != 0) {
+        distanceStringToBeDisplayed = "Total Distance : " + total_distance + " kms";
+      }
+
+      var elementNodeOfMap = a_map.parentNode;
+      var divToShowDistance = elementNodeOfMap.getElementsByClassName('distance')[0];
+      divToShowDistance.innerHTML = distanceStringToBeDisplayed;
+
+    } else {
+      alert('Could not display directions due to: ' + status);
+    }
+  });
+}
+
+function setroute()
+{
+  var wp = [];
+  for(var i=0;i<data.waypoints.length;i++) {
+    wp[i] = {'location': new google.maps.LatLng(data.waypoints[i][0], data.waypoints[i][1]), 'stopover': true}
   }
-    , function(response, status) {
+
+  directionsService.route({
+    'origin':data.source,
+    'destination':data.destination,
+    'waypoints': wp,
+    'travelMode': google.maps.DirectionsTravelMode.DRIVING,
+    transitOptions: {
+    routingPreference: google.maps.TransitRoutePreference.FEWER_TRANSFERS
+    },
+    optimizeWaypoints: true
+  }, function(response, status) {
     if (status === google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(response);
     } else {
@@ -179,18 +223,8 @@ function setMap(a_map,zoom) {
     draggable: false,
     map: map
   });
-  setroute();
+  setroute_and_show_distance(a_map);
 }
-
-function reset_map() {
-  data.waypoints = [];
-  var number_of_locality_forms = $("div.localityForm").length;
-  var localitySelectionsElement = document.getElementById('localitySelections');
-  localitySelectionsElement.innerHTML = "";
-  $('#addLocality').parent().show();
-  setroute();
-}
-
 
 var CabPoolListenerPassenger = {
     addListeners: function () {

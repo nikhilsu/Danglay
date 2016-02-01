@@ -143,10 +143,4 @@ describe 'Google Maps', ->
     expect(window.setroute).toHaveBeenCalled()
     return
 
-  it 'should reset map', ->
-    spyOn(window, 'setroute')
-    reset_map()
-    expect(window.setroute).toHaveBeenCalled()
-    return
-
   return
