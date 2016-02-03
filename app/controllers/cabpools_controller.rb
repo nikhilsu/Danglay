@@ -3,7 +3,6 @@ class CabpoolsController < ApplicationController
   before_action :registered? , except: [:show, :approve_reject_handler]
   before_action :has_cabpool, only: [:leave]
   before_action :has_cabpool_or_request, only: [:your_cabpools]
-  before_action :has_cabpool_or_request, only: [:your_cabpools]
   before_action :user_should_not_have_cabpool, only: :new
 
   def user_should_not_have_cabpool
@@ -11,7 +10,7 @@ class CabpoolsController < ApplicationController
     if !user.nil?
        if user.cabpool
          flash[:danger] = "You are already part of a Cab pool. Please leave the cabpool to create a new cab pool."
-         redirect_to(root_path)
+         redirect_to your_cabpools_path
        end
     end
   end
