@@ -151,7 +151,11 @@ class CabpoolsController < ApplicationController
   def approve_user user
     request = Request.find_by_user_id(user.id)
     if !user.cabpool.nil?
-      send_email_to_cabpool_users_on_member_leaving(user.cabpool.users.reject { |u| u.id == user.id } ,user)
+      if user.cabpool.users.length > 1
+        send_email_to_cabpool_users_on_member_leaving(user.cabpool.users.reject { |u| u.id == user.id } ,user)
+      else
+        destroy user.cabpool
+      end
     end
     user.cabpool = request.cabpool
     user.status = 'approved'
@@ -167,6 +171,12 @@ class CabpoolsController < ApplicationController
        send_email_to_admin_about_new_user user
     end
     render 'request_accept'
+  end
+
+  def destroy cabpool
+    cabpool.users.clear
+    cabpool.requests.clear
+    cabpool.destroy!
   end
 
   def send_email_to_admin_about_new_user joining_user

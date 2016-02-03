@@ -363,6 +363,7 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(user.cabpool).to receive(:id).and_return(1)
     allow(request).to receive(:approve_digest).and_return("ABCD")
     allow(request.cabpool.users).to receive(:count).and_return 2
+    allow(request.cabpool).to receive(:destroy).and_return true
     get :approve_reject_handler, approve: "true", token: "ABCD", user: '1'
     expect(ActionMailer::Base.deliveries.size).to eq 2
     expect(response).to render_template 'request_accept'
@@ -386,6 +387,7 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(user.cabpool).to receive(:id).and_return(1)
     allow(request).to receive(:approve_digest).and_return("ABCD")
     allow(request.cabpool.users).to receive(:count).and_return 3
+    allow(request.cabpool).to receive(:destroy).and_return true
     get :approve_reject_handler, approve: "true", token: "ABCD", user: '1'
     expect(ActionMailer::Base.deliveries.size).to eq 2
     expect(response).to render_template 'request_accept'
