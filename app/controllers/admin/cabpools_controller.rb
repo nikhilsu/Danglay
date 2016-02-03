@@ -38,10 +38,13 @@ class Admin::CabpoolsController < Admin::AdminController
       flash[:danger] = "Number of people are more than the capacity of the cab"
       redirect_to "/admin_cabpool/#{params[:id]}/edit"
     else
-      if @cabpool.save
+      if @cabpool.users.empty?
+        destroy @cabpool
+        flash[:success] = "Cabpool has been Deleted"
         redirect_to '/admin'
-      else
-        redirect_to "/admin_cabpool/#{params[:id]}/edit"
+      elsif @cabpool.save
+        flash[:success] = "Cabpool has been Updated"
+        redirect_to '/admin'
       end
     end
   end

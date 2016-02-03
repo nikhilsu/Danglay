@@ -180,7 +180,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(response).to render_template "admin/cabpools/edit"
   end
 
-  it 'should update cabpool users' do
+  it 'should delete cabpool users' do
     user = build_stubbed(:user)
     admin_role = build_stubbed(:role, :admin_role)
     user.role = admin_role
@@ -188,25 +188,28 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     cabpool = build_stubbed(:cabpool)
     allow(Cabpool).to receive(:find).and_return(cabpool)
     allow(cabpool).to receive(:save).and_return(true)
+    allow(cabpool).to receive(:destroy).and_return(true)
 
-    patch :update, :id => cabpool.id , :passengers => {:user_id => user.id}
+    patch :update, :id => cabpool.id
 
+    expect(flash[:success]).to eq 'Cabpool has been Deleted'
     expect(response).to redirect_to admin_path
   end
 
-  it 'should not update cabpool users if form is not valid' do
+  it 'should update cabpool users' do
     user = build_stubbed(:user)
     admin_role = build_stubbed(:role, :admin_role)
     user.role = admin_role
     allow(User).to receive(:find_by_email).and_return(user)
-    cabpool = build_stubbed(:cabpool)
+    allow(User).to receive(:find_by_id).and_return(user)
+    cabpool = build(:cabpool)
     allow(Cabpool).to receive(:find).and_return(cabpool)
-    allow(cabpool).to receive(:save).and_return(false)
+    allow(cabpool).to receive(:save).and_return(true)
 
-    patch :update, :id => cabpool.id , :passengers => {:user_id => user.id}
+    patch :update, :id => cabpool.id , :oldPassenger1 => {:user_id => user.id}
 
-    expect(response).to redirect_to "/admin_cabpool/#{cabpool.id}/edit"
-
+    expect(flash[:success]).to eq 'Cabpool has been Updated'
+    expect(response).to redirect_to admin_path
   end
 
   it 'should be able to remove existing users from cabpool' do
