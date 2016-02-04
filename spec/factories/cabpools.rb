@@ -3,6 +3,7 @@ FactoryGirl.define do
     number_of_people 4
     timein '9:30'
     timeout '5:30'
+    remarks ''
     association :cabpool_type, factory: :cabpool_type, strategy: :build
 
     after(:build) do |cabpool|
@@ -96,4 +97,13 @@ FactoryGirl.define do
       cabpool.users.clear
     end
   end
+
+  trait :with_more_than_300_character_remarks do
+    string_containing_more_than_300_chars = "dummy dummy dummy "
+    20.times do
+      string_containing_more_than_300_chars << "dummy dummy dummy "
+    end
+    remarks string_containing_more_than_300_chars
+  end
+
 end

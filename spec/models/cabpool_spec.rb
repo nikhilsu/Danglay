@@ -109,4 +109,11 @@ RSpec.describe Cabpool, type: :model do
       expect(cabpool.valid?).to be false
   end
 
+  it 'should not allow the remarks to have more than 300 characters' do
+      cabpool = build(:cabpool, :with_more_than_300_character_remarks)
+
+      expect(cabpool.remarks.length).to be > 300
+      expect(cabpool.valid?).to be false
+  end
+
 end

@@ -25,6 +25,10 @@
               </div>
             </div>
 
+            <%= label_tag 'Remarks (Optional)' %>
+            <%= f.text_area :remarks %>
+            <%= render 'shared/error_messages', errors: @cabpool.errors[:remarks] if !@cabpool.errors[:remarks].empty? %>
+
             <div class="form-group">
               <label class="label-blue" for="user_locality">Route</label>
               <div>

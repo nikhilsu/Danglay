@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151231083904) do
+ActiveRecord::Schema.define(version: 20160204185020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20151231083904) do
     t.datetime "updated_at",       null: false
     t.string   "route"
     t.integer  "cabpool_type_id"
+    t.string   "remarks"
   end
 
   add_index "cabpools", ["cabpool_type_id"], name: "index_cabpools_on_cabpool_type_id", using: :btree
