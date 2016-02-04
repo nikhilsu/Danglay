@@ -157,6 +157,12 @@ function setroute_and_show_distance(a_map)
 
   var total_distance = 0;
 
+  function roundOffDistance(distance) {
+    distance = Math.round(distance * 10);
+    distance = distance / 10;
+    return distance;
+  }
+
   directionsService.route({
     'origin':data.source,
     'destination':data.destination,
@@ -178,6 +184,7 @@ function setroute_and_show_distance(a_map)
       var distanceStringToBeDisplayed = "";
 
       if (total_distance != 0) {
+        total_distance = roundOffDistance(total_distance);
         distanceStringToBeDisplayed = "Total Distance : " + total_distance + " kms";
       }
 
