@@ -36,7 +36,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'capybara'
   gem 'rack_session_access'
-  gem 'jasmine-rails'
+  gem 'jasmine-rails', '0.10.7'
   gem 'poltergeist'
   gem 'database_cleaner'
   gem "nested_form"
