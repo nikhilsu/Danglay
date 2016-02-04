@@ -84,20 +84,13 @@ qa:
   database: danglay_qa
 
 production:
-  adapter: postgresql
-  encoding: unicode
-  database: <%= ENV['RDS_DB_NAME'] %>
-  username: <%= ENV['RDS_USERNAME'] %>
-  password: <%= ENV['RDS_PASSWORD'] %>
-  host: <%= ENV['RDS_HOSTNAME'] %>
-  port: <%= ENV['RDS_PORT'] %>
+  <<: *default
+  database: danglay_production
+  username: danglay
+  password: <%= ENV['DANGLAY_DATABASE_PASSWORD'] %>
 
 staging:
   <<: *default
-  adapter: postgresql
-  encoding: unicode
-  database: <%= ENV['RDS_DB_NAME'] %>
-  username: <%= ENV['RDS_USERNAME'] %>
-  password: <%= ENV['RDS_PASSWORD'] %>
-  host: <%= ENV['RDS_HOSTNAME'] %>
-  port: <%= ENV['RDS_PORT'] %>
+  database: danglay_staging
+  username: danglay
+  password: <%= ENV['DANGLAY_DATABASE_PASSWORD'] %>
