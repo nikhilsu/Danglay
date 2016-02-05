@@ -85,6 +85,8 @@ class UsersController < ApplicationController
             @locality_errors = new_locality.errors.full_messages
           end
         end
+      else
+        @user.locality = Locality.find(locality_id)
       end
    end
 end
