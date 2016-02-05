@@ -98,6 +98,10 @@ FactoryGirl.define do
     end
   end
 
+  trait :with_remarks do
+    remarks "Hello world!"
+  end
+
   trait :with_more_than_300_character_remarks do
     string_containing_more_than_300_chars = "dummy dummy dummy "
     20.times do

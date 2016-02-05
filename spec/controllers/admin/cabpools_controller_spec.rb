@@ -269,6 +269,26 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(response).to redirect_to "/admin_cabpool/#{cabpool.id}/edit"
   end
 
+  it 'should be able to edit the remarks of the cabpool' do
+    first_user = build_stubbed(:user)
+    admin_role = build_stubbed(:role, :admin_role)
+    first_user.role = admin_role
+    allow(first_user).to receive(:save).and_return(true)
+    cabpool = build(:cabpool, :with_remarks)
+    users = []
+    users << first_user
+    cabpool.users = users
+    cabpool.localities = [Locality.find_by_id(1)]
+    allow(User).to receive(:find_by_email).and_return(first_user)
+    allow(Cabpool).to receive(:find).and_return(cabpool)
+
+    patch :update, :id => cabpool.id, :cabpool => {:remarks => "This is the new remark"}
+
+    expect(cabpool.remarks).to eq "This is the new remark"
+
+  end
+
+
   it 'should be able to delete a cabpool' do
     user = build_stubbed(:user)
     admin_role = build_stubbed(:role, :admin_role)
