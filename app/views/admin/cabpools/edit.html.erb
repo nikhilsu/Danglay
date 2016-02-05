@@ -41,6 +41,9 @@
         <div>
           <input disabled="disabled" value="<%= @cabpool.cabpool_type.name %>">
         </div>
+
+        <%= label_tag 'Remarks' %>
+        <%= f.text_area :remarks %>
         <%= hidden_field_tag 'id', @cabpool.id %>
         <%= hidden_field_tag 'route', @cabpool.route %>
         <%= f.submit "Update pool", class: "btn-submit" %>

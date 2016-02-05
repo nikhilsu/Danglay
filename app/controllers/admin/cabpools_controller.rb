@@ -34,6 +34,7 @@ class Admin::CabpoolsController < Admin::AdminController
 
   def update
     @cabpool = Cabpool.find(params[:id])
+    @cabpool.remarks = params[:cabpool][:remarks]
     if !edit_users_to_cabpool
       flash[:danger] = "Number of people are more than the capacity of the cab"
       redirect_to "/admin_cabpool/#{params[:id]}/edit"
@@ -65,7 +66,7 @@ class Admin::CabpoolsController < Admin::AdminController
   end
 
   def cabpool_params
-    allowed_params = params.require(:cabpool).permit(:number_of_people, :timein, :timeout, :route)
+    allowed_params = params.require(:cabpool).permit(:number_of_people, :timein, :timeout, :route, :remarks)
     cabpool_type = CabpoolType.find_by_name('Company provided Cab')
     allowed_params.merge(cabpool_type: cabpool_type)
   end
@@ -104,6 +105,7 @@ class Admin::CabpoolsController < Admin::AdminController
         users << user if !user.nil?
       end
     end
+
     (1..@cabpool.number_of_people).each do |counter|
       param_key = "oldPassenger#{counter}"
       if params[param_key] != nil

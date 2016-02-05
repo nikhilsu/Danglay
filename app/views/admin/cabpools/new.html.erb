@@ -41,6 +41,11 @@
           </div>
         </div>
 
+        <%= label_tag 'Remarks (Optional)' %>
+        <%= f.text_area :remarks %>
+        <%= render 'shared/error_messages', errors: @cabpool.errors[:remarks] if !@cabpool.errors[:remarks].empty? %>
+
+
         <div class="form-group<% unless @cabpool.errors[:localities].empty? %> field_with_errors<% end %> ">
           <label>Enter source</label>
           <div class="full-width-selectize">

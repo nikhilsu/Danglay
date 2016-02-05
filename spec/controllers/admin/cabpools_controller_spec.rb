@@ -190,7 +190,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     allow(cabpool).to receive(:save).and_return(true)
     allow(cabpool).to receive(:destroy).and_return(true)
 
-    patch :update, :id => cabpool.id
+    patch :update, :id => cabpool.id, :cabpool => {:remarks => "Hello This is the remarks of cab"}
 
     expect(flash[:success]).to eq 'Cabpool has been Deleted'
     expect(response).to redirect_to admin_path
@@ -206,7 +206,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     allow(Cabpool).to receive(:find).and_return(cabpool)
     allow(cabpool).to receive(:save).and_return(true)
 
-    patch :update, :id => cabpool.id , :oldPassenger1 => {:user_id => user.id}
+    patch :update, :id => cabpool.id , :oldPassenger1 => {:user_id => user.id}, :cabpool => {:remarks => "Hello This is the remarks of cab"}
 
     expect(flash[:success]).to eq 'Cabpool has been Updated'
     expect(response).to redirect_to admin_path
@@ -233,7 +233,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     cabpool.localities = [Locality.find_by_id(1)]
     allow(Cabpool).to receive(:find).and_return(cabpool)
 
-    patch :update, :id => cabpool.id, :oldPassenger1 => {:user_id => first_user.id}
+    patch :update, :id => cabpool.id, :oldPassenger1 => {:user_id => first_user.id}, :cabpool => {:remarks => "Hello This is the remarks of cab"}
 
     expect(response).to redirect_to '/admin'
     expect(cabpool.users).to_not include(first_user)
@@ -261,7 +261,10 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     cabpool.localities = [Locality.find_by_id(1)]
     allow(Cabpool).to receive(:find).and_return(cabpool)
 
-    patch :update, :id => cabpool.id, :oldPassenger1 => {:user_id => first_user.id} ,:oldPassenger2 => {:user_id => first_user.id}, :oldPassenger3 => {:user_id => first_user.id}, :oldPassenger4 => {:user_id => first_user.id} , :oldPassenger5 => {:user_id => first_user.id} , :passengers => {:user_id => user.id}
+    patch :update, :id => cabpool.id, :oldPassenger1 => {:user_id => first_user.id} ,:oldPassenger2 => {:user_id => first_user.id},
+          :oldPassenger3 => {:user_id => first_user.id}, :oldPassenger4 => {:user_id => first_user.id} ,
+          :oldPassenger5 => {:user_id => first_user.id} , :passengers => {:user_id => user.id},
+          :cabpool => {:remarks => "Hello This is the remarks of cab"}
 
     expect(response).to redirect_to "/admin_cabpool/#{cabpool.id}/edit"
   end
