@@ -699,6 +699,9 @@ footer {
       }
     }
   }
+  .copyright-bottom{
+    display: none;
+  }
 }
 
 .map_show {
@@ -830,7 +833,7 @@ input, textarea {
   .hero-module {
     min-height: 200px;
     h1 {
-      margin: 4% auto 10px;
+      margin: 0% auto 10px;
       font-size: 28px;
     }
     ul {
@@ -876,6 +879,9 @@ input, textarea {
     .route span {
       font-size: 12px;
     }
+    .route{
+      padding: 0 5px;
+    }
     .inner-header {
       font-size: 12px;
       margin: 0 0 15px;
@@ -910,7 +916,7 @@ input, textarea {
   .hero-module {
     min-height: 190px;
     h1 {
-      margin: 6% auto 10px;
+      margin: 0% auto 10px;
       font-size: 24px;
     }
   }
@@ -949,8 +955,18 @@ input, textarea {
   }
   footer {
     font-size: 10px;
+    .copyright-bottom{
+      display: inline-block;
+    }
   }
-
+  .footer-links {
+    display: inline-flex;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .copyright-left{
+    display: none;
+  }
   .plain-text{
     div{
       margin-left: 15px;
