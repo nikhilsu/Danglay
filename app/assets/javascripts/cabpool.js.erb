@@ -156,11 +156,12 @@ function setroute_and_show_distance(a_map)
   }
 
   var total_distance = 0;
+  var total_duration = 0;
 
-  function roundOffDistance(distance) {
-    distance = Math.round(distance * 10);
-    distance = distance / 10;
-    return distance;
+  function roundOffToFirstDecimalPlace(decimalNumber) {
+    decimalNumber = Math.round(decimalNumber * 10);
+    decimalNumber = decimalNumber / 10;
+    return decimalNumber;
   }
 
   directionsService.route({
@@ -179,18 +180,21 @@ function setroute_and_show_distance(a_map)
       var route = response.routes[0];
       for (var i=0;i< route.legs.length;i++){
         total_distance += (route.legs[i].distance.value)/1000;
+        total_duration += (route.legs[i].duration.value)/60;
       }
 
-      var distanceStringToBeDisplayed = "";
+      var routeInfoStringToBeDisplayed = "";
 
       if (total_distance != 0) {
-        total_distance = roundOffDistance(total_distance);
-        distanceStringToBeDisplayed = "Total Distance : " + total_distance + " kms";
+        total_distance = roundOffToFirstDecimalPlace(total_distance);
+        total_duration = roundOffToFirstDecimalPlace(total_duration)
+        routeInfoStringToBeDisplayed = "<span>Total Distance : " + total_distance + " kms<br/></span>";
+        routeInfoStringToBeDisplayed += "<span>Approximate Time : " + total_duration + " mins</span>";
       }
 
       var elementNodeOfMap = a_map.parentNode;
-      var divToShowDistance = elementNodeOfMap.getElementsByClassName('distance')[0];
-      divToShowDistance.innerHTML = distanceStringToBeDisplayed;
+      var divToShowRouteInfo = elementNodeOfMap.getElementsByClassName('route-info')[0];
+      divToShowRouteInfo.innerHTML = routeInfoStringToBeDisplayed;
 
     } else {
       alert('Could not display directions due to: ' + status);
