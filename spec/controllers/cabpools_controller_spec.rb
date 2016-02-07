@@ -99,7 +99,7 @@ RSpec.describe CabpoolsController, type: :controller do
     cabpool_type = create(:cabpool_type).id
     allow(User).to receive(:find_by_id).and_return(user)
 
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
+    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30", remarks: 'Driver Details.'}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
     allow(User).to receive(:find_by_id).and_return(user)
 
     cabpool = assigns(:cabpool)

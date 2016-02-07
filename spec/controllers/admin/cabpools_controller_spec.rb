@@ -160,7 +160,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     allow(User).to receive(:find_by_id).and_return(second_user)
     allow(second_user).to receive(:save).and_return(true)
 
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :passengers => {:user_id_one => first_user.id, :user_id_two=> second_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
+    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30", remarks: 'Driver Details'}, :passengers => {:user_id_one => first_user.id, :user_id_two=> second_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)
 
     expect(response).to redirect_to '/admin'
