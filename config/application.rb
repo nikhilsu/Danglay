@@ -21,6 +21,9 @@ module Danglay
     # config.i18n.default_locale = :de
 
     config.exceptions_app = self.routes
+    if Rails.env != 'test' and Rails.env!='development'
+      config.force_ssl = true
+    end
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
