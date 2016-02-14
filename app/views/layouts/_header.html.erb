@@ -19,10 +19,12 @@
                   <li><p>You have no notifications!</p></li>
               <% elsif not current_user.status.nil? %>
                   <li>
-                    <%= form_tag controller: "/cabpools", action: "view_notification", method: 'post' do %>
-                        <p onclick="$(this).parents('form:first').submit();">
-                          Your request for the cabpool has been <%= current_user.status %></p>
-                    <% end %>
+                    <a href="#">
+                      <%= form_tag controller: "/cabpools", action: "view_notification", method: 'post' do %>
+                          <p onclick="$(this).parents('form:first').submit();">
+                            Your request for the cabpool has been <%= current_user.status %></p>
+                      <% end %>
+                    </a>
                   </li>
               <% else %>
                   <% current_user.cabpool.requested_users.each do |user| %>
