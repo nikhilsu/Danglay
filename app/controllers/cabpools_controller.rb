@@ -79,6 +79,7 @@ class CabpoolsController < ApplicationController
         @cabpools = cabpools_to_render(Cabpool.all)
       end
     end
+    @cabpools = sort_by_available_slots @cabpools
   end
 
   def your_cabpools

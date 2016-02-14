@@ -102,4 +102,8 @@ module CabpoolsHelper
     cabpool_types = CabpoolType.all
     cabpool_types = cabpool_types.reject { |cabpool_type| cabpool_type.name == 'Company provided Cab' }
   end
+
+  def sort_by_available_slots cabpools
+    cabpools.sort_by { |cabpool| cabpool.available_slots }.reverse
+  end
 end

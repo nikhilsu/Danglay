@@ -340,4 +340,14 @@ RSpec.describe CabpoolsHelper, type: :helper do
 
     expect(cabpool_types_for_user).to eq cabpool_types_without_company_provide_cab
   end
+
+  it 'should sort cabpools based on descending order of available slots' do
+    cabpool = build(:cabpool)
+    another_cabpool = build(:cabpool, :without_users)
+    cabpools = [cabpool, another_cabpool]
+
+    cabpools = sort_by_available_slots cabpools
+
+    expect(cabpools).to eq [another_cabpool,cabpool]
+  end
 end

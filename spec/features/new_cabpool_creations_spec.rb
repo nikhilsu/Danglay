@@ -24,7 +24,7 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     expect(page.body).to have_content("It is not a valid time")
     expect(page.body).to have_content("Should not be empty")
     visit new_cabpool_path
-    fill_in 'cabpool_number_of_people', with: '3'
+    fill_in 'cabpool_number_of_people', with: '4'
     fill_in 'cabpool_timein', with: '12:23 PM'
     fill_in 'cabpool_timeout', with: '9:00 PM'
     find(:xpath, '//*[@id="cabpool_type"]/div[1]/select/option[2]').select_option
@@ -44,7 +44,7 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     page.set_rack_session(Email: 'sandeeph@thoughtworks.com')
 
     visit root_path
-    all("button[name='Join Ride']")[-1].click
+    all("button[name='Join Ride']")[0].click
 
     page.set_rack_session(userid: 100)
     page.set_rack_session(registered_uid: 100)
