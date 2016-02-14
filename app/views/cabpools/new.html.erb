@@ -6,6 +6,13 @@
       <%= form_for(@cabpool, layout: :horizontal) do |f| %>
           <div class="col-50">
             <h2><%= "Create a Cab Pool" %></h2>
+            <div id="cabpool_type" class="<% unless @cabpool.errors[:cabpool_types].empty? %> field_with_errors<% end %>">
+              <label for="cabpool_type">Cabpool Type</label>
+              <div>
+                <%= collection_select(:cabpool_type, DateTime.now.strftime('%Q').to_i, CabpoolType.all, :id, :name, {prompt: true}) %>
+                <%= render 'shared/error_messages', errors: @cabpool.errors[:cabpool_types] if !@cabpool.errors[:cabpool_types].empty? %>
+              </div>
+            </div>
             <%= label_tag 'Capacity of Cab' %>
             <%= f.text_field :number_of_people %>
             <%= render 'shared/error_messages', errors: @cabpool.errors[:number_of_people] if !@cabpool.errors[:number_of_people].empty? %>
@@ -16,14 +23,6 @@
             <%= f.time_field :timeout, placeholder: 'HH:MM' %>
             <%= render 'shared/error_messages', errors: @cabpool.errors[:timeout] if !@cabpool.errors[:timeout].empty? %>
             <%= f.hidden_field :route, value: '' %>
-
-            <div id="cabpool_type" class="<% unless @cabpool.errors[:cabpool_types].empty? %> field_with_errors<% end %>">
-              <label for="cabpool_type">Cabpool Type</label>
-              <div>
-                <%= collection_select(:cabpool_type, DateTime.now.strftime('%Q').to_i, CabpoolType.all, :id, :name, {prompt: true}) %>
-                <%= render 'shared/error_messages', errors: @cabpool.errors[:cabpool_types] if !@cabpool.errors[:cabpool_types].empty? %>
-              </div>
-            </div>
 
             <%= label_tag 'Remarks (Optional)' %>
             <%= f.text_area :remarks %>
