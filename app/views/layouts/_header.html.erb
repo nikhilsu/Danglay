@@ -5,7 +5,7 @@
       <div class="col-70">
         <div class="nav-right pull-right">
           <%= link_to "Home", root_path %>
-          <% if is_registered? && user_cabpool_exists? %>
+          <% if is_registered? && (user_cabpool_exists? || received_response_for_cabpool_request?) %>
           <div class="notification">
             <button class="noti">
               <% if number_of_notifications != 0 %>
@@ -15,7 +15,7 @@
               <% end %>
             </button>
             <ul>
-              <% if current_user.cabpool.requested_users.empty? && current_user.status.nil? %>
+              <% if current_user.cabpool.nil? && current_user.status.nil? %>
                   <li><p>You have no notifications!</p></li>
               <% elsif not current_user.status.nil? %>
                   <li>

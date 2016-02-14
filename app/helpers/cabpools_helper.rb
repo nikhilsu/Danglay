@@ -45,6 +45,11 @@ module CabpoolsHelper
     end
   end
 
+  def received_response_for_cabpool_request?
+    user = User.find_by_email(session[:Email])
+    !user.status.nil?
+  end
+
   def user_requested_cabpool_exists?
     if session[:registered_uid].nil?
       false

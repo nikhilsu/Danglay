@@ -171,6 +171,34 @@ RSpec.describe CabpoolsHelper, type: :helper do
     expect(user_requested_cabpool_exists?).to be false
   end
 
+  it 'should return false if user has not received response for his/her cabpool request' do
+    user = build(:user)
+    names = user.name.split(' ')
+    user.status = nil
+    session[:userid] = user.id
+    session[:FirstName] = names[0]
+    session[:LastName] = names[1]
+    session[:Email] = user.email
+    session[:registered_uid] = 1
+    allow(User).to receive(:find_by_email).and_return(user)
+
+    expect(received_response_for_cabpool_request?).to be false
+  end
+
+  it 'should return true if user has received response for his/her cabpool request' do
+    user = build(:user)
+    names = user.name.split(' ')
+    user.status = 'approved'
+    session[:userid] = user.id
+    session[:FirstName] = names[0]
+    session[:LastName] = names[1]
+    session[:Email] = user.email
+    session[:registered_uid] = 1
+    allow(User).to receive(:find_by_email).and_return(user)
+
+    expect(received_response_for_cabpool_request?).to be true
+  end
+
   it "should render all cabpools except the requested cabpool" do
     user = build(:user)
     names = user.name.split(' ')
