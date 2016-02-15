@@ -330,4 +330,14 @@ RSpec.describe CabpoolsHelper, type: :helper do
     expect(image_to_be_displayed(cabpool)).to eq "carpool.png"
   end
 
+  it 'should return a list of cabpool types without Company provided cabpool' do
+    personal_car = CabpoolType.new(name: 'Personal Car')
+    external_cab = CabpoolType.new(name: 'External cab')
+    company_provide_cab = CabpoolType.new(name: 'Company provided Cab')
+    all_cabpool_types = [personal_car, external_cab, company_provide_cab]
+    cabpool_types_without_company_provide_cab = [personal_car, external_cab]
+    allow(CabpoolType).to receive(:all).and_return(all_cabpool_types)
+
+    expect(cabpool_types_for_user).to eq cabpool_types_without_company_provide_cab
+  end
 end

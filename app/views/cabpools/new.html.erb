@@ -9,7 +9,7 @@
             <div id="cabpool_type" class="<% unless @cabpool.errors[:cabpool_types].empty? %> field_with_errors<% end %>">
               <label for="cabpool_type">Cabpool Type</label>
               <div>
-                <%= collection_select(:cabpool_type, DateTime.now.strftime('%Q').to_i, CabpoolType.all, :id, :name, {prompt: true}) %>
+                <%= collection_select(:cabpool_type, DateTime.now.strftime('%Q').to_i, cabpool_types_for_user, :id, :name, {prompt: true}) %>
                 <%= render 'shared/error_messages', errors: @cabpool.errors[:cabpool_types] if !@cabpool.errors[:cabpool_types].empty? %>
               </div>
             </div>

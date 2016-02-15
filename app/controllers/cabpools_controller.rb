@@ -28,9 +28,9 @@ class CabpoolsController < ApplicationController
       current_user_cabpool.destroy
     elsif current_user_cabpool.users.size == 1
       send_email_to_admin_about_invalid_cabpool(current_user_cabpool)
-      send_email_to_cabpool_users_on_member_leaving(users,current_user)
+      send_email_to_cabpool_users_on_member_leaving(users, current_user)
     else
-      send_email_to_cabpool_users_on_member_leaving(users,current_user)
+      send_email_to_cabpool_users_on_member_leaving(users, current_user)
       send_email_to_admin_when_user_leaves(users, current_user)
     end
     flash[:success] = "You have left your cab pool."
@@ -211,7 +211,7 @@ class CabpoolsController < ApplicationController
 
   def send_email_to_admin_when_user_leaves(users, leaving_user)
     cabpool = users.first.cabpool
-    if cabpool.cabpool_type_id ==1
+    if cabpool.cabpool_type_id == 1
       CabpoolMailer.admin_notifier_for_member_leaving(cabpool, leaving_user).deliver_now
     end
   end
@@ -240,7 +240,9 @@ class CabpoolsController < ApplicationController
     params[:cabpool_type].values.each do |cabpool_type_id|
       cabpool_type = CabpoolType.find_by_id(cabpool_type_id)
     end
-    allowed_params.merge(cabpool_type: cabpool_type)
+    if cabpool_types_for_user.include? cabpool_type
+      allowed_params.merge(cabpool_type: cabpool_type)
+    end
   end
 
   def add_session_user_to_cabpool
