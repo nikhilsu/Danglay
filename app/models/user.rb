@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :requested_cabpools, through: :requests, source: :cabpool
   validates_presence_of :emp_id, :name, :email, :address, :locality, :phone_no
   validate :validate_phone_no
+  validates_numericality_of :emp_id
   attr_readonly :emp_id
 
   private

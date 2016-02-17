@@ -9,7 +9,7 @@
       <%= form_for(@user, layout: :horizontal) do |f| %>
           <div class="center-form">
             <%= label_tag 'Employee ID' %>
-            <%= f.text_field :emp_id %>
+            <%= f.text_field :emp_id, :readonly => true %>
             <%= render 'shared/error_messages', errors: @user.errors[:emp_id] if !@user.errors[:emp_id].empty? %>
             <%= label_tag 'Address' %>
             <%= f.text_area :address %>

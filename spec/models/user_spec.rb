@@ -79,4 +79,9 @@ RSpec.describe User, type: :model do
     user = create(:user, :with_admin_role)
     expect(user.role.name).to eq "admin"
   end
+
+  it 'em_id cannot be alphabetic' do
+    user = build(:user, :with_alphabetic_emp_id)
+    expect(user.valid?).to be false
+  end
 end

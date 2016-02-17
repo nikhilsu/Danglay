@@ -28,6 +28,10 @@ FactoryGirl.define do
     emp_id ""
   end
 
+  trait :with_alphabetic_emp_id do
+    emp_id "abc"
+  end
+
   trait :without_email do
     email ""
   end
