@@ -2,10 +2,10 @@ class SessionsController < ApplicationController
 
   def destroy
     delete_session
-    if Rails.env != 'staging'
-      redirect_to 'https://dev-774694.oktapreview.com'
+    if Rails.env == 'staging' or Rails.env == 'production'
+      redirect_to 'https://thoughtworks.okta.com'
     else
-      redirect_to 'https://dev-846101.oktapreview.com'
+      redirect_to 'https://dev-774694.oktapreview.com'
     end
   end
 
