@@ -1,0 +1,24 @@
+<h4>Hi Admin!</h4>
+
+<p> A user named <strong> <%= @user.name %></strong> has requested for the cabpool having ID: <strong> <%= @cabpool %></strong>. Please check the application for more information.</p>
+
+
+<h4>Hi <%= @user.name %>,</h4>
+
+<p><strong><%= @user.name %> (<%= @user.email %>)</strong> has requested for a
+  cabpool having ID: <strong> <%= @cabpool %></strong>. </p>
+
+<p> <%= @user.name %> lives at:</p>
+<p><%= @user.address %></p>
+
+<p>If you approve, <%= @user.name %> will be added to your carpool, and a confirmation email will
+  be sent to both <%= @user.name %>.
+
+<p>What would you like to do?</p>
+
+<p><%= link_to('Approve this request', add_user_to_cabpool_url(user: @user.id, cabpool: @cabpool, approve: true), target: '_blank') %> </p>
+
+<p><%= link_to('Reject this request', add_user_to_cabpool_url(user: @user.id, cabpool: @cabpool, approve: false), target: '_blank') %></p>
+
+<p>Thanks!</p>
+<p>Danglay</p>

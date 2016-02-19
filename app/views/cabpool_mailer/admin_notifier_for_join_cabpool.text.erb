@@ -1,0 +1,24 @@
+Hi Admin!
+
+A user named <%= @user.name %> has requested for the cabpool having ID: <%= @cabpool %>. Please check the application for more information.
+
+
+Hi <%= @user.name %>,
+
+<%= @user.name %> (<%= @user.email %>) has requested for a
+  cabpool having ID: <%= @cabpool %>.
+
+<%= @user.name %> lives at:
+<%= @user.address %>
+
+If you approve, <%= @user.name %> will be added to your carpool, and a confirmation email will
+  be sent to both <%= @user.name %>.
+
+What would you like to do?
+
+<%= add_user_to_cabpool_url(user: @user.id, cabpool: @cabpool, approve: true) %>
+
+<%= add_user_to_cabpool_url(user: @user.id, cabpool: @cabpool, approve: false) %>
+
+Thanks!
+Danglay

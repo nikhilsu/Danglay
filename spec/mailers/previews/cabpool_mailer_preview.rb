@@ -3,8 +3,8 @@ class CabpoolMailerPreview < ActionMailer::Preview
 
   # Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/cabpool_join_request
   def cabpool_join_request
-    user = User.find(16)
-    currentUser = User.find(3)
+    user = User.find_by_email('vdeepika@thoughtworks.com')
+    currentUser = User.find_by_email('sandeeph@thoughtworks.com')
     CabpoolMailer.cabpool_join_request(user, currentUser, currentUser.requests.first.approve_digest)
   end
 
@@ -41,5 +41,10 @@ class CabpoolMailerPreview < ActionMailer::Preview
 # Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/admin_notifier_for_member_leaving
   def admin_notifier_for_member_leaving
     CabpoolMailer.admin_notifier_for_member_leaving(Cabpool.first, User.first)
+  end
+
+# Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/admin_notifier_for_join_cabpool
+  def admin_notifier_for_join_cabpool
+    CabpoolMailer.admin_notifier_for_join_cabpool(Cabpool.first, User.first)
   end
 end

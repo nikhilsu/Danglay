@@ -161,6 +161,21 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to redirect_to root_path
   end
 
+  it 'should send email admins when a user joins the campany provided cabpool' do
+    cabpool = Cabpool.new({number_of_people: 3, timein: "9:30", timeout: "2:30"})
+    cabpool_type = CabpoolType.new({:id => '1'})
+    cabpool.cabpool_type = cabpool_type
+    user = build(:user, :existing_user)
+    allow(Cabpool).to receive(:find_by_id).and_return(cabpool)
+    allow(User).to receive(:find_by_email).and_return(user)
+    allow(User).to receive(:find_by).and_return(user)
+    allow(cabpool).to receive(:cabpool_type).and_return(cabpool_type)
+    allow(cabpool_type).to receive(:name).and_return('Company provided Cab')
+    post :join, cabpool: {id: cabpool.id}
+    expect(ActionMailer::Base.deliveries.size).to eq 1
+    expect(response).to redirect_to root_path
+  end
+
   it 'should redirect to home page if current user does not have a cab pool' do
     user = build(:user)
     allow(User).to receive(:find_by).and_return(user)
@@ -449,5 +464,59 @@ RSpec.describe CabpoolsController, type: :controller do
 
     expect(flash[:danger]).to eq "You are already part of a Cab pool. Please leave the cabpool to create a new cab pool."
     expect(response).to redirect_to your_cabpools_path
+  end
+
+  it 'should add users to cabpool on accept' do
+    user = build_stubbed(:user)
+    cabpool = build_stubbed(:cabpool)
+    allow(user).to receive(:save).and_return(true)
+    allow(User).to receive(:find_by).and_return(user)
+    allow(User).to receive(:find).and_return(user)
+    allow(Cabpool).to receive(:find).and_return(cabpool)
+
+    get :add_user_to_cabpool, user: user.id , cabpool: cabpool.id, approve: "true"
+
+    expect(response).to render_template 'cabpools/request_accept'
+  end
+
+  it 'should not add users and render cannot reject page on rejecting again' do
+    user = build_stubbed(:user)
+    cabpool = build_stubbed(:cabpool)
+    allow(user).to receive(:save).and_return(true)
+    allow(User).to receive(:find_by).and_return(user)
+    allow(User).to receive(:find).and_return(user)
+    allow(cabpool).to receive(:users).and_return([user])
+    allow(Cabpool).to receive(:find).and_return(cabpool)
+
+    get :add_user_to_cabpool, user: user.id , cabpool: cabpool.id, approve: "false"
+
+    expect(response).to render_template 'cabpools/cannot_reject'
+  end
+
+  it 'should not add users to cabpool on reject' do
+    user = build_stubbed(:user)
+    cabpool = build_stubbed(:cabpool)
+    allow(user).to receive(:save).and_return(true)
+    allow(User).to receive(:find_by).and_return(user)
+    allow(User).to receive(:find).and_return(user)
+    allow(Cabpool).to receive(:find).and_return(cabpool)
+
+    get :add_user_to_cabpool, user: user.id , cabpool: cabpool.id, approve: "false"
+
+    expect(response).to render_template 'cabpools/request_reject'
+  end
+
+  it 'should not add users to cabpool and show already added on accepting again' do
+    user = build_stubbed(:user)
+    cabpool = build_stubbed(:cabpool)
+    allow(user).to receive(:save).and_return(true)
+    allow(User).to receive(:find_by).and_return(user)
+    allow(User).to receive(:find).and_return(user)
+    allow(cabpool).to receive(:users).and_return([user])
+    allow(Cabpool).to receive(:find).and_return(cabpool)
+
+    get :add_user_to_cabpool, user: user.id , cabpool: cabpool.id, approve: "true"
+
+    expect(response).to render_template 'cabpools/request_duplicate_admin'
   end
 end

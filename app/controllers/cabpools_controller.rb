@@ -55,8 +55,12 @@ class CabpoolsController < ApplicationController
     requesting_user = User.find_by_email(session[:Email])
     if joining_cab.available_slots > 0
       flash[:success] = 'Request Sent!'
-      request = Request.create(user: requesting_user, cabpool: joining_cab)
-      send_emails_to_cabpool_users(joining_cab.users, current_user, request.approve_digest)
+      if joining_cab.cabpool_type.name == 'Company provided Cab'
+        send_email_to_admins_to_join_cabpool(joining_cab, current_user)
+      else
+        request = Request.create(user: requesting_user, cabpool: joining_cab)
+        send_emails_to_cabpool_users(joining_cab.users, current_user, request.approve_digest)
+      end
     else
       flash[:danger] = 'Cab capacity exceeded!'
     end
@@ -108,6 +112,23 @@ class CabpoolsController < ApplicationController
     end
   end
 
+  def add_user_to_cabpool
+    user_id =  params[:user]
+    cabpool_id = params[:cabpool]
+    approve = params[:approve]
+    user = User.find(user_id)
+    cabpool = Cabpool.find(cabpool_id)
+    if approve == "true" && !cabpool.users.include?(user)
+      cabpool.users << user
+      render 'request_accept'
+    elsif approve == "false" && cabpool.users.include?(user)
+      render 'cannot_reject'
+    elsif cabpool.users.include?(user)
+      render 'request_duplicate_admin'
+    else
+      render 'request_reject'
+    end
+  end
 
   def approve_via_notification
     requested_users_id = params[:user_id]
@@ -262,6 +283,10 @@ class CabpoolsController < ApplicationController
     users.collect do |user|
       CabpoolMailer.cabpool_join_request(user, current_user, digest).deliver_now
     end
+  end
+
+  def send_email_to_admins_to_join_cabpool joining_cab, joining_user
+    CabpoolMailer.admin_notifier_for_join_cabpool(joining_cab, joining_user).deliver_now
   end
 
   def has_cabpool

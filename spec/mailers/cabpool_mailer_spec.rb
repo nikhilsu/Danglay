@@ -140,5 +140,19 @@ RSpec.describe CabpoolMailer, type: :mailer do
       expect(mail.subject).to eq("A member is leaving the cabpool")
       expect(mail.to).to include("sandeeph@thoughtworks.com")
     end
+    end
+
+  describe "admin mail when a user Requests a company provided cabpool" do
+    let(:mail) {
+      @user = build(:user)
+      @capbool = build(:cabpool)
+      allow(@cabpool).to receive(:id).and_return(1)
+      CabpoolMailer.admin_notifier_for_join_cabpool(@cabpool, @user)
+    }
+
+    it 'should send mail to admin to accept or reject the request' do
+      expect(mail.subject).to eq("Join Request for a cabpool")
+      expect(mail.to).to include("sandeeph@thoughtworks.com")
+    end
   end
 end
