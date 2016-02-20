@@ -8,11 +8,11 @@
     <% if cabpool.available_slots == 0 %> class="no-seats" <% end %>  ><%= cabpool.available_slots %></span></div>
     <div class="col-20">
       <% if button(cabpool) == "Leave Ride" %>
-          <%= form_for(cabpool, url: 'leave_cabpool', method: 'post') do |f| %>
+          <%= form_for(cabpool, url: 'leave_cabpool', method: 'post', :html => { onsubmit: "return popup_confirmation(this, 'Are you sure you want to Leave your Cabpool?');"}) do |f| %>
               <%= f.button button(cabpool) %>
           <% end %>
       <% else %>
-          <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
+          <%= form_for(cabpool, url: '/cabpools/join', method: 'post', :html => { onsubmit: "return popup_confirmation(this, 'Are you sure you want to join this Cabpool?');" }) do |f| %>
               <%= f.hidden_field(:id) %>
               <% if !button(cabpool).nil? %>
                   <% if button(cabpool) == "Requested" %>
@@ -65,11 +65,11 @@
           <%= hidden_field_tag 'route', cabpool.route %>
           <div id="map" class="map_show pull-right"></div>
           <% if button(cabpool) == "Leave Ride" %>
-              <%= form_for(cabpool, url: 'leave_cabpool', method: 'post') do |f| %>
+              <%= form_for(cabpool, url: 'leave_cabpool', method: 'post', :html => { onsubmit: "return popup_confirmation(this, 'Are you sure you want to Leave your Cabpool?');"}) do |f| %>
                   <%= f.button button(cabpool), class: 'btn-ride' %>
               <% end %>
           <% else %>
-              <%= form_for(cabpool, url: '/cabpools/join', method: 'post') do |f| %>
+              <%= form_for(cabpool, url: '/cabpools/join', method: 'post', :html => { onsubmit: "return popup_confirmation(this, 'Are you sure you want to Join this Cabpool?');"}) do |f| %>
                   <%= f.hidden_field(:id) %>
                   <% if !button(cabpool).nil? %>
                       <% if button(cabpool) == "Requested" %>

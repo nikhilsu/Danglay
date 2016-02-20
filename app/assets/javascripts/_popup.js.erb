@@ -1,0 +1,41 @@
+var should_submit = false;
+
+function popup_confirmation_if_cabpool_has_no_passengers(form, text){
+  var number_of_passengers_in_pool = $('#passenger').children().length;
+  if (number_of_passengers_in_pool == 0){
+    return popup_confirmation(form, text);
+  }
+  else return true;
+}
+
+function popup_confirmation(form, text) {
+  if (should_submit)
+    return true;
+
+  //open Popup
+  $('.popup').addClass('is-visible');
+  $('.popup-message')[0].innerHTML = text;
+
+  $('#yes').on('click', function(event){
+    event.preventDefault();
+    $('.popup').removeClass('is-visible');
+    should_submit = true;
+    form.submit();
+  });
+
+  //close popup
+  $('.popup').on('click', function(event){
+    if( $(event.target).is('.popup-close') || $(event.target).is('.popup') || $(event.target).is('#no')) {
+      event.preventDefault();
+      $(this).removeClass('is-visible');
+    }
+  });
+
+  //close popup when clicking the esc keyboard button
+  $(document).keyup(function(event){
+    if(event.which=='27'){
+      $('.popup').removeClass('is-visible');
+    }
+  });
+  return false;
+};

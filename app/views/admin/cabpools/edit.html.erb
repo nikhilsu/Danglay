@@ -1,9 +1,9 @@
 <div class="row form-elements">
-  <%= form_for(@cabpool, layout: :horizontal, url: admin_cabpool_update_path) do |f| %>
+  <%= form_for(@cabpool, layout: :horizontal, url: admin_cabpool_update_path, :html => {onsubmit: "return popup_confirmation_if_cabpool_has_no_passengers(this, 'This Cabpool will be Deleted as it has no Passengers. Do you wish to proceed?');"}) do |f| %>
       <div class="col-50">
         <h2 class="create-form-heading"><%= "Edit Cab Pool" %></h2>
         <%= label_tag 'Capacity of Cab' %>
-        <%= f.text_field :number_of_people, disabled: true %>
+        <%= f.text_field :number_of_people %>
 
         <div class="form-group">
           <label class="label-blue"> Passengers </label>
@@ -52,9 +52,9 @@
   <div class="col-50">
     <h2>Route Map</h2>
     <div id="map" class="map" style="height: 400px"></div>
-    <%= form_for(@cabpool, url: '/admin/cabpools/delete', method: :delete , data: { confirm: 'Are you sure that you want to delete this cabpool?' } ) do %>
+    <%= form_for(@cabpool, url: '/admin/cabpools/delete', method: :delete, :html => {onsubmit: "return popup_confirmation(this, 'Are you sure you want to delete this Cabpool?');"}) do %>
         <%= hidden_field_tag 'id', @cabpool.id %>
-        <%= button_tag 'Delete Pool' ,class: "btn-alert" %>
+        <%= button_tag 'Delete Pool', class: "btn-alert" %>
     <% end %>
   </div>
   <script async defer

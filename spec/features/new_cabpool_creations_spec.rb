@@ -45,6 +45,10 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
 
     visit root_path
     all("button[name='Join Ride']")[0].click
+    page.should have_css('.popup.is-visible')
+    expect(page.body).to have_content("Are you sure you want to join this Cabpool?")
+    page.find('#yes').click
+    page.should_not have_css('.popup.is-visible')
 
     page.set_rack_session(userid: 100)
     page.set_rack_session(registered_uid: 100)

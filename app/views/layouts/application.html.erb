@@ -12,6 +12,7 @@
 <body>
 <%= render 'layouts/header' %>
 <%= render 'layouts/welcome'%>
+<%= render 'layouts/popup'%>
 <div class="container information">
   <% flash.each do |message_type, message| %>
       <div class="alert alert-<%= message_type %>">
