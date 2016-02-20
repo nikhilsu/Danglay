@@ -13,11 +13,14 @@ class Admin::CabpoolsController < Admin::AdminController
     @cabpool = Cabpool.new(cabpool_params)
     add_localities_to_cabpool
     add_users_to_cabpool
-    if (no_passengers_added)
+    if (no_passengers_added?)
       flash.now[:danger] = "Please add some people to the cab"
       render 'admin/cabpools/new'
-    elsif (passengers_are_greater_than_capacity)
+    elsif (passengers_are_greater_than_capacity?)
       flash.now[:danger] = "Number of people are more than the capacity of the cab"
+      render 'admin/cabpools/new'
+    elsif (same_passenger_added_multiple_times?)
+      flash.now[:danger] = "Same passenger cannot added multiple number of times"
       render 'admin/cabpools/new'
     else
       if @cabpool.save
@@ -89,12 +92,17 @@ class Admin::CabpoolsController < Admin::AdminController
     @cabpool.users = users
   end
 
-  def no_passengers_added
+  def no_passengers_added?
     params[:passengers] == nil || params[:passengers].values.first.empty?
   end
 
-  def passengers_are_greater_than_capacity
+  def passengers_are_greater_than_capacity?
     (params[:passengers].length > params[:cabpool][:number_of_people].to_i) && (params[:cabpool][:number_of_people].to_i > 0)
+  end
+
+  def same_passenger_added_multiple_times?
+    passengers = params[:passengers].values
+    passengers.uniq.length != passengers.length
   end
 
   def edit_users_to_cabpool
