@@ -42,7 +42,7 @@ class CabpoolsController < ApplicationController
     add_localities_to_cabpool
     add_session_user_to_cabpool
     if @cabpool.save
-      flash[:success] = "You have successfully created your cab pool. Please check the 'MyRide' tab for details."
+      flash[:success] = "You Have Successfully Created A Cab Pool. Please check the 'MyRide' tab for details."
       redirect_to root_url
     else
       render 'new'
@@ -54,7 +54,7 @@ class CabpoolsController < ApplicationController
     joining_cabpool = Cabpool.find_by_id(id)
     requesting_user = User.find_by_email(session[:Email])
     if joining_cabpool.available_slots > 0
-      flash[:success] = 'Request Sent!'
+      flash[:success] = "Join Request Sent! Please check the 'MyRide' tab for details"
       request = Request.create(user: requesting_user, cabpool: joining_cabpool)
       if joining_cabpool.cabpool_type.name == 'Company provided Cab'
         send_email_to_admins_for_join_request(joining_cabpool, current_user, request.approve_digest)
