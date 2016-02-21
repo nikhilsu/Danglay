@@ -113,6 +113,7 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(User).to receive(:find_by_id).and_return(user)
 
     cabpool = assigns(:cabpool)
+    expect(flash[:success]).to eq 'You Have Successfully Created A Cab Pool. Please check the \'MyRide\' tab for details.'
     expect(response).to redirect_to root_url
     expect(cabpool.errors.any?).to be false
   end
@@ -130,7 +131,7 @@ RSpec.describe CabpoolsController, type: :controller do
     cabpool = assigns(:cabpool)
     post :join, cabpool: {id: cabpool.id}
     expect(response).to redirect_to root_path
-    expect(flash[:success]).to eq 'Request Sent!'
+    expect(flash[:success]).to eq 'Join Request Sent! Please check the \'MyRide\' tab for details'
     expect(user.requests.count).to eq 1
   end
 
