@@ -12,13 +12,13 @@ Hi <%= @user.name %>,
 <%= @user.address %>
 
 If you approve, <%= @user.name %> will be added to your carpool, and a confirmation email will
-  be sent to both <%= @user.name %>.
+  be sent to <%= @user.name %>.
 
 What would you like to do?
 
-<%= add_user_to_cabpool_url(user: @user.id, cabpool: @cabpool, approve: true) %>
+<%= approve_reject_handler_url(token: @digest, user: @user.id, cabpool: @cabpool, approve: true) %>
 
-<%= add_user_to_cabpool_url(user: @user.id, cabpool: @cabpool, approve: false) %>
+<%= approve_reject_handler_url(token: @digest, user: @user.id, cabpool: @cabpool, approve: false) %>
 
 Thanks!
 Danglay

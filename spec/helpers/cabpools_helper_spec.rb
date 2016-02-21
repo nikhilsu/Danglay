@@ -350,4 +350,18 @@ RSpec.describe CabpoolsHelper, type: :helper do
 
     expect(cabpools).to eq [another_cabpool,cabpool]
   end
+
+  it 'should return false when cabpool type is company provided' do
+    cabpool = build(:cabpool)
+    cabpool.cabpool_type = build(:cabpool_type, :company_provided_cab)
+
+    expect(is_not_a_company_provided_cabpool? cabpool).to be false
+    end
+
+  it 'should return true when cabpool type is not company provided' do
+    cabpool = build(:cabpool)
+    cabpool.cabpool_type = build(:cabpool_type, :personal_car)
+
+    expect(is_not_a_company_provided_cabpool? cabpool).to be true
+  end
 end

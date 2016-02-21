@@ -27,7 +27,6 @@ Rails.application.routes.draw do
   get 'admin_cabpool/:id/edit' =>  'admin/cabpools#edit'
   patch 'admin_cabpool_update' =>  'admin/cabpools#update'
   delete '/admin/cabpools/delete' => 'admin/cabpools#delete'
-  get 'add_user_to_cabpool' => 'cabpools#add_user_to_cabpool'
   #If Feature toggle is to be used for a specific action
   # if FEATURES.active?('user_feature')
   #   get 'users/new', to: 'users#new'

@@ -16,9 +16,9 @@
 
 <p>What would you like to do?</p>
 
-<p><%= link_to('Approve this request', add_user_to_cabpool_url(user: @user.id, cabpool: @cabpool, approve: true), target: '_blank') %> </p>
+<p><%= link_to('Approve this request', approve_reject_handler_url(token: @digest, user: @user.id, cabpool: @cabpool, approve: true), target: '_blank') %> </p>
 
-<p><%= link_to('Reject this request', add_user_to_cabpool_url(user: @user.id, cabpool: @cabpool, approve: false), target: '_blank') %></p>
+<p><%= link_to('Reject this request', approve_reject_handler_url(token: @digest, user: @user.id, cabpool: @cabpool, approve: false), target: '_blank') %></p>
 
 <p>Thanks!</p>
 <p>Danglay</p>

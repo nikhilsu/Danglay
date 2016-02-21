@@ -50,6 +50,11 @@ module CabpoolsHelper
     !user.status.nil?
   end
 
+  def is_not_a_company_provided_cabpool?(cabpool)
+    cabpool_type = cabpool.cabpool_type
+    cabpool_type.name != "Company provided Cab"
+  end
+
   def user_requested_cabpool_exists?
     if session[:registered_uid].nil?
       false

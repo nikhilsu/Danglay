@@ -17,6 +17,16 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:Email] = user.email
   end
 
+  it 'should return zero when the status of the current is nil and he/she does not belong to a cabpool' do
+    user = build(:user)
+    user.cabpool = nil
+    user.status = nil
+    allow(User).to receive(:find_by).and_return(user)
+
+    expect(number_of_notifications).to eq 0
+
+  end
+
   it 'should return current users cabpools requested users number if user status is nil' do
     user = build(:user)
     cabpool = build(:cabpool)

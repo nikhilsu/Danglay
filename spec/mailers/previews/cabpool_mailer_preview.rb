@@ -5,7 +5,8 @@ class CabpoolMailerPreview < ActionMailer::Preview
   def cabpool_join_request
     user = User.find_by_email('vdeepika@thoughtworks.com')
     currentUser = User.find_by_email('sandeeph@thoughtworks.com')
-    CabpoolMailer.cabpool_join_request(user, currentUser, currentUser.requests.first.approve_digest)
+    cabpool = Cabpool.first
+    CabpoolMailer.cabpool_join_request(user, cabpool, currentUser, currentUser.requests.first.approve_digest)
   end
 
 # Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/cabpool_approve_request
@@ -23,16 +24,6 @@ class CabpoolMailerPreview < ActionMailer::Preview
     CabpoolMailer.cabpool_leave_notifier(User.first, User.second)
   end
 
-# Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/admin_notifier_for_new_cabpool
-  def admin_notifier_for_new_cabpool
-    CabpoolMailer.admin_notifier_for_new_cabpool(User.first)
-  end
-
-# Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/admin_notifier_for_new_user
-  def admin_notifier_for_new_user
-    CabpoolMailer.admin_notifier_for_new_user(User.first)
-  end
-
 # Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/admin_notifier_for_invalid_cabpool
   def admin_notifier_for_invalid_cabpool
     CabpoolMailer.admin_notifier_for_invalid_cabpool(Cabpool.first)
@@ -45,6 +36,9 @@ class CabpoolMailerPreview < ActionMailer::Preview
 
 # Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/admin_notifier_for_join_cabpool
   def admin_notifier_for_join_cabpool
-    CabpoolMailer.admin_notifier_for_join_cabpool(Cabpool.first, User.first)
+    cabpool = Cabpool.first
+    user = User.first
+    request = Request.create(user: user, cabpool: cabpool)
+    CabpoolMailer.admin_notifier_for_join_cabpool(cabpool, user, request.approve_digest)
   end
 end

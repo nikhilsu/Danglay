@@ -5,10 +5,11 @@ class CabpoolMailer < ApplicationMailer
   #
   #   en.cabpool_mailer.cabpool_join_request.subject
   #
-  def cabpool_join_request(cabpool_user, requesting_user, digest)
+  def cabpool_join_request(cabpool_user, cabpool, requesting_user, digest)
     @username = cabpool_user.name
     @current_user = requesting_user
     @digest = digest
+    @cabpool = cabpool.id
     mail to: cabpool_user.email, subject: 'Someone wants to join your carpool!'
   end
 
@@ -26,28 +27,6 @@ class CabpoolMailer < ApplicationMailer
     @username = user.name
     @left_user = left_user
     mail to: user.email, subject: 'Someone has left your cabpool!'
-  end
-
-  def admin_notifier_for_new_cabpool(user)
-    @locality = user.cabpool.ordered_localities.first.name
-    @cabpool = user.cabpool.id
-
-    admins = Role.find_by_name("admin").users
-    emails = []
-    admins.each do |admin| emails << admin.email end
-
-    mail to: emails , subject: "A new cabpool is created!"
-  end
-
-  def admin_notifier_for_new_user(user)
-    @username = user.name
-    @locality = user.locality.name
-    @cabpool = user.cabpool_id
-
-    admins = Role.find_by_name("admin").users
-    emails = []
-    admins.each do |admin| emails << admin.email end
-    mail to: emails , subject: "A new member has joined a cabpool"
   end
 
   def admin_notifier_for_invalid_cabpool deleting_cabpool
@@ -69,9 +48,10 @@ class CabpoolMailer < ApplicationMailer
     mail to: emails , subject: "A member is leaving the cabpool"
   end
 
-  def admin_notifier_for_join_cabpool cabpool, requesting_user
+  def admin_notifier_for_join_cabpool cabpool, requesting_user, digest
     @cabpool = cabpool.id
     @user = requesting_user
+    @digest = digest
 
     admins = Role.find_by_name("admin").users
     emails = []

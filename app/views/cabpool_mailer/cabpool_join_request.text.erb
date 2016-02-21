@@ -9,9 +9,9 @@ email will be sent to both <%= @current_user.name %> and to the admin folks who 
 
 What would you like to do?
 
-<%= approve_reject_handler_url(token: @digest, user: @current_user.id, approve: true) %>
+<%= approve_reject_handler_url(token: @digest, user: @current_user.id, cabpool: @cabpool, approve: true) %>
 
-<%= approve_reject_handler_url(token: @digest, user: @current_user.id, approve: false) %>
+<%= approve_reject_handler_url(token: @digest, user: @current_user.id, cabpool: @cabpool, approve: false) %>
 
 Thanks!
 

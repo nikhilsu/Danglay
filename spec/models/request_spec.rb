@@ -18,7 +18,9 @@ RSpec.describe Request, type: :model do
   end
 
   it 'should save approve token and digest' do
-    request = Request.new(user_id: 1, cabpool_id: 1)
+    request = Request.new
+    request.user = User.first
+    request.cabpool = Cabpool.first
     request.save
     expect(request.approve_token).to be_truthy
     expect(request.approve_digest).to  be_truthy

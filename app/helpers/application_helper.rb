@@ -12,8 +12,9 @@ module ApplicationHelper
 
   def number_of_notifications
     notifications = 0
-    if !current_user.cabpool.nil?
-      notifications = notifications + current_user.cabpool.requested_users.size
+    current_users_cabpool = current_user.cabpool
+    if !current_users_cabpool.nil?
+      notifications = notifications + current_users_cabpool.requested_users.size
     end
     if !current_user.status.nil?
       notifications = notifications + 1

@@ -6,8 +6,9 @@ RSpec.describe CabpoolMailer, type: :mailer do
     let(:mail) {
       request = build_stubbed(:request)
       @requesting_user = request.user
+      @cabpool = request.cabpool
       @cabpool_user = build(:user, :existing_user)
-      CabpoolMailer.cabpool_join_request(@cabpool_user, @requesting_user, request.approve_digest)
+      CabpoolMailer.cabpool_join_request(@cabpool_user, @cabpool, @requesting_user, request.approve_digest)
     }
 
     it "renders the headers" do
@@ -75,55 +76,22 @@ RSpec.describe CabpoolMailer, type: :mailer do
     end
   end
 
-  describe "admin mail notifier" do
+  describe "admin mail for inactive cabpool" do
     let(:mail) {
       @user = build(:user)
       @user.cabpool = build(:cabpool)
       locality = build_stubbed(:locality)
       localities = [locality, locality]
       allow(@user.cabpool).to receive(:ordered_localities).and_return(localities)
-      CabpoolMailer.admin_notifier_for_new_cabpool(@user)
-    }
+      CabpoolMailer.admin_notifier_for_invalid_cabpool(@user.cabpool)
 
-    it 'should send mail to admin when new cabpool is created' do
-      expect(mail.subject).to eq('A new cabpool is created!')
-      expect(mail.to).to include("sandeeph@thoughtworks.com")
-    end
-
-  end
-
-  describe "admin mail for new member" do
-    let(:mail) {
-      @user = build(:user)
-      @user.cabpool = build(:cabpool)
-      locality = build_stubbed(:locality)
-      localities = [locality, locality]
-      allow(@user.cabpool).to receive(:ordered_localities).and_return(localities)
-      CabpoolMailer.admin_notifier_for_new_user(@user)
     }
 
     it 'should send mail to admin about new user' do
-      expect(mail.subject).to eq('A new member has joined a cabpool')
+      expect(mail.subject).to eq("A Cabpool is inactive")
       expect(mail.to).to include("sandeeph@thoughtworks.com")
     end
   end
-
-    describe "admin mail for inactive cabpool" do
-      let(:mail) {
-        @user = build(:user)
-        @user.cabpool = build(:cabpool)
-        locality = build_stubbed(:locality)
-        localities = [locality, locality]
-        allow(@user.cabpool).to receive(:ordered_localities).and_return(localities)
-        CabpoolMailer.admin_notifier_for_invalid_cabpool(@user.cabpool)
-
-      }
-
-      it 'should send mail to admin about new user' do
-        expect(mail.subject).to eq("A Cabpool is inactive")
-        expect(mail.to).to include("sandeeph@thoughtworks.com")
-      end
-    end
 
   describe "admin mail when a user leaves" do
     let(:mail) {
@@ -140,14 +108,15 @@ RSpec.describe CabpoolMailer, type: :mailer do
       expect(mail.subject).to eq("A member is leaving the cabpool")
       expect(mail.to).to include("sandeeph@thoughtworks.com")
     end
-    end
+  end
 
   describe "admin mail when a user Requests a company provided cabpool" do
     let(:mail) {
+      request = build_stubbed(:request)
       @user = build(:user)
       @capbool = build(:cabpool)
       allow(@cabpool).to receive(:id).and_return(1)
-      CabpoolMailer.admin_notifier_for_join_cabpool(@cabpool, @user)
+      CabpoolMailer.admin_notifier_for_join_cabpool(@cabpool, @user, request.approve_digest)
     }
 
     it 'should send mail to admin to accept or reject the request' do
