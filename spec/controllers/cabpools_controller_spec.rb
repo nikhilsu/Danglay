@@ -321,6 +321,27 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to render_template 'cabpools/request_accept'
   end
 
+  it 'should render accept message if request is accept via notification and user has requested for this cabpool and delete him from previous cabpool if he was only person in previous cabpool' do
+    request = build(:request)
+    requested_user = request.user
+    requested_user_cabpool = build(:cabpool, :without_users)
+    requested_user.cabpool = requested_user_cabpool
+    requested_user_cabpool.users = [requested_user]
+    cabpool = request.cabpool
+    user = build_stubbed(:user)
+    cabpool.users << [user]
+    cabpool.localities << [build_stubbed(:locality)]
+
+    allow(User).to receive(:find_by_email).and_return(user)
+    allow(User).to receive(:find_by_cabpool_id).and_return(cabpool)
+    allow(Request).to receive(:find_by).and_return(request)
+    allow(User).to receive(:find).and_return(requested_user)
+    allow(requested_user_cabpool).to receive(:destroy).and_return true
+    allow(user.cabpool.requested_users).to receive(:exists?).and_return(true)
+    post :approve_via_notification, user_id: '2'
+    expect(response).to render_template 'cabpools/request_accept'
+  end
+
   it 'should render invalid message if request is accept via notification and user has not requested for this cabpool' do
     request = build(:request)
     requested_user = request.user
