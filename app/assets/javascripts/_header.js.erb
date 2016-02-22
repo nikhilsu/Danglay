@@ -15,8 +15,8 @@ var func = function(){
     }
   });
 
-  $('.user-profile .user-btn,.notification .noti').focus(function(){
-    $(this).next('ul').fadeIn('fast');
+  $('.user-profile .user-btn,.notification .noti').click(function(){
+    $(this).next('ul').fadeToggle('fast');
   });
   $('.user-profile .user-btn,.notification .noti').focusout(function(){
     $(this).next('ul').fadeOut('fast');
