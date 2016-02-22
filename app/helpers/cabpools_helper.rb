@@ -111,4 +111,20 @@ module CabpoolsHelper
   def sort_by_available_slots cabpools
     cabpools.sort_by { |cabpool| cabpool.available_slots }.reverse
   end
+
+  def confirm_message_for_the_current_users_join_request requesting_cabpool
+    current_users_cabpool = current_user.cabpool
+    if !current_users_cabpool.nil?
+      if current_users_cabpool.users.size == 1
+        return "Are you sure you want to join this cabpool? Confirming would mean that your existing cabpool will be deleted."
+      else
+        return "Are you sure you want to join this cabpool? Confirming would mean that you would be taken out of your existing cabpool."
+      end
+    end
+    if requesting_cabpool.cabpool_type.name == 'Company provided Cab'
+      return "Are you sure you want to join this cabpool? This would send a request to the ADMIN."
+    else
+      return "Are you sure you want to join this cabpool? This would send a request to all members of cabpool"
+    end
+  end
 end

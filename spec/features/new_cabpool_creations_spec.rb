@@ -46,7 +46,7 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     visit root_path
     all("button[name='Join Ride']")[0].click
     expect(page).to have_css('.popup.is-visible')
-    expect(page.body).to have_content("Are you sure you want to join this Cabpool?")
+    expect(page.body).to have_content("Are you sure you want to join this cabpool? This would send a request to all members of cabpool")
     page.find('#yes').click
     expect(page).to_not have_css('.popup.is-visible')
 

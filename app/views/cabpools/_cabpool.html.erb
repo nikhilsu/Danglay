@@ -12,7 +12,7 @@
               <%= f.button button(cabpool) %>
           <% end %>
       <% else %>
-          <%= form_for(cabpool, url: '/cabpools/join', method: 'post', :html => { onsubmit: "return popup_confirmation(this, 'Are you sure you want to join this Cabpool?');" }) do |f| %>
+          <%= form_for(cabpool, url: '/cabpools/join', method: 'post', :html => { onsubmit: "return popup_confirmation(this, '#{confirm_message_for_the_current_users_join_request cabpool}');" }) do |f| %>
               <%= f.hidden_field(:id) %>
               <% if !button(cabpool).nil? %>
                   <% if button(cabpool) == "Requested" %>
@@ -69,7 +69,7 @@
                   <%= f.button button(cabpool), class: 'btn-ride' %>
               <% end %>
           <% else %>
-              <%= form_for(cabpool, url: '/cabpools/join', method: 'post', :html => { onsubmit: "return popup_confirmation(this, 'Are you sure you want to Join this Cabpool?');"}) do |f| %>
+              <%= form_for(cabpool, url: '/cabpools/join', method: 'post', :html => { onsubmit: "return popup_confirmation(this, '#{confirm_message_for_the_current_users_join_request cabpool}');"}) do |f| %>
                   <%= f.hidden_field(:id) %>
                   <% if !button(cabpool).nil? %>
                       <% if button(cabpool) == "Requested" %>
