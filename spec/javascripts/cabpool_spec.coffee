@@ -15,7 +15,7 @@ describe 'adding multiple localities to cabpool route', ->
     return
 
   it 'should have no localityForm when page is loaded', ->
-    expect($('.localityForm').length).toBe(0)
+    expect($('.localityForm').length).toBe(1)
     return
 
   it 'addLocality icon should be visible when page is loaded', ->
@@ -24,13 +24,13 @@ describe 'adding multiple localities to cabpool route', ->
 
   it 'should insert localityForm and remove-icon when addLocality is clicked', ->
     $('#addLocality').click()
-    expect($('.localityForm').length).toBe(1)
-    $('#addLocality').click()
     expect($('.localityForm').length).toBe(2)
+    $('#addLocality').click()
+    expect($('.localityForm').length).toBe(3)
     return
 
   it 'should have a maximum of five localityForms and four remove icons', ->
-    for i in [1..5]
+    for i in [1..3]
       $('#addLocality').click()
     expect($('.localityForm').length).toBe(4)
     return
@@ -41,15 +41,15 @@ describe 'adding multiple localities to cabpool route', ->
     spyOn(window, 'update_map')
     initMap()
     $('#addLocality').click()
-    expect($('.localityForm').length).toBe(1)
+    expect($('.localityForm').length).toBe(2)
     $('#removeNewLocality').click()
-    expect($('.localityForm').length).toBe(0)
+    expect($('.localityForm').length).toBe(1)
     expect(window.update_map).toHaveBeenCalled()
     return
 
   it 'should hide addLocality icon when the fourth locality is added', ->
     expect($('#addLocality')).toBeVisible()
-    for i in [1..5]
+    for i in [1..3]
       $('#addLocality').click()
     expect($('#addLocality')).toBeHidden()
     return
@@ -60,7 +60,7 @@ describe 'adding multiple localities to cabpool route', ->
     spyOn(window, 'update_map')
     initMap()
     expect($('#addLocality')).toBeVisible()
-    for i in [1..5]
+    for i in [1..3]
       $('#addLocality').click()
     expect($('#addLocality')).toBeHidden()
     $('#removeNewLocality').click()

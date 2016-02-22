@@ -3,26 +3,11 @@ var data = {};
 
 var CabPoolListener = {
     addListeners: function () {
-        $('div.selectize:first > select').selectize()
         var select_tag = $('div.localityForm').html();
         $('div.localityForm:first').remove();
-        $('#addLocality').click(function () {
-            var number_of_locality_forms = $("div.localityForm").length;
-            if (number_of_locality_forms <= 3) {
-                var locality_form_with_remove_icon = '<div class="form-group"> ' +
-                    '<div class="localityForm">' + select_tag + '</div> ' +
-                    '<button id="removeNewLocality" class ="hideable">-</button> '+
-                    '</div>';
-                $('div#localitySelections').append(locality_form_with_remove_icon);
-                var select_the_last_locality_form = $('div.localityForm:last > select');
-                select_the_last_locality_form.change(update_map);
-                select_the_last_locality_form.attr('name', 'localities[' + $.now() + ']');
-                select_the_last_locality_form.selectize();
-
-                if (number_of_locality_forms == 3) {
-                    $(this).hide();
-                }
-            }
+        addASelectizedFormGroup(select_tag);
+        $('#addLocality').click(function() {
+          addASelectizedFormGroup(select_tag);
           return false;
         });
 
@@ -61,6 +46,23 @@ var CabPoolListener = {
     }
 };
 
+var addASelectizedFormGroup = function (select_tag) {
+  var number_of_locality_forms = $("div.localityForm").length;
+  if (number_of_locality_forms <= 3) {
+    var locality_form_with_remove_icon = '<div class="form-group"> ' +
+        '<div class="localityForm">' + select_tag + '</div> ' +
+        '<button id="removeNewLocality" class ="hideable">-</button> '+
+        '</div>';
+    $('div#localitySelections').append(locality_form_with_remove_icon);
+    var select_the_last_locality_form = $('div.localityForm:last > select');
+    select_the_last_locality_form.change(update_map);
+    select_the_last_locality_form.attr('name', 'localities[' + $.now() + ']');
+    select_the_last_locality_form.selectize();
+    if (number_of_locality_forms == 3) {
+      $('#addLocality').hide();
+    }
+  }
+};
 
 var update_map = function() {
   var viaLocations = document.getElementsByClassName('form-control selectized add-locality');
