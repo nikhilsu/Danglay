@@ -79,8 +79,7 @@ class CabpoolsController < ApplicationController
       elsif !locality.cabpools.empty?
         @cabpools = cabpools_to_render(locality.cabpools)
       else
-        flash.now[:danger] = "Locality has no cabpools"
-        @cabpools = cabpools_to_render(Cabpool.all)
+        @cabpools = cabpools_to_render([])
       end
     end
     @cabpools = sort_by_available_slots @cabpools

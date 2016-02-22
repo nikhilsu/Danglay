@@ -42,7 +42,6 @@ RSpec.describe CabpoolsController, type: :controller do
     cabpool.localities << locality
     post :show, localities: { locality_id: locality.id }
     expect(response).to render_template('show')
-    expect(flash[:danger]).to eq "Locality has no cabpools"
   end
 
   it 'render home page with all cabpools and flash if no locality selected' do
