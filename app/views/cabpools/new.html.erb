@@ -5,7 +5,7 @@
 
       <%= form_for(@cabpool, layout: :horizontal) do |f| %>
           <div class="col-50">
-            <h2><%= "Create a Cab Pool" %></h2>
+            <h2 id="create-cabpool-heading"><%= "Create a Cab Pool" %></h2>
             <div id="cabpool_type" class="<% unless @cabpool.errors[:cabpool_types].empty? %> field_with_errors<% end %>">
               <label for="cabpool_type">Cabpool Type</label>
               <div>

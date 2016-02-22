@@ -42,22 +42,24 @@ var CabPoolListener = {
           displayRoute(data.source, data.destination, directionsService, directionsDisplay);
         });
       $('#sourceLocation').selectize();
+
+      $(function(){
+        $("#cabpool_type").change(function() {
+          if($('#cabpool_type :selected').text() == ("Company provided Cab")){
+            $('.hideable').addClass('hidden');
+            $('#submit_button').val("Request creation of Pool");
+            $('#create-cabpool-heading').text("Request for a Cab Pool");
+            initMap();
+          }
+          else{
+            $('.hideable').removeClass('hidden');
+            $('#submit_button').val("Create a Pool");
+            $('#create-cabpool-heading').text("Create a Cab Pool");
+          }
+        });
+      });
     }
 };
-
-$(function(){ 
-    $("#cabpool_type").change(function() {
-      if($('#cabpool_type :selected').text() == ("Company provided Cab")){
-        $('.hideable').addClass('hidden');
-        $('#submit_button').val("Request creation of Pool");
-        initMap();
-      }
-      else{
-       $('.hideable').removeClass('hidden');
-       $('#submit_button').val("Create a Pool");
-      }
-    });
-});
 
 
 var update_map = function() {
