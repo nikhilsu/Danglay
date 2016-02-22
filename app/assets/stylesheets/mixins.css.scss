@@ -32,6 +32,10 @@
   display: block;
 }
 
+.hidden {
+    display: none !important;
+}
+
 
 @mixin buttons($bg, $color){
     background: $bg;

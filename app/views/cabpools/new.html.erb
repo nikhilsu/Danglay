@@ -9,12 +9,12 @@
             <div id="cabpool_type" class="<% unless @cabpool.errors[:cabpool_types].empty? %> field_with_errors<% end %>">
               <label for="cabpool_type">Cabpool Type</label>
               <div>
-                <%= collection_select(:cabpool_type, DateTime.now.strftime('%Q').to_i, cabpool_types_for_user, :id, :name, {prompt: true}) %>
+                <%= collection_select(:cabpool_type, DateTime.now.strftime('%Q').to_i, CabpoolType.all, :id, :name, {prompt: true}, {id: "cabpool_type" }) %>
                 <%= render 'shared/error_messages', errors: @cabpool.errors[:cabpool_types] if !@cabpool.errors[:cabpool_types].empty? %>
               </div>
             </div>
-            <%= label_tag 'Capacity of Cab' %>
-            <%= f.text_field :number_of_people %>
+            <label class= "hideable" for="capacity_of_cab"> Capacity of Cab </label>
+            <%= f.text_field :number_of_people, class: "hideable"%>
             <%= render 'shared/error_messages', errors: @cabpool.errors[:number_of_people] if !@cabpool.errors[:number_of_people].empty? %>
             <%= label_tag 'Arrival time to office' %>
             <%= f.time_field :timein, placeholder: 'HH:MM'%>
@@ -28,14 +28,14 @@
             <%= f.text_area :remarks %>
             <%= render 'shared/error_messages', errors: @cabpool.errors[:remarks] if !@cabpool.errors[:remarks].empty? %>
 
-            <div class="form-group">
+            <div class="form-group hideable">
               <label class="label-blue" for="user_locality">Route</label>
               <div>
                 <span class="label-name" id="locality"> <%= User.find_by_email(session[:Email]).locality.name %> </span>
                 <%= hidden_field_tag 'localities[source]', User.find_by_email(session[:Email]).locality.id %>
                 <div class="localityForm">
-                  <label class="control-label required pull-left" for="user_locality">Via</label>
-                  <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control add-locality') %>
+                  <label class="control-label required pull-left hideable" for="user_locality">Via</label>
+                  <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'hideable form-control add-locality') %>
                 </div>
                 <%= render 'shared/error_messages', errors: @cabpool.errors[:localities] if !@cabpool.errors[:localities].empty? %>
               </div>
@@ -43,7 +43,7 @@
             </div>
 
             <div id="localitySelections"></div>
-            <%= f.submit "Create a pool", class: "btn-submit" %>
+            <%= f.submit "Create a pool", class: "btn-submit", id: "submit_button" %>
           </div>
           <div class="col-50">
             <h2>Route Map</h2>

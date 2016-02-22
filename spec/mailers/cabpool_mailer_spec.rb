@@ -124,4 +124,20 @@ RSpec.describe CabpoolMailer, type: :mailer do
       expect(mail.to).to include("sandeeph@thoughtworks.com")
     end
   end
+  
+  describe "admin mail when a user Requests a creation of company provided cabpool" do
+    let(:mail) {
+      @user = build(:user)
+      @timein = '9:30'
+      @timeout = '5:30'
+      @remarks = "some remarks"
+      CabpoolMailer.admin_notifier_for_new_cabpool_creation_request(@user, @timein, @timeout, @remarks)
+    }
+
+    it 'should send mail to admin to create a request for creation of cabpool by admin' do
+      expect(mail.subject).to eq("Cabpool creation request")
+      expect(mail.to).to include("sandeeph@thoughtworks.com")
+    end
+  end
+
 end

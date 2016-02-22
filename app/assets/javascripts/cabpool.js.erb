@@ -11,7 +11,7 @@ var CabPoolListener = {
             if (number_of_locality_forms <= 3) {
                 var locality_form_with_remove_icon = '<div class="form-group"> ' +
                     '<div class="localityForm">' + select_tag + '</div> ' +
-                    '<button id="removeNewLocality">-</button> '+
+                    '<button id="removeNewLocality" class ="hideable">-</button> '+
                     '</div>';
                 $('div#localitySelections').append(locality_form_with_remove_icon);
                 var select_the_last_locality_form = $('div.localityForm:last > select');
@@ -44,6 +44,21 @@ var CabPoolListener = {
       $('#sourceLocation').selectize();
     }
 };
+
+$(function(){ 
+    $("#cabpool_type").change(function() {
+      if($('#cabpool_type :selected').text() == ("Company provided Cab")){
+        $('.hideable').addClass('hidden');
+        $('#submit_button').val("Request creation of Pool");
+        initMap();
+      }
+      else{
+       $('.hideable').removeClass('hidden');
+       $('#submit_button').val("Create a Pool");
+      }
+    });
+});
+
 
 var update_map = function() {
   var viaLocations = document.getElementsByClassName('form-control selectized add-locality');

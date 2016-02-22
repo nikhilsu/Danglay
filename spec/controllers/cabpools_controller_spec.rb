@@ -93,17 +93,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(cabpool.errors.any?).to be true
   end
 
-  it 'should render new cabpool page with errors when cabpool type is chosen as company provided cabpool' do
-    user = build(:user)
-    allow(User).to receive(:find_by_id).and_return(user)
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_two_id => '1'}, :localities => {:locality_one_id => '1'}
-    cabpool = assigns(:cabpool)
-
-    expect(response).to render_template 'cabpools/new'
-    expect(cabpool.errors.any?).to be true
-  end
-
-  it 'should render show cabpool page when valid details are entered' do
+  it 'should render show cabpool page when valid details are entered and cabpool type is not company provided' do
     user = build(:user)
     cabpool_type = create(:cabpool_type).id
     allow(User).to receive(:find_by_id).and_return(user)
@@ -112,9 +102,24 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(User).to receive(:find_by_id).and_return(user)
 
     cabpool = assigns(:cabpool)
-    expect(flash[:success]).to eq 'You Have Successfully Created A Cab Pool. Please check the \'MyRide\' tab for details.'
     expect(response).to redirect_to root_url
     expect(cabpool.errors.any?).to be false
+  end
+
+    it 'should render show cabpool page when valid details are entered and cabpool type is company provided' do
+    user = build(:user, :existing_user)
+    cabpool_type = create(:cabpool_type).id
+    allow(User).to receive(:find_by_id).and_return(user)
+    allow(User).to receive(:find_by).and_return(user)
+
+    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30", remarks: 'Driver Details.'}, :cabpool_type => {:cabpool_type_two_id => '1'}, :localities => {:locality_one_id => '1'}
+
+    cabpool = assigns(:cabpool)
+
+    expect(flash[:success]).to eq flash[:success] = "You have successfully requested the admins for a cab pool."
+    expect(response).to redirect_to root_url
+    expect(cabpool.errors.any?).to be false
+    expect(ActionMailer::Base.deliveries.size).to eq 1
   end
 
   it "should redirect to new user path when unregistered user tries to create a pool" do
@@ -123,14 +128,15 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to redirect_to new_user_path
   end
 
-  it 'should show respective success message when join is successful' do
+  it 'should show respective success message when join is successful when cabpool type is not company provided' do
     user = build(:user)
     allow(User).to receive(:find_by).and_return(user)
     post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)
     post :join, cabpool: {id: cabpool.id}
     expect(response).to redirect_to root_path
-    expect(flash[:success]).to eq "Request Sent! Please check the 'MyRide' tab for details."
+
+    expect(flash[:success]).to eq "Join Request Sent! Please check the 'MyRide' tab for details"
     expect(user.requests.count).to eq 1
   end
 

@@ -27,13 +27,13 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     fill_in 'cabpool_number_of_people', with: '4'
     fill_in 'cabpool_timein', with: '12:23 PM'
     fill_in 'cabpool_timeout', with: '9:00 PM'
-    find(:xpath, '//*[@id="cabpool_type"]/div[1]/select/option[2]').select_option
+    find(:xpath, '//*[@id="cabpool_type"]/div[1]/select/option[3]').select_option
     page.execute_script "window.scrollBy(0,10000)"
 
     find('#addLocality').trigger('click')
     find(:xpath, '//*[@id="localitySelections"]/div[1]/div/div/div[1]/input').set("HAL")
     find(:xpath, '//*[@id="localitySelections"]/div[1]/div/div/div[1]/input').native.send_keys(:return)
-    click_button 'Create a pool'
+    find(:xpath, "//*[@id='submit_button']").click()
     expect(page.current_path).to eq '/'
     page.assert_selector('div.notification', :count => 1)
 

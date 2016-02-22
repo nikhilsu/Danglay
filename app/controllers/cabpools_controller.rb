@@ -41,11 +41,17 @@ class CabpoolsController < ApplicationController
     @cabpool = Cabpool.new(cabpool_params)
     add_localities_to_cabpool
     add_session_user_to_cabpool
-    if @cabpool.save
-      flash[:success] = "You Have Successfully Created A Cab Pool. Please check the 'MyRide' tab for details."
+    if selected_cabpool_type_is_company_provided_cabpool
+      send_email_to_admins_to_request_cabpool_creation(current_user, params[:cabpool][:timein], params[:cabpool][:timeout], params[:remarks])
+      flash[:success] = "You have successfully requested the admins for a cab pool."
       redirect_to root_url
     else
-      render 'new'
+      if @cabpool.save
+        flash[:success] = "You have successfully created your cab pool. Please check the 'MyRide' tab for details."
+        redirect_to root_url
+      else
+        render 'new'
+      end
     end
   end
 
@@ -191,6 +197,10 @@ class CabpoolsController < ApplicationController
     render 'request_reject'
   end
 
+  def send_email_to_admins_to_request_cabpool_creation(requesting_user, timein, timeout, remarks)
+    CabpoolMailer.admin_notifier_for_new_cabpool_creation_request(requesting_user, timein, timeout, remarks).deliver_now
+  end
+
   def send_email_to_rejected_user(rejected_user)
     CabpoolMailer.cabpool_approve_request(rejected_user).deliver_now
   end
@@ -266,4 +276,14 @@ class CabpoolsController < ApplicationController
     end
   end
 
+  def selected_cabpool_type_is_company_provided_cabpool
+    cabpool_type = CabpoolType.new
+    params[:cabpool_type].values.each do |cabpool_type_id|
+      cabpool_type = CabpoolType.find_by_id(cabpool_type_id)
+    end
+    if cabpool_type == nil 
+      return false
+    end
+    return cabpool_type.name == CabpoolType.find_by_name("Company provided Cab").name
+  end
 end

@@ -58,4 +58,21 @@ class CabpoolMailer < ApplicationMailer
     admins.each do |admin| emails << admin.email end
     mail to: emails , subject: "Join Request for a cabpool"
   end
+
+  def admin_notifier_for_new_cabpool_creation_request requesting_user, timein, timeout, remarks
+    @username  = requesting_user.name
+    @address = requesting_user.address
+    @timein = timein
+    @timeout = timeout
+    if(remarks == nil)
+      @remarks = ""
+    else
+      @remarks = remarks
+    end
+
+    admins = Role.find_by_name("admin").users
+    emails = []
+    admins.each do |admin| emails << admin.email end
+    mail to: emails , subject: "Cabpool creation request" 
+  end
 end
