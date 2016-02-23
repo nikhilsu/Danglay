@@ -119,9 +119,9 @@ module CabpoolsHelper
     current_users_cabpool = current_user.cabpool
     if !current_users_cabpool.nil?
       if current_users_cabpool.users.size == 1
-        return "Are you sure you want to join this cabpool? Confirming would mean that your existing cabpool will be deleted."
+        return "Are you sure you want to join this cabpool? Confirming would mean that your existing cabpool will be deleted if your request is accepted."
       else
-        return "Are you sure you want to join this cabpool? Confirming would mean that you would be taken out of your existing cabpool."
+        return "Are you sure you want to join this cabpool? Confirming would mean that you would be taken out of your existing cabpool if your request is accepted."
       end
     end
     if requesting_cabpool.cabpool_type.name == 'Company provided Cab'

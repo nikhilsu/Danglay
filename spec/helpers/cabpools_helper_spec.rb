@@ -377,7 +377,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:registered_uid] = 1
     allow(User).to receive(:find_by).and_return(user)
 
-    expect(confirm_message_for_the_current_users_join_request cabpool).to eq "Are you sure you want to join this cabpool? Confirming would mean that you would be taken out of your existing cabpool."
+    expect(confirm_message_for_the_current_users_join_request cabpool).to eq "Are you sure you want to join this cabpool? Confirming would mean that you would be taken out of your existing cabpool if your request is accepted."
   end
 
   it 'should return appropriate confirm message when user raises a join request and he is part of a pool which has no users' do
@@ -391,7 +391,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:Email] = user.email
     session[:registered_uid] = 1
     allow(User).to receive(:find_by).and_return(user)
-    expect(confirm_message_for_the_current_users_join_request cabpool).to eq "Are you sure you want to join this cabpool? Confirming would mean that your existing cabpool will be deleted."
+    expect(confirm_message_for_the_current_users_join_request cabpool).to eq "Are you sure you want to join this cabpool? Confirming would mean that your existing cabpool will be deleted if your request is accepted."
   end
 
   it 'should return appropriate confirm message when user raises a join request for a company provided cab and he is not part of a cabpool' do
