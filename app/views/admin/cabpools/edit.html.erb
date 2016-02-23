@@ -36,7 +36,7 @@
         <%= f.time_field :timeout, placeholder: 'HH:MM', disabled: true %>
         <%= f.hidden_field :route, value: @cabpool.route %>
 
-        <label class="control-label required" for="cabpool_type">Cabpool Type</label>
+        <label class="control-label" for="cabpool_type">Cabpool Type</label>
 
         <div>
           <input disabled="disabled" value="<%= @cabpool.cabpool_type.name %>">

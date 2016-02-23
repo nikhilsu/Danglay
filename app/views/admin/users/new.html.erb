@@ -10,22 +10,22 @@
 
       <%= form_for(@user, layout: :horizontal, url: admin_user_create_path) do |f| %>
           <div class="col-50 center-form">
-            <%= label_tag 'Employee ID' %>
+            <label class= "required" for="capacity_of_cab"> Capacity of Cab </label>
             <%= f.text_field :emp_id %>
             <%= render 'shared/error_messages', errors: @user.errors[:emp_id] if !@user.errors[:emp_id].empty? %>
-            <%= label_tag 'Name' %>
+            <label class= "required" for="name"> Name </label>
             <%= f.text_field :name %>
             <%= render 'shared/error_messages', errors: @user.errors[:name] if !@user.errors[:name].empty? %>
-            <%= label_tag 'Email' %>
+            <label class= "required" for="email"> Email </label>
             <%= f.text_field :email %>
             <%= render 'shared/error_messages', errors: @user.errors[:email] if !@user.errors[:email].empty? %>
-            <%= label_tag 'Address' %>
+            <label class= "required" for="address"> Address </label>
             <%= f.text_area :address %>
             <%= render 'shared/error_messages', errors: @user.errors[:address] if !@user.errors[:address].empty? %>
-            <%= label_tag 'Phone Number' %>
+            <label class= "required" for="phone_number"> Phone Number </label>
             <%= f.text_field :phone_no %>
             <%= render 'shared/error_messages', errors: @user.errors[:phone_no] if !@user.errors[:phone_no].empty? %>
-            <%= label_tag 'Locality' %>
+            <label class= "required" for="locality"> Locality </label>
 
             <div class="full-width-selectize">
               <%= f.collection_select(:locality, @localities, :id, :name, {prompt: true}) %>

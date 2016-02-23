@@ -1186,6 +1186,14 @@ div h1 {
   transform: translateY(0);
 }
 
+/* Miscellaneous */
+
+
+label.required:after {
+    content: " *";
+    color: red;
+}
+
 .no-cabpool-found{
   padding-top: 30px;
   padding-left: 5px;
