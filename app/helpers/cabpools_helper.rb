@@ -113,6 +113,9 @@ module CabpoolsHelper
   end
 
   def confirm_message_for_the_current_users_join_request requesting_cabpool
+    if current_user.nil?
+      return "You cannot request for a cabpool till you Update your profile."
+    end
     current_users_cabpool = current_user.cabpool
     if !current_users_cabpool.nil?
       if current_users_cabpool.users.size == 1
