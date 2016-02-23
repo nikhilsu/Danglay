@@ -8,19 +8,14 @@
     <% if cabpool.available_slots == 0 %> class="no-seats" <% end %>  ><%= cabpool.available_slots %></span></div>
     <div class="col-20">
       <% if button(cabpool) == "Leave Ride" %>
-          <%= form_for(cabpool, url: 'leave_cabpool', method: 'post', :html => { onsubmit: "return popup_confirmation(this, 'Are you sure you want to Leave your Cabpool?');"}) do |f| %>
+          <%= form_for(cabpool, url: 'leave_cabpool', method: 'post', :html => {onsubmit: "return popup_confirmation(this, 'Are you sure you want to Leave your Cabpool?');"}) do |f| %>
               <%= f.button button(cabpool) %>
           <% end %>
       <% else %>
-          <%= form_for(cabpool, url: '/cabpools/join', method: 'post', :html => { onsubmit: "return popup_confirmation(this, '#{confirm_message_for_the_current_users_join_request cabpool}');" }) do |f| %>
-              <%= f.hidden_field(:id) %>
-              <% if !button(cabpool).nil? %>
-                  <% if button(cabpool) == "Requested" %>
-                      <%= f.button button(cabpool), disabled: true %>
-                  <% else %>
-                      <%= f.button button(cabpool), name: 'Join Ride' %>
-                  <% end %>
-              <% end %>
+          <% if !current_user.nil? %>
+              <%= render partial: 'join_cabpool', object: {cabpool: cabpool, join_button_style: '', popup_action_js: {onsubmit: "return popup_confirmation(this, '#{confirm_message_for_the_current_users_join_request cabpool}');"}} %>
+          <% else %>
+              <%= render partial: 'join_cabpool', object: {cabpool: cabpool, join_button_style: '', popup_action_js: {}} %>
           <% end %>
       <% end %>
       <span class="view-details">View details</span></div>
@@ -65,19 +60,14 @@
           <%= hidden_field_tag 'route', cabpool.route %>
           <div id="map" class="map_show pull-right"></div>
           <% if button(cabpool) == "Leave Ride" %>
-              <%= form_for(cabpool, url: 'leave_cabpool', method: 'post', :html => { onsubmit: "return popup_confirmation(this, 'Are you sure you want to Leave your Cabpool?');"}) do |f| %>
+              <%= form_for(cabpool, url: 'leave_cabpool', method: 'post', :html => {onsubmit: "return popup_confirmation(this, 'Are you sure you want to Leave your Cabpool?');"}) do |f| %>
                   <%= f.button button(cabpool), class: 'btn-ride' %>
               <% end %>
           <% else %>
-              <%= form_for(cabpool, url: '/cabpools/join', method: 'post', :html => { onsubmit: "return popup_confirmation(this, '#{confirm_message_for_the_current_users_join_request cabpool}');"}) do |f| %>
-                  <%= f.hidden_field(:id) %>
-                  <% if !button(cabpool).nil? %>
-                      <% if button(cabpool) == "Requested" %>
-                          <%= f.button button(cabpool), class: 'btn-ride', disabled: true %>
-                      <% else %>
-                          <%= f.button button(cabpool), class: 'btn-ride', name: 'Join Ride' %>
-                      <% end %>
-                  <% end %>
+              <% if !current_user.nil? %>
+                  <%= render partial: 'join_cabpool', object: {cabpool: cabpool, join_button_style: 'btn-ride', popup_action_js: {onsubmit: "return popup_confirmation(this, '#{confirm_message_for_the_current_users_join_request cabpool}');"}} %>
+              <% else %>
+                  <%= render partial: 'join_cabpool', object: {cabpool: cabpool, join_button_style: 'btn-ride', popup_action_js: {}} %>
               <% end %>
           <% end %>
           <div class="route-info"></div>

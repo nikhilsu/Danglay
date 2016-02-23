@@ -7,7 +7,9 @@
           <div class="col-50">
             <h2><%= "Create a Cab Pool" %></h2>
             <div class = "note">
-              You are allowed to create pools of types - Personal Car and External Cab. However only thoughtworks admins are allowed to create Company Provided Cab Pools. If you wish to use this type of cab pool and cannot find one in your locality, you can submit a request to the admins to create a cab pool from your locality.  
+              <div class="col-90" >
+              You are allowed to create pools of types - Personal Car and External Cab. However only thoughtworks admins are allowed to create Company Provided Cab Pools. If you wish to use this type of cab pool and cannot find one in your locality, you can submit a request to the admins to create a cab pool from your locality.
+              </div>
             </div>
             <div id="cabpool_type" class="<% unless @cabpool.errors[:cabpool_types].empty? %> field_with_errors<% end %>">
               <label for="cabpool_type" class = "required">Cabpool Type</label>

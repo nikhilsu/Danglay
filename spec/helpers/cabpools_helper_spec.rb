@@ -425,20 +425,4 @@ RSpec.describe CabpoolsHelper, type: :helper do
 
     expect(confirm_message_for_the_current_users_join_request cabpool).to eq "Are you sure you want to join this cabpool? This would send a request to all members of cabpool"
   end
-
-  it 'should return appropriate confirm message when user raises a join request for a company provided cab and he is not part of a cabpool' do
-    user = build(:user)
-    names = user.name.split(' ')
-    cabpool = build(:cabpool)
-    cabpool_type = build(:cabpool_type, :personal_car)
-    cabpool.cabpool_type = cabpool_type
-    session[:userid] = user.id
-    session[:FirstName] = names[0]
-    session[:LastName] = names[1]
-    session[:Email] = user.email
-    session[:registered_uid] = 1
-    allow(User).to receive(:find_by).and_return(nil)
-
-    expect(confirm_message_for_the_current_users_join_request cabpool).to eq "You cannot request for a cabpool till you Update your profile."
-  end
 end
