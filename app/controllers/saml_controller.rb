@@ -42,7 +42,7 @@ class SamlController < ApplicationController
   def saml_settings
     idp_metadata_parser = OneLogin::RubySaml::IdpMetadataParser.new
     settings = idp_metadata_parser.parse(idp_metadata[Rails.env])
-    settings.assertion_consumer_service_url = "http://#{request.host}/saml/consume"
+    settings.assertion_consumer_service_url = "http://#{root_url}/saml/consume"
     settings.issuer = 'thedanglayfollowers'
     settings.name_identifier_format = "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
     settings
