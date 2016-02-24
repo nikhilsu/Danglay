@@ -86,7 +86,7 @@ class UsersController < ApplicationController
           end
         end
       else
-        @user.locality = Locality.find(locality_id)
+        @user.locality = Locality.find_by_id(locality_id)
       end
    end
 end
