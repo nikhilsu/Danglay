@@ -1,9 +1,9 @@
 en:
   errors:
     messages:
-      invalid_date: "It is not a valid date."
-      invalid_time: "It is not a valid time."
-      invalid_datetime: "It is not a valid datetime."
+      invalid_date: "This is not a valid date."
+      invalid_time: "This is not a valid time."
+      invalid_datetime: "This is not a valid datetime."
       is_at: "Must be at %{restriction}"
       before: "Must be before %{restriction}"
       on_or_before: "Must be on or before %{restriction}"

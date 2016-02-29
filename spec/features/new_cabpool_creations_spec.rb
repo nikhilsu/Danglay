@@ -21,8 +21,8 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
 
     expect(page.current_path).to eq '/cabpools'
     expect(page.body).to have_content("This is not a number.")
-    expect(page.body).to have_content("It is not a valid time")
-    expect(page.body).to have_content("Should not be empty")
+    expect(page.body).to have_content("This is not a valid time")
+    expect(page.body).to have_content("This should not be empty")
     visit new_cabpool_path
     fill_in 'cabpool_number_of_people', with: '4'
     fill_in 'cabpool_timein', with: '12:23 PM'

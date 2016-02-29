@@ -20,14 +20,14 @@ class Cabpool < ActiveRecord::Base
 
   def invalidate_empty_localities
     if localities.empty?
-      errors.add(:localities, "Should not be empty")
+      errors.add(:localities, "This should not be empty")
     end
   end
 
   def invalidate_duplicate_localities
     difference = localities.size - localities.uniq.size
     if difference != 0
-      errors.add(:localities, "Already Exists")
+      errors.add(:localities, "This already Exists")
     end
   end
 
@@ -44,13 +44,13 @@ class Cabpool < ActiveRecord::Base
   private
   def invalidate_empty_cabpool_type
     if cabpool_type.nil?
-      errors.add(:cabpool_types, "Should not be empty")
+      errors.add(:cabpool_types, "This should not be empty")
     end
   end
 
   def invalidate_empty_users
     if users.length == 0 
-      errors.add(:users, "Should not be empty")
+      errors.add(:users, "This should not be empty")
     end
   end
 

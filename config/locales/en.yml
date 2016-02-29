@@ -41,7 +41,7 @@ en:
           locality:
             attributes:
               name:
-                taken: "already exists. Please choose it from the drop down menu."
+                taken: "This already exists. Please choose it from the drop down menu."
           user:
             attributes:
               locality:
