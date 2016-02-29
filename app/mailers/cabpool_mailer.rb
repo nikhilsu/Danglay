@@ -75,4 +75,14 @@ class CabpoolMailer < ApplicationMailer
     admins.each do |admin| emails << admin.email end
     mail to: emails , subject: "Cabpool creation request" 
   end
+
+  def member_addition_to_cabpool approving_user, added_user
+    @approving_user = approving_user.name
+    @user = added_user.name
+    @address = added_user.address
+    
+    emails =[]
+    approving_user.cabpool.users.each do |user| emails << user.email if user != approving_user end
+    mail to: emails , subject: "New member added to cabpool"
+  end
 end

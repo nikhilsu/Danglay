@@ -173,6 +173,7 @@ class CabpoolsController < ApplicationController
     request.user.requests.each do |req|
       req.destroy!
     end
+    send_member_addition_email_to_cabpool_members(current_user, user)
     send_email_to_approved_user user
     render 'request_accept'
   end
@@ -181,6 +182,10 @@ class CabpoolsController < ApplicationController
     cabpool.users.clear
     cabpool.requests.clear
     cabpool.destroy!
+  end
+
+  def send_member_addition_email_to_cabpool_members(current_user, user)
+    CabpoolMailer.member_addition_to_cabpool(current_user, user).deliver_now
   end
 
   def send_email_to_admin_about_invalid_cabpool deleting_cabpool

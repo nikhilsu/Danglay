@@ -258,7 +258,9 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to render_template 'request_invalid'
   end
 
-  it 'should render Accept message and send email to approved user when token is same and approve is true' do
+  it 'should render Accept message and send email to approved user and other cabpool members when token is same and approve is true' do
+    approving_user = build(:user)
+    cabpool = build(:cabpool)
     request = build(:request)
     user = request.user
     user.requests = [request]
@@ -267,25 +269,30 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(User).to receive(:find).and_return(user)
     allow(Request).to receive(:find_by).and_return(request)
     allow(request).to receive(:approve_digest).and_return("ABCD")
+    allow(User).to receive(:find_by).and_return(approving_user)
+    allow(approving_user).to receive(:cabpool).and_return(cabpool)
     get :approve_reject_handler, approve: "true", token: "ABCD", user: '1', cabpool: '2'
-    expect(ActionMailer::Base.deliveries.size).to eq 1
+    expect(ActionMailer::Base.deliveries.size).to eq 2
     expect(response).to render_template 'request_accept'
   end
 
-  it 'should render Accept message and send email to approved user and send email to previous cabpoolers when token is same and approve is true' do
+  it 'should render Accept message and send email to approved user and other cabpool members and send email to previous cabpoolers when token is same and approve is true' do
     request = build_stubbed(:request)
     user = request.user
-    another_user = create(:user, :another_user)
+    approving_user = build(:user)
     cabpool = build(:cabpool, :without_users)
-    cabpool.users << [user ,another_user]
+    cabpool.users << [user ,approving_user]
 
     allow(user).to receive(:save).and_return(true)
     allow(request).to receive(:destroy!).and_return(true)
     allow(User).to receive(:find).and_return(user)
     allow(Request).to receive(:find_by).and_return(request)
     allow(request).to receive(:approve_digest).and_return("ABCD")
+    allow(User).to receive(:find_by).and_return(approving_user)
+    allow(approving_user).to receive(:cabpool).and_return(cabpool)
+
     get :approve_reject_handler, approve: "true", token: "ABCD", user: '1', cabpool: '2'
-    expect(ActionMailer::Base.deliveries.size).to eq 2
+    expect(ActionMailer::Base.deliveries.size).to eq 3
     expect(response).to render_template 'request_accept'
   end
 
@@ -316,13 +323,16 @@ RSpec.describe CabpoolsController, type: :controller do
     user = build_stubbed(:user)
     cabpool.users << [user]
     cabpool.localities << [build_stubbed(:locality)]
+    approving_user = build(:user)
 
     allow(User).to receive(:find_by_email).and_return(user)
     allow(User).to receive(:find_by_cabpool_id).and_return(cabpool)
     allow(Request).to receive(:find_by).and_return(request)
     allow(User).to receive(:find).and_return(requested_user)
     allow(user.cabpool.requested_users).to receive(:exists?).and_return(true)
-    post :approve_via_notification, user_id: '2'
+    allow(User).to receive(:find_by).and_return(approving_user)
+    allow(approving_user).to receive(:cabpool).and_return(cabpool)
+    post :approve_via_notification, user_id: '3'
     expect(response).to render_template 'cabpools/request_accept'
   end
 
@@ -336,6 +346,7 @@ RSpec.describe CabpoolsController, type: :controller do
     user = build_stubbed(:user)
     cabpool.users << [user]
     cabpool.localities << [build_stubbed(:locality)]
+    approving_user = build(:user)
 
     allow(User).to receive(:find_by_email).and_return(user)
     allow(User).to receive(:find_by_cabpool_id).and_return(cabpool)
@@ -343,6 +354,8 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(User).to receive(:find).and_return(requested_user)
     allow(requested_user_cabpool).to receive(:destroy).and_return true
     allow(user.cabpool.requested_users).to receive(:exists?).and_return(true)
+    allow(User).to receive(:find_by).and_return(approving_user)
+    allow(approving_user).to receive(:cabpool).and_return(cabpool)
     post :approve_via_notification, user_id: '2'
     expect(response).to render_template 'cabpools/request_accept'
   end

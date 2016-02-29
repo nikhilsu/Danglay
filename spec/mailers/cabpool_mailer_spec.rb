@@ -140,4 +140,20 @@ RSpec.describe CabpoolMailer, type: :mailer do
     end
   end
 
+  describe "mail to other members of a cabpool when a user accepts a new member" do
+    let (:mail) {
+      approving_user = build(:user)
+      user = build(:user)
+      cabpool = build(:cabpool)
+      allow(User).to receive(:find_by).and_return(approving_user)
+      allow(approving_user).to receive(:cabpool).and_return(cabpool)
+      CabpoolMailer.member_addition_to_cabpool(approving_user, user)
+    }
+
+    it "should send mail to other members of a cabpool when a user accepts a new member" do
+      expect(mail.subject).to eq("New member added to cabpool")
+      expect(mail.body.encoded).to include "has added"
+    end
+  end
+
 end
