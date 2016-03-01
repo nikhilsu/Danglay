@@ -1,0 +1,12 @@
+Hi <%= @user.name %>,
+
+A new cabpool has been created for you by <strong> Admin </strong>!
+The cabpool is from <%= @cabpool.localities.first.name %>.
+The approximate time it reaches office is <%= @cabpool.timein%> and the approximate time it leaves office is <%= @cabpool.timeout%>.
+Please check the application for more information.
+
+The remarks if any were :<br>
+<%= @cabpool.remarks %>
+
+Thanks!
+Danglay

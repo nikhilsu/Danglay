@@ -85,4 +85,11 @@ class CabpoolMailer < ApplicationMailer
     approving_user.cabpool.users.each do |user| emails << user.email if user != approving_user end
     mail to: emails , subject: "New member added to cabpool"
   end
+
+  def cabpool_is_created user, cabpool
+    @cabpool = cabpool
+    @user = user
+
+    mail to: user.email , subject: "You have been added to a cabpool"
+  end
 end

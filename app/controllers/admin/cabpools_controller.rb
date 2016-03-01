@@ -24,6 +24,7 @@ class Admin::CabpoolsController < Admin::AdminController
       render 'admin/cabpools/new'
     else
       if @cabpool.save
+        send_email_to_cabpool_users @cabpool
         redirect_to '/admin'
       else
         render 'admin/cabpools/new'
@@ -125,6 +126,12 @@ class Admin::CabpoolsController < Admin::AdminController
       @cabpool.users = users
     else
       false
+    end
+  end
+
+  def send_email_to_cabpool_users cabpool
+    cabpool.users.collect do |user|
+      CabpoolMailer.cabpool_is_created(user, cabpool).deliver_now
     end
   end
 end

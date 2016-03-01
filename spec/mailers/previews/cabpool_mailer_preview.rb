@@ -41,4 +41,11 @@ class CabpoolMailerPreview < ActionMailer::Preview
     request = Request.create(user: user, cabpool: cabpool)
     CabpoolMailer.admin_notifier_for_join_cabpool(cabpool, user, request.approve_digest)
   end
+
+# Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/cabpool_is_created
+  def cabpool_is_created
+    cabpool = Cabpool.first
+    user = User.first
+    CabpoolMailer.cabpool_is_created(user, cabpool)
+  end
 end

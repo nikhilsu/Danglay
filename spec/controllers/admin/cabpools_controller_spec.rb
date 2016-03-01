@@ -12,6 +12,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
+    ActionMailer::Base.deliveries.clear
   end
 
   it 'should show error page if user is not an admin' do
@@ -159,7 +160,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(flash[:danger]).to eq "Number of people are more than the capacity of the cab"
   end
 
-  it 'should render show cabpool page when valid details are entered' do
+  it 'should render show cabpool page and send mail to all members of cabpool when valid details are entered in create cabpool by admin' do
     user = build(:user)
     admin_role = build_stubbed(:role, :admin_role)
     user.role = admin_role
@@ -176,6 +177,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     cabpool = assigns(:cabpool)
 
     expect(response).to redirect_to '/admin'
+    expect(cabpool.users.size).to eq ActionMailer::Base.deliveries.size
     expect(cabpool.errors.any?).to be false
   end
 
