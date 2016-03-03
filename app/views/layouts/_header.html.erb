@@ -7,7 +7,7 @@
           <%= link_to "Home", root_path %>
           <% if is_registered? && (user_cabpool_exists? || received_response_for_cabpool_request?) %>
           <div class="notification">
-            <a href="javascript:void(0)" class="noti">
+            <a href="javascript:void(0)" tabindex="0" class="noti">
               <% if number_of_notifications != 0 %>
                     <span class='badge badge_notify'>
                       <%= number_of_notifications %>
@@ -48,7 +48,7 @@
           <% end %>
           <% if is_logged_in? %>
           <div class="user-profile">
-            <a href="javascript:void(0)" class="user-btn"><span class="user-icon"></span> <span class="user-name"><%= @username %></span></a>
+            <a href="javascript:void(0)" tabindex="0" class="user-btn"><span class="user-icon"></span> <span class="user-name"><%= @username %></span></a>
             <ul>
               <% if is_admin? %>
                   <li id="admin"><%= link_to "Admin", admin_path, method: "get" %></li>
