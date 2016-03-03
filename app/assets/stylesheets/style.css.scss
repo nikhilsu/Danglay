@@ -53,7 +53,7 @@ header {
   .notification {
     float: left;
     position: relative;
-    button.noti {
+    a.noti {
       margin: 0;
       position: relative;
       color: #fff;
@@ -120,7 +120,7 @@ header {
   }
   .user-profile {
     float: left;
-    button {
+    a {
       font-weight: 400;
       min-width: 120px;
       cursor: pointer;
@@ -156,7 +156,7 @@ header {
         transition: all 0.5s ease;
       }
     }
-    button:focus {
+    a:focus {
       &:after {
         -webkit-transform: rotate(180deg);
         -moz-transform: rotate(180deg);

@@ -15,10 +15,16 @@ var func = function(){
     }
   });
 
-  $('.user-profile .user-btn,.notification .noti').focus(function(){
-    $(this).next('ul').fadeIn('fast');
+  $('.user-profile .user-btn').click(function(){
+    $('.notification .noti').next('ul').fadeOut('fast');
+    $(this).next('ul').fadeToggle('fast');
   });
-  $('.user-profile .user-btn,.notification .noti').focusout(function(){
+  $('.notification .noti').click(function(){
+    $('.user-profile .user-btn').next('ul').fadeOut('fast');
+    $(this).next('ul').fadeToggle('fast')
+  });
+
+  $('.user-profile .user-btn,.notification .noti').blur(function(){
     $(this).next('ul').fadeOut('fast');
   });
 

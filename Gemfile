@@ -21,7 +21,7 @@ gem 'pg',                      '0.18.4'
 gem 'sdoc',                    '0.4.0', group: :doc
 gem 'net-ssh'
 gem 'feature_toggle'
-gem 'ruby-saml'
+gem 'ruby-saml',               '1.1.1'
 gem 'webmock'
 gem 'bootstrap_form'
 gem 'json'
