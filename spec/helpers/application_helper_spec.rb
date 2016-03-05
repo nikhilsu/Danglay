@@ -11,7 +11,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     user = build_stubbed(:user)
     names = user.name.split(' ')
     session[:userid] = user.id
-    session[:registered_uid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email

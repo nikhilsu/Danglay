@@ -96,15 +96,9 @@ RSpec.describe UsersController, type: :controller do
       expect(user.email).to eq(session[:Email])
     end
 
-    it "should set registered user id for a valid user signup" do
-      post :create, :user => { emp_id: 12345, address: 'Address', locality: '-1', other: 'New Locality', phone_no: '+91 9080706044' }
-      user = assigns(:user)
-
-      expect(session[:registered_uid]).to be user.id
-    end
-
     it "should not allow to registered user to register again" do
-      session[:registered_uid] = 1
+      user = build(:user)
+      allow(User).to receive(:find_by_email).and_return(user)
       get :new
       expect(response).to redirect_to root_path
     end

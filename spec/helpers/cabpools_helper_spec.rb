@@ -36,7 +36,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     cabpool = build(:cabpool)
     allow(User).to receive(:find_by_email).and_return(user)
     expect(requested_user?(cabpool)).to be false
@@ -49,7 +48,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     cabpool = build(:cabpool)
     request = build(:request)
     user.requests = [request]
@@ -69,7 +67,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     cabpool = build(:cabpool)
     user.cabpool = cabpool
     allow(User).to receive(:find_by_email).and_return(user)
@@ -83,7 +80,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     cabpool = build(:cabpool)
     user.cabpool = cabpool
     allow(User).to receive(:find_by_email).and_return(user)
@@ -97,7 +93,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     allow(User).to receive(:find_by_email).and_return(user)
     expect(user_cabpool_exists?).to be false
   end
@@ -109,7 +104,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     cabpool = build(:cabpool)
     user.cabpool = cabpool
     allow(User).to receive(:find_by_email).and_return(user)
@@ -123,7 +117,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     cabpool = build(:cabpool)
     allow(User).to receive(:find_by_email).and_return(user)
     allow(user).to receive(:requested_cabpools).and_return([])
@@ -138,7 +131,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     cabpool = build(:cabpool)
     user.requested_cabpools << cabpool
     allow(User).to receive(:find_by_email).and_return(user)
@@ -152,7 +144,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     cabpool = build(:cabpool)
     user.requested_cabpools = [cabpool]
     allow(User).to receive(:find_by_email).and_return(user)
@@ -166,7 +157,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     allow(User).to receive(:find_by_email).and_return(user)
     expect(user_requested_cabpool_exists?).to be false
   end
@@ -179,7 +169,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     allow(User).to receive(:find_by_email).and_return(user)
 
     expect(received_response_for_cabpool_request?).to be false
@@ -193,7 +182,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     allow(User).to receive(:find_by_email).and_return(user)
 
     expect(received_response_for_cabpool_request?).to be true
@@ -206,7 +194,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     cabpool = build(:cabpool)
     user.requested_cabpools = [cabpool]
     allow(User).to receive(:find_by_email).and_return(user)
@@ -215,14 +202,16 @@ RSpec.describe CabpoolsHelper, type: :helper do
 
   it 'should return no button if user is not registered and no available slots' do
     cabpool = double()
-    session.delete(:registered_uid)
+    @current_user = nil
+    session.delete(:Email)
     allow(cabpool).to receive(:available_slots).and_return(0)
     expect(button(cabpool)).to eq nil
   end
 
   it 'should show Join button if user is not registered and 2 available slots' do
     cabpool = double()
-    session.delete(:registered_uid)
+    @current_user = nil
+    session.delete(:Email)
     allow(cabpool).to receive(:available_slots).and_return(2)
     expect(button(cabpool)).to eq "Join Ride"
   end
@@ -235,7 +224,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     allow(User).to receive(:find_by_email).and_return(user)
     allow(user).to receive(:requested_cabpools).and_return([cabpool])
     expect(button(cabpool)).to eq "Requested"
@@ -249,7 +237,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     allow(User).to receive(:find_by_email).and_return(user)
     allow(user).to receive(:requested_cabpools).and_return([])
     allow(current_user).to receive(:cabpool).and_return(cabpool)
@@ -266,7 +253,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     allow(User).to receive(:find_by_email).and_return(user)
     allow(user).to receive(:requested_cabpools).and_return([])
     allow(current_user).to receive(:cabpool).and_return(another_cabpool)
@@ -284,7 +270,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     allow(User).to receive(:find_by_email).and_return(user)
     allow(user).to receive(:requested_cabpools).and_return([three_cabpool])
     allow(current_user).to receive(:cabpool).and_return(two_cabpool)
@@ -301,7 +286,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     allow(User).to receive(:find_by_email).and_return(user)
     allow(user).to receive(:requested_cabpools).and_return([])
     allow(current_user).to receive(:cabpool).and_return(two_cabpool)
@@ -374,7 +358,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     allow(User).to receive(:find_by).and_return(user)
 
     expect(confirm_message_for_the_current_users_join_request cabpool).to eq "Are you sure you want to join this cabpool? Confirming would mean that you would be taken out of your existing cabpool if your request is accepted."
@@ -389,7 +372,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     allow(User).to receive(:find_by).and_return(user)
     expect(confirm_message_for_the_current_users_join_request cabpool).to eq "Are you sure you want to join this cabpool? Confirming would mean that your existing cabpool will be deleted if your request is accepted."
   end
@@ -404,7 +386,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     allow(User).to receive(:find_by).and_return(user)
 
     expect(confirm_message_for_the_current_users_join_request cabpool).to eq "Are you sure you want to join this cabpool? This would send a request to the ADMIN."
@@ -420,7 +401,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    session[:registered_uid] = 1
     allow(User).to receive(:find_by).and_return(user)
 
     expect(confirm_message_for_the_current_users_join_request cabpool).to eq "Are you sure you want to join this cabpool? This would send a request to all members of cabpool"

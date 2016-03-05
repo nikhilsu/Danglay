@@ -17,7 +17,6 @@ class UsersController < ApplicationController
     @user.email = "#{session[:Email]}"
     add_new_valid_locality
     if @user.save
-      set_registered_uid
       flash[:success] = "Your Profile has been updated"
       redirect_back_or(root_path)
     else
@@ -50,14 +49,9 @@ class UsersController < ApplicationController
   private
 
     def not_registered?
-      unless session[:registered_uid].nil?
+      if is_registered?
         redirect_to root_path
       end
-    end
-
-    def set_registered_uid
-      user =  User.find_by_email(@user.email)
-      session[:registered_uid] = user.id
     end
 
     def user_params

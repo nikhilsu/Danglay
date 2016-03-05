@@ -6,7 +6,7 @@ class CabpoolsController < ApplicationController
   before_action :user_should_not_have_cabpool, only: :new
 
   def user_should_not_have_cabpool
-    user = User.find_by_email(session[:Email])
+    user = current_user
     if !user.nil?
       if user.cabpool
         flash[:danger] = "You are already part of a Cab pool. Please leave the cabpool to create a new cab pool."
@@ -40,7 +40,7 @@ class CabpoolsController < ApplicationController
   def create
     @cabpool = Cabpool.new(cabpool_params)
     add_localities_to_cabpool
-    add_session_user_to_cabpool
+    add_current_user_to_cabpool
     if selected_cabpool_type_is_company_provided_cabpool
       send_email_to_admins_to_request_cabpool_creation(current_user, params[:cabpool][:timein], params[:cabpool][:timeout], params[:remarks])
       flash[:success] = "You have successfully requested the admins for a cab pool."
@@ -229,7 +229,7 @@ class CabpoolsController < ApplicationController
 
   def registered?
     store_location
-    if session[:registered_uid].nil?
+    if !is_registered?
       flash[:danger] = "Please update your profile to create a new cab pool."
       redirect_to new_user_path
     end
@@ -246,8 +246,8 @@ class CabpoolsController < ApplicationController
     end
   end
 
-  def add_session_user_to_cabpool
-    user = User.find_by_id(session[:registered_uid])
+  def add_current_user_to_cabpool
+    user = current_user
     @cabpool.users << user if !user.nil?
   end
 

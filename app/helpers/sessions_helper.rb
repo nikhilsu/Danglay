@@ -18,8 +18,9 @@ module SessionsHelper
   end
 
   def current_user
-    if email = session[:Email]
-      @current_user ||= User.find_by(email: email)
+    email = session[:Email]
+    if !email.nil?
+      @current_user ||= User.find_by_email(email)
     end
   end
 
@@ -28,6 +29,6 @@ module SessionsHelper
   end
 
   def is_registered?
-    !session[:registered_uid].nil?
+    !current_user.nil?
   end
 end

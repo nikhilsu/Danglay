@@ -12,7 +12,7 @@
               <%= f.button button(cabpool) %>
           <% end %>
       <% else %>
-          <% if !current_user.nil? %>
+          <% if is_registered? %>
               <%= render partial: 'join_cabpool', object: {cabpool: cabpool, join_button_style: '', popup_action_js: {onsubmit: "return popup_confirmation(this, '#{confirm_message_for_the_current_users_join_request cabpool}');"}} %>
           <% else %>
               <%= render partial: 'join_cabpool', object: {cabpool: cabpool, join_button_style: '', popup_action_js: {}} %>

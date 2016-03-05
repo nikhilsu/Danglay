@@ -24,16 +24,8 @@ class SamlController < ApplicationController
 
   private
 
-  def set_registered_uid(user_id)
-    user =  User.find_by_email(user_id)
-    unless user.nil?
-      session[:registered_uid] = user.id
-    end
-  end
-
   def set_session response
     session[:userid] = response.nameid
-    set_registered_uid(response.attributes[:Email])
     session[:FirstName] = response.attributes[:FirstName]
     session[:LastName] = response.attributes[:LastName]
     session[:Email] = response.attributes[:Email]

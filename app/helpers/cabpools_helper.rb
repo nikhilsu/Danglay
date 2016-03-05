@@ -14,21 +14,20 @@ module CabpoolsHelper
   end
 
   def requested_user?(cabpool)
-    if session[:registered_uid].nil?
+    if !is_registered?
       false
     else
-      user = User.find_by_email(session[:Email])
-      user.requested_cabpools.include?(cabpool)
+      current_user.requested_cabpools.include?(cabpool)
     end
   end
 
   def image_to_be_displayed cabpool
     if cabpool.cabpool_type_id == 1
-       "tw.png"
+      "tw.png"
     elsif cabpool.cabpool_type_id == 2
-       "ola.png"
+      "ola.png"
     else
-       "carpool.png"
+      "carpool.png"
     end
   end
 
@@ -37,12 +36,8 @@ module CabpoolsHelper
   end
 
   def user_cabpool_exists?
-    if session[:registered_uid].nil?
-      false
-    else
-      user_cabpool = users_cabpool
-      !user_cabpool.nil?
-    end
+    user_cabpool = users_cabpool
+    !user_cabpool.nil?
   end
 
   def received_response_for_cabpool_request?
@@ -56,22 +51,24 @@ module CabpoolsHelper
   end
 
   def user_requested_cabpool_exists?
-    if session[:registered_uid].nil?
-      false
-    else
-      user_requested_cabpool = users_requested_cabpool
-      !user_requested_cabpool.empty?
-    end
+    user_requested_cabpool = users_requested_cabpool
+    !user_requested_cabpool.empty?
   end
 
   def users_requested_cabpool
-    user = User.find_by_email(session[:Email])
-    user.requested_cabpools
+    user = current_user
+    if !user.nil?
+      user.requested_cabpools
+    else
+      []
+    end
   end
 
   def users_cabpool
-    user = User.find_by_email(session[:Email])
-    user.cabpool
+    user = current_user
+    if !user.nil?
+      user.cabpool
+    end
   end
 
   def button(cabpool)
@@ -105,7 +102,7 @@ module CabpoolsHelper
 
   def cabpool_types_for_user
     cabpool_types = CabpoolType.all
-    cabpool_types = cabpool_types.reject { |cabpool_type| cabpool_type.name == 'Company provided Cab' }
+    cabpool_types.reject { |cabpool_type| cabpool_type.name == 'Company provided Cab' }
   end
 
   def sort_by_available_slots cabpools

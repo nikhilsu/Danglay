@@ -44,7 +44,6 @@ RSpec.describe SamlController, type: :controller do
     user = build_stubbed(:user)
     names = user.name.split(' ')
     session[:userid] = user.id
-    session[:registered_uid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -84,26 +83,5 @@ RSpec.describe SamlController, type: :controller do
     post :consume
 
     expect(response.location).to include 'https://dev-774694.oktapreview.com/app/thoughtworksdev774694_railsoktatest_1/exk5fn90zik3RdpS30h7/sso/saml'
-  end
-
-  it "should set registered user id for a registered user" do
-    locality = create(:locality)
-    user = User.create(name: "thejas", emp_id: 12345, address: 'blah', locality: locality, email: 'thejasb@thoughtworks.com')
-    stub_response = OneLogin::RubySaml::Response.new(valid_response)
-    allow(OneLogin::RubySaml::Response).to receive(:new).and_return(stub_response)
-    allow(stub_response).to receive(:is_valid?).and_return(true)
-    allow(User).to receive(:find_by_email).and_return(user)
-
-    post :consume
-    expect(session[:registered_uid]).to be user.id
-  end
-
-  it "should set registered user id to nil for a unregistered user" do
-    stub_response = OneLogin::RubySaml::Response.new(valid_response)
-    allow(OneLogin::RubySaml::Response).to receive(:new).and_return(stub_response)
-    allow(stub_response).to receive(:is_valid?).and_return(true)
-
-    post :consume
-    expect(session[:registered_uid]).to be nil
   end
 end
