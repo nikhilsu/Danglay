@@ -15,13 +15,8 @@ var func = function(){
     }
   });
 
-  $('.user-profile .user-btn').click(function(){
-    $('.notification .noti').next('ul').fadeOut('fast');
-    $(this).next('ul').fadeToggle('fast');
-  });
-  $('.notification .noti').click(function(){
-    $('.user-profile .user-btn').next('ul').fadeOut('fast');
-    $(this).next('ul').fadeToggle('fast')
+  $('.user-profile .user-btn, .notification .noti').click(function(){
+      $(this).next('ul').fadeToggle('fast');
   });
 
   $('.user-profile .user-btn,.notification .noti').blur(function(){
