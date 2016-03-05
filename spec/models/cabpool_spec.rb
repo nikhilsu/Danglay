@@ -55,7 +55,6 @@ RSpec.describe Cabpool, type: :model do
 
   it 'cabpool_type can\'t be empty' do
     cabpool = build(:cabpool, :without_cabpool_type)
-
     expect(cabpool.valid?).to be false
   end
 
@@ -66,6 +65,11 @@ RSpec.describe Cabpool, type: :model do
 
   it 'More than Five Localities should be invalid' do
     cabpool = build(:cabpool, :more_than_five_localities)
+    expect(cabpool.valid?).to be false
+  end
+
+  it 'Timein after Timeout should be invalid ' do
+    cabpool = build(:cabpool, :timein_after_timeout)
     expect(cabpool.valid?).to be false
   end
 
@@ -111,7 +115,6 @@ RSpec.describe Cabpool, type: :model do
 
   it 'should not allow the remarks to have more than 300 characters' do
       cabpool = build(:cabpool, :with_more_than_300_character_remarks)
-
       expect(cabpool.remarks.length).to be > 300
       expect(cabpool.valid?).to be false
   end

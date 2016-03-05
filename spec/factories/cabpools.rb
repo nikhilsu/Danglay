@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :cabpool do
     number_of_people 4
     timein '9:30'
-    timeout '5:30'
+    timeout '15:30'
     remarks ''
     association :cabpool_type, factory: :cabpool_type, strategy: :build
 
@@ -61,6 +61,11 @@ FactoryGirl.define do
 
   trait :time_in_pm do
     timeout '22:30'
+  end
+
+  trait :timein_after_timeout do
+    timein '11:30'
+    timeout '10:30'
   end
 
   trait :without_cabpool_type do

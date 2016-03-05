@@ -9,8 +9,9 @@ class Cabpool < ActiveRecord::Base
   validates_time :timein, :timeout
   validates_numericality_of :number_of_people, less_than_or_equal_to: 4, greater_than_or_equal_to: 1
   validate :invalidate_empty_localities, :invalidate_duplicate_localities, :invalidate_more_than_five_localities,
-                  :invalidate_empty_cabpool_type, :invalidate_empty_users, :invalidate_having_more_users_than_capacity
-  validates :remarks, length: { maximum: 300 }
+           :invalidate_empty_cabpool_type, :invalidate_empty_users, :invalidate_having_more_users_than_capacity,
+           :invalidate_timein_after_timeout
+  validates :remarks, length: {maximum: 300}
 
   def ordered_localities
     sql = "SELECT locality_id FROM cabpools_localities WHERE cabpool_id = #{id}"
@@ -27,13 +28,13 @@ class Cabpool < ActiveRecord::Base
   def invalidate_duplicate_localities
     difference = localities.size - localities.uniq.size
     if difference != 0
-      errors.add(:localities, "This already Exists")
+      errors.add(:localities, "This already Exists.")
     end
   end
 
   def invalidate_more_than_five_localities
     if localities.length > 5
-      errors.add(:localities, "More than 5 localities")
+      errors.add(:localities, "More than 5 localities.")
     end
   end
 
@@ -44,19 +45,28 @@ class Cabpool < ActiveRecord::Base
   private
   def invalidate_empty_cabpool_type
     if cabpool_type.nil?
-      errors.add(:cabpool_types, "This should not be empty")
+      errors.add(:cabpool_types, "This should not be empty.")
     end
   end
 
   def invalidate_empty_users
-    if users.length == 0 
+    if users.length == 0
       errors.add(:users, "This should not be empty")
     end
   end
 
   def invalidate_having_more_users_than_capacity
     if users.length > number_of_people.to_i
-      errors.add(:users, "Users cannot be greater than capacity")
+      errors.add(:users, "Users cannot be greater than capacity.")
     end
   end
+
+  def invalidate_timein_after_timeout
+    if !timein.nil? and !timeout.nil?
+      if timein > timeout
+        errors.add(:timein, "cannot be after Departure time.")
+      end
+    end
+  end
+
 end

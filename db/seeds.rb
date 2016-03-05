@@ -38,7 +38,7 @@ current_users = current_users.reject{ |user| user.id == 100 || user.id == 101 }
 
 4.times do |cabpool_number|
   timein = Faker::Time.between(2.days.ago, Time.now, :all)
-  timeout = Faker::Time.between(2.days.ago, Time.now, :all)
+  timeout = timein.advance(hours: 8)
   route = "{\"source\":\" MG Road  Bangalore, Karnataka \",\"destination\":{\"lat\":12.9287258,\"lng\":77.6267284},\"waypoints\":[[12.9420036,77.60830439999995]]}"
   remarks = "Car - Indica.\nDriver - Manju.\nMob-9882373737"
   capacity = 4
