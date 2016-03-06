@@ -9,7 +9,7 @@ module SessionsHelper
   end
 
   def is_logged_in?
-    !session[:userid].nil?
+    !session[:Email].nil?
   end
 
   def redirect_back_or(default)

@@ -25,7 +25,6 @@ class SamlController < ApplicationController
   private
 
   def set_session response
-    session[:userid] = response.nameid
     session[:FirstName] = response.attributes[:FirstName]
     session[:LastName] = response.attributes[:LastName]
     session[:Email] = response.attributes[:Email]

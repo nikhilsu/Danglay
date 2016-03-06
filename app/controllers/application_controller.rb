@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   before_filter :check_feature_activated?
 
   def authorized?
-    if session[:userid].nil?
+    if session[:Email].nil?
       store_location
       redirect_to '/saml/init'
     end

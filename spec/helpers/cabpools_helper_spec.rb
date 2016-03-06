@@ -32,7 +32,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
   it 'should return false when user has requested for a particular cab pool' do
     user = build(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -44,7 +43,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
   it 'should return true when user has requested for a particular cab pool' do
     user = build(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -63,7 +61,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
   it 'should return the current user\'s cabpool' do
     user = build(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -76,7 +73,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
   it 'should return the current true if current users cabpool exists' do
     user = build(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -89,7 +85,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
   it 'should return the current false if current users cabpool does not exist' do
     user = build(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -100,7 +95,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
   it "should render all cabpools except the current users cabpool " do
     user = build(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -113,7 +107,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
   it "should render all cabpools if current user has no cabpool" do
     user = build(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -127,7 +120,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
   it "should return requested cabpool of current user" do
     user = build(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -140,7 +132,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
   it 'should return true if current user has requested for cabpool' do
     user = build(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -153,7 +144,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
   it 'should return false if current user has not requested for cabpool' do
     user = build(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -165,7 +155,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     user = build(:user)
     names = user.name.split(' ')
     user.status = nil
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -178,7 +167,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     user = build(:user)
     names = user.name.split(' ')
     user.status = 'approved'
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -190,7 +178,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
   it "should render all cabpools except the requested cabpool" do
     user = build(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -220,7 +207,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     cabpool = double()
     user = build(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -233,7 +219,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     cabpool = double()
     user = build(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -249,7 +234,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     another_cabpool = double()
     user = build(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -266,7 +250,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     three_cabpool = double()
     user = build(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -282,7 +265,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     two_cabpool = double()
     user = build(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -354,7 +336,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     names = user.name.split(' ')
     cabpool = build(:cabpool)
     user.cabpool = cabpool
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -368,7 +349,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     names = user.name.split(' ')
     cabpool = build(:cabpool, :without_users)
     cabpool.users = [user]
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -382,14 +362,13 @@ RSpec.describe CabpoolsHelper, type: :helper do
     cabpool = build(:cabpool)
     cabpool_type = build(:cabpool_type, :company_provided_cab)
     cabpool.cabpool_type = cabpool_type
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
     allow(User).to receive(:find_by).and_return(user)
-
     expect(confirm_message_for_the_current_users_join_request cabpool).to eq "Are you sure you want to join this cabpool? This would send a request to the ADMIN."
   end
+
 
   it 'should return appropriate confirm message when user raises a join request for a company provided cab and he is not part of a cabpool' do
     user = build(:user)
@@ -397,7 +376,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     cabpool = build(:cabpool)
     cabpool_type = build(:cabpool_type, :personal_car)
     cabpool.cabpool_type = cabpool_type
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email

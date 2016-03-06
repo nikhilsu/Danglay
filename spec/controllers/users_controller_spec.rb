@@ -7,14 +7,13 @@ RSpec.describe UsersController, type: :controller do
     before(:each) do
       user = build_stubbed(:user)
       names = user.name.split(' ')
-      session[:userid] = user.id
       session[:FirstName] = names[0]
       session[:LastName] = names[1]
       session[:Email] = user.email
     end
 
     it 'should redirect to create saml request when session is not set' do
-      session.delete(:userid)
+      session.clear
       get :new
       expect(response).to redirect_to('/saml/init')
     end

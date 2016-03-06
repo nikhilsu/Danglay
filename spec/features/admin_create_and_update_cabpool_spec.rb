@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.feature "CompanyProviderCabpool", type: :feature do
   before(:each) do
-    page.set_rack_session(userid: 101)
     page.set_rack_session(FirstName: 'Sandeep')
     page.set_rack_session(LastName: 'Hegde')
     page.set_rack_session(Email: 'sandeeph@thoughtworks.com')

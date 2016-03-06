@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.feature "NewCabpoolCreations", type: :feature do
   before(:each) do
-    page.set_rack_session(userid: 100)
     page.set_rack_session(FirstName: 'Deepika')
     page.set_rack_session(LastName: 'Vasudevan')
     page.set_rack_session(Email: 'vdeepika@thoughtworks.com')
@@ -36,7 +35,6 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     expect(page.current_path).to eq '/'
     page.assert_selector('div.notification', :count => 1)
 
-    page.set_rack_session(userid: 101)
     page.set_rack_session(FirstName: 'Sandeep')
     page.set_rack_session(LastName: 'Hegde')
     page.set_rack_session(Email: 'sandeeph@thoughtworks.com')
@@ -48,7 +46,6 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     page.find('#yes').click
     expect(page).to_not have_css('.popup.is-visible')
 
-    page.set_rack_session(userid: 100)
     page.set_rack_session(FirstName: 'Deepika')
     page.set_rack_session(LastName: 'Vasudevan')
     page.set_rack_session(Email: 'vdeepika@thoughtworks.com')

@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe "UserSignups", type: :feature do
   before(:each) do
-    page.set_rack_session(userid: 'SirThinksALot@blah.com')
     page.set_rack_session(FirstName: 'Sir Thinks ')
     page.set_rack_session(LastName: ' A Lot')
     page.set_rack_session(Email: 'SirThinksALot@blah.com')

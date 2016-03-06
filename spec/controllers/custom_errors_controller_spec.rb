@@ -7,7 +7,6 @@ RSpec.describe CustomErrorsController, type: :controller do
   before(:each) do
     user = build_stubbed(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email

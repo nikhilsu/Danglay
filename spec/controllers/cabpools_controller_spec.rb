@@ -7,7 +7,6 @@ RSpec.describe CabpoolsController, type: :controller do
   before(:each) do
     user = build_stubbed(:user)
     names = user.name.split(' ')
-    session[:userid] = user.id
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -131,7 +130,7 @@ RSpec.describe CabpoolsController, type: :controller do
 
   it "should redirect to new user path when unregistered user tries to create a pool" do
     @current_user = nil
-    session.delete(:Email)
+    session[:Email] = 'newUser@mail.com'
     get :new
     expect(response).to redirect_to new_user_path
   end

@@ -23,7 +23,7 @@ RSpec.describe SessionsHelper, type: :helper do
     end
 
     it 'should return true if user logged in' do
-      session[:userid] = build_stubbed(:user).id
+      session[:Email] = build_stubbed(:user).email
       expect(is_logged_in?).to eq true
       session.clear
     end
@@ -42,13 +42,12 @@ RSpec.describe SessionsHelper, type: :helper do
     it 'should return true if the current user is an admin' do
       user = build_stubbed(:user)
       names = user.name.split(' ')
-      session[:userid] = user.id
       session[:FirstName] = names[0]
       session[:LastName] = names[1]
       session[:Email] = user.email
       role = build_stubbed(:role, :admin_role)
       user.role = role
-      allow(User).to receive(:find_by).and_return(user)
+      allow(User).to receive(:find_by_email).and_return(user)
 
       expect(is_admin?).to be true
     end

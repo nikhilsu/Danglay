@@ -8,7 +8,6 @@ RSpec.describe Admin::UsersController, type: :controller do
       user = build_stubbed(:user)
       user.role = build_stubbed(:role, :admin_role)
       names = user.name.split(' ')
-      session[:userid] = user.emp_id
       session[:FirstName] = names[0]
       session[:LastName] = names[1]
       session[:Email] = user.email

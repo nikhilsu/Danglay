@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.feature "CustomErrorPages", type: :feature do
   before(:each) do
-    page.set_rack_session(userid: 100)
     page.set_rack_session(FirstName: 'Deepika')
     page.set_rack_session(LastName: 'Vasudevan')
     page.set_rack_session(Email: 'vdeepika@thoughtworks.com')
