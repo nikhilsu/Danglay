@@ -123,7 +123,7 @@ header {
     float: left;
     a {
       font-weight: 400;
-      min-width: 120px;
+      min-width: 90px;
       cursor: pointer;
       color: #fff;
       text-transform: capitalize;
@@ -795,7 +795,10 @@ input, textarea {
       display: none;
     }
     .notification {
-      top: -1px;
+      top: -3px;
+      a{
+        display: inline-block;
+      }
       ul {
         top: 42px;
       }
@@ -822,7 +825,8 @@ input, textarea {
       .user-name {
         display: none;
       }
-      button {
+      a {
+        display: inline-block;
         min-width: auto;
         padding: 0px 5px 0 0;
         top: -1px;
