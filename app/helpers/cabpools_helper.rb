@@ -124,4 +124,12 @@ module CabpoolsHelper
       return "Are you sure you want to join this cabpool? This would send a request to all members of cabpool"
     end
   end
+
+  def cabpool_type_that_was_retained
+    if params[:cabpool_type].nil?
+      return nil
+    else
+      return params[:cabpool_type].values.first
+    end
+  end
 end

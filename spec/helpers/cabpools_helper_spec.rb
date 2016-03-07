@@ -383,4 +383,14 @@ RSpec.describe CabpoolsHelper, type: :helper do
 
     expect(confirm_message_for_the_current_users_join_request cabpool).to eq "Are you sure you want to join this cabpool? This would send a request to all members of cabpool"
   end
+
+  it 'should return the cabpool_type id when the params contains cabpool type information' do
+    params[:cabpool_type] = {SomeKey: '2'}
+    expect(cabpool_type_that_was_retained).to eq '2'
+    end
+
+  it 'should return empty hash when params contains no cabpool type information' do
+    params[:cabpool_type] = nil
+    expect(cabpool_type_that_was_retained).to be nil
+  end
 end
