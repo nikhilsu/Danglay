@@ -114,7 +114,7 @@ RSpec.describe CabpoolMailer, type: :mailer do
     let(:mail) {
       request = build_stubbed(:request)
       @user = build(:user)
-      @capbool = build(:cabpool)
+      @cabpool = build(:cabpool)
       allow(@cabpool).to receive(:id).and_return(1)
       CabpoolMailer.admin_notifier_for_join_cabpool(@cabpool, @user, request.approve_digest)
     }

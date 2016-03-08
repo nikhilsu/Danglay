@@ -20,7 +20,7 @@ admin_role = Role.create!(name: "admin")
 20.times do
   name = Faker::Name.name
   email = Faker::Internet.email
-  emp_id = Faker::Number.number(5)
+  emp_id = Faker::Number.between(1111, 999999999)
   address = Faker::Address.street_address
   locality = Locality.all.sample
   phone_no = Faker::PhoneNumber.phone_number

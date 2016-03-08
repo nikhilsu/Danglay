@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :user do
-    emp_id 1
+    emp_id 18091
     name Faker::Name.name
     email Faker::Internet.email
     address Faker::Address.secondary_address
@@ -26,6 +26,14 @@ FactoryGirl.define do
 
   trait :without_emp_id do
     emp_id ""
+  end
+
+  trait :with_large_emp_id do
+    emp_id "12345678901"
+  end
+
+  trait :with_small_emp_id do
+    emp_id "123"
   end
 
   trait :with_alphabetic_emp_id do

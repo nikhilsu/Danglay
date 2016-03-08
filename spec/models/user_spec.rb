@@ -66,7 +66,7 @@ RSpec.describe User, type: :model do
   it "emp_id cannot be re-written" do
     user = build(:user)
     expect{
-      user.update_attribute(:emp_id, 1921)
+      user.update_attribute(:emp_id, 19211)
     }.to raise_error(ActiveRecord::ActiveRecordError, 'emp_id is marked as readonly')
   end
 
@@ -84,4 +84,20 @@ RSpec.describe User, type: :model do
     user = build(:user, :with_alphabetic_emp_id)
     expect(user.valid?).to be false
   end
+
+  it 'emp_id cannot be more than 10 digits' do
+    user = build(:user, :with_large_emp_id)
+    expect(user.valid?).to be false
+  end
+
+  it 'emp_id cannot be less than 4 digits' do
+    user = build(:user, :with_small_emp_id)
+    expect(user.valid?).to be false
+  end
+
+  it 'emp_id can have 5 digits' do
+    user = build(:user)
+    expect(user.valid?).to be true
+  end
+
 end
