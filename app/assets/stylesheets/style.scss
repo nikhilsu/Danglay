@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,800,600,300);
-@import 'variables.css.scss';
-@import "mixins.css.scss";
-@import "grid.css.scss";
+@import 'variables';
+@import "mixins";
+@import "grid";
 
 body {
   font-family: $primary-font;
