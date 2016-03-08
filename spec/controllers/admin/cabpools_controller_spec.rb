@@ -208,7 +208,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(response).to redirect_to admin_path
   end
 
-  it 'should update cabpool users' do
+  it 'should update cabpool users with a removed user' do
     user = build_stubbed(:user)
     admin_role = build_stubbed(:role, :admin_role)
     user.role = admin_role
@@ -235,21 +235,22 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     second_user = build_stubbed(:user, :another_user)
     allow(User).to receive(:find_by_id).and_return(second_user)
     allow(second_user).to receive(:save).and_return(true)
-    old_users = []
-    old_users << first_user
-    old_users << second_user
     cabpool = build(:cabpool, :without_users)
-    cabpool.users = old_users
     cabpool.users << first_user
     cabpool.users << second_user
     cabpool.localities = [Locality.find_by_id(1)]
     allow(Cabpool).to receive(:find).and_return(cabpool)
+    allow(User).to receive(:count).and_return(2, 1)
 
-    patch :update, :id => cabpool.id, :oldPassenger1 => {:user_id => first_user.id}, :cabpool => {:remarks => "Hello This is the remarks of cab"}
+    patch :update, :id => cabpool.id, :oldPassenger1 => {:user_id => first_user.id},
+          :cabpool => {:remarks => "Hello This is the remarks of cab"}
+
+    cabpool = assigns(:cabpool)
 
     expect(response).to redirect_to '/admin'
     expect(cabpool.users).to_not include(first_user)
     expect(cabpool.users).to include(second_user)
+    expect(ActionMailer::Base.deliveries.size).to eq 2
     end
 
   it 'should be able to remove existing users from cabpool sad path' do

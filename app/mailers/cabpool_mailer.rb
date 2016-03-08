@@ -89,7 +89,13 @@ class CabpoolMailer < ApplicationMailer
   def cabpool_is_created user, cabpool
     @cabpool = cabpool
     @user = user
-
     mail to: user.email , subject: "You have been added to a cabpool"
+  end
+
+  def cabpool_updated_by_admin(user, members_needing_update_email)
+    @user = user.name
+    @members = members_needing_update_email
+
+    mail to: user.email, subject: "Members of your cabpool have been updated"
   end
 end

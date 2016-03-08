@@ -1,0 +1,10 @@
+Hi! <%= @user %>
+
+Your cabpool has been updated to contain only the following members:
+
+<% @members.each do |user| %>
+     <%= user.name %>
+<% end %>
+
+Thanks,
+Danglay

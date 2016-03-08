@@ -171,4 +171,21 @@ RSpec.describe CabpoolMailer, type: :mailer do
     end
   end
 
+  describe "should send mail to members of a cabpool when admin udpates a cabpool" do
+    let (:mail) {
+      user = build(:user)
+      another_user = build(:user, another_user)
+      allow(User).to receive(:find_by).and_return(user)
+      members_needing_update_mail = []
+      members_needing_update_mail << user
+      members_needing_update_mail << another_user
+      CabpoolMailer.cabpool_updated_by_admin(user, members_needing_update_mail)
+    }
+
+    it "should send mail to members of a cabpool when admin updates a cabpool" do
+      expect(mail.subject).to eq("Members of your cabpool have been updated")
+      expect(mail.body.encoded).to include "has been updated"
+    end
+  end
+
 end
