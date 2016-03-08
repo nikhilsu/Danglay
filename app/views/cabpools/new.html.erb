@@ -33,11 +33,11 @@
             <%= f.text_area :remarks %>
             <%= render 'shared/error_messages', errors: @cabpool.errors[:remarks] if !@cabpool.errors[:remarks].empty? %>
 
-            <div class="form-group hideable">
+            <div class="form-group">
               <label class="label-blue" for="user_locality">Route :-</label>
               <label class="label-blue" for="user_locality">Point A</label>
-              <div>
-                <span class="label-name" id="locality"> <%= User.find_by_email(session[:Email]).locality.name %> </span>
+              <span class="label-name" id="locality"> <%= User.find_by_email(session[:Email]).locality.name %> </span>
+              <div class="hideable">
                 <%= hidden_field_tag 'localities[source]', User.find_by_email(session[:Email]).locality.id %>
                 <div class="localityForm">
                   <label class="control-label pull-left hideable" for="user_locality">Via</label>
@@ -45,7 +45,7 @@
                 </div>
                 <%= render 'shared/error_messages', errors: @cabpool.errors[:localities] if !@cabpool.errors[:localities].empty? %>
               </div>
-              <button id="addLocality">+</button>
+              <button id="addLocality" class="hideable">+</button>
             </div>
 
             <div id="localitySelections"></div>
