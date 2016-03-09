@@ -39,9 +39,9 @@ class Admin::CabpoolsController < Admin::AdminController
   def update
     @cabpool = Cabpool.find(params[:id])
     @cabpool.remarks = params[:cabpool][:remarks]
-    members_needing_cabpool_update_email = []
+    members_before_cabpool_update = []
     @cabpool.users.each do |user|
-      members_needing_cabpool_update_email << user
+      members_before_cabpool_update << user
     end
     if !edit_users_to_cabpool
       flash[:danger] = "Number of people are more than the capacity of the cab"
@@ -52,10 +52,7 @@ class Admin::CabpoolsController < Admin::AdminController
         flash[:success] = "Cabpool has been Deleted"
         redirect_to '/admin'
       elsif @cabpool.save
-        @cabpool.users.each do |user|
-          members_needing_cabpool_update_email << user if !members_needing_cabpool_update_email.include?(user)
-        end
-        send_email_to_cabpool_users_about_cabpool_update(members_needing_cabpool_update_email)
+        send_email_to_cabpool_users_about_cabpool_update(@cabpool, members_before_cabpool_update)
         flash[:success] = "Cabpool has been Updated"
         redirect_to '/admin'
       end
@@ -143,8 +140,9 @@ class Admin::CabpoolsController < Admin::AdminController
     end
   end
 
-  def send_email_to_cabpool_users_about_cabpool_update(members_needing_update_email)
-    members_needing_update_email.each do |user|
+  def send_email_to_cabpool_users_about_cabpool_update(cabpool, members_before_cabpool_update)
+    members_needing_update_email = cabpool.users | members_before_cabpool_update
+    members_needing_update_email.collect do |user|
       CabpoolMailer.cabpool_updated_by_admin(user, members_needing_update_email).deliver_now
     end
   end
