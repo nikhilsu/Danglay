@@ -287,18 +287,23 @@ RSpec.describe CabpoolsController, type: :controller do
 
   it 'should render Accept message and send email to approved user and other cabpool members and send email to previous cabpoolers when token is same and approve is true' do
     request = build_stubbed(:request)
-    user = request.user
+    requesting_user = request.user
+    another_user = build(:user, :another_user)
+    existing_cabpool_member = build(:user, :yet_another_user)
     approving_user = build(:user)
-    cabpool = build(:cabpool, :without_users)
-    cabpool.users << [user ,approving_user]
+    old_cabpool = build(:cabpool, :without_users)
+    old_cabpool.users << [requesting_user, another_user]
+    requesting_cabpool = build(:cabpool, :without_users)
+    requesting_cabpool.users << [approving_user, existing_cabpool_member]
+    request.cabpool = requesting_cabpool
 
-    allow(user).to receive(:save).and_return(true)
+    allow(requesting_user).to receive(:save).and_return(true)
     allow(request).to receive(:destroy!).and_return(true)
-    allow(User).to receive(:find).and_return(user)
+    allow(User).to receive(:find).and_return(requesting_user)
     allow(Request).to receive(:find_by).and_return(request)
     allow(request).to receive(:approve_digest).and_return("ABCD")
     allow(User).to receive(:find_by).and_return(approving_user)
-    allow(approving_user).to receive(:cabpool).and_return(cabpool)
+    allow(approving_user).to receive(:cabpool).and_return(old_cabpool)
 
     get :approve_reject_handler, approve: "true", token: "ABCD", user: '1', cabpool: '2'
     expect(ActionMailer::Base.deliveries.size).to eq 3

@@ -82,7 +82,7 @@ class CabpoolMailer < ApplicationMailer
     @address = added_user.address
     
     emails =[]
-    approving_user.cabpool.users.each do |user| emails << user.email if user != approving_user end
+    approving_user.cabpool.users.each do |user| emails << user.email if user != approving_user and user != added_user end
     mail to: emails , subject: "New member added to cabpool"
   end
 
