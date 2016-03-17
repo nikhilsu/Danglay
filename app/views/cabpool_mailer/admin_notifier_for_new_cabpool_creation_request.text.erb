@@ -1,11 +1,12 @@
 Hi Admin!
 
-A new cabpool request has been created by <strong> <%= @username%> </strong>! 
-The user is from <strong> <%= @address %> </strong>. 
-The approximate time the user reaches office is <strong> <%= @timein%> </strong> and the approximate time the user leave office is <strong> <%= @timeout%> </strong>. 
-
-The remarks if any were :
-<strong> <%= @remarks %> </strong>
+A new cabpool request has been created by <%= @username%>!
+The user is from <%= @address %>.
+The approximate time the user reaches office is <%= @timein%> and the approximate time the user leave office is <%= @timeout%>.
+<% if !@remarks.empty? %>
+    Remarks :
+    <%= @remarks %>
+<% end %>
 
 Please create a cabpool for this user at <%= link_to('Create a pool',  admin_cabpool_new_url) %>.
 

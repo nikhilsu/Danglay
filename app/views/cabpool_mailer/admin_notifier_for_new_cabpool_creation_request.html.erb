@@ -4,10 +4,12 @@
 The user is from <strong> <%= @address %> </strong>. 
 The approximate time the user reaches office is <strong> <%= @timein%> </strong> and the approximate time the user leave office is <strong> <%= @timeout%> </strong>. 
 
-The remarks if any were :
-<strong> <%= @remarks %> </strong>
+<% if !@remarks.empty? %>
+Remarks :
+    <strong> <%= @remarks %> </strong>
+<% end %>
 
-Please create a cabpool on the appplication for this user at <p><%= link_to('Create a pool',  admin_cabpool_new_url) %> </p>.
+Please create a cabpool on the appplication for this user at <p><%= link_to('Create a pool',  admin_cabpool_new_url) %> </p>
 
 </p>
 
