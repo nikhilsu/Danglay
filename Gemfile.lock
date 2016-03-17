@@ -204,6 +204,8 @@ GEM
     fog-xml (0.1.2)
       fog-core
       nokogiri (~> 1.5, >= 1.5.11)
+    font-awesome-sass (4.5.0)
+      sass (>= 3.2)
     formatador (0.2.5)
     fuubar (2.0.0)
       rspec (~> 3.0)
@@ -430,6 +432,7 @@ DEPENDENCIES
   faker (= 1.4.2)
   feature_toggle
   fog (= 1.36.0)
+  font-awesome-sass
   fuubar
   guard-rspec
   jasmine-rails (= 0.10.7)

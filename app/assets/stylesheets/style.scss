@@ -2,6 +2,8 @@
 @import 'variables';
 @import "mixins";
 @import "grid";
+@import "font-awesome-sprockets";
+@import "font-awesome";
 
 body {
   font-family: $primary-font;
@@ -1194,9 +1196,21 @@ div h1 {
   font-weight: 600;
 }
 
-.delete-cabpool{
-  text-align: center;
-  margin: 10px;
+.admin-view-route-info{
+  .route-info{
+    display: inline-block;
+    text-align: left;
+  }
+}
+.delete-cabpool-icon {
+  display: inline-block;
+  margin-top: 4px;
+  float: right;
+  button{
+    cursor: pointer;
+    background: $red;
+    padding: 5px 10px;
+  }
 }
 
 /* Miscellaneous */
