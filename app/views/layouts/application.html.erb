@@ -10,12 +10,15 @@
   <%= render 'layouts/shim' %>
 </head>
 <body>
+
 <%= render 'layouts/header' %>
-<% if params[:controller].include? 'admin/' %>
+
+<% if yield(:banner_ui) == 'Admin' %>
     <%= render 'layouts/welcome_admin' %>
 <% else %>
     <%= render 'layouts/welcome' %>
 <% end %>
+
 <%= render 'layouts/popup' %>
 <div class="container information">
   <% flash.each do |message_type, message| %>

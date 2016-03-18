@@ -1,3 +1,4 @@
+<% provide(:banner_ui, 'Admin') %>
 <div class="row form-elements">
   <%= form_for(@cabpool, layout: :horizontal, url: admin_cabpool_update_path, :html => {onsubmit: "return popup_confirmation_if_cabpool_has_no_passengers(this, 'This Cabpool will be Deleted as it has no Passengers. Do you wish to proceed?');"}) do |f| %>
       <div class="col-50">
