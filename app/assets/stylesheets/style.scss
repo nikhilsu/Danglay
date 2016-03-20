@@ -5,6 +5,10 @@
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
+html, body {
+  height: 100%;
+}
+
 body {
   font-family: $primary-font;
   font-size: $font-size;
@@ -26,6 +30,11 @@ header {
     text-decoration: none;
 
   }
+}
+
+.wrapper {
+  min-height: 100%;
+  margin: 0 auto -44px;
 }
 
 .brand-logo {
@@ -685,6 +694,10 @@ label.label-blue {
   left: 0;
   right: 0;
   bottom: 0;
+}
+
+.push {
+  height: 44px;
 }
 
 footer {
