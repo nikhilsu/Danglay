@@ -60,6 +60,7 @@
         <div class="map-wrap">
           <%= hidden_field_tag 'route', cabpool.route %>
           <div id="map" class="map_show pull-right"></div>
+          <div class="route-info"></div>
           <% if button(cabpool) == "Leave Ride" %>
               <%= form_for(cabpool, url: 'leave_cabpool', method: 'post', :html => {onsubmit: "return popup_confirmation(this, 'Are you sure you want to Leave your Cabpool?');"}) do |f| %>
                   <%= f.button button(cabpool), class: 'btn-ride' %>
@@ -71,7 +72,6 @@
                   <%= render partial: 'join_cabpool', object: {cabpool: cabpool, join_button_style: 'btn-ride', popup_action_js: {}} %>
               <% end %>
           <% end %>
-          <div class="route-info"></div>
         </div>
       </div>
     </div>

@@ -884,6 +884,29 @@ input, textarea {
   transform: translateY(0);
 }
 
+.route-info {
+  text-align: center;
+  color: $dark;
+  font-weight: 600;
+}
+
+.admin-view-route-info{
+  .route-info{
+    display: inline-block;
+    text-align: left;
+  }
+}
+.delete-cabpool-icon {
+  display: inline-block;
+  margin-top: 4px;
+  float: right;
+  button{
+    cursor: pointer;
+    background: $red;
+    padding: 5px 10px;
+  }
+}
+
 @media only screen and (max-width: 2160px) {
   .plain-text {
     div {
@@ -1116,8 +1139,7 @@ input, textarea {
   }
   .pool-list ul li .pool-description .btn-ride {
     display: block;
-    float: right;
-    margin-top: 10px;
+    margin: 15px auto 0px;
   }
   footer {
     font-size: 10px;
@@ -1188,29 +1210,6 @@ div h1 {
 
 .sub-heading {
   padding: 15px;
-}
-
-.route-info {
-  text-align: center;
-  color: $dark;
-  font-weight: 600;
-}
-
-.admin-view-route-info{
-  .route-info{
-    display: inline-block;
-    text-align: left;
-  }
-}
-.delete-cabpool-icon {
-  display: inline-block;
-  margin-top: 4px;
-  float: right;
-  button{
-    cursor: pointer;
-    background: $red;
-    padding: 5px 10px;
-  }
 }
 
 /* Miscellaneous */
