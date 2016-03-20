@@ -15,7 +15,7 @@
 
 <% if yield(:banner_ui) == 'Admin' %>
     <%= render 'layouts/welcome_admin' %>
-<% else %>
+<% elsif yield(:banner_ui) != 'Hidden' %>
     <%= render 'layouts/welcome' %>
 <% end %>
 
