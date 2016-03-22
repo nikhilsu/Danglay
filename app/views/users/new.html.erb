@@ -1,15 +1,10 @@
 <% provide(:title, 'Update Profile') %>
-<% provide(:banner_ui, 'Hidden') %>
+<% provide(:banner_ui, 'Secondary') %>
+<% provide(:banner_heading, "Hi, #{@user.name}") %>
+<% provide(:banner_paragraph, "You have signed in with #{@user.email}. In order to proceed, please complete your details below.") %>
 
 <% if FEATURES.active?('user_feature') %>
     <div class="row form-elements">
-      <div class="center">
-        <h1><%= "Hi, #{@user.name}" %></h1>
-
-        <p>You have signed in with <b><%= @user.email %></b></p>
-
-        <p> In order to proceed, please complete your details below.</p>
-      </div>
       <%= form_for(@user, layout: :horizontal) do |f| %>
           <div class="col-50 center-form">
             <label class= "required" for="employee_id"> Employee ID </label>

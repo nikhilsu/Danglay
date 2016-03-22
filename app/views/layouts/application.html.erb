@@ -14,9 +14,13 @@
   <%= render 'layouts/header' %>
 
   <% if yield(:banner_ui) == 'Admin' %>
-      <%= render 'layouts/welcome_admin' %>
-  <% elsif yield(:banner_ui) != 'Hidden' %>
-      <%= render 'layouts/welcome' %>
+      <%= render 'layouts/primary_admin_banner' %>
+  <% elsif yield(:banner_ui) == 'Secondary' %>
+      <%= render 'layouts/secondary_banner' %>
+  <% elsif yield(:banner_ui) == 'Response' %>
+      <%= render 'layouts/response_pages_template' %>
+  <% else %>
+      <%= render 'layouts/primary_banner' %>
   <% end %>
 
   <%= render 'layouts/popup' %>
@@ -28,9 +32,7 @@
         </div>
     <% end %>
     <%= yield %>
-    <%= debug(params) if Rails.env.development? %>
   </div>
-
   <div class="push"></div>
 </div>
 

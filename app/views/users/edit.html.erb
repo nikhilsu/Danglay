@@ -1,13 +1,11 @@
 <% provide(:title, 'Edit Profile') %>
-<% provide(:banner_ui, 'Hidden') %>
+<% provide(:banner_ui, 'Secondary') %>
+<% provide(:banner_heading, "Hi, #{@user.name}") %>
+<% provide(:banner_paragraph, ' In order to edit your details please fill in the following fields.') %>
+
 
 <% if FEATURES.active?('user_feature') %>
     <div class="row form-elements ">
-      <div class="center">
-        <h1><%= "Hi, #{@user.name}" %></h1>
-
-        <p> In order to edit your details please fill in the following fields.</p>
-      </div>
       <%= form_for(@user, layout: :horizontal) do |f| %>
           <div class="center-form">
             <%= label_tag 'Employee ID' %>
