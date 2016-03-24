@@ -1,12 +1,10 @@
-<section class="hero-module">
-  <div class="container">
-    <div class="row">
-      <h1>Carpool</h1>
-      <ul>
-        <li><%= link_to "Create", admin_cabpool_new_path, class: 'blue-bubble' %></li>
-        <li><%= link_to "Edit", admin_path, class: 'pink-bubble' %></li>
-        <li><%= link_to "Add User", admin_user_new_path, class: 'green-bubble' %></li>
-      </ul>
-    </div>
+<section class="sub-header admin-header">
+<div class="container">
+    <h2>Welcome, admin</h2>
+    <ul class="tabs">
+      <li class="active"><%= link_to "Create", admin_cabpool_new_path %></li>
+      <li><%= link_to "Edit", admin_path %></li>
+      <li><%= link_to "Add User", admin_user_new_path %></li>
+  </ul>
   </div>
 </section><!-- End of banner section -->

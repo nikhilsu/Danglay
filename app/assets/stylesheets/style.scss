@@ -409,7 +409,7 @@ label.label-blue {
       float: left;
       width: 33%;
       > a {
-        background: rgba(255, 255, 255, 0.34);
+        background: rgba(255, 255, 255, 0.5);
         color: #FFFFFF;
         display: inline-block;
         width: 115px;
@@ -420,12 +420,22 @@ label.label-blue {
         font-size: 18px;
         font-weight: 600;
         padding: 45px 0;
-        border: 1px solid #B1B0B0;
         transition: all .5s ease;
         text-decoration: none;
       }
+
       .blue-bubble {
         &:hover {
+          background: $calm;
+          z-index: 3;
+          position: relative;
+          -webkit-transform: scale(1.2);
+          -moz-transform: scale(1.2);
+          -ms-transform: scale(1.2);
+          transform: scale(1.2);
+        }
+
+        &.active {
           background: $calm;
           z-index: 3;
           position: relative;
@@ -445,9 +455,27 @@ label.label-blue {
           -ms-transform: scale(1.2);
           transform: scale(1.2);
         }
+        &.active {
+          background: #b11c54;
+          z-index: 3;
+          position: relative;
+          -webkit-transform: scale(1.2);
+          -moz-transform: scale(1.2);
+          -ms-transform: scale(1.2);
+          transform: scale(1.2);
+        }
       }
       .green-bubble {
         &:hover {
+          background: #05A054;
+          z-index: 3;
+          position: relative;
+          -webkit-transform: scale(1.2);
+          -moz-transform: scale(1.2);
+          -ms-transform: scale(1.2);
+          transform: scale(1.2);
+        }
+        &.active {
           background: #05A054;
           z-index: 3;
           position: relative;
@@ -522,6 +550,61 @@ label.label-blue {
     background-position: 0 40%;
   }
 }
+// Admin tab
+.admin-header {
+  padding: 0;
+
+  .container {
+    padding: 25px 15px 60px;
+    position: relative;
+
+    @media screen and (min-width: 768px) {
+      padding: 50px 15px 70px;
+    }
+  }
+
+  .tabs {
+    position: absolute;
+    left: 10px;
+    bottom: 0;
+    display: block;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+
+    li {
+      display: inline;
+      float: left;
+      padding: 8px 20px;
+      background: #39C5E0;
+      border-left: 1px solid #FFFFFF;
+      cursor: pointer;
+
+      @media screen and (min-width: 768px) {
+        padding: 10px 40px;
+      }
+
+      a {
+        text-decoration: none;
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      &.active {
+        background: #f5f5f5;
+
+        a {
+          color: #444;
+        }
+      }
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+    li:first-child {
+      border-left: 0;
+    }
+   }
 }
 
 // Email Response Pages style
