@@ -1,10 +1,8 @@
 <% provide(:banner_ui, 'Secondary') %>
+<% provide(:banner_ui_style, 'your-cabpool') %>
 <% provide(:banner_heading, 'My Ride') %>
 <% provide(:banner_paragraph, 'This is where all your cabpools are') %>
 
-<% if user_cabpool_exists? || user_requested_cabpool_exists? %>
-    <div><h1 class = 'center'>Your Cabpool/s</h1></div>
-<% end %>
 <div class="container pool-list">
   <div class="row list-label">
     <div class="col-20 vendors">Vendors</div>

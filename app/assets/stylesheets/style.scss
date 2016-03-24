@@ -463,10 +463,16 @@ label.label-blue {
 
 // sub header style
 .sub-header {
-  background: $dark url(image-path('sub-header-banner.jpeg')) 0 67%;
-  padding: 60px 0;
+  background-color: #647482;
+  background-image:url(image-path('default-secondary-banner.jpg'));
+  background-position: 0 67%;
+  padding: 25px 0;
   background-size: cover;
   position: relative;
+
+  @media screen and (min-width: 768px) {
+    padding: 60px 0;
+  }
 
   .container {
     padding: 0 10px;
@@ -475,18 +481,24 @@ label.label-blue {
   }
 
   h2 {
-    font-size: 28px;
+    font-size: 18px;
     color: $white;
+
+    @media screen and (min-width: 768px) {
+      font-size: 26px;
+    }
   }
 
   p {
     color: #DADADA;
-    font-size: 14px;
-    line-height: 22px;
+    font-size: 12px;
+    line-height: 18px;
     font-weight: 300;
 
     @media screen and (min-width: 768px) {
       width: 80%;
+      font-size: 14px;
+      line-height: 22px;
     }
   }
 
@@ -497,8 +509,19 @@ label.label-blue {
     top:0;
     bottom: 0;
     content: "";
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.6);
   }
+
+  &.create-cabpool {
+    background-image:url(image-path('sub-header-banner.jpeg'));
+    background-position: 0 67%;
+  }
+
+  &.your-cabpool {
+    background-image:url(image-path('response-pages-banner.jpg'));
+    background-position: 0 40%;
+  }
+}
 }
 
 // Email Response Pages style
