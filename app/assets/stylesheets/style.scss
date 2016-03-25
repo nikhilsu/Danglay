@@ -544,22 +544,23 @@ label.label-blue {
     overflow: hidden;
 
     li {
-      display: inline;
       float: left;
-      padding: 8px 20px;
       background: #39C5E0;
       border-left: 1px solid #FFFFFF;
       cursor: pointer;
-
-      @media screen and (min-width: 768px) {
-        padding: 10px 40px;
-      }
+      display: block;
 
       a {
+        display: block;
         text-decoration: none;
         color: #ffffff;
         font-size: 12px;
         font-weight: 600;
+        padding: 8px 20px;
+
+        @media screen and (min-width: 768px) {
+          padding: 10px 40px;
+        }
       }
 
       &.active {
