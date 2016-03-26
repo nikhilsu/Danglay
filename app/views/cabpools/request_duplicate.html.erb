@@ -1,3 +1,6 @@
-<% provide(:banner_ui, 'Response') %>
-<% provide(:banner_heading, 'Someone from your cab pool has already responded to this request.') %>
-<% provide(:banner_paragraph, 'Please visit the pools tab more information...') %>
+<% provide(:banner) do %>
+    <%= render partial: 'layouts/response_pages_template',
+               object: { banner_heading: 'Someone from your cab pool has already responded to this request.',
+                         banner_paragraph: 'Please visit the pools tab more information...'
+               } %>
+<% end %>

@@ -1,6 +1,7 @@
-<% provide(:banner_ui, 'Secondary') %>
-<% provide(:banner_heading, 'About Us') %>
-
+<% provide(:banner) do %>
+    <%= render partial: 'layouts/secondary_banner',
+               object: { banner_heading: 'About Us' }%>
+<% end %>
 
 <div class="plain-text">
   <div>

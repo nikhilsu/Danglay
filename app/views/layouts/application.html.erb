@@ -13,15 +13,7 @@
 <div class="wrapper">
   <%= render 'layouts/header' %>
 
-  <% if yield(:banner_ui) == 'Admin' %>
-      <%= render 'layouts/primary_admin_banner' %>
-  <% elsif yield(:banner_ui) == 'Secondary' %>
-      <%= render 'layouts/secondary_banner' %>
-  <% elsif yield(:banner_ui) == 'Response' %>
-      <%= render 'layouts/response_pages_template' %>
-  <% else %>
-      <%= render 'layouts/primary_banner' %>
-  <% end %>
+  <%= yield(:banner) %>
 
   <%= render 'layouts/popup' %>
 

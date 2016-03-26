@@ -1,8 +1,10 @@
 <% provide(:title, 'Edit Profile') %>
-<% provide(:banner_ui, 'Secondary') %>
-<% provide(:banner_heading, "Hi, #{@user.name}") %>
-<% provide(:banner_paragraph, ' In order to edit your details please fill in the following fields.') %>
-
+<% provide(:banner) do %>
+    <%= render partial: 'layouts/secondary_banner',
+               object: { banner_heading: "Hi, #{@user.name}",
+                         banner_paragraph: 'In order to edit your details please fill in the following fields.'
+               }%>
+<% end %>
 
 <% if FEATURES.active?('user_feature') %>
     <div class="row form-elements ">

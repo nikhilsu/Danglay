@@ -1,5 +1,6 @@
-<% provide(:banner_ui, 'Secondary') %>
-<% provide(:banner_heading, 'Contact Us') %>
-
+<% provide(:banner) do %>
+    <%= render partial: 'layouts/secondary_banner',
+               object: { banner_heading: 'Contact Us' }%>
+<% end %>
 
 <h2 class="contact-us-heading">If you have any queries, contact us at <strong>danglay@thoughtworks.com</strong></h2>

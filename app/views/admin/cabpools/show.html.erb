@@ -1,4 +1,7 @@
-<% provide(:banner_ui, 'Admin') %>
+<% provide(:banner) do %>
+    <%= render partial: "layouts/primary_admin_banner", object: {edit_tab: 'active'} %>
+<% end %>
+
 <div>
   <div class="container pool-list">
     <div class="row list-label">

@@ -1,5 +1,7 @@
 <% provide(:title, 'Update Profile') %>
-<% provide(:banner_ui, 'Admin') %>
+<% provide(:banner) do %>
+    <%= render partial: "layouts/primary_admin_banner", object: {add_user_tab: 'active'} %>
+<% end %>
 
 <div class="container">
   <div class="row form-elements">

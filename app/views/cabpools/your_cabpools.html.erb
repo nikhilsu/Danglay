@@ -1,7 +1,10 @@
-<% provide(:banner_ui, 'Secondary') %>
-<% provide(:banner_ui_style, 'your-cabpool') %>
-<% provide(:banner_heading, 'My Ride') %>
-<% provide(:banner_paragraph, 'This is where all your cabpools are') %>
+<% provide(:banner) do %>
+    <%= render partial: 'layouts/secondary_banner',
+               object: { banner_ui_style: 'your-cabpool',
+                         banner_heading: 'My Ride',
+                         banner_paragraph: 'This is where all your cabpools are'
+               }%>
+<% end %>
 
 <div class="container pool-list">
   <div class="row list-label">

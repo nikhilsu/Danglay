@@ -1,2 +1,6 @@
-<% provide(:banner_ui, 'Response') %>
-<% provide(:banner_heading, 'This Requset has been already been approved, To Remove this user from cabpool go to edit cabpool') %>
+<% provide(:banner) do %>
+    <%= render partial: 'layouts/response_pages_template',
+               object: { banner_heading: 'This Request has been already been approved,
+                                          To Remove this user from cabpool go to edit cabpool'
+                       } %>
+<% end %>

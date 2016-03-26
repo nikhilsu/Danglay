@@ -1,2 +1,5 @@
-<% provide(:banner_ui, 'Response') %>
-<% provide(:banner_heading, 'Invalid request.') %>
+<% provide(:banner) do %>
+    <%= render partial: 'layouts/response_pages_template',
+               object: { banner_heading: 'Invalid request.'
+               } %>
+<% end %>

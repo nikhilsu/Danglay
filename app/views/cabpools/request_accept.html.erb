@@ -1,3 +1,6 @@
-<% provide(:banner_ui, 'Response') %>
-<% provide(:banner_heading, 'Thank you for accepting the request!') %>
-<% provide(:banner_paragraph, 'The user will be notified soon...') %>
+<% provide(:banner) do %>
+    <%= render partial: 'layouts/response_pages_template',
+               object: { banner_heading: 'Thank you for accepting the request!',
+                         banner_paragraph: 'The user will be notified soon...'
+                       } %>
+<% end %>

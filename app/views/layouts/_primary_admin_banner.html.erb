@@ -2,9 +2,9 @@
 <div class="container">
     <h2>Welcome, admin</h2>
     <ul class="tabs">
-      <li id="admin-create"><%= link_to "Create", admin_cabpool_new_path %></li>
-      <li id="admin-edit"><%= link_to "Edit", admin_path %></li>
-      <li id="admin-add-user"><%= link_to "Add User", admin_user_new_path %></li>
+      <li class="<%= primary_admin_banner[:create_tab]%>"><%= link_to "Create", admin_cabpool_new_path %></li>
+      <li class="<%= primary_admin_banner[:edit_tab]%>"><%= link_to "Edit", admin_path %></li>
+      <li class="<%= primary_admin_banner[:add_user_tab]%>"><%= link_to "Add User", admin_user_new_path %></li>
   </ul>
   </div>
 </section><!-- End of banner section -->
