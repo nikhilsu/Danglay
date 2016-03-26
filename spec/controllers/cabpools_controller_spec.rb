@@ -254,7 +254,7 @@ RSpec.describe CabpoolsController, type: :controller do
     user = build(:user)
     allow(User).to receive(:find).and_return(user)
     allow(Request).to receive(:find_by_user_id).and_return(nil)
-    get :approve_reject_handler, approve: "true", token: "ABCD", user: '1'
+    get :approve_reject_handler, approve: "true", token: "ABCD", user: '1', approver: '2'
     expect(response).to render_template 'request_duplicate'
   end
 
@@ -263,7 +263,7 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(User).to receive(:find).and_return(user)
     request = build_stubbed(:request)
     allow(Request).to receive(:find_by).and_return(request)
-    get :approve_reject_handler, approve: "true", token: "ABCD", user: '1', cabpool: '2'
+    get :approve_reject_handler, approve: "true", token: "ABCD", user: '1', cabpool: '2', approver: '2'
     expect(response).to render_template 'request_invalid'
   end
 
@@ -280,7 +280,8 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(request).to receive(:approve_digest).and_return("ABCD")
     allow(User).to receive(:find_by).and_return(approving_user)
     allow(approving_user).to receive(:cabpool).and_return(cabpool)
-    get :approve_reject_handler, approve: "true", token: "ABCD", user: '1', cabpool: '2'
+
+    get :approve_reject_handler, approve: "true", token: "ABCD", user: '1', cabpool: '2', approver: approving_user.id
     expect(ActionMailer::Base.deliveries.size).to eq 2
     expect(response).to render_template 'request_accept'
   end
@@ -305,7 +306,7 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(User).to receive(:find_by).and_return(approving_user)
     allow(approving_user).to receive(:cabpool).and_return(old_cabpool)
 
-    get :approve_reject_handler, approve: "true", token: "ABCD", user: '1', cabpool: '2'
+    get :approve_reject_handler, approve: "true", token: "ABCD", user: '1', cabpool: '2', approver: approving_user.id
     expect(ActionMailer::Base.deliveries.size).to eq 3
     expect(response).to render_template 'request_accept'
   end
@@ -318,7 +319,7 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(User).to receive(:find).and_return(user)
     allow(Request).to receive(:find_by).and_return(request)
     allow(request).to receive(:approve_digest).and_return("ABCD")
-    get :approve_reject_handler, approve: "false", token: "ABCD", user: '1', cabpool: '2'
+    get :approve_reject_handler, approve: "false", token: "ABCD", user: '1', cabpool: '2', approver: '2'
     expect(ActionMailer::Base.deliveries.size).to eq 1
     expect(response).to render_template 'request_reject'
   end

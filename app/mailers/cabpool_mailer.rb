@@ -6,7 +6,7 @@ class CabpoolMailer < ApplicationMailer
   #   en.cabpool_mailer.cabpool_join_request.subject
   #
   def cabpool_join_request(cabpool_user, cabpool, requesting_user, digest)
-    @username = cabpool_user.name
+    @user = cabpool_user
     @current_user = requesting_user
     @digest = digest
     @cabpool = cabpool.id
@@ -83,7 +83,7 @@ class CabpoolMailer < ApplicationMailer
     
     emails =[]
     approving_user.cabpool.users.each do |user| emails << user.email if user != approving_user and user != added_user end
-    mail to: emails , subject: "New member added to cabpool"
+    mail to: emails , subject: "New member added to cabpool" if !emails.empty?
   end
 
   def cabpool_is_created user, cabpool

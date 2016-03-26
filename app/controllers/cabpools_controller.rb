@@ -101,6 +101,7 @@ class CabpoolsController < ApplicationController
     cabpool_id = params[:cabpool]
     user_id = params[:user]
     user = User.find(user_id)
+    approver = User.find_by_id(params[:approver])
     request = Request.find_by(user_id: user_id, cabpool_id: cabpool_id)
     if request.nil?
       render 'request_duplicate'
@@ -108,7 +109,7 @@ class CabpoolsController < ApplicationController
       digest = request.approve_digest
       if digest == token
         if approve == "true"
-          approve_user user, request
+          approve_user user, request, approver
         else
           reject_user user, request
         end
@@ -124,7 +125,7 @@ class CabpoolsController < ApplicationController
     requested_user = User.find(requested_users_id)
     request = Request.find_by(user_id: requested_users_id, cabpool_id: current_user.cabpool.id)
     if (current_user.cabpool.requested_users.exists?(:id => requested_users_id))
-      approve_user requested_user, request
+      approve_user requested_user, request, current_user
     else
       render 'request_invalid'
     end
@@ -159,7 +160,7 @@ class CabpoolsController < ApplicationController
 
   private
 
-  def approve_user(user, request)
+  def approve_user(user, request, approver)
     if !user.cabpool.nil?
       if user.cabpool.users.length > 1
         send_email_to_cabpool_users_on_member_leaving(user.cabpool.users.reject { |u| u.id == user.id }, user)
@@ -173,7 +174,7 @@ class CabpoolsController < ApplicationController
     request.user.requests.each do |req|
       req.destroy!
     end
-    send_member_addition_email_to_cabpool_members(current_user, user)
+    send_member_addition_email_to_cabpool_members(approver, user)
     send_email_to_approved_user user
     render 'request_accept'
   end
@@ -184,8 +185,8 @@ class CabpoolsController < ApplicationController
     cabpool.destroy!
   end
 
-  def send_member_addition_email_to_cabpool_members(current_user, user)
-    CabpoolMailer.member_addition_to_cabpool(current_user, user).deliver_now
+  def send_member_addition_email_to_cabpool_members(approver, user)
+    CabpoolMailer.member_addition_to_cabpool(approver, user).deliver_now
   end
 
   def send_email_to_admin_about_invalid_cabpool deleting_cabpool
