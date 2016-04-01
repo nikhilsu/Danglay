@@ -436,10 +436,10 @@ label.label-blue {
         }
       }
       .pink-bubble {
+        background: #b11c54;
+        position: relative;
         &:hover {
-          background: #b11c54;
           z-index: 3;
-          position: relative;
           -webkit-transform: scale(1.2);
           -moz-transform: scale(1.2);
           -ms-transform: scale(1.2);
@@ -1422,4 +1422,8 @@ label.required:after {
   text-align: center;
   margin-top: 50px;
   font-weight: 500;
+}
+
+.cabpool-remarks {
+  font: inherit;
 }
