@@ -14,7 +14,7 @@
 
       <%= form_for(@user, layout: :horizontal, url: admin_user_create_path) do |f| %>
           <div class="col-50 center-form">
-            <label class= "required" for="capacity_of_cab"> Capacity of Cab </label>
+            <label class= "required" for="emp_id"> Employee ID </label>
             <%= f.text_field :emp_id %>
             <%= render 'shared/error_messages', errors: @user.errors[:emp_id] if !@user.errors[:emp_id].empty? %>
             <label class= "required" for="name"> Name </label>
