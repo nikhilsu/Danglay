@@ -28,7 +28,6 @@ class CabpoolsController < ApplicationController
       current_user_cabpool.destroy
     elsif current_user_cabpool.users.size == 1
       send_email_to_admin_about_invalid_cabpool(current_user_cabpool)
-      send_email_to_cabpool_users_on_member_leaving(users, current_user)
     else
       send_email_to_cabpool_users_on_member_leaving(users, current_user)
       send_email_to_admin_when_user_leaves(users, current_user)

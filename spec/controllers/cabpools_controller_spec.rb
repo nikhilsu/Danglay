@@ -211,7 +211,7 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(cabpool.users).to receive(:size).and_return(1)
 
     post :leave
-    expect(ActionMailer::Base.deliveries.size).to eq 2
+    expect(ActionMailer::Base.deliveries.size).to eq 1
   end
 
   it 'should set the current user\'s cabpool to nil if the user leaves the cab pool and send email to existing members' do
