@@ -55,13 +55,10 @@ class Admin::CabpoolsController < Admin::AdminController
   def no_passengers_edge_case_violation?
     if (no_passengers_added?)
       flash.now[:danger] = 'Please add some people to the cab'
-      # @cabpool.errors[:passengers] = 'Please add some people to the cab'
     elsif (passengers_are_greater_than_capacity?)
       flash.now[:danger] = 'Number of people are more than the capacity of the cab'
-      # @cabpool.errors[:passengers] = 'Number of people are more than the capacity of the cab'
     elsif (same_passenger_added_multiple_times?)
       flash.now[:danger] = 'Same passenger cannot be added multiple times'
-      # @cabpool.errors[:passengers] = 'Same passenger cannot be added multiple times'
     else
       return true
     end
