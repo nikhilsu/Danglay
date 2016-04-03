@@ -27,7 +27,7 @@
           <div>
             <span class="label-name">Add a passenger </span>
 
-            <div class="passengersForm">
+            <div class="newPassengerInputTemplate">
               <label for="cabpool_users">Name</label>
               <%= collection_select(:users, DateTime.now.strftime('%Q').to_i, User.all, :id, :name, {prompt: true}, class: 'form-control') %>
             </div>

@@ -3,36 +3,38 @@
 <% end %>
 
 <div class="row form-elements">
-  <%= form_for(@cabpool, layout: :horizontal, url: admin_cabpool_update_path, :html => {onsubmit: "return popup_confirmation_if_cabpool_has_no_passengers(this, 'This Cabpool will be Deleted as it has no Passengers. Do you wish to proceed?');"}) do |f| %>
+  <%= form_for(@cabpool, layout: :horizontal, url: admin_cabpool_update_path) do |f| %>
       <div class="col-50">
         <h2 class="create-form-heading"><%= "Edit Cab Pool" %></h2>
         <%= label_tag 'Capacity of Cab' %>
         <%= f.text_field :number_of_people %>
+        <%= render 'shared/error_messages', errors: @cabpool.errors[:number_of_people] if !@cabpool.errors[:number_of_people].empty? %>
 
         <div class="form-group">
           <label class="label-blue"> Passengers </label>
+          <%= render 'shared/error_messages', errors: @cabpool.errors[:passengers] if !@cabpool.errors[:passengers].empty? %>
+
           <div>
             <span class="label-name">Add a passenger </span>
             <button id="addPassenger">+</button>
           </div>
-          <div class="form-group">
-            <div id="passenger">
-              <% count = 0 %>
-              <% @cabpool.users.each do |user| %>
-                  <div id="userName">
-                    <button id="removePassenger">-</button>
-                    <label><%= user.name %></label>
-                    <%= hidden_field_tag "oldPassenger#{count += 1}", user.id %>
-                  </div>
-              <% end %>
-            </div>
-            <div class="passengersForm">
-              <label for="cabpool_users">Name</label>
-              <%= collection_select(:users, DateTime.now.strftime('%Q').to_i, User.all, :id, :name, {prompt: true}, class: 'form-control') %>
-            </div>
+          <div class="newPassengerInputTemplate">
+            <label for="cabpool_users">Name</label>
+            <%= collection_select(:users, DateTime.now.strftime('%Q').to_i, User.all, :id, :name, {prompt: true}, class: 'form-control') %>
           </div>
         </div>
-        <div id="passengersSelection"></div>
+
+        <div id="passengersSelection">
+          <% @cabpool.users.each do |user| %>
+              <div class="form-group">
+                <div class="passengersForm">
+                  <label for="cabpool_users">Name</label>
+                  <%= collection_select(:users, DateTime.now.strftime('%Q').to_i, User.all, :id, :name, {prompt: true, selected: user.id}, class: 'form-control') %>
+                </div>
+                <button id="removePassenger">-</button>
+              </div>
+          <% end %>
+        </div>
 
         <%= label_tag 'Arrival time to office' %>
         <%= f.time_field :timein, placeholder: 'HH:MM', disabled: true %>
@@ -48,6 +50,7 @@
 
         <%= label_tag 'Remarks' %>
         <%= f.text_area :remarks %>
+        <%= render 'shared/error_messages', errors: @cabpool.errors[:remarks] if !@cabpool.errors[:remarks].empty? %>
         <%= hidden_field_tag 'id', @cabpool.id %>
         <%= hidden_field_tag 'route', @cabpool.route %>
         <%= f.submit "Update pool", class: "btn-submit" %>

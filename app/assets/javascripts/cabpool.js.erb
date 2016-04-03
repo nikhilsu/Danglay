@@ -2,48 +2,48 @@ var directionsService, directionsDisplay, map;
 var data = {};
 
 var CabPoolListener = {
-    addListeners: function () {
-        var select_tag = $('div.localityForm').html();
-        $('div.localityForm:first').remove();
-        addASelectizedFormGroup(select_tag);
-        $('#addLocality').click(function() {
-          addASelectizedFormGroup(select_tag);
-          return false;
-        });
+  addListeners: function () {
+    var select_tag = $('div.localityForm').html();
+    $('div.localityForm:first').remove();
+    addASelectizedFormGroup(select_tag);
+    $('#addLocality').click(function () {
+      addASelectizedFormGroup(select_tag);
+      return false;
+    });
 
-        $("div#localitySelections").on('click', '#removeNewLocality', function () {
-            $(this).closest('.form-group').remove();
-            var number_of_locality_forms = $("div.localityForm").length;
-            var add_locality_count = $("#addLocality").length;
-            if (number_of_locality_forms <= 4 && $('#addLocality').is(':hidden')) {
-                $('#addLocality').show();
-            }
-            update_map();
-          return false;
-        });
+    $("div#localitySelections").on('click', '#removeNewLocality', function () {
+      $(this).closest('.form-group').remove();
+      var number_of_locality_forms = $("div.localityForm").length;
+      var add_locality_count = $("#addLocality").length;
+      if (number_of_locality_forms <= 4 && $('#addLocality').is(':hidden')) {
+        $('#addLocality').show();
+      }
+      update_map();
+      return false;
+    });
 
-        $('#sourceLocation').change (function() {
-          data.source = $('#sourceLocation :selected').text() + " Bangalore, Karnataka ";
-          displayRoute(data.source, data.destination, directionsService, directionsDisplay);
-        });
-      $('#sourceLocation').selectize();
+    $('#sourceLocation').change(function () {
+      data.source = $('#sourceLocation :selected').text() + " Bangalore, Karnataka ";
+      displayRoute(data.source, data.destination, directionsService, directionsDisplay);
+    });
+    $('#sourceLocation').selectize();
 
-      $(function(){
-        $("#cabpool_type").change(function() {
-          if($('#cabpool_type :selected').text() == ("Company provided Cab")){
-            $('.hideable').addClass('hidden');
-            $('#submit_button').val("Request creation of Pool");
-            $('#create-cabpool-heading').text("Request for a Cab Pool");
-            initMap();
-          }
-          else{
-            $('.hideable').removeClass('hidden');
-            $('#submit_button').val("Create a Pool");
-            $('#create-cabpool-heading').text("Create a Cab Pool");
-          }
-        });
+    $(function () {
+      $("#cabpool_type").change(function () {
+        if ($('#cabpool_type :selected').text() == ("Company provided Cab")) {
+          $('.hideable').addClass('hidden');
+          $('#submit_button').val("Request creation of Pool");
+          $('#create-cabpool-heading').text("Request for a Cab Pool");
+          initMap();
+        }
+        else {
+          $('.hideable').removeClass('hidden');
+          $('#submit_button').val("Create a Pool");
+          $('#create-cabpool-heading').text("Create a Cab Pool");
+        }
       });
-    }
+    });
+  }
 };
 
 var addASelectizedFormGroup = function (select_tag) {
@@ -51,7 +51,7 @@ var addASelectizedFormGroup = function (select_tag) {
   if (number_of_locality_forms <= 3) {
     var locality_form_with_remove_icon = '<div class="form-group"> ' +
         '<div class="localityForm">' + select_tag + '</div> ' +
-        '<button id="removeNewLocality" class ="hideable">-</button> '+
+        '<button id="removeNewLocality" class ="hideable">-</button> ' +
         '</div>';
     $('div#localitySelections').append(locality_form_with_remove_icon);
     var select_the_last_locality_form = $('div.localityForm:last > select');
@@ -64,12 +64,11 @@ var addASelectizedFormGroup = function (select_tag) {
   }
 };
 
-var update_map = function() {
+var update_map = function () {
   var viaLocations = document.getElementsByClassName('form-control selectized add-locality');
   data.waypoints = [];
-  for (var counter=0; counter < viaLocations.length; counter++)
-  {
-    if(viaLocations[counter].textContent != ""){
+  for (var counter = 0; counter < viaLocations.length; counter++) {
+    if (viaLocations[counter].textContent != "") {
       var address = viaLocations[counter].textContent + ' Bengaluru, Karnataka';
       var geocoder = new google.maps.Geocoder();
       geocoder.geocode({'address': address}, geocodeCallback);
@@ -78,7 +77,7 @@ var update_map = function() {
   setroute();
 };
 
-var geocodeCallback = function(results, status) {
+var geocodeCallback = function (results, status) {
   if (status === google.maps.GeocoderStatus.OK) {
     data.waypoints.push([results[0].geometry.location.lat(), results[0].geometry.location.lng()]);
     setroute();
@@ -88,16 +87,16 @@ var geocodeCallback = function(results, status) {
   }
 };
 
-$(document).ready(function() {
-    CabPoolListener.addListeners();
-    CabPoolListenerPassenger.addListeners();
-    $('#localities_search').selectize();
+$(document).ready(function () {
+  CabPoolListener.addListeners();
+  CabPoolListenerPassenger.addListeners();
+  $('#localities_search').selectize();
 });
 
-$(document).on('page:load', function() {
-    CabPoolListener.addListeners();
-    CabPoolListenerPassenger.addListeners();
-    $('#localities_search').selectize();
+$(document).on('page:load', function () {
+  CabPoolListener.addListeners();
+  CabPoolListenerPassenger.addListeners();
+  $('#localities_search').selectize();
 
 });
 
@@ -113,13 +112,13 @@ function initMap() {
   });
 
   data = {};
-  if(document.getElementById("locality") != null ){
+  if (document.getElementById("locality") != null) {
     data.source = document.getElementById("locality").textContent + " Bangalore, Karnataka ";
   }
   data.destination = {lat: 12.9287258, lng: 77.6267284};
-  displayRoute(data.source , data.destination, directionsService, directionsDisplay);
+  displayRoute(data.source, data.destination, directionsService, directionsDisplay);
 
-  directionsDisplay.addListener('directions_changed', function() {
+  directionsDisplay.addListener('directions_changed', function () {
     updateWaypoints();
   });
 }
@@ -130,11 +129,11 @@ function displayRoute(origin, destination, service, display) {
     destination: destination,
     travelMode: google.maps.TravelMode.DRIVING,
     transitOptions: {
-    routingPreference: google.maps.TransitRoutePreference.FEWER_TRANSFERS
+      routingPreference: google.maps.TransitRoutePreference.FEWER_TRANSFERS
     },
     optimizeWaypoints: true,
     avoidTolls: true
-  }, function(response, status) {
+  }, function (response, status) {
     if (status === google.maps.DirectionsStatus.OK) {
       display.setDirections(response);
     } else {
@@ -144,12 +143,12 @@ function displayRoute(origin, destination, service, display) {
 }
 
 function updateWaypoints() {
-    var JSON_STRING = JSON.stringify(data);
-    document.getElementById('cabpool_route').value = JSON_STRING;
+  var JSON_STRING = JSON.stringify(data);
+  document.getElementById('cabpool_route').value = JSON_STRING;
 }
 
 function initMap_show(element) {
-  var a_map,route;
+  var a_map, route;
   if (!element) {
     a_map = document.getElementById('map');
     route = document.getElementById('route');
@@ -158,7 +157,7 @@ function initMap_show(element) {
     a_map = element.children()[1];
     route = element.children()[0];
   }
-  if(route.value != "") {
+  if (route.value != "") {
     data = JSON.parse(route.value);
     if (!data.hasOwnProperty('waypoints')) {
       data.waypoints = [];
@@ -168,10 +167,9 @@ function initMap_show(element) {
   }
 }
 
-function setroute_and_show_distance(a_map)
-{
+function setroute_and_show_distance(a_map) {
   var wp = [];
-  for(var i=0;i<data.waypoints.length;i++) {
+  for (var i = 0; i < data.waypoints.length; i++) {
     wp[i] = {'location': new google.maps.LatLng(data.waypoints[i][0], data.waypoints[i][1]), 'stopover': true}
   }
 
@@ -185,22 +183,22 @@ function setroute_and_show_distance(a_map)
   }
 
   directionsService.route({
-    'origin':data.source,
-    'destination':data.destination,
+    'origin': data.source,
+    'destination': data.destination,
     'waypoints': wp,
     'travelMode': google.maps.DirectionsTravelMode.DRIVING,
     transitOptions: {
-    routingPreference: google.maps.TransitRoutePreference.FEWER_TRANSFERS
+      routingPreference: google.maps.TransitRoutePreference.FEWER_TRANSFERS
     },
     optimizeWaypoints: true
-  }, function(response, status) {
+  }, function (response, status) {
     if (status === google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(response);
 
       var route = response.routes[0];
-      for (var i=0;i< route.legs.length;i++){
-        total_distance += (route.legs[i].distance.value)/1000;
-        total_duration += (route.legs[i].duration.value)/60;
+      for (var i = 0; i < route.legs.length; i++) {
+        total_distance += (route.legs[i].distance.value) / 1000;
+        total_duration += (route.legs[i].duration.value) / 60;
       }
 
       var routeInfoStringToBeDisplayed = "";
@@ -222,23 +220,22 @@ function setroute_and_show_distance(a_map)
   });
 }
 
-function setroute()
-{
+function setroute() {
   var wp = [];
-  for(var i=0;i<data.waypoints.length;i++) {
+  for (var i = 0; i < data.waypoints.length; i++) {
     wp[i] = {'location': new google.maps.LatLng(data.waypoints[i][0], data.waypoints[i][1]), 'stopover': true}
   }
 
   directionsService.route({
-    'origin':data.source,
-    'destination':data.destination,
+    'origin': data.source,
+    'destination': data.destination,
     'waypoints': wp,
     'travelMode': google.maps.DirectionsTravelMode.DRIVING,
     transitOptions: {
-    routingPreference: google.maps.TransitRoutePreference.FEWER_TRANSFERS
+      routingPreference: google.maps.TransitRoutePreference.FEWER_TRANSFERS
     },
     optimizeWaypoints: true
-  }, function(response, status) {
+  }, function (response, status) {
     if (status === google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(response);
     } else {
@@ -247,7 +244,7 @@ function setroute()
   });
 }
 
-function setMap(a_map,zoom) {
+function setMap(a_map, zoom) {
   var map = new google.maps.Map(a_map, {zoom: zoom, scrollwheel: false, center: {lat: 12.9287258, lng: 77.6267284}});
   directionsService = new google.maps.DirectionsService;
   directionsDisplay = new google.maps.DirectionsRenderer({
@@ -258,45 +255,41 @@ function setMap(a_map,zoom) {
 }
 
 var CabPoolListenerPassenger = {
-    addListeners: function () {
-        var select_tag = $('div.passengersForm').html();
-        $('div.passengersForm:first').remove();
-        $('#addPassenger').click(function () {
-            var number_of_people = $("div.passengersForm").length + $('label#userName').length;
-            if (number_of_people <= 3) {
-                var passenger_form_with_remove_icon = '<div class="form-group"> ' +
-                    '<div class="passengersForm">' + select_tag + '</div> ' +
-                    '<button id="removeNewPassenger">-</button>' +
-                    '</div>';
-                $('div#passengersSelection').append(passenger_form_with_remove_icon);
-                var select_the_last_passenger_form = $('div.passengersForm:last > select');
-                select_the_last_passenger_form.attr('name', 'passengers[' + $.now() + ']');
-                select_the_last_passenger_form.selectize();
+  addListeners: function () {
+    var select_tag = $('div.newPassengerInputTemplate').html();
+    $('div.newPassengerInputTemplate').remove();
 
-                if (number_of_people == 3) {
-                    $(this).hide();
-                }
-            }
-          return false;
-        });
+    $('div.passengersForm > select').each(function () {
+      $(this).attr('name', 'passengers[' + $.now() + ']');
+      $(this).selectize();
+    });
 
-        $("div#passengersSelection").on('click', '#removeNewPassenger', function () {
-            $(this).closest('.form-group').remove();
-            var number_of_locality_forms = $("div.passengersForm").length + $('label#userName').length;
-            var add_locality_count = $("#addPassenger").length;
-            if (number_of_locality_forms <= 3 && $('#addPassenger').is(':hidden')) {
-                $('#addPassenger').show();
-            }
-          return false;
-        });
+    $('#addPassenger').click(function () {
+      var number_of_people = $("div.passengersForm").length;
+      if (number_of_people <= 3) {
+        var passenger_form_with_remove_icon = '<div class="form-group"> ' +
+            '<div class="passengersForm">' + select_tag + '</div> ' +
+            '<button id="removePassenger">-</button>' +
+            '</div>';
+        $('div#passengersSelection').append(passenger_form_with_remove_icon);
+        var select_the_last_passenger_form = $('div.passengersForm:last > select');
+        select_the_last_passenger_form.attr('name', 'passengers[' + $.now() + ']');
+        select_the_last_passenger_form.selectize();
 
-        $('div#passenger').on('click', '#removePassenger', function() {
-          $(this).closest('#userName').remove();
-          var number_of_locality_forms = $("div.passengersForm").length + $('label#userName').length;
-          var add_locality_count = $("#addPassenger").length;
-          if (number_of_locality_forms <= 3 && $('#addPassenger').is(':hidden')) {
-            $('#addPassenger').show();
-          }
-        });
-    }
+        if (number_of_people == 3) {
+          $(this).hide();
+        }
+      }
+      return false;
+    });
+
+    $('#passengersSelection').on('click', '#removePassenger', function () {
+      $(this).closest('.form-group').remove();
+      var number_of_passenger_forms = $("div.passengersForm").length;
+      if (number_of_passenger_forms <= 3 && $('#addPassenger').is(':hidden')) {
+        $('#addPassenger').show();
+      }
+      return false;
+    });
+  }
 };

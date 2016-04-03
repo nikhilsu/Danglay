@@ -12,24 +12,14 @@ class Admin::CabpoolsController < Admin::AdminController
   def create
     @cabpool = Cabpool.new(cabpool_params)
     add_localities_to_cabpool
-    add_users_to_cabpool
-    if (no_passengers_added?)
-      flash.now[:danger] = "Please add some people to the cab"
-      render 'admin/cabpools/new'
-    elsif (passengers_are_greater_than_capacity?)
-      flash.now[:danger] = "Number of people are more than the capacity of the cab"
-      render 'admin/cabpools/new'
-    elsif (same_passenger_added_multiple_times?)
-      flash.now[:danger] = "Same passenger cannot added multiple number of times"
-      render 'admin/cabpools/new'
-    else
+    if no_passengers_edge_case_violation?
+      add_or_update_users_to_cabpool
       if @cabpool.save
         send_email_to_cabpool_users @cabpool
-        redirect_to '/admin'
-      else
-        render 'admin/cabpools/new'
+        redirect_to '/admin' and return
       end
     end
+    render 'admin/cabpools/new'
   end
 
   def edit
@@ -39,25 +29,19 @@ class Admin::CabpoolsController < Admin::AdminController
   def update
     @cabpool = Cabpool.find(params[:id])
     @cabpool.remarks = params[:cabpool][:remarks]
-    members_before_cabpool_update = []
-    @cabpool.users.each do |user|
-      members_before_cabpool_update << user
-    end
-    if !edit_users_to_cabpool
-      flash[:danger] = "Number of people are more than the capacity of the cab"
-      redirect_to "/admin_cabpool/#{params[:id]}/edit"
-    else
-      if @cabpool.users.empty?
-        destroy @cabpool
-        flash[:success] = "Cabpool has been Deleted"
-        redirect_to '/admin'
-      elsif @cabpool.save
+    @cabpool.number_of_people = params[:cabpool][:number_of_people]
+    members_before_cabpool_update = get_members_before_cabpool_update
+    if no_passengers_edge_case_violation?
+      add_or_update_users_to_cabpool
+      if @cabpool.save
         send_email_to_cabpool_users_about_cabpool_update(@cabpool, members_before_cabpool_update)
         flash[:success] = "Cabpool has been Updated"
-        redirect_to '/admin'
+        redirect_to '/admin' and return
       end
     end
+    render 'edit'
   end
+
 
   def delete
     cabpool = Cabpool.find(params[:id])
@@ -67,6 +51,22 @@ class Admin::CabpoolsController < Admin::AdminController
   end
 
   private
+
+  def no_passengers_edge_case_violation?
+    if (no_passengers_added?)
+      flash.now[:danger] = 'Please add some people to the cab'
+      # @cabpool.errors[:passengers] = 'Please add some people to the cab'
+    elsif (passengers_are_greater_than_capacity?)
+      flash.now[:danger] = 'Number of people are more than the capacity of the cab'
+      # @cabpool.errors[:passengers] = 'Number of people are more than the capacity of the cab'
+    elsif (same_passenger_added_multiple_times?)
+      flash.now[:danger] = 'Same passenger cannot be added multiple times'
+      # @cabpool.errors[:passengers] = 'Same passenger cannot be added multiple times'
+    else
+      return true
+    end
+    return false
+  end
 
   def destroy cabpool
     cabpool.users.clear
@@ -87,7 +87,7 @@ class Admin::CabpoolsController < Admin::AdminController
     end
   end
 
-  def add_users_to_cabpool
+  def add_or_update_users_to_cabpool
     users = []
     if params[:passengers] != nil
       params[:passengers].values.each do |user_id|
@@ -96,6 +96,14 @@ class Admin::CabpoolsController < Admin::AdminController
       end
     end
     @cabpool.users = users
+  end
+
+  def get_members_before_cabpool_update
+    members = []
+    @cabpool.users.each do |user|
+      members << user
+    end
+    return members
   end
 
   def no_passengers_added?
@@ -109,29 +117,6 @@ class Admin::CabpoolsController < Admin::AdminController
   def same_passenger_added_multiple_times?
     passengers = params[:passengers].values
     passengers.uniq.length != passengers.length
-  end
-
-  def edit_users_to_cabpool
-    users = []
-    if params[:passengers] != nil
-      params[:passengers].values.each do |user_id|
-        user = User.find_by_id(user_id)
-        users << user if !user.nil?
-      end
-    end
-
-    (1..@cabpool.number_of_people).each do |counter|
-      param_key = "oldPassenger#{counter}"
-      if params[param_key] != nil
-        user = User.find_by_id(params[param_key])
-        users << user if !user.nil?
-      end
-    end
-    if users.length <= @cabpool.number_of_people
-      @cabpool.users = users
-    else
-      false
-    end
   end
 
   def send_email_to_cabpool_users cabpool

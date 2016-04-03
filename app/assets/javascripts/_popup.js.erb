@@ -1,12 +1,5 @@
 var should_submit = false;
 
-function popup_confirmation_if_cabpool_has_no_passengers(form, text){
-  var number_of_passengers_in_pool = $('#passenger').children().length;
-  if (number_of_passengers_in_pool == 0){
-    return popup_confirmation(form, text);
-  }
-  else return true;
-}
 
 function popup_confirmation(form, text) {
   if (should_submit)
