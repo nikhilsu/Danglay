@@ -264,8 +264,17 @@ var CabPoolListenerPassenger = {
       $(this).selectize();
     });
 
+    hideAddPassengerButtonIfLimitExceeds($('div.passengersForm').length);
+
+    function hideAddPassengerButtonIfLimitExceeds(number_of_people, limit) {
+      if (number_of_people == 4) {
+        $('#addPassenger').hide();
+        $('.label-name').text('Passenger limit exceeded, cannot add more.');
+      }
+    }
+
     $('#addPassenger').click(function () {
-      var number_of_people = $("div.passengersForm").length;
+      var number_of_people = $('div.passengersForm').length;
       if (number_of_people <= 3) {
         var passenger_form_with_remove_icon = '<div class="form-group"> ' +
             '<div class="passengersForm">' + select_tag + '</div> ' +
@@ -276,9 +285,7 @@ var CabPoolListenerPassenger = {
         select_the_last_passenger_form.attr('name', 'passengers[' + $.now() + ']');
         select_the_last_passenger_form.selectize();
 
-        if (number_of_people == 3) {
-          $(this).hide();
-        }
+        hideAddPassengerButtonIfLimitExceeds($('div.passengersForm').length);
       }
       return false;
     });
@@ -288,6 +295,7 @@ var CabPoolListenerPassenger = {
       var number_of_passenger_forms = $("div.passengersForm").length;
       if (number_of_passenger_forms <= 3 && $('#addPassenger').is(':hidden')) {
         $('#addPassenger').show();
+        $('.label-name').text('Add a passenger');
       }
       return false;
     });
