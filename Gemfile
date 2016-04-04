@@ -29,6 +29,7 @@ gem 'selectize-rails'
 gem 'font-awesome-sass'
 
 group :development, :test do
+  gem 'bundler-audit'
   gem 'byebug',      '3.4.0'
   gem 'web-console', '2.1.3'
   gem 'rspec-rails'

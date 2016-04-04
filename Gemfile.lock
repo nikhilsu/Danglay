@@ -48,6 +48,9 @@ GEM
       will_paginate
     bootstrap_form (2.3.0)
     builder (3.2.2)
+    bundler-audit (0.5.0)
+      bundler (~> 1.2)
+      thor (~> 0.18)
     byebug (3.4.0)
       columnize (~> 0.8)
       debugger-linecache (~> 1.2)
@@ -424,6 +427,7 @@ DEPENDENCIES
   bootstrap-sass (= 3.2.0.0)
   bootstrap-will_paginate (= 0.0.10)
   bootstrap_form
+  bundler-audit
   byebug (= 3.4.0)
   capybara
   carrierwave (= 0.10.0)
