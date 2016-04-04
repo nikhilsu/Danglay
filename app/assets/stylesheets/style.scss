@@ -258,7 +258,6 @@ header {
   }
   textarea {
     width: 100%;
-    display: block;
     max-width: 300px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
@@ -291,6 +290,9 @@ header {
   div.full-width-selectize {
     span.help-block {
       display: inline-block;
+      @media screen and (max-width: 1023px){
+        display: block;
+      }
       height: 35px;
       vertical-align: middle;
       line-height: 0.5em;
@@ -323,7 +325,7 @@ header {
       padding: 6px 13px 10px;
       line-height: 1;
       position: absolute;
-      right: 0px;
+      right: 0;
     }
     .label-name {
       float: left;
@@ -1347,6 +1349,9 @@ input, textarea {
 
 .help-block {
   color: #CE5050;
+  @media screen and (max-width: 1023px) {
+    display: block;
+  }
   margin-left: 10px;
 }
 
