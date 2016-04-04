@@ -44,7 +44,7 @@
 
             <div class="form-group">
               <label class="label-blue" for="user_locality">Route :-</label>
-              <label class="label-blue" for="user_locality">Point A</label>
+              <label class="label-blue" for="user_locality">Start Point</label>
               <span class="label-name" id="locality"> <%= User.find_by_email(session[:Email]).locality.name %> </span>
               <div class="hideable">
                 <%= hidden_field_tag 'localities[source]', User.find_by_email(session[:Email]).locality.id %>
@@ -60,7 +60,7 @@
             <div id="localitySelections"></div>
 
             <div class="form-group">
-              <label class="label-blue" for="user_locality">Point B</label>
+              <label class="label-blue" for="user_locality">End Point</label>
               <span class="label-name">ThoughtWorks Inc.</span>
             </div>
             <%= f.submit "Create a pool", class: "btn-submit", id: "submit_button" %>
