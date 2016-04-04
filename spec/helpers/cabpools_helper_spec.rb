@@ -98,10 +98,11 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    cabpool = build(:cabpool)
-    user.cabpool = cabpool
+    users_cabpool = Cabpool.first
+    user.cabpool = users_cabpool
     allow(User).to receive(:find_by_email).and_return(user)
-    expect(cabpools_to_render(Cabpool.all)).to_not include cabpool
+
+    expect(cabpools_to_render(Cabpool.all)).to_not include users_cabpool
   end
 
   it "should render all cabpools if current user has no cabpool" do
@@ -110,11 +111,11 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
-    cabpool = build(:cabpool)
     allow(User).to receive(:find_by_email).and_return(user)
     allow(user).to receive(:requested_cabpools).and_return([])
-    allow(Cabpool).to receive(:all).and_return([cabpool])
-    expect(cabpools_to_render(Cabpool.all)).to include cabpool
+    all_cabpools = Cabpool.all
+
+    expect(cabpools_to_render(all_cabpools)).to eq all_cabpools
   end
 
   it "should return requested cabpool of current user" do
@@ -173,18 +174,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     allow(User).to receive(:find_by_email).and_return(user)
 
     expect(received_response_for_cabpool_request?).to be true
-  end
-
-  it "should render all cabpools except the requested cabpool" do
-    user = build(:user)
-    names = user.name.split(' ')
-    session[:FirstName] = names[0]
-    session[:LastName] = names[1]
-    session[:Email] = user.email
-    cabpool = build(:cabpool)
-    user.requested_cabpools = [cabpool]
-    allow(User).to receive(:find_by_email).and_return(user)
-    expect(cabpools_to_render(Cabpool.all)).to_not include cabpool
   end
 
   it 'should return no button if user is not registered and no available slots' do

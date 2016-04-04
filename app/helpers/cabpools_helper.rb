@@ -91,13 +91,7 @@ module CabpoolsHelper
     if user_cabpool_exists?
       cabpools = cabpools.reject { |cabpool| cabpool.id == users_cabpool.id }
     end
-    if user_requested_cabpool_exists?
-      requested_cabpools = users_requested_cabpool
-      requested_cabpools.each do |requested_cabpool|
-        cabpools = cabpools.reject { |cabpool| cabpool.id == requested_cabpool.id }
-      end
-    end
-    cabpools
+    return cabpools
   end
 
   def cabpool_types_for_user

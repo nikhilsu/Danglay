@@ -59,7 +59,7 @@ class CabpoolsController < ApplicationController
     joining_cabpool = Cabpool.find_by_id(id)
     requesting_user = User.find_by_email(session[:Email])
     if joining_cabpool.available_slots > 0
-      flash[:success] = "Join Request Sent! Please check the 'MyRide' tab for details"
+      flash[:success] = "Join Request Sent!"
       request = Request.create(user: requesting_user, cabpool: joining_cabpool)
       if joining_cabpool.cabpool_type.name == 'Company provided Cab'
         send_email_to_admins_for_join_request(joining_cabpool, current_user, request.approve_digest)
@@ -275,7 +275,7 @@ class CabpoolsController < ApplicationController
   end
 
   def has_cabpool_or_request
-    if current_user.cabpool.nil? && current_user.requested_cabpools.empty?
+    if current_user.cabpool.nil?
       redirect_to root_path
       flash[:danger] = "You are not part of any cab pool. Please create or join a cab pool."
     end

@@ -143,7 +143,7 @@ RSpec.describe CabpoolsController, type: :controller do
     post :join, cabpool: {id: cabpool.id}
     expect(response).to redirect_to root_path
 
-    expect(flash[:success]).to eq "Join Request Sent! Please check the 'MyRide' tab for details"
+    expect(flash[:success]).to eq 'Join Request Sent!'
     expect(user.requests.count).to eq 1
   end
 
