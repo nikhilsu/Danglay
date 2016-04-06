@@ -1083,11 +1083,15 @@ input, textarea {
   }
 }
 
-@media only screen and (max-width: 2160px) {
-  .plain-text {
-    div {
-      margin-left: 100px;
-      margin-right: 100px;
+.plain-text {
+  padding: 10px;
+  p {
+    color: #666666;
+    font-size: 14px;
+    line-height: 1.6;
+
+    a {
+      color: $calm;
     }
   }
 }
@@ -1107,12 +1111,6 @@ input, textarea {
 
   .pool-list ul li .pool-title .view-details {
     display: none;
-  }
-  .plain-text {
-    div {
-      margin-left: 90px;
-      margin-right: 90px;
-    }
   }
 }
 
@@ -1258,12 +1256,6 @@ input, textarea {
       padding: 8px;
     }
   }
-  .plain-text {
-    div {
-      margin-left: 60px;
-      margin-right: 60px;
-    }
-  }
 }
 
 @media only screen and (max-width: 470px) {
@@ -1348,11 +1340,6 @@ input, textarea {
 
   footer {
     padding: 15px 0 0;
-  .plain-text {
-    div {
-      margin-left: 15px;
-      margin-right: 15px;
-    }
   }
 }
 
@@ -1368,16 +1355,6 @@ input, textarea {
     display: block;
   }
   margin-left: 10px;
-}
-
-.plain-text {
-  line-height: 1.5em;
-  div {
-    p {
-      margin: 1em;
-      text-align: justify;
-    }
-  }
 }
 
 .alert {
@@ -1405,7 +1382,8 @@ div h1 {
 }
 
 .sub-heading {
-  padding: 15px;
+  padding: 25px 0 10px;
+  color: #444444;
 }
 
 /* Miscellaneous */
