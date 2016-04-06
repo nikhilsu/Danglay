@@ -458,7 +458,7 @@ label.label-blue {
 .sub-header {
   background-color: #647482;
   background-image:url(image-path('default-secondary-banner.jpg'));
-  background-position: 0 67%;
+  background-position: 0 30%;
   padding: 25px 0;
   background-size: cover;
   position: relative;
@@ -524,7 +524,7 @@ label.label-blue {
     position: relative;
 
     @media screen and (min-width: 768px) {
-      padding: 50px 15px 70px;
+      padding: 50px 15px 90px;
     }
   }
 
@@ -552,7 +552,8 @@ label.label-blue {
         padding: 8px 20px;
 
         @media screen and (min-width: 768px) {
-          padding: 10px 40px;
+          padding: 15px 35px;
+          font-size: 14px;
         }
       }
 
