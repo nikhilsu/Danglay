@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   post 'reject_via_notification' => 'cabpools#reject_via_notification'
   get 'your_cabpools' => 'cabpools#your_cabpools'
   get 'edit' => 'users#edit'
+  get 'user_show' => 'users#show'
   get 'admin' => 'admin/cabpools#show'
   get 'admin_user_new' => "admin/users#new"
   post 'admin_user_create' => "admin/users#create"

@@ -1,5 +1,9 @@
 <% provide(:title, @user.name) %>
-<h1><%= @user.name %></h1>
-<h3><%= @user.email %></h3>
-<h4><%= @user.address %></h4>
-<h5><%= @user.locality.name %></h5>
+<% provide(:banner) do %>
+    <%= render partial: 'layouts/secondary_banner',
+               object: { banner_heading: @user.name }%>
+<% end %>
+<h3>Employee ID : <%= @user.emp_id %></h3>
+<h3>Email : <%= @user.email %></h3>
+<h3>Address : <%= @user.address %></h3>
+<h3>Locality : <%= @user.locality.name %></h3>

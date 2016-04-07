@@ -36,7 +36,7 @@
           <% cabpool.users.each do |user| %>
               <tr>
                 <td><%= user.emp_id %></td>
-                <td><%= user.name %></td>
+                <td><%= link_to user.name, user_show_path(id: user.id) , class: 'user-profile-link'%></td>
                 <td><%= user.phone_no %></td>
               </tr>
           <% end %>
