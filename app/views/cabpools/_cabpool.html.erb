@@ -27,16 +27,16 @@
         <table class="table">
           <thead>
           <tr>
-            <th>Emp ID</th>
             <th>Name</th>
+            <th>Emp ID</th>
             <th>Contact</th>
           </tr>
           </thead>
           <tbody>
           <% cabpool.users.each do |user| %>
               <tr>
+                <td><a href="<%= user_show_path(id: user.id) %>" class="user-profile-link"><i class="fa fa-user"></i><%= user.name %></a></td>
                 <td><%= user.emp_id %></td>
-                <td><%= link_to user.name, user_show_path(id: user.id) , class: 'user-profile-link'%></td>
                 <td><%= user.phone_no %></td>
               </tr>
           <% end %>

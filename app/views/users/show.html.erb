@@ -7,3 +7,5 @@
 <h3>Email : <%= @user.email %></h3>
 <h3>Address : <%= @user.address %></h3>
 <h3>Locality : <%= @user.locality.name %></h3>
+
+<%= link_to 'For more information (Jigsaw)', "https://jigsaw.thoughtworks.com/consultants/#{@user.email.split('@')[0]}", target: '_blank'%>
