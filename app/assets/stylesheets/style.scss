@@ -1461,3 +1461,10 @@ label.required:after {
     color: $calm;
   }
 }
+
+.additional-information-link {
+  text-decoration: none;
+  img{
+    margin: 50px;
+  }
+}

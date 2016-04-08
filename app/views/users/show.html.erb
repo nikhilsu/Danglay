@@ -7,5 +7,14 @@
 <h3>Email : <%= @user.email %></h3>
 <h3>Address : <%= @user.address %></h3>
 <h3>Locality : <%= @user.locality.name %></h3>
+<a href="https://jigsaw.thoughtworks.com/consultants/<%=@user.email.split('@')[0]%>" target="_blank" class="additional-information-link">
+  <%= image_tag('jigsaw-icon.png') %>
+</a>
 
-<%= link_to 'For more information (Jigsaw)', "https://jigsaw.thoughtworks.com/consultants/#{@user.email.split('@')[0]}", target: '_blank'%>
+<a href="https://contacts.thoughtworks.com/searchUser?searchQuery=<%=@user.email.split('@')[0]%>" target="_blank" class="additional-information-link">
+  <%= image_tag('contacts-icon.png') %>
+</a>
+
+<a href="https://thoughtworks.jiveon.com/people/<%=@user.email.split('@')[0]%>" target="_blank" class="additional-information-link">
+  <%= image_tag('my-tw-icon.png') %>
+</a>
