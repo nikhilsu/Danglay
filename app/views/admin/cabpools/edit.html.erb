@@ -52,7 +52,7 @@
         <%= render 'shared/error_messages', errors: @cabpool.errors[:remarks] if !@cabpool.errors[:remarks].empty? %>
         <%= hidden_field_tag 'id', @cabpool.id %>
         <%= hidden_field_tag 'route', @cabpool.route %>
-        <%= f.submit "Update pool", class: "btn-submit" %>
+        <%= f.submit "Update pool", class: 'btn-submit' %>
       </div>
   <% end %>
   <div class="col-50">
