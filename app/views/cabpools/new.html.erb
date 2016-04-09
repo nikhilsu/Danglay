@@ -28,8 +28,10 @@
               </div>
             </div>
             <label class="hideable required" for="capacity_of_cab"> Capacity of Cab </label>
-            <%= f.text_field :number_of_people, class: "hideable" %>
-            <%= render 'shared/error_messages', errors: @cabpool.errors[:number_of_people] if !@cabpool.errors[:number_of_people].empty? %>
+            <div class="hideable">
+              <%= f.text_field :number_of_people %>
+              <%= render 'shared/error_messages', errors: @cabpool.errors[:number_of_people] if !@cabpool.errors[:number_of_people].empty? %>
+            </div>
             <label class="required" for="timein"> Arrival Time To Office </label>
             <%= f.time_field :timein, placeholder: 'HH:MM (24Hr format)' %>
             <%= render 'shared/error_messages', errors: @cabpool.errors[:timein] if !@cabpool.errors[:timein].empty? %>
