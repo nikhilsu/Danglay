@@ -12,7 +12,7 @@ var registerEventHandlers = function () {
     $(this).toggleClass('grey-bg');
     if ($(this).hasClass('grey-bg')) {
       $('> .col-20 > span.view-details', this).text('Close');
-      initMap_show($(this).next('.pool-description').find('div.map-wrap'));
+      initMap_show($(this).next('.pool-description').find('div.map-wrap'), false);
     }
     else {
       $('> .col-20 > span.view-details', this).text('View details');

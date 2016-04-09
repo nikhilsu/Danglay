@@ -5,7 +5,7 @@ var registerEventHandlers = function () {
     var mapWrap = $('.enlarged-map-view').find('div.map-wrap');
     $('.fullscreen > .map-wrap> input#route').remove();
     mapWrap.append(route[0]);
-    initMap_show(mapWrap);
+    initMap_show(mapWrap, true);
   });
 
 //close modal

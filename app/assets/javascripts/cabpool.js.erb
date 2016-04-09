@@ -147,11 +147,12 @@ function updateWaypoints() {
   document.getElementById('cabpool_route').value = JSON_STRING;
 }
 
-function initMap_show(element) {
+function initMap_show(element, scrollWheel) {
   var a_map, route;
   if (!element) {
     a_map = document.getElementById('map');
     route = document.getElementById('route');
+    scrollWheel = false;
   }
   else {
     a_map = element.find('#map')[0];
@@ -163,7 +164,7 @@ function initMap_show(element) {
       data.waypoints = [];
     }
     var zoom_level = 14;
-    setMap(a_map, zoom_level);
+    setMap(a_map, zoom_level, scrollWheel);
   }
 }
 
@@ -245,8 +246,8 @@ function setroute() {
   });
 }
 
-function setMap(a_map, zoom) {
-  var map = new google.maps.Map(a_map, {zoom: zoom, scrollwheel: false, center: {lat: 12.9287258, lng: 77.6267284}});
+function setMap(a_map, zoom, scrollWheel) {
+  var map = new google.maps.Map(a_map, {zoom: zoom, scrollwheel: scrollWheel, center: {lat: 12.9287258, lng: 77.6267284}});
   directionsService = new google.maps.DirectionsService;
   directionsDisplay = new google.maps.DirectionsRenderer({
     draggable: false,
