@@ -1,0 +1,28 @@
+var registerEventHandlers = function () {
+  $('.map-wrap').on('click', '.open-map', function () {
+    var route = $(this).parent().find('input#route');
+    $('.enlarged-map-view').addClass('is-visible');
+    var mapWrap = $('.enlarged-map-view').find('div.map-wrap');
+    mapWrap.append(route[0]);
+    initMap_show(mapWrap);
+  });
+
+//close modal
+  $('.modal').on('click', function(event){
+    if( $(event.target).is('.modal-close') || $(event.target).is('.modal') || $(event.target).is('#no')) {
+      event.preventDefault();
+      $(this).removeClass('is-visible');
+    }
+  });
+
+//close modal when clicking the esc keyboard button
+  $(document).keyup(function(event){
+    if(event.which=='27'){
+      $('.modal').removeClass('is-visible');
+    }
+  });
+};
+
+$(document).ready(registerEventHandlers);
+$(document).on("page:load", registerEventHandlers);
+

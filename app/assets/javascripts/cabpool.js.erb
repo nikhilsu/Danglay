@@ -154,8 +154,8 @@ function initMap_show(element) {
     route = document.getElementById('route');
   }
   else {
-    a_map = element.children()[1];
-    route = element.children()[0];
+    a_map = element.find('#map')[0];
+    route = element.find('#route')[0];
   }
   if (route.value != "") {
     data = JSON.parse(route.value);
@@ -212,7 +212,8 @@ function setroute_and_show_distance(a_map) {
 
       var elementNodeOfMap = a_map.parentNode;
       var divToShowRouteInfo = elementNodeOfMap.getElementsByClassName('route-info')[0];
-      divToShowRouteInfo.innerHTML = routeInfoStringToBeDisplayed;
+      if (divToShowRouteInfo)
+        divToShowRouteInfo.innerHTML = routeInfoStringToBeDisplayed;
 
     } else {
       alert('Could not display directions due to: ' + status);

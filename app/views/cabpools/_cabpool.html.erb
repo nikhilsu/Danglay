@@ -60,6 +60,9 @@
         <div class="map-wrap">
           <%= hidden_field_tag 'route', cabpool.route %>
           <div id="map" class="map_show pull-right"></div>
+
+          <button class="open-map">FullScreen</button>
+
           <div class="route-info"></div>
           <% if button(cabpool) == "Leave Ride" %>
               <%= form_for(cabpool, url: 'leave_cabpool', method: 'post', :html => {onsubmit: "return popup_confirmation(this, 'Are you sure you want to Leave your Cabpool?');"}) do |f| %>

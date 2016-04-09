@@ -390,6 +390,7 @@ header {
   .btn-submit {
     @include buttons($calm, $white);
     margin-top: 30px;
+    display: block;
   }
 }
 
@@ -918,6 +919,12 @@ footer {
   width: 100%;
 }
 
+.show_full_map {
+  width: 100%;
+  min-height: 650px;
+  height: 100%;
+}
+
 .map {
   height: 400px;
   margin-bottom: 20px;
@@ -966,9 +973,16 @@ input, textarea {
   transition: opacity 0.3s 0s, visibility 0s 0s;
 }
 
+.enlarged-map-view {
 
 }
 
+.enlarged-map-view.is-visible {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition: opacity 0.3s 0s, visibility 0s 0s;
+  -moz-transition: opacity 0.3s 0s, visibility 0s 0s;
+  transition: opacity 0.3s 0s, visibility 0s 0s;
 }
 
 //.modal-container .modal-close::before, .modal-container .modal-close::after
