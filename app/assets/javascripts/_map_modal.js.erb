@@ -3,6 +3,7 @@ var registerEventHandlers = function () {
     var route = $(this).parent().find('input#route');
     $('.enlarged-map-view').addClass('is-visible');
     var mapWrap = $('.enlarged-map-view').find('div.map-wrap');
+    $('.fullscreen > .map-wrap> input#route').remove();
     mapWrap.append(route[0]);
     initMap_show(mapWrap);
   });
