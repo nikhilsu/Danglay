@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   has_many :requested_cabpools, through: :requests, source: :cabpool
   validates_presence_of :emp_id, :name, :email, :address, :locality, :phone_no
   validate :validate_phone_no
-  validates :emp_id, length: { minimum: 4, maximum:10 },  :numericality => true
+  validates :emp_id, length: { minimum: 4, maximum:10 },  :numericality => true, uniqueness: true
   attr_readonly :emp_id
 
   private

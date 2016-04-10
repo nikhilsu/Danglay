@@ -169,9 +169,12 @@ RSpec.describe CabpoolsController, type: :controller do
     post :create, :cabpool => {number_of_people: 4, timein: "9:30", timeout: "12:30"}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => '1'}
 
     cabpool = assigns(:cabpool)
-    cabpool.users = [build(:user)]
     allow(Cabpool).to receive(:find_by_id).and_return(cabpool)
+    requesting_user = build(:user)
+    allow(User).to receive(:find_by_email).and_return(requesting_user)
+
     post :join, cabpool: {id: cabpool.id}
+
     expect(cabpool.users.count).to eq ActionMailer::Base.deliveries.size
     expect(response).to redirect_to root_path
   end

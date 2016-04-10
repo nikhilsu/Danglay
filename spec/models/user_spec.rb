@@ -18,6 +18,13 @@ RSpec.describe User, type: :model do
     expect(user.valid?).to be false
   end
 
+  it '2 users cannot have the same employee ID' do
+    user_with_an_emp_id = build(:user)
+    user_with_an_emp_id.save
+    user_with_the_same_emp_id = build(:user)
+    expect(user_with_the_same_emp_id.valid?).to be false
+  end
+
   it 'email should not be empty' do
     user = build(:user, :without_email)
     expect(user.valid?).to be false

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :user do
-    emp_id 18091
+    emp_id Faker::Number.between(1111, 999999999)
     name Faker::Name.name
     email Faker::Internet.email
     address Faker::Address.secondary_address
