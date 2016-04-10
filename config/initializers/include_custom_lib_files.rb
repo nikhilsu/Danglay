@@ -1,0 +1,1 @@
+require 'reduce_validator.rb'

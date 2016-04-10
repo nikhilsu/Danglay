@@ -33,6 +33,7 @@ group :development, :test do
   gem 'byebug',      '3.4.0'
   gem 'web-console', '2.1.3'
   gem 'rspec-rails'
+  gem 'rspec-activemodel-mocks'
   gem 'guard-rspec', require: false
   gem 'fuubar'
   gem 'factory_girl_rails'
