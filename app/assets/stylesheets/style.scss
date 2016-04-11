@@ -546,6 +546,11 @@ label.label-blue {
     background-image:url(image-path('response-pages-banner.jpg'));
     background-position: 0 40%;
   }
+
+  &.static-pages {
+    background-image:url(image-path('static-pages-banner.jpg'));
+    background-position: 0 40%;
+  }
 }
 // Admin tab
 .admin-header {
