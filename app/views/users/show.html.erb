@@ -1,20 +1,32 @@
 <% provide(:title, @user.name) %>
 <% provide(:banner) do %>
     <%= render partial: 'layouts/secondary_banner',
-               object: { banner_heading: @user.name }%>
+               object: { banner_heading: @user.name,
+                         banner_paragraph: 'ThoughtWorks, Bangalore'}%>
 <% end %>
-<h3>Employee ID : <%= @user.emp_id %></h3>
-<h3>Email : <%= @user.email %></h3>
-<h3>Address : <%= @user.address %></h3>
-<h3>Locality : <%= @user.locality.name %></h3>
-<a href="https://jigsaw.thoughtworks.com/consultants/<%=@user.email.split('@')[0]%>" target="_blank" class="additional-information-link">
-  <%= image_tag('jigsaw-icon.png') %>
-</a>
 
-<a href="https://contacts.thoughtworks.com/searchUser?searchQuery=<%=@user.email.split('@')[0]%>" target="_blank" class="additional-information-link">
-  <%= image_tag('contacts-icon.png') %>
-</a>
+<section class="user-wrapper">
+  <ul class="user-info">
+    <li><label>Employee ID:</label> <%= @user.emp_id %></li>
+    <li><label>Email:</label> <%= @user.email %></li>
+    <li><label>Address:</label> <%= @user.address %></li>
+    <li><label>Locality:</label> <%= @user.locality.name %></li>
+  </ul>
 
-<a href="https://thoughtworks.jiveon.com/people/<%=@user.email.split('@')[0]%>" target="_blank" class="additional-information-link">
-  <%= image_tag('my-tw-icon.png') %>
-</a>
+  <div class="view-more-info">
+    <h4>Also view on:</h4>
+    <div>
+      <a href="https://jigsaw.thoughtworks.com/consultants/<%=@user.email.split('@')[0]%>" target="_blank">
+        <%= image_tag('jigsaw-icon.png') %>
+      </a>
+
+      <a href="https://contacts.thoughtworks.com/searchUser?searchQuery=<%=@user.email.split('@')[0]%>" target="_blank">
+        <%= image_tag('contacts-icon.png') %>
+      </a>
+
+      <a href="https://thoughtworks.jiveon.com/people/<%=@user.email.split('@')[0]%>" target="_blank">
+        <%= image_tag('my-tw-icon.png') %>
+      </a>
+    </div>
+  </div>
+</section>

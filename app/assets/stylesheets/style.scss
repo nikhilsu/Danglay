@@ -1477,9 +1477,55 @@ label.required:after {
   }
 }
 
-.additional-information-link {
-  text-decoration: none;
-  img{
-    margin: 50px;
+
+/* user profile style */
+
+.user-wrapper {
+  background: #E4E4E4;
+  padding: 3% 2%;
+
+  .user-info {
+    list-style: none;
+
+    li {
+      line-height: 20px;
+      color: #555555;
+    }
+  }
+
+  label {
+    font-weight: 600;
+    color: #333;
+  }
+
+  .view-more-info {
+    border-top: 1px solid #B7B4B4;
+    margin-top: 30px;
+    display: table;
+    width: 100%;
+
+    h4 {
+      border-top: 1px solid #FFFFFF;
+      padding-top: 30px;
+      font-size: 20px;
+      font-weight: 300;
+      padding-bottom: 5px;
+    }
+    div{
+      width: 100%;
+      max-width: 480px;
+      a {
+        display: inline-block;
+        float: left;
+        width: 33%;
+
+        img {
+          width: 80%;
+        }
+      }
+      @media screen and (max-width: 470px) {
+        max-width: 320px;
+      }
+    }
   }
 }
