@@ -13,40 +13,79 @@ RSpec.describe CabpoolsController, type: :controller do
     ActionMailer::Base.deliveries.clear
   end
 
-  it 'should get the show page' do
+  it 'should get the show page with a paginated list of all the cabpools' do
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
+    cabpool = build(:cabpool)
+    another_cabpool = build(:cabpool, :with_remarks)
+    all_cabpools = [cabpool, another_cabpool]
+
+    expect(Cabpool).to receive(:all).and_return(all_cabpools)
+    expect_any_instance_of(CabpoolsHelper).to receive(:cabpools_to_render).with(array_including(cabpool, another_cabpool)).and_return(all_cabpools)
+    expect_any_instance_of(CabpoolsHelper).to receive(:sort_by_available_slots).and_return(all_cabpools)
+    expect(all_cabpools).to receive(:paginate).and_return(all_cabpools)
+
     get :show
+
     expect(response).to render_template('show')
+    expect(assigns(:cabpools)).to eq all_cabpools
   end
 
-  it 'render home page with filtered results post to show' do
+  it 'render home page with filtered list of paginated cabpools when a particular locality is posted to show action' do
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
     cabpool = build(:cabpool, :without_localities)
-    locality = create(:locality, name: Faker::Address.street_name)
-    cabpool.localities << locality
+    locality = build(:locality, name: Faker::Address.street_name)
+    cabpools_of_a_particular_locality = [cabpool]
     locality.cabpools << cabpool
+
+    expect(Locality).to receive(:find_by_id).with(locality.id).and_return(locality)
+    expect_any_instance_of(CabpoolsHelper).to receive(:cabpools_to_render).with(array_including(cabpool)).and_return(cabpools_of_a_particular_locality)
+    expect_any_instance_of(CabpoolsHelper).to receive(:sort_by_available_slots).and_return(cabpools_of_a_particular_locality)
+    expect(cabpools_of_a_particular_locality).to receive(:paginate).and_return(cabpools_of_a_particular_locality)
+
     post :show, localities: {locality_id: locality.id}
+
     expect(response).to render_template('show')
-    expect(flash.empty?).to be true
+    expect(assigns(:cabpools)).to eq cabpools_of_a_particular_locality
   end
 
-  it 'render home page with all cabpools and flash if no cabs for searched locality' do
+  it 'render home page with no cabpools if the searched locality does not have any cabpools' do
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
-    cabpool = build(:cabpool, :without_localities)
-    locality = Locality.create(name: Faker::Address.street_address)
-    cabpool.localities << locality
+    locality = build(:locality, name: Faker::Address.street_name)
+    locality.cabpools.clear
+    cabpools_for_the_searched_locality = []
+
+    expect(Locality).to receive(:find_by_id).with(locality.id).and_return(locality)
+    expect_any_instance_of(CabpoolsHelper).to receive(:cabpools_to_render).with(array_including()).and_return(cabpools_for_the_searched_locality)
+    expect_any_instance_of(CabpoolsHelper).to receive(:sort_by_available_slots).and_return(cabpools_for_the_searched_locality)
+    expect(cabpools_for_the_searched_locality).to receive(:paginate).and_return(cabpools_for_the_searched_locality)
+
     post :show, localities: { locality_id: locality.id }
+
+    expect(assigns(:cabpools)).to eq cabpools_for_the_searched_locality
     expect(response).to render_template('show')
   end
 
   it 'render home page with all cabpools and flash if no locality selected' do
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
+    cabpool = build(:cabpool)
+    another_cabpool = build(:cabpool, :with_remarks)
+    all_cabpools = [cabpool, another_cabpool]
+    no_locality = nil
+
+    expect(Locality).to receive(:find_by_id).with('').and_return(no_locality)
+    expect(Cabpool).to receive(:all).and_return(all_cabpools)
+    expect_any_instance_of(CabpoolsHelper).to receive(:cabpools_to_render).with(array_including(cabpool, another_cabpool)).and_return(all_cabpools)
+    expect_any_instance_of(CabpoolsHelper).to receive(:sort_by_available_slots).and_return(all_cabpools)
+    expect(all_cabpools).to receive(:paginate).and_return(all_cabpools)
+
     post :show, localities: { locality_id: '' }
+
     expect(response).to render_template('show')
+    expect(assigns(:cabpools)).to eq all_cabpools
     expect(flash[:danger]).to eq "Select a locality"
   end
 

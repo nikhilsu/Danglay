@@ -88,6 +88,7 @@ class CabpoolsController < ApplicationController
       end
     end
     @cabpools = sort_by_available_slots @cabpools
+    @cabpools = @cabpools.paginate(page: params[:page], :per_page => 10)
   end
 
   def your_cabpools
