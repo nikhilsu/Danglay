@@ -8,7 +8,7 @@ FactoryGirl.define do
     end
 
     trait :without_name do
-      name ""
+      name ''
     end
   end
 end

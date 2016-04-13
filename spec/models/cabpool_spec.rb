@@ -97,16 +97,6 @@ RSpec.describe Cabpool, type: :model do
     expect(cabpool.available_slots).to eq 4
   end
 
-  it 'should show localities in order' do
-    cabpool = build(:cabpool, :without_localities)
-    locality1 = create(:locality, name: "L1")
-    locality2 = create(:locality, name: "L2")
-    locality3 = create(:locality, name: "L3")
-    cabpool.localities = [locality3, locality2, locality1]
-    cabpool.save
-    expect(cabpool.ordered_localities).to eq [locality3, locality2, locality1]
-  end
-
   it 'users should not be empty' do
       cabpool = build(:cabpool, :without_users)
       expect(cabpool.users.length).to eq 0
@@ -119,4 +109,34 @@ RSpec.describe Cabpool, type: :model do
       expect(cabpool.valid?).to be false
   end
 
+
+  describe 'Order of localities' do
+    before(:all) do
+      @locality1 = create(:locality, name: 'L1')
+      @locality2 = create(:locality, name: 'L2')
+      @locality3 = create(:locality, name: 'L3')
+    end
+
+    before(:each) do
+      @cabpool = build(:cabpool, :without_localities)
+    end
+
+    it 'should be L3 L2 L1 when assigned to the cabpool in the same way' do
+      @cabpool.localities = [@locality3, @locality2, @locality1]
+      @cabpool.save
+      expect(@cabpool.ordered_localities).to eq [@locality3, @locality2, @locality1]
+    end
+
+    it 'should be L1 L2 L3 when assigned to the cabpool in the same way' do
+      @cabpool.localities = [@locality1, @locality2, @locality3]
+      @cabpool.save
+      expect(@cabpool.ordered_localities).to eq [@locality1, @locality2, @locality3]
+    end
+
+    it 'should be L2 L3 L1 when assigned to the cabpool in the same way' do
+      @cabpool.localities = [@locality2, @locality3, @locality1]
+      @cabpool.save
+      expect(@cabpool.ordered_localities).to eq [@locality2, @locality3, @locality1]
+    end
+  end
 end

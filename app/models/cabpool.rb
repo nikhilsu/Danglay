@@ -14,9 +14,7 @@ class Cabpool < ActiveRecord::Base
   validates :remarks, length: {maximum: 300}
 
   def ordered_localities
-    sql = "SELECT locality_id FROM cabpools_localities WHERE cabpool_id = #{id}"
-    locality_ids_array = ActiveRecord::Base.connection.execute(sql)
-    locality_ids_array.values.flatten.map { |locality_id| Locality.find(locality_id) }
+    return localities.order('cabpools_localities.created_at')
   end
 
   def invalidate_empty_localities
