@@ -1,0 +1,83 @@
+[
+  {
+    "name": "Abhishek S P",
+    "imageName": "abhiskek.jpg",
+    "role": "DEV",
+    "roleDescription": "",
+    "twitterHandle": "#",
+    "jigsawUserName": "abhisp",
+    "linkedInProfile": "#"
+  },
+  {
+    "name": "Deepika Vasudevan",
+    "imageName": "deepika.jpg",
+    "role": "DEV",
+    "roleDescription": "",
+    "jigsawUserName": "vdeepika",
+    "twitterHandle": "#",
+    "linkedInProfile": "#"
+  },
+  {
+    "name": "Kusum Ijari",
+    "imageName": "kusum.jpg",
+    "role": "DEV",
+    "roleDescription": "",
+    "jigsawUserName": "kusumi",
+    "twitterHandle": "#",
+    "linkedInProfile": "#"
+  },
+  {
+    "name": "Nikhil Sulegaon",
+    "imageName": "nikhil.jpg",
+    "role": "DEV",
+    "roleDescription": "",
+    "jigsawUserName": "nikhilsu",
+    "twitterHandle": "#",
+    "linkedInProfile": "#"
+  },
+  {
+    "name": "Prakash Upadhyay",
+    "imageName": "prakash.jpg",
+    "role": "UI Developer",
+    "roleDescription": "Danglay App Design, User Experience and UI development",
+    "jigsawUserName": "prakashu",
+    "twitterHandle": "#",
+    "linkedInProfile": "#"
+  },
+  {
+    "name": "Riju Nayak",
+    "imageName": "riju.jpg",
+    "role": "DEV",
+    "roleDescription": "",
+    "jigsawUserName": "rijun",
+    "twitterHandle": "#",
+    "linkedInProfile": "#"
+  },
+  {
+    "name": "Sandeep Hegde",
+    "imageName": "sandeep.jpg",
+    "role": "DEV",
+    "roleDescription": "",
+    "jigsawUserName": "sandeeph",
+    "twitterHandle": "#",
+    "linkedInProfile": "#"
+  },
+  {
+    "name": "Thejas Babu",
+    "imageName": "thejas.jpg",
+    "role": "DEV",
+    "roleDescription": "",
+    "jigsawUserName": "thejasb",
+    "twitterHandle": "#",
+    "linkedInProfile": "#"
+  },
+  {
+    "name": "Varsha Varadarajan",
+    "imageName": "varsha.jpg",
+    "role": "DEV",
+    "roleDescription": "",
+    "jigsawUserName": "varshavs",
+    "twitterHandle": "#",
+    "linkedInProfile": "#"
+  }
+]

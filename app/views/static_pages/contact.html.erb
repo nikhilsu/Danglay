@@ -5,3 +5,37 @@
 <% end %>
 
 <h2 class="contact-us-heading">If you have any queries, contact us at <strong>danglay@thoughtworks.com</strong></h2>
+
+
+<div class="dev-team">
+  <h2 class="title">Danglay Team</h2>
+
+  <ul>
+    <% humans = JSON.parse(File.read('humans.txt.json')) %>
+    <% humans.each do |human|%>
+      <li>
+        <div class="flip-container">
+          <div class="flipper">
+            <div class="front">
+              <div class="image-wrap"><%= image_tag("dev_images/#{human['imageName']}", alt: 'Image') %></div>
+              <h2><%= human['name'] %></h2>
+              <h3><%= human['role'] %></h3>
+              <h4><span>Thought</span>Works, Bangalore</h4>
+            </div>
+            <div class="back">
+              <h2><%= human['name'] %></h2>
+              <h3><%= human['role'] %></h3>
+              <p><span>Role:</span><%= human['roleDescription'] %></p>
+              <label>Connect us:</label>
+              <div class="link">
+                <a href="https://jigsaw.thoughtworks.com/consultants/<%= human['jigsawUserName'] %>" target="_blank">JigSaw</a>
+                <a href="<%= human['linkedInProfile'] %>" target="_blank">LinkedIn</a>
+                <a href="<%= human['twitterHandle'] %>" target="_blank">Twitter</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>
