@@ -18,7 +18,7 @@
     <ul>
       <%= render @cabpools %>
       <% if @cabpools.empty? %>
-          <%= render 'no_cabpools_found' %>
+          <%= render partial: 'layouts/no_cabpools_found', object: {heading: 'No Cabpools Found', additional_message: 'Please try for different location'} %>
       <% end %>
     </ul>
 

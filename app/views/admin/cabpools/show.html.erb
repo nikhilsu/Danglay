@@ -1,5 +1,5 @@
 <% provide(:banner) do %>
-    <%= render partial: "layouts/primary_admin_banner", object: {edit_tab: 'active'} %>
+    <%= render partial: 'layouts/primary_admin_banner', object: {edit_tab: 'active'} %>
 <% end %>
 
 <div>
@@ -14,6 +14,9 @@
     </div>
     <ul>
       <%= render @cabpools %>
+      <% if @cabpools.empty? %>
+          <%= render partial: 'layouts/no_cabpools_found', object: {heading: 'No Cabpools Exists', additional_message: 'Please create one.'} %>
+      <% end %>
     </ul>
     </div>
 </div>
