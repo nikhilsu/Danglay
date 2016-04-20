@@ -14,15 +14,95 @@
     <div class="col-20 seats">Seat left</div>
     <div class="col-100"></div>
   </div>
+
   <ul>
+    <% if user_cabpool_exists? %>
+        <div class="your-pool">
+          <li>
+            <div class="pool-title roundtrip not-clickable grey-bg">
+              <div class="col-20"><%= image_tag(image_to_be_displayed(users_cabpool)) %></div>
+              <div class="col-20 local"><span><%= users_cabpool.ordered_localities.first.name %></span> <span>ThoughtWorks</span></div>
+              <div class="col-20 time"><span>Arrival: <%= formatted_time(users_cabpool.timein) %></span>
+                <span>Departure: <%= formatted_time(users_cabpool.timeout) %></span></div>
+              <div class="col-20"><span
+              <% if users_cabpool.available_slots == 0 %> class="no-seats" <% end %>  ><%= users_cabpool.available_slots %></span></div>
+              <div class="col-20">
+                <% if button(users_cabpool) == "Leave Ride" %>
+                    <%= form_for(users_cabpool, url: 'leave_cabpool', method: 'post', :html => {onsubmit: "return popup_confirmation(this, 'Are you sure you want to Leave your Cabpool?');"}) do |f| %>
+                        <%= f.button button(users_cabpool) %>
+                    <% end %>
+                <% else %>
+                    <% if is_registered? %>
+                        <%= render partial: 'join_cabpool', object: {cabpool: users_cabpool, join_button_style: '', popup_action_js: {onsubmit: "return popup_confirmation(this, '#{confirm_message_for_the_current_users_join_request users_cabpool}');"}} %>
+                    <% else %>
+                        <%= render partial: 'join_cabpool', object: {cabpool: users_cabpool, join_button_style: '', popup_action_js: {}} %>
+                    <% end %>
+                <% end %>
+              </div>
+            </div>
+            <div class="pool-description expanded">
+              <div class="row">
+                <div class="col-40">
+                  <table class="table">
+                    <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Emp ID</th>
+                      <th>Contact</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% users_cabpool.users.each do |user| %>
+                        <tr>
+                          <td><a href="<%= user_show_path(id: user.id) %>" class="user-profile-link"><i class="fa fa-user"></i><%= user.name %></a></td>
+                          <td><%= user.emp_id %></td>
+                          <td><%= user.phone_no %></td>
+                        </tr>
+                    <% end %>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-30 route">
+                  <h4 class="inner-header">Route</h4>
+                  <div>
+                    <% users_cabpool.ordered_localities.each do |locality| %>
+                        <span> <%= locality.name %> </span>
+                    <% end %>
+                    <span>Thoughtworks</span>
+                  </div>
+                  <h4 class="remarks-header">Remarks</h4>
+            <span>
+              <pre class="cabpool-remarks"><%= users_cabpool.remarks %></pre>
+            </span>
+                </div>
+                <div class="col-30">
+                  <div class="map-wrap">
+                    <%= hidden_field_tag 'route', users_cabpool.route %>
+                    <div id="map" class="map_show pull-right"></div>
 
-<% if user_cabpool_exists? %>
-    <div class="your-pool">
-      <%= render users_cabpool %>
-    </div>
-<% end %>
+                    <button class="open-map" title="Expand map"><i class="fa fa-expand"></i></button>
 
+                    <div class="route-info"></div>
+                    <% if button(users_cabpool) == "Leave Ride" %>
+                        <%= form_for(users_cabpool, url: 'leave_cabpool', method: 'post', :html => {onsubmit: "return popup_confirmation(this, 'Are you sure you want to Leave your Cabpool?');"}) do |f| %>
+                            <%= f.button button(users_cabpool), class: 'btn-ride' %>
+                        <% end %>
+                    <% else %>
+                        <% if !current_user.nil? %>
+                            <%= render partial: 'join_cabpool', object: {cabpool: users_cabpool, join_button_style: 'btn-ride', popup_action_js: {onsubmit: "return popup_confirmation(this, '#{confirm_message_for_the_current_users_join_request users_cabpool}');"}} %>
+                        <% else %>
+                            <%= render partial: 'join_cabpool', object: {cabpool: users_cabpool, join_button_style: 'btn-ride', popup_action_js: {}} %>
+                        <% end %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </div>
+    <% end %>
 </ul>
 </div>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuETg3lyde0IR6XSO1WhVZY69bAp5owcs">
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuETg3lyde0IR6XSO1WhVZY69bAp5owcs&callback=initMap_show">
 </script>

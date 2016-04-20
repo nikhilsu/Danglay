@@ -7,7 +7,7 @@ var registerEventHandlers = function () {
     $(this).next('ul').fadeOut('fast');
   });
 
-  $('.pool-title').click(function () {
+  $('.pool-title:not(.not-clickable)').click(function () {
     $(this).next('.pool-description').slideToggle('fast');
     $(this).toggleClass('grey-bg');
     if ($(this).hasClass('grey-bg')) {

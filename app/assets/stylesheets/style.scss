@@ -705,6 +705,9 @@ label.label-blue {
         opacity: 0.5;
         cursor: not-allowed;
       }
+      &.not-clickable {
+        cursor: default;
+      }
     }
     .grey-bg {
       background: #f3f3f3;
@@ -818,6 +821,9 @@ label.label-blue {
       }
       .map-wrap{
         position: relative;
+      }
+      &.expanded {
+        display: block;
       }
     }
   }
