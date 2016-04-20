@@ -60,8 +60,7 @@ class CabpoolMailer < ApplicationMailer
   end
 
   def admin_notifier_for_new_cabpool_creation_request requesting_user, timein, timeout, remarks
-    @username  = requesting_user.name
-    @address = requesting_user.address
+    @requesting_user  = requesting_user
     @timein = timein
     @timeout = timeout
     if(remarks == nil)

@@ -1,14 +1,17 @@
 <h4>Hi <%= @user.name %>,</h4>
 
-<p>A new cabpool has been created for you by <strong> Admin </strong>!<br>
+<p>A new cabpool has been created for you by <strong> Admin</strong>!<br>
   The cabpool is from <strong> <%= @cabpool.localities.first.name %>.</strong><br>
-  The approximate time it reaches office is <strong> <%= @cabpool.timein%> </strong> and the approximate time it leaves office is <strong> <%= @cabpool.timeout%> </strong>.<br>
-  Please check the application for more information.<br></p>
-<p>
-  The remarks if any were :<br>
-  <strong> <%= @cabpool.remarks %> </strong>
-
+  The approximate time it reaches office is <strong> <%= @cabpool.timein.strftime("%H:%M")%> </strong> and, <br/>
+  Approximate time it leaves office is <strong> <%= @cabpool.timeout.strftime("%H:%M")%></strong>.<br>
 </p>
 
+<% if !@cabpool.remarks.empty? %>
+    <p>
+      Remarks :
+    <pre><%= @cabpool.remarks %></pre>
+    </p>
+<% end %>
+<p>Please check the <%= link_to('application', your_cabpools_url) %> for more information.</p>
 <p>Thanks!</p>
 <p>Danglay</p>

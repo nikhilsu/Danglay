@@ -1,14 +1,17 @@
 Hi Admin!
 
-A new cabpool request has been created by <%= @username%>!
-The user is from <%= @address %>.
-The approximate time the user reaches office is <%= @timein%> and the approximate time the user leave office is <%= @timeout%>.
+A new cabpool request has been created by <%= @requesting_user.name%>!
+The user's locality is <%= @requesting_user.locality.name %>.
+The user's address is <%= @requesting_user.address %>.
+Approximate time the user reaches office is <%= @timein.strftime("%H:%M")%> and,
+Approximate time the user leave office is <%= @timeout.strftime("%H:%M")%>.
+
 <% if !@remarks.empty? %>
-    Remarks :
-    <%= @remarks %>
+Remarks :
+<%= @remarks %>
 <% end %>
 
-Please create a cabpool for this user at <%= link_to('Create a pool',  admin_cabpool_new_url) %>.
+Please create a cabpool for this user at 'Create a pool'(<%= admin_cabpool_new_url %>).
 
 Thanks!
 Danglay

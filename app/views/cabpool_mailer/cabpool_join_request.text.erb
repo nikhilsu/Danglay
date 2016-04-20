@@ -2,16 +2,21 @@ Hi <%= @user.name %>
 
 <%= @current_user.name %> (<%= @current_user.email %>) has requested to join your carpool.
 
-<%= @current_user.name %> lives at: <%= @current_user.address %>
+<%= @current_user.name %>
+lives at:
+<%= @current_user.address %>
+<%= @current_user.locality.name %>
+
+More information of the user: <%= user_show_url(id: @current_user.id) %>
 
 If you approve, <%= @current_user.name %> will be added to your carpool, and a confirmation
-email will be sent to both <%= @current_user.name %> and to the admin folks who manage your carpool.
+email will be sent to <%= @current_user.name %>.
 
 What would you like to do?
 
-<%= approve_reject_handler_url(token: @digest, user: @current_user.id, cabpool: @cabpool, approver: @user.id, approve: true) %>
+Approve: <%= approve_reject_handler_url(token: @digest, user: @current_user.id, cabpool: @cabpool, approver: @user.id, approve: true) %>
 
-<%= approve_reject_handler_url(token: @digest, user: @current_user.id, cabpool: @cabpool, approver: @user.id, approve: false) %>
+Reject: <%= approve_reject_handler_url(token: @digest, user: @current_user.id, cabpool: @cabpool, approver: @user.id, approve: false) %>
 
 Thanks!
 

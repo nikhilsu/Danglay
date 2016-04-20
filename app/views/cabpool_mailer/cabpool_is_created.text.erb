@@ -2,11 +2,15 @@ Hi <%= @user.name %>,
 
 A new cabpool has been created for you by Admin!
 The cabpool is from <%= @cabpool.localities.first.name %>.
-The approximate time it reaches office is <%= @cabpool.timein%> and the approximate time it leaves office is <%= @cabpool.timeout%>.
-Please check the application for more information.
+The approximate time it reaches office is <%= @cabpool.timein.strftime("%H:%M")%> and,
+Approximate time it leaves office is <%= @cabpool.timeout.strftime("%H:%M")%>.
 
-The remarks if any were :<br>
+<% if !@cabpool.remarks.empty? %>
+Remarks :
 <%= @cabpool.remarks %>
+<% end %>
+
+Please check the application(<%= your_cabpools_url %>) for more information.
 
 Thanks!
 Danglay

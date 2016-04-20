@@ -1,17 +1,21 @@
 <h4>Hi Admin!</h4>
 
-<p>A new cabpool request has been created by <strong> <%= @username%> </strong>! 
-The user is from <strong> <%= @address %> </strong>. 
-The approximate time the user reaches office is <strong> <%= @timein%> </strong> and the approximate time the user leave office is <strong> <%= @timeout%> </strong>. 
+<p>A new cabpool request has been created by <strong> <%= @requesting_user.name%></strong>!<br/>
+The user's locality is <strong> <%= @requesting_user.locality.name %></strong>.<br/>
+The user's address is <strong> <%= @requesting_user.address %></strong>.<br/>
+Approximate time the user reaches office is <strong> <%= @timein.strftime("%H:%M")%></strong> and,<br/>
+Approximate time the user leave office is <strong> <%= @timeout.strftime("%H:%M")%></strong>.
 
 <% if !@remarks.empty? %>
+<p>
 Remarks :
-    <strong> <%= @remarks %> </strong>
+    <pre><%= @remarks %></pre>
+</p>
 <% end %>
-
-Please create a cabpool on the appplication for this user at <p><%= link_to('Create a pool',  admin_cabpool_new_url) %> </p>
-
+<p>
+Please create a cabpool on the appplication for this user at <%= link_to("'Create a pool'",  admin_cabpool_new_url) %>.
 </p>
 
+</p>
 <p>Thanks!</p>
 <p>Danglay</p>
