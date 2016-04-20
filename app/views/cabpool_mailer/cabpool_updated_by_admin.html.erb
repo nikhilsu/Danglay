@@ -1,10 +1,13 @@
-<h4>Hi! <%= @user %></h4>
+<h4>Hi <%= @user %>!</h4>
 
-<p>Your cabpool has been updated to contain only the following members:</p>
+<p>Your cabpool has been updated by admin. Now it contains the following members :-</p>
 
+<ul>
 <% @members.each do |user| %>
-    <p> <%= user.name %> </p>
+    <li><strong><%= user.name %></strong></li>
 <% end %>
+</ul>
 
+<p>Know more on <%= link_to 'Danglay', your_cabpools_url, target: '_blank'%></p>
 <p>Thanks,</p>
 <p>Danglay</p>

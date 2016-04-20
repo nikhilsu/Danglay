@@ -49,10 +49,24 @@ class CabpoolMailerPreview < ActionMailer::Preview
     CabpoolMailer.admin_notifier_for_new_cabpool_creation_request(user, cabpool.timein, cabpool.timeout, '')
   end
 
+# Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/member_addition_to_cabpool
+  def member_addition_to_cabpool
+    approving_user = User.first
+    added_user = User.second
+    CabpoolMailer.member_addition_to_cabpool(approving_user, added_user)
+  end
+
 # Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/cabpool_is_created
   def cabpool_is_created
     cabpool = Cabpool.first
     user = User.first
     CabpoolMailer.cabpool_is_created(user, cabpool)
+  end
+
+# Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/cabpool_updated_by_admin
+  def cabpool_updated_by_admin
+    members_needing_update_email = [User.second, User.third]
+    user = User.first
+    CabpoolMailer.cabpool_updated_by_admin(user, members_needing_update_email)
   end
 end

@@ -41,7 +41,7 @@ class CabpoolsController < ApplicationController
     add_localities_to_cabpool
     add_current_user_to_cabpool
     if selected_cabpool_type_is_company_provided_cabpool
-      send_email_to_admins_to_request_cabpool_creation(current_user, params[:cabpool][:timein], params[:cabpool][:timeout], params[:remarks])
+      send_email_to_admins_to_request_cabpool_creation(current_user, Time.new(params[:cabpool][:timein]), Time.new(params[:cabpool][:timeout]), params[:remarks])
       flash[:success] = "You have successfully requested the admins for a cab pool."
       redirect_to root_url
     else
@@ -100,7 +100,7 @@ class CabpoolsController < ApplicationController
     token = params[:token]
     cabpool_id = params[:cabpool]
     user_id = params[:user]
-    user = User.find(user_id)
+    requesting_user = User.find(user_id)
     approver = User.find_by_id(params[:approver])
     request = Request.find_by(user_id: user_id, cabpool_id: cabpool_id)
     if request.nil?
@@ -109,9 +109,9 @@ class CabpoolsController < ApplicationController
       digest = request.approve_digest
       if digest == token
         if approve == "true"
-          approve_user user, request, approver
+          approve_user requesting_user, request, approver
         else
-          reject_user user, request
+          reject_user requesting_user, request
         end
       else
         render 'request_invalid'
@@ -208,7 +208,7 @@ class CabpoolsController < ApplicationController
   end
 
   def send_email_to_rejected_user(rejected_user)
-    CabpoolMailer.cabpool_approve_request(rejected_user).deliver_now
+    CabpoolMailer.cabpool_reject_request(rejected_user).deliver_now
   end
 
   def send_email_to_admin_when_user_leaves(users, leaving_user)

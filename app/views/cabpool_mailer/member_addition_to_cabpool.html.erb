@@ -1,6 +1,8 @@
-<h4>Hi!</h4>
+<h4>Hi <%= @current_user %>!</h4>
 
-<p><%= @approving_user %> has added <%= @user %> from <%= @address %> to your cabpool!</p>
+<p><strong><%= @approving_user %></strong> has added <strong><%= @added_user %></strong> residing at <strong><%= @address %></strong> to your cabpool!</p>
+
+<p>Know more on <%= link_to 'Danglay', your_cabpools_url, target: '_blank'%></p>
 
 <p>Thanks,</p>
 <p>Danglay</p>

@@ -128,8 +128,8 @@ RSpec.describe CabpoolMailer, type: :mailer do
   describe "admin mail when a user Requests a creation of company provided cabpool" do
     let(:mail) {
       @user = build(:user)
-      @timein = '9:30'
-      @timeout = '5:30'
+      @timein = Time.now
+      @timeout = Time.now
       @remarks = "some remarks"
       CabpoolMailer.admin_notifier_for_new_cabpool_creation_request(@user, @timein, @timeout, @remarks)
     }

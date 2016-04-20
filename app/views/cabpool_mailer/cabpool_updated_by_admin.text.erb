@@ -1,10 +1,12 @@
-Hi! <%= @user %>
+Hi <%= @user %>!
 
-Your cabpool has been updated to contain only the following members:
+Your cabpool has been updated by admin. Now it contains the following members :-
 
 <% @members.each do |user| %>
-     <%= user.name %>
+     <%= '- ' + user.name %>
 <% end %>
+
+Know more on Danglay: <%= your_cabpools_url %>
 
 Thanks,
 Danglay

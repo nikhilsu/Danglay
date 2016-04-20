@@ -23,7 +23,7 @@ class CabpoolMailer < ApplicationMailer
     mail to: rejected_user.email, subject: 'Your cabpool request has been rejected'
   end
 
-  def cabpool_leave_notifier(user,left_user)
+  def cabpool_leave_notifier(user, left_user)
     @username = user.name
     @left_user = left_user
     mail to: user.email, subject: 'Someone has left your cabpool!'
@@ -77,12 +77,15 @@ class CabpoolMailer < ApplicationMailer
 
   def member_addition_to_cabpool approving_user, added_user
     @approving_user = approving_user.name
-    @user = added_user.name
+    @added_user = added_user.name
     @address = added_user.address
-    
-    emails =[]
-    approving_user.cabpool.users.each do |user| emails << user.email if user != approving_user and user != added_user end
-    mail to: emails , subject: "New member added to cabpool" if !emails.empty?
+
+    approving_user.cabpool.users.each do |user|
+      if user != approving_user and user != added_user
+        @current_user = user.name
+        mail to: user.email , subject: "New member added to cabpool"
+      end
+    end
   end
 
   def cabpool_is_created user, cabpool
