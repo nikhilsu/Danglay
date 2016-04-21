@@ -237,11 +237,9 @@ class CabpoolsController < ApplicationController
 
   def cabpool_params
     allowed_params = params.require(:cabpool).permit(:number_of_people, :timein, :timeout, :route, :remarks)
-    cabpool_type = CabpoolType.new
-    params[:cabpool_type].values.each do |cabpool_type_id|
-      cabpool_type = CabpoolType.find_by_id(cabpool_type_id)
-    end
-    if cabpool_types_for_user.include? cabpool_type
+    _, cabpool_type_id = params[:cabpool_type].first
+    cabpool_type = CabpoolType.find_by_id(cabpool_type_id)
+    if allowed_cabpool_types_for_user.include? cabpool_type
       allowed_params.merge(cabpool_type: cabpool_type)
     end
   end

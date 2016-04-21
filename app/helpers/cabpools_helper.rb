@@ -94,7 +94,7 @@ module CabpoolsHelper
     return cabpools
   end
 
-  def cabpool_types_for_user
+  def allowed_cabpool_types_for_user
     cabpool_types = CabpoolType.all
     cabpool_types.reject { |cabpool_type| cabpool_type.name == 'Company provided Cab' }
   end
