@@ -30,7 +30,9 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     cabpool = build_stubbed(:cabpool)
     cabpool_type = build_stubbed(:cabpool_type)
     cabpool.cabpool_type = cabpool_type
-    allow(Cabpool).to receive(:where).and_return([cabpool])
+    all_company_provided_cabpools = [cabpool]
+    expect(Cabpool).to receive(:where).and_return(all_company_provided_cabpools)
+    expect(all_company_provided_cabpools).to receive(:paginate).and_return(all_company_provided_cabpools)
 
     get :show
 

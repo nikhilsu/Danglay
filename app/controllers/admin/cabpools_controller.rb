@@ -2,7 +2,7 @@ class Admin::CabpoolsController < Admin::AdminController
 
   def show
     company_provided_cabpools = Cabpool.where(cabpool_type: CabpoolType.find_by_name("Company provided Cab"))
-    @cabpools = company_provided_cabpools
+    @cabpools = company_provided_cabpools.paginate(page: params[:page], :per_page => 10)
   end
 
   def new
