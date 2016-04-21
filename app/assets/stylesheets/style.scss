@@ -1463,11 +1463,21 @@ label.required:after {
     color: #F73030;
     font-weight: 400;
     text-align: center;
+    font-size: 18px;
   }
   p {
     text-align: center;
     color: #656565;
     font-weight: 300;
+    font-size: 16px;
+  }
+  a {
+    color: $calm;
+    text-decoration: none;
+    font-weight: 500;
+    &:hover {
+      color: $dark;
+    }
   }
 }
 

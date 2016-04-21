@@ -17,7 +17,7 @@ cabpool_types.each do |cabpool_type|
 end
 
 if Rails.env != 'production'
-  30.times do
+  60.times do
     name = Faker::Name.name
     email = Faker::Internet.email
     emp_id = Faker::Number.between(1111, 999999999)

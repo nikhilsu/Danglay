@@ -100,7 +100,12 @@
             </div>
           </li>
         </div>
-    <% end %>
+    <% else %>
+        <%= render partial: 'layouts/no_cabpools_found', object: {heading: 'You are not part of any Cabpool', additional_message: ''} %>
+        <div class="no-cabpool-found">
+          <p>Please <%= link_to 'create', new_cabpool_path %> or <%= link_to 'join', root_path %> one</p>
+        </div>
+  <% end %>
 </ul>
 </div>
 <script async defer

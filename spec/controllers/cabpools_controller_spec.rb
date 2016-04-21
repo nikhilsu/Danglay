@@ -366,11 +366,12 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to render_template 'request_reject'
   end
 
-  it 'should redirect your_cabpools if user has no cabpools and requests' do
+  it 'should render your_cabpools view for a user having a cabpool' do
     user = build(:user)
+    user.cabpool = build(:cabpool)
     allow(User).to receive(:find_by).and_return(user)
     get :your_cabpools
-    expect(response).to redirect_to root_path
+    expect(response).to render_template 'your_cabpools'
   end
 
   it 'should render accept message if request is accept via notification and user has requested for this cabpool' do
