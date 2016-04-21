@@ -17,7 +17,7 @@ cabpool_types.each do |cabpool_type|
 end
 
 if Rails.env != 'production'
-  20.times do
+  30.times do
     name = Faker::Name.name
     email = Faker::Internet.email
     emp_id = Faker::Number.between(1111, 999999999)
@@ -35,23 +35,25 @@ if Rails.env != 'production'
   current_users = User.all
   current_users = current_users.reject { |user| user.id == 100 || user.id == 101 }
 
+  number_of_cabpools = 11
 
-  4.times do |cabpool_number|
+  number_of_cabpools.times do
     timein = Faker::Time.between(2.days.ago, Time.now, :all)
     timeout = timein.advance(hours: 8)
     route = "{\"source\":\" MG Road  Bangalore, Karnataka \",\"destination\":{\"lat\":12.9287258,\"lng\":77.6267284},\"waypoints\":[[12.9420036,77.60830439999995]]}"
     remarks = "Car - Indica.\nDriver - Manju.\nMob-9882373737"
-    capacity = 4
+    capacity_of_cabpool = Faker::Number.between(2, 4)
     built_localities = []
     built_users = []
 
-    3.times do
+    number_of_localities = Faker::Number.between(1, 3)
+
+    number_of_localities.times do
       locality = current_localities.sample
       built_localities << locality
-      current_localities = current_localities.reject { |l| l.name == locality.name }
     end
 
-    no_of_users_in_cabpool = cabpool_number == 3 ? capacity : (capacity - 2)
+    no_of_users_in_cabpool = Faker::Number.between(2, capacity_of_cabpool)
 
     no_of_users_in_cabpool.times do
       user = current_users.sample
@@ -59,7 +61,7 @@ if Rails.env != 'production'
       current_users = current_users.reject { |u| u.name == user.name }
     end
 
-    cabpool = Cabpool.new(timein: timein, timeout: timeout, number_of_people: capacity, route: route, remarks: remarks, cabpool_type: current_cabpool_types.first)
+    cabpool = Cabpool.new(timein: timein, timeout: timeout, number_of_people: capacity_of_cabpool, route: route, remarks: remarks, cabpool_type: current_cabpool_types.first)
     cabpool.localities = built_localities
     cabpool.users = built_users
     cabpool.save!
