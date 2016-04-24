@@ -516,4 +516,76 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to redirect_to your_cabpools_path
   end
 
+  it 'should render Edit when the current user has a cabpool' do
+    user = build(:user)
+    allow(User).to receive(:find_by_email).and_return(user)
+    cabpool = build(:cabpool)
+    user.cabpool = cabpool
+
+    get :edit, id: 1
+
+    expect(response).to render_template "cabpools/edit"
+  end
+
+  it 'should render home page when the current user does not have a cabpool' do
+    user = build(:user)
+    allow(User).to receive(:find_by_email).and_return(user)
+    user.cabpool = nil
+
+    get :edit, id: 1
+
+    expect(response).to redirect_to root_url
+  end
+
+  it 'should successfully update a cabpool when all valid details are entered by user' do
+    user = build(:user)
+    expect(User).to receive(:find_by_email).and_return(user)
+    cabpool_to_update = build(:cabpool)
+    first_updated_locality = build(:locality)
+    first_updated_locality.id = 10
+    second_updated_locality = build(:locality, :another_locality)
+    second_updated_locality.id = 20
+    user.cabpool = cabpool_to_update
+    expect(Locality).to receive(:find_by_id).with(first_updated_locality.id.to_s).and_return(first_updated_locality).once
+    expect(Locality).to receive(:find_by_id).with(second_updated_locality.id.to_s).and_return(second_updated_locality).once
+
+    expect(cabpool_to_update).to receive(:save).and_return(true).once
+    patch :update, :id => cabpool_to_update.id, :cabpool => {timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: first_updated_locality.id, key2: second_updated_locality.id}
+
+    expect(response).to redirect_to your_cabpools_path
+    expect(cabpool_to_update.errors.any?).to be false
+    expect(flash[:success]).to eq 'Your Cabpool has been Updated'
+  end
+
+  it 'should not update a cabpool when invalid detail/s is/are entered by user' do
+    user = build(:user)
+    expect(User).to receive(:find_by_email).and_return(user)
+    cabpool_to_update = build(:cabpool)
+    first_updated_locality = build(:locality)
+    first_updated_locality.id = 10
+    second_updated_locality = build(:locality, :another_locality)
+    second_updated_locality.id = 20
+    user.cabpool = cabpool_to_update
+    expect(Locality).to receive(:find_by_id).with(first_updated_locality.id.to_s).and_return(first_updated_locality).once
+    expect(Locality).to receive(:find_by_id).with(second_updated_locality.id.to_s).and_return(second_updated_locality).once
+
+    expect(cabpool_to_update).to receive(:save).and_return(false).once
+    patch :update, :id => cabpool_to_update.id, :cabpool => {timein: '19:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: first_updated_locality.id, key2: second_updated_locality.id}
+
+    expect(response).to render_template 'edit'
+    expect(flash[:danger]).to eq 'Cannot update because of the following errors'
+  end
+
+  it 'should not allow a user to update if he/she is not part of a cabpool' do
+    user = build(:user)
+    expect(User).to receive(:find_by_email).and_return(user)
+    first_updated_locality = build(:locality)
+    user.cabpool = nil
+
+    patch :update, :id => '', :cabpool => {timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: ''}, :localities => {key1: first_updated_locality.id}
+
+    expect(response).to redirect_to root_url
+    expect(flash[:danger]).to eq 'You are not part of a cabpool.'
+  end
+
 end

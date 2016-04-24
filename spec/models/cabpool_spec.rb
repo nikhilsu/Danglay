@@ -98,15 +98,26 @@ RSpec.describe Cabpool, type: :model do
   end
 
   it 'users should not be empty' do
-      cabpool = build(:cabpool, :without_users)
-      expect(cabpool.users.length).to eq 0
-      expect(cabpool.valid?).to be false
+    cabpool = build(:cabpool, :without_users)
+    expect(cabpool.users.length).to eq 0
+    expect(cabpool.valid?).to be false
   end
 
   it 'should not allow the remarks to have more than 300 characters' do
-      cabpool = build(:cabpool, :with_more_than_300_character_remarks)
-      expect(cabpool.remarks.length).to be > 300
-      expect(cabpool.valid?).to be false
+    cabpool = build(:cabpool, :with_more_than_300_character_remarks)
+    expect(cabpool.remarks.length).to be > 300
+    expect(cabpool.valid?).to be false
+  end
+
+  it 'should clear the existing localities of the cabpool before assigning new localities to it' do
+    cabpool = build(:cabpool)
+    first_locality = build(:locality)
+    second_locality = build(:locality, :another_locality)
+    expect(cabpool.localities).to receive(:clear).once
+
+    cabpool.localities = [first_locality, second_locality]
+
+    expect(cabpool.localities).to eq [first_locality, second_locality]
   end
 
 

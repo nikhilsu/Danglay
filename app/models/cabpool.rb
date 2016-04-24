@@ -17,6 +17,11 @@ class Cabpool < ActiveRecord::Base
     return localities.order('cabpools_localities.created_at')
   end
 
+  def localities= localities_to_be_added
+    self.localities.clear
+    super localities_to_be_added
+  end
+
   def invalidate_empty_localities
     if localities.empty?
       errors.add(:localities, "This should not be empty")
@@ -66,5 +71,4 @@ class Cabpool < ActiveRecord::Base
       end
     end
   end
-
 end

@@ -1,7 +1,7 @@
 class CabpoolsController < ApplicationController
   include CabpoolsHelper
   before_action :registered?, except: [:show, :approve_reject_handler]
-  before_action :has_cabpool, only: [:leave]
+  before_action :has_cabpool, only: [:leave, :edit, :update]
   before_action :user_should_not_have_cabpool, only: :new
 
   def user_should_not_have_cabpool
@@ -31,9 +31,32 @@ class CabpoolsController < ApplicationController
       send_email_to_cabpool_users_on_member_leaving(users, current_user)
       send_email_to_admin_when_user_leaves(users, current_user)
     end
-    flash[:success] = "You have left your cab pool."
+    flash[:success] = 'You have left your cab pool.'
     redirect_to root_url
   end
+
+  def edit
+    @cabpool = current_user.cabpool
+  end
+
+  def update
+    @cabpool = current_user.cabpool
+    @cabpool.remarks = params[:cabpool][:remarks]
+    @cabpool.timein = params[:cabpool][:timein]
+    @cabpool.timeout = params[:cabpool][:timeout]
+    @cabpool.route = params[:cabpool][:route]
+    # @cabpool.number_of_people = params[:cabpool][:number_of_people]
+    add_localities_to_cabpool
+    if @cabpool.save
+      # send_email_to_cabpool_users_about_cabpool_update(@cabpool, members_before_cabpool_update)
+      flash[:success] = 'Your Cabpool has been Updated'
+      redirect_to your_cabpools_path and return
+    else
+      flash[:danger] = 'Cannot update because of the following errors'
+      render 'edit'
+    end
+  end
+
 
   def create
     @cabpool = Cabpool.new(cabpool_params)
@@ -250,10 +273,12 @@ class CabpoolsController < ApplicationController
   end
 
   def add_localities_to_cabpool
+    localities_to_be_added = []
     params[:localities].values.each do |locality_id|
       locality = Locality.find_by_id(locality_id)
-      @cabpool.localities << locality if !locality.nil?
+      localities_to_be_added << locality if !locality.nil?
     end
+    @cabpool.localities = localities_to_be_added
   end
 
   def send_emails_to_cabpool_users(cabpool, current_user, digest)
@@ -268,6 +293,7 @@ class CabpoolsController < ApplicationController
 
   def has_cabpool
     if current_user.cabpool.nil?
+      flash[:danger] = 'You are not part of a cabpool.'
       redirect_to root_url
     end
   end

@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   post 'leave_cabpool' => 'cabpools#leave'
   delete 'logout' => 'sessions#destroy'
   post 'cabpools/join' => 'cabpools#join'
+  get 'cabpool/:id/edit' =>  'cabpools#edit'
+  patch 'cabpool_update' =>  'cabpools#update'
   get 'approve_reject_handler' => 'cabpools#approve_reject_handler'
   post 'approve_via_notification' => 'cabpools#approve_via_notification'
   post 'reject_via_notification' => 'cabpools#reject_via_notification'
