@@ -1,0 +1,23 @@
+Hi <%= @member_receiving_mail %>!
+
+<%= @member_updating_cabpool.name %> has updated your cabpool!
+
+The following are the updated details of it :-
+Capacity of the cabpool : <%= @updated_cabpool.number_of_people %>
+Arrival Time To Office : <%= @updated_cabpool.timein %>
+Departure Time From Office : <%= @updated_cabpool.timeout %>
+Remarks : <%= @updated_cabpool.remarks %>
+
+Route :-
+  Start point : <%= @updated_cabpool.ordered_localities.first.name %>
+  Via :-
+    <% @updated_cabpool.ordered_localities.drop(1).each do |locality| %>
+        <%= locality.name %>
+    <% end %>
+
+  End point : ThoughtWorks Pvt Ltd.
+
+Know more on Danglay(<%= your_cabpools_url %>).
+
+Thanks,
+Danglay

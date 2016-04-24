@@ -537,15 +537,17 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to redirect_to root_url
   end
 
-  it 'should successfully update a cabpool when all valid details are entered by user' do
+  it 'should successfully update a cabpool and send out emails to concerned members when all valid details are entered by user' do
     user = build(:user)
     expect(User).to receive(:find_by_email).and_return(user)
     cabpool_to_update = build(:cabpool)
+    another_user_part_of_cabpool = build(:user, :another_user)
+    cabpool_to_update.users = [user, another_user_part_of_cabpool]
     first_updated_locality = build(:locality)
     first_updated_locality.id = 10
     second_updated_locality = build(:locality, :another_locality)
     second_updated_locality.id = 20
-    user.cabpool = cabpool_to_update
+    allow(cabpool_to_update).to receive(:ordered_localities).and_return([first_updated_locality, second_updated_locality])
     expect(Locality).to receive(:find_by_id).with(first_updated_locality.id.to_s).and_return(first_updated_locality).once
     expect(Locality).to receive(:find_by_id).with(second_updated_locality.id.to_s).and_return(second_updated_locality).once
 
@@ -555,6 +557,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to redirect_to your_cabpools_path
     expect(cabpool_to_update.errors.any?).to be false
     expect(flash[:success]).to eq 'Your Cabpool has been Updated'
+    expect(ActionMailer::Base.deliveries.size).to eq 1
   end
 
   it 'should not update a cabpool when invalid detail/s is/are entered by user' do

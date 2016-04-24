@@ -46,12 +46,10 @@ class CabpoolsController < ApplicationController
     @cabpool.timeout = params[:cabpool][:timeout]
     @cabpool.route = params[:cabpool][:route]
     add_localities_to_cabpool
-    if capacity_of_cabpool_update_successful?
-      if @cabpool.save
-        # send_email_to_cabpool_users_about_cabpool_update(@cabpool, members_before_cabpool_update)
+    if capacity_of_cabpool_update_successful? and @cabpool.save
+         send_email_to_cabpool_members_about_cabpool_update(@cabpool, current_user)
         flash[:success] = 'Your Cabpool has been Updated'
         redirect_to your_cabpools_path and return
-      end
     end
     flash[:danger] = 'Cannot update because of the following errors'
     render 'edit'
@@ -247,6 +245,10 @@ class CabpoolsController < ApplicationController
 
   def send_email_to_approved_user(approved_user)
     CabpoolMailer.cabpool_approve_request(approved_user).deliver_now
+  end
+
+  def send_email_to_cabpool_members_about_cabpool_update(updated_cabpool, member_updating_cabpool)
+    CabpoolMailer.member_of_a_cabpool_updated_it(updated_cabpool, member_updating_cabpool).deliver_now
   end
 
   def registered?

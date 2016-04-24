@@ -34,7 +34,7 @@ class Admin::CabpoolsController < Admin::AdminController
     if no_passengers_edge_case_violation?
       add_or_update_users_to_cabpool
       if @cabpool.save
-        send_email_to_cabpool_users_about_cabpool_update(@cabpool, members_before_cabpool_update)
+        send_email_to_cabpool_users_about_cabpool_update_by_admin(@cabpool, members_before_cabpool_update)
         flash[:success] = "Cabpool has been Updated"
         redirect_to '/admin' and return
       end
@@ -122,7 +122,7 @@ class Admin::CabpoolsController < Admin::AdminController
     end
   end
 
-  def send_email_to_cabpool_users_about_cabpool_update(cabpool, members_before_cabpool_update)
+  def send_email_to_cabpool_users_about_cabpool_update_by_admin(cabpool, members_before_cabpool_update)
     members_needing_update_email = cabpool.users | members_before_cabpool_update
     members_needing_update_email.collect do |user|
       CabpoolMailer.cabpool_updated_by_admin(user, members_needing_update_email).deliver_now

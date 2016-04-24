@@ -100,4 +100,16 @@ class CabpoolMailer < ApplicationMailer
 
     mail to: user.email, subject: "Members of your cabpool have been updated"
   end
+
+  def member_of_a_cabpool_updated_it(updated_cabpool, member_updating_cabpool)
+    @updated_cabpool = updated_cabpool
+    @member_updating_cabpool = member_updating_cabpool
+
+    @updated_cabpool.users.each do |member|
+      if member != @member_updating_cabpool
+        @member_receiving_mail = member.name
+        mail to: member.email, subject: 'The cabpool that you are a part of has been updated'
+      end
+    end
+  end
 end

@@ -84,7 +84,6 @@ RSpec.describe CabpoolMailer, type: :mailer do
       localities = [locality, locality]
       allow(@user.cabpool).to receive(:ordered_localities).and_return(localities)
       CabpoolMailer.admin_notifier_for_invalid_cabpool(@user.cabpool)
-
     }
 
     it 'should send mail to admin about new user' do
@@ -202,4 +201,29 @@ RSpec.describe CabpoolMailer, type: :mailer do
     end
   end
 
+  describe 'cabpool updated notifier' do
+    it 'should send emails to all members of a cabpool that has been updated except the person updating it' do
+      updated_cabpool = build(:cabpool)
+      localities = [build(:locality)]
+      allow(updated_cabpool).to receive(:ordered_localities).and_return(localities)
+      user_updating_the_cabpool = build(:user)
+      another_user_part_of_the_cabpool = build(:user, :another_user)
+      updated_cabpool.users = [user_updating_the_cabpool, another_user_part_of_the_cabpool]
+
+      mail = CabpoolMailer.member_of_a_cabpool_updated_it(updated_cabpool, user_updating_the_cabpool)
+
+      expect(mail.subject).to eq('The cabpool that you are a part of has been updated')
+    end
+
+    it 'should not send any emails when the user updating the cabpool is the only user of that cabpool' do
+      updated_cabpool = build(:cabpool)
+      user_updating_the_cabpool = build(:user)
+      updated_cabpool.users = [user_updating_the_cabpool]
+
+      mail = CabpoolMailer.member_of_a_cabpool_updated_it(updated_cabpool, user_updating_the_cabpool)
+
+      expect(mail.subject).to be nil
+      expect(mail.body).to be_empty
+    end
+  end
 end

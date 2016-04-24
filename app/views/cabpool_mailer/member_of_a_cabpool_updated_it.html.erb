@@ -1,0 +1,25 @@
+<h4>Hi <%= @member_receiving_mail %>!</h4>
+
+<p><strong><%= @member_updating_cabpool.name %></strong> has updated your cabpool!</p>
+<p>The following are the updated details of it :-</p>
+<p>Capacity of the cabpool : <%= @updated_cabpool.number_of_people %></p>
+<p>Arrival Time To Office : <%= @updated_cabpool.timein %></p>
+<p>Departure Time From Office : <%= @updated_cabpool.timeout %></p>
+<p>Remarks : <%= @updated_cabpool.remarks %></p>
+<p>Route :- </p>
+<ul>
+  <li>Start point : <%= @updated_cabpool.ordered_localities.first.name %></li>
+  <li>Via :-</li>
+  <ol>
+    <% @updated_cabpool.ordered_localities.drop(1).each do |locality| %>
+        <li><%= locality.name %></li>
+    <% end %>
+  </ol>
+
+  <li> End point : ThoughtWorks Pvt Ltd.</li>
+</ul>
+
+<p>Know more on <%= link_to 'Danglay', your_cabpools_url, target: '_blank'%></p>
+
+<p>Thanks,</p>
+<p>Danglay</p>
