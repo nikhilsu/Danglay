@@ -10,11 +10,15 @@ describe 'adding multiple localities to cabpool route', ->
               + '<a href="javascript:;"><span id="addLocality" style="display: block;"></span></a>'\
               + '<div id="locality">Adugodi</div>'\
               + '<div id="map"></div>'\
-              + '<div id="localitySelections"></div>'
+              + '<div id="localitySelections">
+                  <div class="form-group">
+                    <div class="localityForm"></div>
+                    </div>
+                 </div>'
     CabPoolListener.addListeners()
     return
 
-  it 'should have no localityForm when page is loaded', ->
+  it 'should have only one localityForm when page is loaded', ->
     expect($('.localityForm').length).toBe(1)
     return
 
@@ -30,7 +34,7 @@ describe 'adding multiple localities to cabpool route', ->
     return
 
   it 'should have a maximum of five localityForms and four remove icons', ->
-    for i in [1..3]
+    for i in [1..4]
       $('#addLocality').click()
     expect($('.localityForm').length).toBe(4)
     return
@@ -49,7 +53,7 @@ describe 'adding multiple localities to cabpool route', ->
 
   it 'should hide addLocality icon when the fourth locality is added', ->
     expect($('#addLocality')).toBeVisible()
-    for i in [1..3]
+    for i in [1..4]
       $('#addLocality').click()
     expect($('#addLocality')).toBeHidden()
     return
@@ -60,7 +64,7 @@ describe 'adding multiple localities to cabpool route', ->
     spyOn(window, 'update_map')
     initMap()
     expect($('#addLocality')).toBeVisible()
-    for i in [1..3]
+    for i in [1..4]
       $('#addLocality').click()
     expect($('#addLocality')).toBeHidden()
     $('#removeNewLocality').click()

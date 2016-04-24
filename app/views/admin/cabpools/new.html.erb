@@ -45,10 +45,10 @@
         </div>
 
         <label class="required" for="timein">Arrival Time To Office</label>
-        <%= f.time_field :timein, placeholder: 'HH:MM' %>
+        <%= f.time_field :timein, placeholder: 'HH:MM (24Hr format)' %>
         <%= render 'shared/error_messages', errors: @cabpool.errors[:timein] if !@cabpool.errors[:timein].empty? %>
         <label class="required" for="timeout">Departure Time From Office</label>
-        <%= f.time_field :timeout, placeholder: 'HH:MM' %>
+        <%= f.time_field :timeout, placeholder: 'HH:MM (24Hr format)' %>
         <%= render 'shared/error_messages', errors: @cabpool.errors[:timeout] if !@cabpool.errors[:timeout].empty? %>
         <%= f.hidden_field :route, value: '' %>
 

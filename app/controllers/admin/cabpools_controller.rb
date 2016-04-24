@@ -23,7 +23,7 @@ class Admin::CabpoolsController < Admin::AdminController
   end
 
   def edit
-    @cabpool = Cabpool.find(params[:id])
+    @cabpool = Cabpool.find_by_id(params[:id])
   end
 
   def update

@@ -5,7 +5,10 @@ var CabPoolListener = {
   addListeners: function () {
     var select_tag = $('div.localityForm').html();
     $('div.localityForm:first').remove();
-    addASelectizedFormGroup(select_tag);
+    $('div#localitySelections ').find('select').each(function () {
+      $(this).change(update_map);
+      $(this).selectize();
+    });
     $('#addLocality').click(function () {
       addASelectizedFormGroup(select_tag);
       return false;
@@ -23,8 +26,10 @@ var CabPoolListener = {
     });
 
     $('#sourceLocation').change(function () {
-      data.source = $('#sourceLocation :selected').text() + " Bangalore, Karnataka ";
-      displayRoute(data.source, data.destination, directionsService, directionsDisplay);
+      if ($(this).text() != "") {
+        data.source = $('#sourceLocation :selected').text() + " Bangalore, Karnataka ";
+        update_map();
+      }
     });
     $('#sourceLocation').selectize();
 
@@ -66,6 +71,7 @@ var addASelectizedFormGroup = function (select_tag) {
 
 var update_map = function () {
   var viaLocations = document.getElementsByClassName('form-control selectized add-locality');
+  viaLocations = $(viaLocations).not('#sourceLocation');
   data.waypoints = [];
   for (var counter = 0; counter < viaLocations.length; counter++) {
     if (viaLocations[counter].textContent != "") {
@@ -240,6 +246,7 @@ function setroute() {
   }, function (response, status) {
     if (status === google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(response);
+      updateWaypoints();
     } else {
       alert('Could not display directions due to: ' + status);
     }

@@ -5,7 +5,7 @@
 <div class="row form-elements">
   <%= form_for(@cabpool, layout: :horizontal, url: admin_cabpool_update_path) do |f| %>
       <div class="col-50">
-        <h2 class="create-form-heading"><%= "Edit Cab Pool" %></h2>
+        <h2>Edit Cab Pool</h2>
         <%= label_tag 'Capacity of Cab' %>
         <%= f.text_field :number_of_people %>
         <%= render 'shared/error_messages', errors: @cabpool.errors[:number_of_people] if !@cabpool.errors[:number_of_people].empty? %>
@@ -36,9 +36,9 @@
         </div>
 
         <%= label_tag 'Arrival time to office' %>
-        <%= f.time_field :timein, placeholder: 'HH:MM', disabled: true %>
+        <%= f.time_field :timein, placeholder: 'HH:MM (24Hr format)', disabled: true %>
         <%= label_tag 'Departure time from office' %>
-        <%= f.time_field :timeout, placeholder: 'HH:MM', disabled: true %>
+        <%= f.time_field :timeout, placeholder: 'HH:MM (24Hr format)', disabled: true %>
         <%= f.hidden_field :route, value: @cabpool.route %>
 
         <label class="control-label" for="cabpool_type">Cabpool Type</label>
@@ -56,7 +56,7 @@
   <% end %>
   <div class="col-50">
     <h2>Route Map</h2>
-    <div id="map" class="map" style="height: 400px"></div>
+    <div id="map" class="map"></div>
   </div>
   <script async defer
           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuETg3lyde0IR6XSO1WhVZY69bAp5owcs&callback=initMap_show">

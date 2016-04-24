@@ -187,7 +187,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     user.role = admin_role
     allow(User).to receive(:find_by_email).and_return(user)
     cabpool = build_stubbed(:cabpool)
-    allow(Cabpool).to receive(:find).and_return(cabpool)
+    expect(Cabpool).to receive(:find_by_id).and_return(cabpool)
 
     get :edit, :id=> cabpool.id
 

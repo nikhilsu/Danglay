@@ -1,0 +1,77 @@
+<% provide(:banner) do %>
+    <%= render partial: 'layouts/secondary_banner',
+               object: { banner_ui_style: 'create-cabpool',
+                         banner_heading: 'Edit your pool',
+                       }%>
+<% end %>
+
+<div class="row form-elements">
+  <%= form_for(@cabpool, layout: :horizontal, url: cabpool_update_path) do |f| %>
+      <div class="col-50">
+        <h2>Edit Cab Pool</h2>
+        <%= label_tag 'Capacity of Cab' %>
+        <%= f.text_field :number_of_people, disabled: 'true' %>
+        <%= render 'shared/error_messages', errors: @cabpool.errors[:number_of_people] if !@cabpool.errors[:number_of_people].empty? %>
+        <%= label_tag 'Arrival time to office' %>
+        <%= f.time_field :timein, placeholder: 'HH:MM (24Hr format)'%>
+        <%= label_tag 'Departure time from office' %>
+        <%= f.time_field :timeout, placeholder: 'HH:MM (24Hr format)'%>
+
+        <%= label_tag 'Remarks' %>
+        <%= f.text_area :remarks %>
+        <%= render 'shared/error_messages', errors: @cabpool.errors[:remarks] if !@cabpool.errors[:remarks].empty? %>
+
+        <div class="form-group <% unless @cabpool.errors[:localities].empty? %> field_with_errors
+          <% end %> ">
+          <label class="label-blue" for="user_locality">Route :-</label>
+          <label class="label-blue" for="user_locality">Start Point</label>
+
+          <div class="full-width-selectize">
+            <%= collection_select(:localities, 'source', Locality.all, :id, :name, {prompt: true, selected: @cabpool.ordered_localities.first.id}, class: 'form-control add-locality', id: 'sourceLocation') %>
+            <%= render 'shared/error_messages', errors: @cabpool.errors[:localities] if !@cabpool.errors[:localities].empty? %>
+          </div>
+
+          <div class="add-locality-label-and-button">
+            <span class="label-name">Add</span>
+            <button id="addLocality">+</button>
+          </div>
+          <div>
+            <div class="localityForm">
+              <label class="control-label pull-left" for="user_locality">Via</label>
+              <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control add-locality') %>
+            </div>
+            <%= render 'shared/error_messages', errors: @cabpool.errors[:localities] if !@cabpool.errors[:localities].empty? %>
+          </div>
+        </div>
+
+        <div id="localitySelections">
+
+          <% @cabpool.ordered_localities.drop(1).each do |locality| %>
+              <div class="form-group">
+                <div class="localityForm">
+                  <label class="control-label pull-left" for="user_locality">Via</label>
+                  <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true, selected: locality.id}, class: 'form-control add-locality') %>
+                </div>
+                <button id="removeNewLocality">-</button>
+              </div>
+          <% end %>
+
+        </div>
+
+        <div class="form-group">
+          <label class="label-blue" for="user_locality">End Point</label>
+          <span class="label-name">ThoughtWorks Pvt Ltd.</span>
+        </div>
+
+        <%= f.hidden_field :route, value: @cabpool.route %>
+        <%= f.submit "Update pool", class: 'btn-submit' %>
+      </div>
+  <% end %>
+  <div class="col-50">
+    <h2>Route Map</h2>
+    <div id="map" class="map"></div>
+  </div>
+  <script async defer
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuETg3lyde0IR6XSO1WhVZY69bAp5owcs&callback=initMap_show">
+  </script>
+</div>

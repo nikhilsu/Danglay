@@ -59,7 +59,16 @@
               <button id="addLocality" class="hideable">+</button>
             </div>
 
-            <div id="localitySelections"></div>
+            <div id="localitySelections">
+              <div class="form-group">
+                <div class="localityForm">
+                  <label class="control-label pull-left hideable" for="user_locality">Via</label>
+                  <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'hideable form-control add-locality') %>
+                </div>
+                <button id="removeNewLocality" class ="hideable">-</button>
+              </div>
+
+            </div>
 
             <div class="form-group">
               <label class="label-blue" for="user_locality">End Point</label>
