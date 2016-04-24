@@ -40,18 +40,19 @@ if Rails.env != 'production'
   number_of_cabpools.times do
     timein = Faker::Time.between(2.days.ago, Time.now, :all)
     timeout = timein.advance(hours: 8)
-    route = "{\"source\":\" MG Road  Bangalore, Karnataka \",\"destination\":{\"lat\":12.9287258,\"lng\":77.6267284},\"waypoints\":[[12.9420036,77.60830439999995]]}"
     remarks = "Car - Indica.\nDriver - Manju.\nMob-9882373737"
     capacity_of_cabpool = Faker::Number.between(2, 4)
     built_localities = []
     built_users = []
 
-    number_of_localities = Faker::Number.between(1, 3)
+    number_of_localities = Faker::Number.between(2, 4)
 
     number_of_localities.times do
       locality = current_localities.sample
       built_localities << locality
     end
+
+    route = "{\"source\":\"#{built_localities[0].name} Bangalore, Karnataka \",\"destination\":{\"lat\":12.9287258,\"lng\":77.6267284},\"waypoints\":[]}"
 
     no_of_users_in_cabpool = Faker::Number.between(2, capacity_of_cabpool)
 

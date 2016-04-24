@@ -1,6 +1,6 @@
 var registerEventHandlers = function () {
   $('.map-wrap').on('click', '.open-map', function () {
-    var route = $(this).parent().find('input#route');
+    var route = $(this).parent().find('input#cabpool_route');
     $('.enlarged-map-view').addClass('is-visible');
     var mapWrap = $('.enlarged-map-view').find('div.map-wrap');
     $('.fullscreen > .map-wrap> input#route').remove();

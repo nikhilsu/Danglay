@@ -151,12 +151,12 @@ function initMap_show(element, scrollWheel) {
   var a_map, route;
   if (!element) {
     a_map = document.getElementById('map');
-    route = document.getElementById('route');
+    route = document.getElementById('cabpool_route');
     scrollWheel = false;
   }
   else {
     a_map = element.find('#map')[0];
-    route = element.find('#route')[0];
+    route = element.find('#cabpool_route')[0];
   }
   if (route.value != "") {
     data = JSON.parse(route.value);
