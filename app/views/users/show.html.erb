@@ -6,12 +6,13 @@
 <% end %>
 
 <section class="user-wrapper">
-  <ul class="user-info">
-    <li><label>Employee ID:</label> <%= @user.emp_id %></li>
-    <li><label>Email:</label> <%= @user.email %></li>
-    <li><label>Address:</label> <%= @user.address %></li>
-    <li><label>Locality:</label> <%= @user.locality.name %></li>
-  </ul>
+  <table class="user-info">
+    <tr><td><label>Employee ID</label></td><td> <%= @user.emp_id %></td></tr>
+    <tr><td><label>Email</label></td><td> <%= @user.email %></td></tr>
+    <tr><td><label>Phone Number</label></td><td> <%= @user.phone_no %></td></tr>
+    <tr><td><label>Locality</label></td><td> <%= @user.locality.name %></td></tr>
+    <tr><td><label>Address</label></td><td> <%= @user.address %></td></tr>
+  </table>
 
   <div class="view-more-info">
     <h4>Also view on:</h4>

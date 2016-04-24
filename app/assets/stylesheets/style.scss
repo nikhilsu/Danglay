@@ -1505,11 +1505,14 @@ label.required:after {
   padding: 3% 2%;
 
   .user-info {
-    list-style: none;
-
-    li {
-      line-height: 20px;
-      color: #555555;
+    td {
+      padding: 5px 20px 5px 10px;
+    }
+    @media screen and (max-width: 470px) {
+      td{
+        padding: 5px;
+        width: 100%;
+      }
     }
   }
 
