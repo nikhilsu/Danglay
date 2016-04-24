@@ -45,18 +45,17 @@ class CabpoolsController < ApplicationController
     @cabpool.timein = params[:cabpool][:timein]
     @cabpool.timeout = params[:cabpool][:timeout]
     @cabpool.route = params[:cabpool][:route]
-    # @cabpool.number_of_people = params[:cabpool][:number_of_people]
     add_localities_to_cabpool
-    if @cabpool.save
-      # send_email_to_cabpool_users_about_cabpool_update(@cabpool, members_before_cabpool_update)
-      flash[:success] = 'Your Cabpool has been Updated'
-      redirect_to your_cabpools_path and return
-    else
-      flash[:danger] = 'Cannot update because of the following errors'
-      render 'edit'
+    if capacity_of_cabpool_update_successful?
+      if @cabpool.save
+        # send_email_to_cabpool_users_about_cabpool_update(@cabpool, members_before_cabpool_update)
+        flash[:success] = 'Your Cabpool has been Updated'
+        redirect_to your_cabpools_path and return
+      end
     end
+    flash[:danger] = 'Cannot update because of the following errors'
+    render 'edit'
   end
-
 
   def create
     @cabpool = Cabpool.new(cabpool_params)
@@ -298,12 +297,23 @@ class CabpoolsController < ApplicationController
     end
   end
 
+  def capacity_of_cabpool_update_successful?
+    if params[:cabpool][:number_of_people].to_i >= @cabpool.number_of_people
+      @cabpool.number_of_people = params[:cabpool][:number_of_people]
+      return true
+    else
+      @cabpool.errors[:number_of_people] = 'Cannot be less than the existing capacity'
+      return false
+    end
+
+  end
+
   def selected_cabpool_type_is_company_provided_cabpool
     cabpool_type = CabpoolType.new
     params[:cabpool_type].values.each do |cabpool_type_id|
       cabpool_type = CabpoolType.find_by_id(cabpool_type_id)
     end
-    if cabpool_type == nil 
+    if cabpool_type == nil
       return false
     end
     return cabpool_type.name == CabpoolType.find_by_name("Company provided Cab").name

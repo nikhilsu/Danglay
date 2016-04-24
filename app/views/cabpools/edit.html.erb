@@ -10,7 +10,7 @@
       <div class="col-50">
         <h2>Edit Cab Pool</h2>
         <%= label_tag 'Capacity of Cab' %>
-        <%= f.text_field :number_of_people, disabled: 'true' %>
+        <%= f.text_field :number_of_people %>
         <%= render 'shared/error_messages', errors: @cabpool.errors[:number_of_people] if !@cabpool.errors[:number_of_people].empty? %>
         <%= label_tag 'Arrival time to office' %>
         <%= f.time_field :timein, placeholder: 'HH:MM (24Hr format)'%>
