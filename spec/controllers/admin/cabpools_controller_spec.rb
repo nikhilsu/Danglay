@@ -287,7 +287,8 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     cabpool = build(:cabpool)
     cabpool.users = [old_user]
     cabpool.localities = [Locality.find_by_id(1)]
-    allow(Cabpool).to receive(:find).and_return(cabpool)
+    expect(Cabpool).to receive(:find).and_return(cabpool)
+    expect(cabpool).to receive(:save).and_return(true)
 
     patch :update, :id => cabpool.id, :cabpool => {number_of_people: 2}, :passengers => {:user_id_one => first_new_user.id, :user_id_two=> second_new_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}
 

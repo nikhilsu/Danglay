@@ -45,9 +45,9 @@ class CabpoolsController < ApplicationController
     @cabpool.timein = params[:cabpool][:timein]
     @cabpool.timeout = params[:cabpool][:timeout]
     @cabpool.route = params[:cabpool][:route]
-    add_localities_to_cabpool
     if capacity_of_cabpool_update_successful? and @cabpool.save
-         send_email_to_cabpool_members_about_cabpool_update(@cabpool, current_user)
+        add_localities_to_cabpool
+        send_email_to_cabpool_members_about_cabpool_update(@cabpool, current_user)
         flash[:success] = 'Your Cabpool has been Updated'
         redirect_to your_cabpools_path and return
     end
@@ -307,7 +307,6 @@ class CabpoolsController < ApplicationController
       @cabpool.errors[:number_of_people] = 'Cannot be less than the existing capacity'
       return false
     end
-
   end
 
   def selected_cabpool_type_is_company_provided_cabpool

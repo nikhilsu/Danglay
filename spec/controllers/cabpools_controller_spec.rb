@@ -569,8 +569,7 @@ RSpec.describe CabpoolsController, type: :controller do
     second_updated_locality = build(:locality, :another_locality)
     second_updated_locality.id = 20
     user.cabpool = cabpool_to_update
-    expect(Locality).to receive(:find_by_id).with(first_updated_locality.id.to_s).and_return(first_updated_locality).once
-    expect(Locality).to receive(:find_by_id).with(second_updated_locality.id.to_s).and_return(second_updated_locality).once
+    expect(Locality).to_not receive(:find_by_id)
 
     expect(cabpool_to_update).to receive(:save).and_return(false).once
     patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '19:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: first_updated_locality.id, key2: second_updated_locality.id}
@@ -588,8 +587,7 @@ RSpec.describe CabpoolsController, type: :controller do
     second_updated_locality = build(:locality, :another_locality)
     second_updated_locality.id = 20
     user.cabpool = cabpool_to_update
-    expect(Locality).to receive(:find_by_id).with(first_updated_locality.id.to_s).and_return(first_updated_locality).once
-    expect(Locality).to receive(:find_by_id).with(second_updated_locality.id.to_s).and_return(second_updated_locality).once
+    expect(Locality).to_not receive(:find_by_id)
 
     cabpool_to_update.number_of_people = 3
     patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 2, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: first_updated_locality.id, key2: second_updated_locality.id}
