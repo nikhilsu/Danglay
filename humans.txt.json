@@ -2,7 +2,7 @@
   {
     "name": "Abhishek S P",
     "imageName": "abhishek.jpg",
-    "role": "DEV",
+    "role": "Developer",
     "roleDescription": "",
     "twitterHandle": "#",
     "jigsawUserName": "abhisp",
@@ -11,7 +11,7 @@
   {
     "name": "Deepika Vasudevan",
     "imageName": "deepika.jpg",
-    "role": "DEV",
+    "role": "Developer",
     "roleDescription": "",
     "jigsawUserName": "vdeepika",
     "twitterHandle": "#",
@@ -20,7 +20,7 @@
   {
     "name": "Kusum Ijari",
     "imageName": "kusum.jpg",
-    "role": "DEV",
+    "role": "Developer",
     "roleDescription": "",
     "jigsawUserName": "kusumi",
     "twitterHandle": "#",
@@ -29,7 +29,7 @@
   {
     "name": "Nikhil Sulegaon",
     "imageName": "nikhil.jpg",
-    "role": "DEV",
+    "role": "Developer",
     "roleDescription": "",
     "jigsawUserName": "nikhilsu",
     "twitterHandle": "#",
@@ -47,7 +47,7 @@
   {
     "name": "Riju Nayak",
     "imageName": "riju.jpg",
-    "role": "DEV",
+    "role": "Developer",
     "roleDescription": "",
     "jigsawUserName": "rijun",
     "twitterHandle": "#",
@@ -56,16 +56,25 @@
   {
     "name": "Sandeep Hegde",
     "imageName": "sandeep.jpg",
-    "role": "DEV",
+    "role": "Developer",
     "roleDescription": "",
     "jigsawUserName": "sandeeph",
     "twitterHandle": "#",
     "linkedInProfile": "#"
   },
   {
+    "name": "Sneha Prabhu",
+    "imageName": "sneha.jpg",
+    "role": "BA (used to be a DEV)",
+    "roleDescription": "",
+    "jigsawUserName": "snehasp",
+    "twitterHandle": "#",
+    "linkedInProfile": "#"
+  },
+  {
     "name": "Thejas Babu",
     "imageName": "thejas.jpg",
-    "role": "DEV",
+    "role": "Developer",
     "roleDescription": "",
     "jigsawUserName": "thejasb",
     "twitterHandle": "#",
@@ -74,7 +83,7 @@
   {
     "name": "Varsha Varadarajan",
     "imageName": "varsha.jpg",
-    "role": "DEV",
+    "role": "Developer",
     "roleDescription": "",
     "jigsawUserName": "varshavs",
     "twitterHandle": "#",
