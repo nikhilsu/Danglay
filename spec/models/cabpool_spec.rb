@@ -109,18 +109,6 @@ RSpec.describe Cabpool, type: :model do
     expect(cabpool.valid?).to be false
   end
 
-  it 'should clear the existing localities of the cabpool before assigning new localities to it' do
-    cabpool = build(:cabpool)
-    first_locality = build(:locality)
-    second_locality = build(:locality, :another_locality)
-    expect(cabpool.localities).to receive(:clear).once
-
-    cabpool.localities = [first_locality, second_locality]
-
-    expect(cabpool.localities).to eq [first_locality, second_locality]
-  end
-
-
   describe 'Order of localities' do
     before(:all) do
       @locality1 = create(:locality, name: 'L1')

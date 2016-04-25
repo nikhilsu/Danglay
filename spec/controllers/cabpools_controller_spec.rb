@@ -582,6 +582,7 @@ RSpec.describe CabpoolsController, type: :controller do
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
     expect(cabpool_to_update).to receive(:save).and_return(true).once
+    expect(cabpool_to_update.localities).to receive(:clear).once
     patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: first_updated_locality.id, key2: second_updated_locality.id}
 
     expect(response).to redirect_to your_cabpools_path
