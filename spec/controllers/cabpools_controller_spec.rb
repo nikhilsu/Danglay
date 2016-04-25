@@ -512,19 +512,48 @@ RSpec.describe CabpoolsController, type: :controller do
 
     get :new
 
-    expect(flash[:danger]).to eq "You are already part of a Cab pool. Please leave the cabpool to create a new cab pool."
+    expect(flash[:danger]).to eq 'You are already part of a Cab pool. Please leave the cabpool to create a new cab pool.'
     expect(response).to redirect_to your_cabpools_path
   end
 
   it 'should render Edit when the current user has a cabpool' do
     user = build(:user)
+    another_user = build(:user, :another_user)
+    allow(User).to receive(:find_by_email).and_return(user)
+    cabpool_to_update = build(:cabpool)
+    cabpool_to_update.users = [user, another_user]
+
+    expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
+    get :edit, id: 1
+
+    expect(response).to render_template 'cabpools/edit'
+  end
+
+  it 'should render home page when the user tries to edit a cabpool that he/she is not part of' do
+    user = build(:user)
+    allow(User).to receive(:find_by_email).and_return(user)
+    cabpool = build(:cabpool)
+    cabpool_to_edit_that_does_not_include_user = build(:cabpool)
+    user.cabpool = cabpool
+
+    expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_edit_that_does_not_include_user)
+    get :edit, id: 1
+
+    expect(response).to redirect_to root_url
+    expect(flash[:danger]).to eq 'Cannot Edit a cabpool that you are not part of'
+  end
+
+  it 'should render home page when the user tries to edit a cabpool that does not exist' do
+    user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
     cabpool = build(:cabpool)
     user.cabpool = cabpool
 
-    get :edit, id: 1
+    expect(Cabpool).to receive(:find_by_id).and_return(nil)
+    get :edit, id: 1234
 
-    expect(response).to render_template "cabpools/edit"
+    expect(response).to redirect_to root_url
+    expect(flash[:danger]).to eq 'Cannot Edit a cabpool that you are not part of'
   end
 
   it 'should render home page when the current user does not have a cabpool' do
@@ -551,6 +580,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(Locality).to receive(:find_by_id).with(first_updated_locality.id.to_s).and_return(first_updated_locality).once
     expect(Locality).to receive(:find_by_id).with(second_updated_locality.id.to_s).and_return(second_updated_locality).once
 
+    expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
     expect(cabpool_to_update).to receive(:save).and_return(true).once
     patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: first_updated_locality.id, key2: second_updated_locality.id}
 
@@ -568,9 +598,10 @@ RSpec.describe CabpoolsController, type: :controller do
     first_updated_locality.id = 10
     second_updated_locality = build(:locality, :another_locality)
     second_updated_locality.id = 20
-    user.cabpool = cabpool_to_update
+    cabpool_to_update.users = [user]
     expect(Locality).to_not receive(:find_by_id)
 
+    expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
     expect(cabpool_to_update).to receive(:save).and_return(false).once
     patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '19:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: first_updated_locality.id, key2: second_updated_locality.id}
 
@@ -586,15 +617,45 @@ RSpec.describe CabpoolsController, type: :controller do
     first_updated_locality.id = 10
     second_updated_locality = build(:locality, :another_locality)
     second_updated_locality.id = 20
-    user.cabpool = cabpool_to_update
+    cabpool_to_update.users = [user]
     expect(Locality).to_not receive(:find_by_id)
 
     cabpool_to_update.number_of_people = 3
+    expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
     patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 2, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: first_updated_locality.id, key2: second_updated_locality.id}
 
     expect(response).to render_template 'edit'
     expect(cabpool_to_update.errors[:number_of_people]).to eq ['Cannot be less than the existing capacity']
     expect(flash[:danger]).to eq 'Cannot update because of the following errors'
+  end
+
+  it 'should not allow a user to update a cabpool that he/she is not part of' do
+    user = build(:user)
+    expect(User).to receive(:find_by_email).and_return(user)
+    first_updated_locality = build(:locality)
+    cabpool_that_user_part_of = build(:cabpool)
+    user.cabpool = cabpool_that_user_part_of
+    cabpool_to_update_that_does_not_include_user = build(:cabpool)
+
+    expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update_that_does_not_include_user)
+    patch :update, :id => '', :cabpool => {number_of_people: 4, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: ''}, :localities => {key1: first_updated_locality.id}
+
+    expect(response).to redirect_to root_url
+    expect(flash[:danger]).to eq 'Cannot Edit a cabpool that you are not part of'
+  end
+
+  it 'should not allow a user to update a cabpool that does not exist' do
+    user = build(:user)
+    expect(User).to receive(:find_by_email).and_return(user)
+    first_updated_locality = build(:locality)
+    cabpool_that_user_part_of = build(:cabpool)
+    user.cabpool = cabpool_that_user_part_of
+
+    expect(Cabpool).to receive(:find_by_id).and_return(nil)
+    patch :update, :id => '', :cabpool => {number_of_people: 4, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: ''}, :localities => {key1: first_updated_locality.id}
+
+    expect(response).to redirect_to root_url
+    expect(flash[:danger]).to eq 'Cannot Edit a cabpool that you are not part of'
   end
 
   it 'should not allow a user to update if he/she is not part of a cabpool' do

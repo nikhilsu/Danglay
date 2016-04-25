@@ -36,23 +36,35 @@ class CabpoolsController < ApplicationController
   end
 
   def edit
-    @cabpool = current_user.cabpool
+    cabpool_to_edit = Cabpool.find_by_id(params[:id])
+    if !cabpool_to_edit.nil? and cabpool_to_edit.users.include?(current_user)
+      @cabpool = cabpool_to_edit
+    else
+      flash[:danger] = 'Cannot Edit a cabpool that you are not part of'
+      redirect_to root_url and return
+    end
   end
 
   def update
-    @cabpool = current_user.cabpool
-    @cabpool.remarks = params[:cabpool][:remarks]
-    @cabpool.timein = params[:cabpool][:timein]
-    @cabpool.timeout = params[:cabpool][:timeout]
-    @cabpool.route = params[:cabpool][:route]
-    if capacity_of_cabpool_update_successful? and @cabpool.save
-        add_localities_to_cabpool
-        send_email_to_cabpool_members_about_cabpool_update(@cabpool, current_user)
-        flash[:success] = 'Your Cabpool has been Updated'
-        redirect_to your_cabpools_path and return
+    cabpool_to_update = Cabpool.find_by_id(params[:cabpool][:id])
+    if !cabpool_to_update.nil? and cabpool_to_update.users.include?(current_user)
+      @cabpool = cabpool_to_update
+      @cabpool.remarks = params[:cabpool][:remarks]
+      @cabpool.timein = params[:cabpool][:timein]
+      @cabpool.timeout = params[:cabpool][:timeout]
+      @cabpool.route = params[:cabpool][:route]
+      if capacity_of_cabpool_update_successful? and @cabpool.save
+          add_localities_to_cabpool
+          send_email_to_cabpool_members_about_cabpool_update(@cabpool, current_user)
+          flash[:success] = 'Your Cabpool has been Updated'
+          redirect_to your_cabpools_path and return
+      end
+      flash[:danger] = 'Cannot update because of the following errors'
+      render 'edit'
+    else
+      flash[:danger] = 'Cannot Edit a cabpool that you are not part of'
+      redirect_to root_url and return
     end
-    flash[:danger] = 'Cannot update because of the following errors'
-    render 'edit'
   end
 
   def create
