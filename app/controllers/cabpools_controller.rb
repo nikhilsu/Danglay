@@ -53,9 +53,9 @@ class CabpoolsController < ApplicationController
       @cabpool.timein = params[:cabpool][:timein]
       @cabpool.timeout = params[:cabpool][:timeout]
       @cabpool.route = params[:cabpool][:route]
+      clear_current_localities_to_store_new_ordered_localities
+      add_localities_to_cabpool
       if capacity_of_cabpool_update_successful? and @cabpool.save
-        clear_current_localities_to_store_new_ordered_localities
-        add_localities_to_cabpool
         send_email_to_cabpool_members_about_cabpool_update(@cabpool, current_user)
         flash[:success] = 'Your Cabpool has been Updated'
         redirect_to your_cabpools_path and return

@@ -600,7 +600,8 @@ RSpec.describe CabpoolsController, type: :controller do
     second_updated_locality = build(:locality, :another_locality)
     second_updated_locality.id = 20
     cabpool_to_update.users = [user]
-    expect(Locality).to_not receive(:find_by_id)
+    expect(Locality).to receive(:find_by_id).with(first_updated_locality.id.to_s).and_return(first_updated_locality).once
+    expect(Locality).to receive(:find_by_id).with(second_updated_locality.id.to_s).and_return(second_updated_locality).once
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
     expect(cabpool_to_update).to receive(:save).and_return(false).once
@@ -619,7 +620,8 @@ RSpec.describe CabpoolsController, type: :controller do
     second_updated_locality = build(:locality, :another_locality)
     second_updated_locality.id = 20
     cabpool_to_update.users = [user]
-    expect(Locality).to_not receive(:find_by_id)
+    expect(Locality).to receive(:find_by_id).with(first_updated_locality.id.to_s).and_return(first_updated_locality).once
+    expect(Locality).to receive(:find_by_id).with(second_updated_locality.id.to_s).and_return(second_updated_locality).once
 
     cabpool_to_update.number_of_people = 3
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)

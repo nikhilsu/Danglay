@@ -31,11 +31,13 @@ class Admin::CabpoolsController < Admin::AdminController
     @cabpool.remarks = params[:cabpool][:remarks]
     @cabpool.number_of_people = params[:cabpool][:number_of_people]
     members_before_cabpool_update = get_members_before_cabpool_update
-    if no_passengers_edge_case_violation? and @cabpool.save
+    if no_passengers_edge_case_violation?
       add_or_update_users_to_cabpool
-      send_email_to_cabpool_users_about_cabpool_update_by_admin(@cabpool, members_before_cabpool_update)
-      flash[:success] = "Cabpool has been Updated"
-      redirect_to '/admin' and return
+      if @cabpool.save
+        send_email_to_cabpool_users_about_cabpool_update_by_admin(@cabpool, members_before_cabpool_update)
+        flash[:success] = "Cabpool has been Updated"
+        redirect_to '/admin' and return
+      end
     end
     render 'edit'
   end
