@@ -53,9 +53,8 @@ class CabpoolsController < ApplicationController
       @cabpool.timein = params[:cabpool][:timein]
       @cabpool.timeout = params[:cabpool][:timeout]
       @cabpool.route = params[:cabpool][:route]
-      clear_current_localities_to_store_new_ordered_localities
-      add_localities_to_cabpool
-      if capacity_of_cabpool_update_successful? and @cabpool.save
+      if capacity_of_cabpool_update_successful? and is_cabpool_valid_after_validating_localities_by_adding_them_to_a_clone_thus_deferring_save?
+        @cabpool.save
         send_email_to_cabpool_members_about_cabpool_update(@cabpool, current_user)
         flash[:success] = 'Your Cabpool has been Updated'
         redirect_to your_cabpools_path and return
@@ -70,14 +69,14 @@ class CabpoolsController < ApplicationController
 
   def create
     @cabpool = Cabpool.new(cabpool_params)
-    add_localities_to_cabpool
     add_current_user_to_cabpool
     if selected_cabpool_type_is_company_provided_cabpool
       send_email_to_admins_to_request_cabpool_creation(current_user, Time.new(params[:cabpool][:timein]), Time.new(params[:cabpool][:timeout]), params[:remarks])
       flash[:success] = "You have successfully requested the admins for a cab pool."
       redirect_to root_url
     else
-      if @cabpool.save
+      if is_cabpool_valid_after_validating_localities_by_adding_them_to_a_clone_thus_deferring_save?
+        @cabpool.save
         flash[:success] = "You have successfully created your cab pool. Please check the 'MyRide' tab for details."
         redirect_to root_url
       else
@@ -290,13 +289,24 @@ class CabpoolsController < ApplicationController
     @cabpool.users << user if !user.nil?
   end
 
-  def add_localities_to_cabpool
+  def is_cabpool_valid_after_validating_localities_by_adding_them_to_a_clone_thus_deferring_save?
     localities_to_be_added = []
+    cabpool_clone = @cabpool.deep_clone :without => [:localities]
     params[:localities].values.each do |locality_id|
       locality = Locality.find_by_id(locality_id)
       localities_to_be_added << locality if !locality.nil?
     end
-    @cabpool.localities = localities_to_be_added
+    cabpool_clone.localities = localities_to_be_added
+    if cabpool_clone.valid?
+      clear_current_localities_to_store_new_ordered_localities
+      @cabpool.localities = localities_to_be_added
+      return true
+    else
+      cabpool_clone.errors.each do |attribute, error_message|
+         @cabpool.errors.add(attribute, error_message)
+       end
+      return false
+    end
   end
 
   def send_emails_to_cabpool_users(cabpool, current_user, digest)

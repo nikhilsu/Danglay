@@ -167,7 +167,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(ActionMailer::Base.deliveries.size).to eq 1
   end
 
-  it "should redirect to new user path when unregistered user tries to create a pool" do
+  it 'should redirect to new user path when unregistered user tries to create a pool' do
     @current_user = nil
     session[:Email] = 'newUser@mail.com'
     get :new
@@ -276,7 +276,6 @@ RSpec.describe CabpoolsController, type: :controller do
 
 
   it 'should set the current user\'s cabppol to nil if the user leaves the cab pool with no existing members in the cabpool' do
-
     user = build_stubbed(:user)
     cabpool = build_stubbed(:cabpool)
     user.cabpool = cabpool
@@ -566,7 +565,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to redirect_to root_url
   end
 
-  it 'should successfully update a cabpool and send out emails to concerned members when all valid details are entered by user' do
+  it 'should successfully update a cabpool and send out emails to concerned members when all valid details and localities are entered by user' do
     user = build(:user)
     expect(User).to receive(:find_by_email).and_return(user)
     cabpool_to_update = build(:cabpool)
@@ -576,12 +575,15 @@ RSpec.describe CabpoolsController, type: :controller do
     first_updated_locality.id = 10
     second_updated_locality = build(:locality, :another_locality)
     second_updated_locality.id = 20
+    cabpool_clone = cabpool_to_update.dup
     allow(cabpool_to_update).to receive(:ordered_localities).and_return([first_updated_locality, second_updated_locality])
     expect(Locality).to receive(:find_by_id).with(first_updated_locality.id.to_s).and_return(first_updated_locality).once
     expect(Locality).to receive(:find_by_id).with(second_updated_locality.id.to_s).and_return(second_updated_locality).once
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
     expect(cabpool_to_update).to receive(:save).and_return(true).once
+    expect(cabpool_to_update).to receive(:deep_clone).and_return(cabpool_clone)
+    expect(cabpool_clone).to receive(:valid?).and_return(true)
     expect(cabpool_to_update.localities).to receive(:clear).once
     patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: first_updated_locality.id, key2: second_updated_locality.id}
 
@@ -591,24 +593,26 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(ActionMailer::Base.deliveries.size).to eq 1
   end
 
-  it 'should not update a cabpool when invalid detail/s is/are entered by user' do
+  it 'should not update a cabpool when details entered by user are not valid' do
     user = build(:user)
     expect(User).to receive(:find_by_email).and_return(user)
     cabpool_to_update = build(:cabpool)
-    first_updated_locality = build(:locality)
-    first_updated_locality.id = 10
-    second_updated_locality = build(:locality, :another_locality)
-    second_updated_locality.id = 20
+    duplicate_locality = build(:locality)
+    duplicate_locality.id = 10
+    cabpool_clone = cabpool_to_update.dup
+    validation_errors_on_localities = {localities: 'Validation error on localities'}
     cabpool_to_update.users = [user]
-    expect(Locality).to receive(:find_by_id).with(first_updated_locality.id.to_s).and_return(first_updated_locality).once
-    expect(Locality).to receive(:find_by_id).with(second_updated_locality.id.to_s).and_return(second_updated_locality).once
+    expect(Locality).to receive(:find_by_id).with(duplicate_locality.id.to_s).and_return(duplicate_locality).twice
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
-    expect(cabpool_to_update).to receive(:save).and_return(false).once
-    patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '19:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: first_updated_locality.id, key2: second_updated_locality.id}
+    expect(cabpool_to_update).to receive(:deep_clone).and_return(cabpool_clone)
+    expect(cabpool_clone).to receive(:valid?).and_return(false)
+    expect(cabpool_clone).to receive(:errors).and_return(validation_errors_on_localities)
+    patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '19:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: duplicate_locality.id, key2: duplicate_locality.id}
 
     expect(response).to render_template 'edit'
     expect(flash[:danger]).to eq 'Cannot update because of the following errors'
+    expect(assigns(:cabpool).errors[:localities].empty?).to be false
   end
 
   it 'should not update the cabpool when the capacity of the cabpool is less than the previous value' do
@@ -620,8 +624,6 @@ RSpec.describe CabpoolsController, type: :controller do
     second_updated_locality = build(:locality, :another_locality)
     second_updated_locality.id = 20
     cabpool_to_update.users = [user]
-    expect(Locality).to receive(:find_by_id).with(first_updated_locality.id.to_s).and_return(first_updated_locality).once
-    expect(Locality).to receive(:find_by_id).with(second_updated_locality.id.to_s).and_return(second_updated_locality).once
 
     cabpool_to_update.number_of_people = 3
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)

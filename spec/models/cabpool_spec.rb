@@ -109,6 +109,107 @@ RSpec.describe Cabpool, type: :model do
     expect(cabpool.valid?).to be false
   end
 
+  it 'should clone all attributes and associations of a given cabpool except for its id' do
+    cabpool = build(:cabpool)
+    cabpool.id = 1
+    cabpool.localities = [build(:locality)]
+    cabpool.users = [build(:user)]
+    cabpool.requested_users = [build(:user, :another_user)]
+
+    cloned_cabpool = cabpool.deep_clone
+
+    expect(cloned_cabpool.id).to be nil
+    expect(cabpool.number_of_people).to eq cloned_cabpool.number_of_people
+    expect(cabpool.timein).to eq cloned_cabpool.timein
+    expect(cabpool.timeout).to eq cloned_cabpool.timeout
+    expect(cabpool.remarks).to eq cloned_cabpool.remarks
+    expect(cabpool.route).to eq cloned_cabpool.route
+    expect(cabpool.localities).to eq cloned_cabpool.localities
+    expect(cabpool.users).to eq cloned_cabpool.users
+    expect(cabpool.requested_users).to eq cloned_cabpool.requested_users
+  end
+
+  it 'should clone all attributes except localities of a given cabpool' do
+    cabpool = build(:cabpool)
+    cabpool.id = 1
+    cabpool.localities = [build(:locality)]
+    cabpool.users = [build(:user)]
+    cabpool.requested_users = [build(:user, :another_user)]
+
+    cloned_cabpool = cabpool.deep_clone :without => [:localities]
+
+    expect(cloned_cabpool.id).to be nil
+    expect(cabpool.number_of_people).to eq cloned_cabpool.number_of_people
+    expect(cabpool.timein).to eq cloned_cabpool.timein
+    expect(cabpool.timeout).to eq cloned_cabpool.timeout
+    expect(cabpool.remarks).to eq cloned_cabpool.remarks
+    expect(cabpool.route).to eq cloned_cabpool.route
+    expect(cabpool.localities).to_not eq cloned_cabpool.localities
+    expect(cabpool.users).to eq cloned_cabpool.users
+    expect(cabpool.requested_users).to eq cloned_cabpool.requested_users
+  end
+
+  it 'should clone all attributes except users of a given cabpool' do
+    cabpool = build(:cabpool)
+    cabpool.id = 1
+    cabpool.localities = [build(:locality)]
+    cabpool.users = [build(:user)]
+    cabpool.requested_users = [build(:user, :another_user)]
+
+    cloned_cabpool = cabpool.deep_clone :without => [:users]
+
+    expect(cloned_cabpool.id).to be nil
+    expect(cabpool.number_of_people).to eq cloned_cabpool.number_of_people
+    expect(cabpool.timein).to eq cloned_cabpool.timein
+    expect(cabpool.timeout).to eq cloned_cabpool.timeout
+    expect(cabpool.remarks).to eq cloned_cabpool.remarks
+    expect(cabpool.route).to eq cloned_cabpool.route
+    expect(cabpool.localities).to eq cloned_cabpool.localities
+    expect(cabpool.users).to_not eq cloned_cabpool.users
+    expect(cabpool.requested_users).to eq cloned_cabpool.requested_users
+  end
+
+
+  it 'should clone all attributes except requested users of a given cabpool' do
+    cabpool = build(:cabpool)
+    cabpool.id = 1
+    cabpool.localities = [build(:locality)]
+    cabpool.users = [build(:user)]
+    cabpool.requested_users = [build(:user, :another_user)]
+
+    cloned_cabpool = cabpool.deep_clone :without => [:requested_users]
+
+    expect(cloned_cabpool.id).to be nil
+    expect(cabpool.number_of_people).to eq cloned_cabpool.number_of_people
+    expect(cabpool.timein).to eq cloned_cabpool.timein
+    expect(cabpool.timeout).to eq cloned_cabpool.timeout
+    expect(cabpool.remarks).to eq cloned_cabpool.remarks
+    expect(cabpool.route).to eq cloned_cabpool.route
+    expect(cabpool.localities).to eq cloned_cabpool.localities
+    expect(cabpool.users).to eq cloned_cabpool.users
+    expect(cabpool.requested_users).to_not eq cloned_cabpool.requested_users
+  end
+
+  it 'should clone all attributes except users and localites of a given cabpool' do
+    cabpool = build(:cabpool)
+    cabpool.id = 1
+    cabpool.localities = [build(:locality)]
+    cabpool.users = [build(:user)]
+    cabpool.requested_users = [build(:user, :another_user)]
+
+    cloned_cabpool = cabpool.deep_clone :without => [:users, :localities]
+
+    expect(cloned_cabpool.id).to be nil
+    expect(cabpool.number_of_people).to eq cloned_cabpool.number_of_people
+    expect(cabpool.timein).to eq cloned_cabpool.timein
+    expect(cabpool.timeout).to eq cloned_cabpool.timeout
+    expect(cabpool.remarks).to eq cloned_cabpool.remarks
+    expect(cabpool.route).to eq cloned_cabpool.route
+    expect(cabpool.localities).to_not eq cloned_cabpool.localities
+    expect(cabpool.users).to_not eq cloned_cabpool.users
+    expect(cabpool.requested_users).to eq cloned_cabpool.requested_users
+  end
+
   describe 'Order of localities' do
     before(:all) do
       @locality1 = create(:locality, name: 'L1')
