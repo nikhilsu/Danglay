@@ -109,6 +109,18 @@ RSpec.describe Cabpool, type: :model do
     expect(cabpool.valid?).to be false
   end
 
+  it 'current value of number of people cannot be less than previous value of a cabpool' do
+    cabpool = build(:cabpool)
+    cabpool.number_of_people = 3
+    cabpool.users = [build(:user)]
+    cabpool.localities = [build(:locality)]
+    cabpool.save
+
+    cabpool.number_of_people = 2
+    expect(cabpool.valid?).to be false
+
+  end
+
   it 'should clone all attributes and associations of a given cabpool except for its id' do
     cabpool = build(:cabpool)
     cabpool.id = 1

@@ -14,6 +14,7 @@
         <%= render 'shared/error_messages', errors: @cabpool.errors[:number_of_people] if !@cabpool.errors[:number_of_people].empty? %>
         <%= label_tag 'Arrival time to office' %>
         <%= f.time_field :timein, placeholder: 'HH:MM (24Hr format)'%>
+        <%= render 'shared/error_messages', errors: @cabpool.errors[:timein] if !@cabpool.errors[:timein].empty? %>
         <%= label_tag 'Departure time from office' %>
         <%= f.time_field :timeout, placeholder: 'HH:MM (24Hr format)'%>
 

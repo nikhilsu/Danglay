@@ -49,18 +49,19 @@ class CabpoolsController < ApplicationController
     cabpool_to_update = Cabpool.find_by_id(params[:cabpool][:id])
     if !cabpool_to_update.nil? and cabpool_to_update.users.include?(current_user)
       @cabpool = cabpool_to_update
+      @cabpool.number_of_people = params[:cabpool][:number_of_people]
       @cabpool.remarks = params[:cabpool][:remarks]
       @cabpool.timein = params[:cabpool][:timein]
       @cabpool.timeout = params[:cabpool][:timeout]
       @cabpool.route = params[:cabpool][:route]
-      if capacity_of_cabpool_update_successful? and is_cabpool_valid_after_validating_localities_by_adding_them_to_a_clone_thus_deferring_save?
-        @cabpool.save
+      if create_or_update_of_cabpool_successful?
         send_email_to_cabpool_members_about_cabpool_update(@cabpool, current_user)
         flash[:success] = 'Your Cabpool has been Updated'
         redirect_to your_cabpools_path and return
+      else
+        flash[:danger] = 'Cannot update because of the following errors'
+        render 'edit'
       end
-      flash[:danger] = 'Cannot update because of the following errors'
-      render 'edit'
     else
       flash[:danger] = 'Cannot Edit a cabpool that you are not part of'
       redirect_to root_url and return
@@ -72,14 +73,14 @@ class CabpoolsController < ApplicationController
     add_current_user_to_cabpool
     if selected_cabpool_type_is_company_provided_cabpool
       send_email_to_admins_to_request_cabpool_creation(current_user, Time.new(params[:cabpool][:timein]), Time.new(params[:cabpool][:timeout]), params[:remarks])
-      flash[:success] = "You have successfully requested the admins for a cab pool."
+      flash[:success] = 'You have successfully requested the admins for a cab pool.'
       redirect_to root_url
     else
-      if is_cabpool_valid_after_validating_localities_by_adding_them_to_a_clone_thus_deferring_save?
-        @cabpool.save
+      if create_or_update_of_cabpool_successful?
         flash[:success] = "You have successfully created your cab pool. Please check the 'MyRide' tab for details."
         redirect_to root_url
       else
+        flash[:danger] = 'Cannot create because of the following errors'
         render 'new'
       end
     end
@@ -90,7 +91,7 @@ class CabpoolsController < ApplicationController
     joining_cabpool = Cabpool.find_by_id(id)
     requesting_user = User.find_by_email(session[:Email])
     if joining_cabpool.available_slots > 0
-      flash[:success] = "Join Request Sent!"
+      flash[:success] = 'Join Request Sent!'
       request = Request.create(user: requesting_user, cabpool: joining_cabpool)
       if joining_cabpool.cabpool_type.name == 'Company provided Cab'
         send_email_to_admins_for_join_request(joining_cabpool, current_user, request.approve_digest)
@@ -110,7 +111,7 @@ class CabpoolsController < ApplicationController
       searched_locality_id = params[:localities].values.first
       locality = Locality.find_by_id(searched_locality_id)
       if locality.nil?
-        flash.now[:danger] = "Select a locality"
+        flash.now[:danger] = 'Select a locality'
         @cabpools = cabpools_to_render(Cabpool.all)
       elsif !locality.cabpools.empty?
         @cabpools = cabpools_to_render(locality.cabpools)
@@ -230,14 +231,6 @@ class CabpoolsController < ApplicationController
     end
   end
 
-  def reject_user(user, request)
-    request.destroy!
-    user.status = 'rejected'
-    user.save
-    send_email_to_rejected_user user
-    render 'request_reject'
-  end
-
   def send_email_to_admins_to_request_cabpool_creation(requesting_user, timein, timeout, remarks)
     CabpoolMailer.admin_notifier_for_new_cabpool_creation_request(requesting_user, timein, timeout, remarks).deliver_now
   end
@@ -267,6 +260,24 @@ class CabpoolsController < ApplicationController
     CabpoolMailer.member_of_a_cabpool_updated_it(updated_cabpool, member_updating_cabpool).deliver_now
   end
 
+  def send_emails_to_cabpool_users(cabpool, current_user, digest)
+    cabpool.users.collect do |user|
+      CabpoolMailer.cabpool_join_request(user, cabpool, current_user, digest).deliver_now
+    end
+  end
+
+  def send_email_to_admins_for_join_request(joining_cab, joining_user, digest)
+    CabpoolMailer.admin_notifier_for_join_cabpool(joining_cab, joining_user, digest).deliver_now
+  end
+
+  def reject_user(user, request)
+    request.destroy!
+    user.status = 'rejected'
+    user.save
+    send_email_to_rejected_user user
+    render 'request_reject'
+  end
+
   def registered?
     store_location
     if !is_registered?
@@ -289,50 +300,53 @@ class CabpoolsController < ApplicationController
     @cabpool.users << user if !user.nil?
   end
 
-  def is_cabpool_valid_after_validating_localities_by_adding_them_to_a_clone_thus_deferring_save?
+  def get_localities_of_cabpool_from_params
     localities_to_be_added = []
-    cabpool_clone = @cabpool.deep_clone :without => [:localities]
     params[:localities].values.each do |locality_id|
       locality = Locality.find_by_id(locality_id)
       localities_to_be_added << locality if !locality.nil?
     end
-    cabpool_clone.localities = localities_to_be_added
-    if cabpool_clone.valid?
-      clear_current_localities_to_store_new_ordered_localities
-      @cabpool.localities = localities_to_be_added
-      return true
-    else
-      cabpool_clone.errors.each do |attribute, error_message|
-         @cabpool.errors.add(attribute, error_message)
-       end
-      return false
-    end
+    return localities_to_be_added
   end
 
-  def send_emails_to_cabpool_users(cabpool, current_user, digest)
-    cabpool.users.collect do |user|
-      CabpoolMailer.cabpool_join_request(user, cabpool, current_user, digest).deliver_now
-    end
+  def get_validation_errors_on_localites localities_to_validate
+    cabpool_clone = @cabpool.deep_clone :without => [:localities]
+    cabpool_clone.localities = localities_to_validate
+    cabpool_clone.validate
+    return cabpool_clone.errors[:localities]
   end
 
-  def send_email_to_admins_for_join_request(joining_cab, joining_user, digest)
-    CabpoolMailer.admin_notifier_for_join_cabpool(joining_cab, joining_user, digest).deliver_now
+  def add_valid_localities_to_cabpool localities_to_add
+    clear_current_localities_to_store_new_ordered_localities
+    @cabpool.localities = localities_to_add
+  end
+
+  def add_validation_errors_to_cabpool(localities_validation_errors)
+    @cabpool.validate
+    @cabpool.errors[:localities] = localities_validation_errors.first if !localities_validation_errors.empty?
+  end
+
+
+  def create_or_update_of_cabpool_successful?
+    localities_to_add = get_localities_of_cabpool_from_params
+    localities_validation_errors = get_validation_errors_on_localites(localities_to_add)
+
+    if localities_validation_errors.empty?
+      add_valid_localities_to_cabpool localities_to_add
+      if @cabpool.valid?
+        @cabpool.save!
+        return true
+      end
+    end
+
+    add_validation_errors_to_cabpool(localities_validation_errors)
+    return false
   end
 
   def has_cabpool
     if current_user.cabpool.nil?
       flash[:danger] = 'You are not part of a cabpool.'
       redirect_to root_url
-    end
-  end
-
-  def capacity_of_cabpool_update_successful?
-    if params[:cabpool][:number_of_people].to_i >= @cabpool.number_of_people
-      @cabpool.number_of_people = params[:cabpool][:number_of_people]
-      return true
-    else
-      @cabpool.errors[:number_of_people] = 'Cannot be less than the existing capacity'
-      return false
     end
   end
 

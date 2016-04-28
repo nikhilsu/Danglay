@@ -9,15 +9,15 @@ class Cabpool < ActiveRecord::Base
   validates_time :timein, :timeout
   validates_numericality_of :number_of_people, less_than_or_equal_to: 4, greater_than_or_equal_to: 1
   validate :invalidate_empty_localities, :invalidate_duplicate_localities, :invalidate_more_than_five_localities,
-           :invalidate_empty_cabpool_type, :invalidate_empty_users, :invalidate_having_more_users_than_capacity,
-           :invalidate_timein_after_timeout
+           :invalidate_empty_cabpool_type, :invalidate_new_number_of_people_being_lesser_than_old_value, :invalidate_empty_users,
+           :invalidate_having_more_users_than_capacity, :invalidate_timein_after_timeout
   validates :remarks, length: {maximum: 300}
 
   def ordered_localities
     return localities.order('cabpools_localities.created_at')
   end
 
-  def deep_clone options = {}
+  def deep_clone(options = {})
     clone = self.dup
     clone.users = self.users if should_clone?(options, :users)
     clone.localities = self.localities if should_clone?(options, :localities)
@@ -30,6 +30,11 @@ class Cabpool < ActiveRecord::Base
   end
 
   private
+  def invalidate_new_number_of_people_being_lesser_than_old_value
+    if number_of_people.to_i < number_of_people_was.to_i
+      errors.add(:number_of_people, 'Cannot be less than the existing capacity')
+    end
+  end
 
   def invalidate_empty_localities
     if localities.empty?
