@@ -17,16 +17,25 @@ class Cabpool < ActiveRecord::Base
     return localities.order('cabpools_localities.created_at')
   end
 
-  def deep_clone(options = {})
-    clone = self.dup
-    clone.users = self.users if should_clone?(options, :users)
-    clone.localities = self.localities if should_clone?(options, :localities)
-    clone.requested_users = self.requested_users if should_clone?(options, :requested_users)
-    return clone
-  end
-
    def available_slots
     number_of_people - users.size
+  end
+
+  def get_validation_errors_on_localities localities_to_validate
+    cabpool_clone = self.dup
+    cabpool_clone.localities = localities_to_validate
+    cabpool_clone.validate
+    return cabpool_clone.errors[:localities]
+  end
+
+  def add_localities_in_order localities_to_add
+    self.localities.clear
+    self.localities = localities_to_add
+  end
+
+  def populate_validation_errors(validation_errors_on_localities)
+    self.validate
+    self.errors[:localities] = validation_errors_on_localities.first if !validation_errors_on_localities.empty?
   end
 
   private
@@ -78,9 +87,5 @@ class Cabpool < ActiveRecord::Base
         errors.add(:timein, "cannot be after Departure time.")
       end
     end
-  end
-
-  def should_clone?(options, association)
-    options.empty? or !options[:without].include? association
   end
 end

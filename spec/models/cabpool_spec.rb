@@ -118,108 +118,66 @@ RSpec.describe Cabpool, type: :model do
 
     cabpool.number_of_people = 2
     expect(cabpool.valid?).to be false
-
   end
 
-  it 'should clone all attributes and associations of a given cabpool except for its id' do
+  it 'should return an array of validation errors on localities when invalid localities are passed to the cabpool' do
     cabpool = build(:cabpool)
-    cabpool.id = 1
-    cabpool.localities = [build(:locality)]
-    cabpool.users = [build(:user)]
-    cabpool.requested_users = [build(:user, :another_user)]
+    cabpool_clone = cabpool.dup
+    duplicate_localities = build(:locality)
+    invalid_localities = [duplicate_localities, duplicate_localities]
+    expect(cabpool).to receive(:dup).and_return(cabpool_clone)
 
-    cloned_cabpool = cabpool.deep_clone
+    errors_on_localities = cabpool.get_validation_errors_on_localities(invalid_localities)
 
-    expect(cloned_cabpool.id).to be nil
-    expect(cabpool.number_of_people).to eq cloned_cabpool.number_of_people
-    expect(cabpool.timein).to eq cloned_cabpool.timein
-    expect(cabpool.timeout).to eq cloned_cabpool.timeout
-    expect(cabpool.remarks).to eq cloned_cabpool.remarks
-    expect(cabpool.route).to eq cloned_cabpool.route
-    expect(cabpool.localities).to eq cloned_cabpool.localities
-    expect(cabpool.users).to eq cloned_cabpool.users
-    expect(cabpool.requested_users).to eq cloned_cabpool.requested_users
+    expect(errors_on_localities.empty?).to be false
+    expect(errors_on_localities).to eq ['This already Exists.']
   end
 
-  it 'should clone all attributes except localities of a given cabpool' do
+  it 'should return an empty array of validation errors on localities when valid localities are passed to the cabpool' do
     cabpool = build(:cabpool)
-    cabpool.id = 1
-    cabpool.localities = [build(:locality)]
-    cabpool.users = [build(:user)]
-    cabpool.requested_users = [build(:user, :another_user)]
+    cabpool_clone = cabpool.dup
+    localities = [build(:locality), build(:locality, :another_locality)]
+    expect(cabpool).to receive(:dup).and_return(cabpool_clone)
+    expect(cabpool_clone).to receive(:validate)
 
-    cloned_cabpool = cabpool.deep_clone :without => [:localities]
+    errors_on_localities = cabpool.get_validation_errors_on_localities(localities)
 
-    expect(cloned_cabpool.id).to be nil
-    expect(cabpool.number_of_people).to eq cloned_cabpool.number_of_people
-    expect(cabpool.timein).to eq cloned_cabpool.timein
-    expect(cabpool.timeout).to eq cloned_cabpool.timeout
-    expect(cabpool.remarks).to eq cloned_cabpool.remarks
-    expect(cabpool.route).to eq cloned_cabpool.route
-    expect(cabpool.localities).to_not eq cloned_cabpool.localities
-    expect(cabpool.users).to eq cloned_cabpool.users
-    expect(cabpool.requested_users).to eq cloned_cabpool.requested_users
+    expect(errors_on_localities.empty?).to be true
   end
 
-  it 'should clone all attributes except users of a given cabpool' do
+  it 'should add localities in order in which its passed to it' do
     cabpool = build(:cabpool)
-    cabpool.id = 1
-    cabpool.localities = [build(:locality)]
-    cabpool.users = [build(:user)]
-    cabpool.requested_users = [build(:user, :another_user)]
+    locality1 = create(:locality, name: 'L1')
+    locality2 = create(:locality, name: 'L2')
+    localities = [locality1, locality2]
 
-    cloned_cabpool = cabpool.deep_clone :without => [:users]
+    expect(cabpool.localities).to receive(:clear)
+    cabpool.add_localities_in_order(localities)
 
-    expect(cloned_cabpool.id).to be nil
-    expect(cabpool.number_of_people).to eq cloned_cabpool.number_of_people
-    expect(cabpool.timein).to eq cloned_cabpool.timein
-    expect(cabpool.timeout).to eq cloned_cabpool.timeout
-    expect(cabpool.remarks).to eq cloned_cabpool.remarks
-    expect(cabpool.route).to eq cloned_cabpool.route
-    expect(cabpool.localities).to eq cloned_cabpool.localities
-    expect(cabpool.users).to_not eq cloned_cabpool.users
-    expect(cabpool.requested_users).to eq cloned_cabpool.requested_users
+    expect(cabpool.localities).to eq localities
   end
 
-
-  it 'should clone all attributes except requested users of a given cabpool' do
+  it 'should populate validation errors of attributes and localities that are passed to it' do
     cabpool = build(:cabpool)
-    cabpool.id = 1
-    cabpool.localities = [build(:locality)]
-    cabpool.users = [build(:user)]
-    cabpool.requested_users = [build(:user, :another_user)]
+    locality_errors = ['Ola Locality errors']
 
-    cloned_cabpool = cabpool.deep_clone :without => [:requested_users]
+    expect(cabpool).to receive(:validate)
+    cabpool.populate_validation_errors(locality_errors)
 
-    expect(cloned_cabpool.id).to be nil
-    expect(cabpool.number_of_people).to eq cloned_cabpool.number_of_people
-    expect(cabpool.timein).to eq cloned_cabpool.timein
-    expect(cabpool.timeout).to eq cloned_cabpool.timeout
-    expect(cabpool.remarks).to eq cloned_cabpool.remarks
-    expect(cabpool.route).to eq cloned_cabpool.route
-    expect(cabpool.localities).to eq cloned_cabpool.localities
-    expect(cabpool.users).to eq cloned_cabpool.users
-    expect(cabpool.requested_users).to_not eq cloned_cabpool.requested_users
+    expect(cabpool.errors.messages.empty?).to be false
+    expect(cabpool.errors[:localities].empty?).to be false
   end
 
-  it 'should clone all attributes except users and localites of a given cabpool' do
+  it 'should populate validation errors of only attributes and not localities when locality validation errors are empty' do
     cabpool = build(:cabpool)
-    cabpool.id = 1
-    cabpool.localities = [build(:locality)]
-    cabpool.users = [build(:user)]
-    cabpool.requested_users = [build(:user, :another_user)]
+    locality_errors = ['']
 
-    cloned_cabpool = cabpool.deep_clone :without => [:users, :localities]
+    expect(cabpool).to receive(:validate)
+    cabpool.populate_validation_errors(locality_errors)
 
-    expect(cloned_cabpool.id).to be nil
-    expect(cabpool.number_of_people).to eq cloned_cabpool.number_of_people
-    expect(cabpool.timein).to eq cloned_cabpool.timein
-    expect(cabpool.timeout).to eq cloned_cabpool.timeout
-    expect(cabpool.remarks).to eq cloned_cabpool.remarks
-    expect(cabpool.route).to eq cloned_cabpool.route
-    expect(cabpool.localities).to_not eq cloned_cabpool.localities
-    expect(cabpool.users).to_not eq cloned_cabpool.users
-    expect(cabpool.requested_users).to eq cloned_cabpool.requested_users
+    expect(cabpool.errors.messages.empty?).to be false
+    expect(cabpool.errors[:localities].size).to be 1
+    expect(cabpool.errors[:localities].first.empty?).to be true
   end
 
   describe 'Order of localities' do

@@ -191,11 +191,6 @@ class CabpoolsController < ApplicationController
   end
 
   private
-
-  def clear_current_localities_to_store_new_ordered_localities
-    @cabpool.localities.clear
-  end
-
   def approve_user(user, request, approver)
     if !user.cabpool.nil?
       if user.cabpool.users.length > 1
@@ -288,7 +283,7 @@ class CabpoolsController < ApplicationController
 
   def cabpool_params
     allowed_params = params.require(:cabpool).permit(:number_of_people, :timein, :timeout, :route, :remarks)
-    _, cabpool_type_id = params[:cabpool_type].first
+    _, cabpool_type_id = params[:cabpool_type].first if !params[:cabpool_type].nil?
     cabpool_type = CabpoolType.find_by_id(cabpool_type_id)
     if allowed_cabpool_types_for_user.include? cabpool_type
       allowed_params.merge(cabpool_type: cabpool_type)
@@ -300,7 +295,7 @@ class CabpoolsController < ApplicationController
     @cabpool.users << user if !user.nil?
   end
 
-  def get_localities_of_cabpool_from_params
+  def get_localities_to_update_from_params
     localities_to_be_added = []
     params[:localities].values.each do |locality_id|
       locality = Locality.find_by_id(locality_id)
@@ -309,37 +304,19 @@ class CabpoolsController < ApplicationController
     return localities_to_be_added
   end
 
-  def get_validation_errors_on_localites localities_to_validate
-    cabpool_clone = @cabpool.deep_clone :without => [:localities]
-    cabpool_clone.localities = localities_to_validate
-    cabpool_clone.validate
-    return cabpool_clone.errors[:localities]
-  end
-
-  def add_valid_localities_to_cabpool localities_to_add
-    clear_current_localities_to_store_new_ordered_localities
-    @cabpool.localities = localities_to_add
-  end
-
-  def add_validation_errors_to_cabpool(localities_validation_errors)
-    @cabpool.validate
-    @cabpool.errors[:localities] = localities_validation_errors.first if !localities_validation_errors.empty?
-  end
-
-
   def create_or_update_of_cabpool_successful?
-    localities_to_add = get_localities_of_cabpool_from_params
-    localities_validation_errors = get_validation_errors_on_localites(localities_to_add)
+    localities_to_add = get_localities_to_update_from_params
+    validation_errors_on_localities = @cabpool.get_validation_errors_on_localities(localities_to_add)
 
-    if localities_validation_errors.empty?
-      add_valid_localities_to_cabpool localities_to_add
+    if validation_errors_on_localities.empty?
+      @cabpool.add_localities_in_order localities_to_add
       if @cabpool.valid?
         @cabpool.save!
         return true
       end
     end
 
-    add_validation_errors_to_cabpool(localities_validation_errors)
+    @cabpool.populate_validation_errors(validation_errors_on_localities)
     return false
   end
 
@@ -358,6 +335,6 @@ class CabpoolsController < ApplicationController
     if cabpool_type == nil
       return false
     end
-    return cabpool_type.name == CabpoolType.find_by_name("Company provided Cab").name
+    return cabpool_type.name == CabpoolType.find_by_name('Company provided Cab').name
   end
 end
