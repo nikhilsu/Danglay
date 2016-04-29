@@ -11,7 +11,7 @@
     <% humans = JSON.parse(File.read('humans.txt.json')) %>
     <% humans.each do |human|%>
       <li>
-        <div class="container">
+        <div class="profile-container">
             <div class="profile">
               <div class="image-wrap"><%= image_tag("dev_images/#{human['imageName']}", alt: 'Image') %></div>
               <h2><%= human['name'] %></h2>
