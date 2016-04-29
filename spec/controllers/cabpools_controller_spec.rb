@@ -575,16 +575,14 @@ RSpec.describe CabpoolsController, type: :controller do
     first_updated_locality.id = 10
     second_updated_locality = build(:locality, :another_locality)
     second_updated_locality.id = 20
-    validation_errors_on_localities = ''
     allow(cabpool_to_update).to receive(:ordered_localities).and_return([first_updated_locality, second_updated_locality])
     expect(Locality).to receive(:find_by_id).with(first_updated_locality.id.to_s).and_return(first_updated_locality).once
     expect(Locality).to receive(:find_by_id).with(second_updated_locality.id.to_s).and_return(second_updated_locality).once
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
-    expect(cabpool_to_update).to receive(:get_validation_errors_on_localities).and_return(validation_errors_on_localities)
-    expect(cabpool_to_update).to receive(:valid?).and_return true
-    expect(cabpool_to_update).to receive(:save!)
-    expect(cabpool_to_update).to receive(:add_localities_in_order).once
+    expect(cabpool_to_update).to receive(:valid_including_associations?).with({localities: [first_updated_locality, second_updated_locality]}).and_return(true)
+    expect(cabpool_to_update).to receive(:add_associations_in_order).once
+    expect(cabpool_to_update).to receive(:save).and_return(true)
     patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: first_updated_locality.id, key2: second_updated_locality.id}
 
     expect(response).to redirect_to your_cabpools_path
@@ -593,28 +591,25 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(ActionMailer::Base.deliveries.size).to eq 1
   end
 
-  it 'should not update a cabpool when details entered by user are not valid' do
+  it 'should not update a cabpool when there are validation errors on attributes and/or associations' do
     user = build(:user)
     expect(User).to receive(:find_by_email).and_return(user)
     cabpool_to_update = build(:cabpool)
     duplicate_locality = build(:locality)
     duplicate_locality.id = 10
-    validation_errors_on_localities = ''
     cabpool_to_update.users = [user]
     expect(Locality).to receive(:find_by_id).with(duplicate_locality.id.to_s).and_return(duplicate_locality).twice
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
-    expect(cabpool_to_update).to receive(:get_validation_errors_on_localities).and_return(validation_errors_on_localities)
-    expect(cabpool_to_update).to receive(:add_localities_in_order).once
-    expect(cabpool_to_update).to receive(:valid?).and_return false
+    expect(cabpool_to_update).to receive(:valid_including_associations?).with({localities: [duplicate_locality, duplicate_locality]}).and_return(false)
     patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '19:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: duplicate_locality.id, key2: duplicate_locality.id}
 
     expect(response).to render_template 'edit'
     expect(flash[:danger]).to eq 'Cannot update because of the following errors'
-    expect(cabpool_to_update.errors.messages.empty?).to be false
+    expect(cabpool_to_update.valid?).to be false
   end
 
-  it 'should not update the cabpool when there are validation errors on localities to be added' do
+  it 'should not update the cabpool when there are no validation errors but cabpool could not be saved' do
     user = build(:user)
     expect(User).to receive(:find_by_email).and_return(user)
     cabpool_to_update = build(:cabpool)
@@ -623,14 +618,15 @@ RSpec.describe CabpoolsController, type: :controller do
     second_updated_locality = build(:locality, :another_locality)
     second_updated_locality.id = 20
     cabpool_to_update.users = [user]
-    validation_errors_on_localities = ['There are errors']
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
-    expect(cabpool_to_update).to receive(:get_validation_errors_on_localities).and_return(validation_errors_on_localities)
+    expect(cabpool_to_update).to receive(:valid_including_associations?).with({localities: [first_updated_locality, second_updated_locality]}).and_return(true)
+    expect(cabpool_to_update).to receive(:add_associations_in_order).once
+    expect(cabpool_to_update).to receive(:save).and_return(false)
     patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 3, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: first_updated_locality.id, key2: second_updated_locality.id}
 
     expect(response).to render_template 'edit'
-    expect(cabpool_to_update.errors[:localities]).to eq ['There are errors']
+    expect(cabpool_to_update.errors[:localities].empty?).to be true
     expect(flash[:danger]).to eq 'Cannot update because of the following errors'
   end
 

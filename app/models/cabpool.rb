@@ -21,24 +21,32 @@ class Cabpool < ActiveRecord::Base
     number_of_people - users.size
   end
 
-  def get_validation_errors_on_localities localities_to_validate
-    cabpool_clone = self.dup
-    cabpool_clone.localities = localities_to_validate
-    cabpool_clone.validate
-    return cabpool_clone.errors[:localities]
-  end
-
-  def add_localities_in_order localities_to_add
-    self.localities.clear
-    self.localities = localities_to_add
-  end
-
-  def populate_validation_errors(validation_errors_on_localities)
+  def valid_including_associations?(associations_to_validate)
     self.validate
-    self.errors[:localities] = validation_errors_on_localities.first if !validation_errors_on_localities.empty?
+    associations_to_validate.each do |association_name, association_value|
+      self.errors[association_name].clear
+      add_validation_errors_on_association(association_name, association_value)
+    end
+    errors.messages.blank? or errors.messages.values.uniq.join.blank?
+  end
+
+  def add_associations_in_order associations_of_the_cabpool
+    associations_of_the_cabpool.each do |association_name, association_value|
+      self.send(association_name).clear
+      self.send("#{association_name}=", association_value)
+    end
   end
 
   private
+  def add_validation_errors_on_association(association_name, association_to_validate)
+    cabpool_clone = self.dup
+    cabpool_clone.send("#{association_name}=", association_to_validate)
+    cabpool_clone.validate
+    if !cabpool_clone.errors[association_name].blank?
+      self.errors[association_name] = cabpool_clone.errors[association_name].first
+    end
+  end
+
   def invalidate_new_number_of_people_being_lesser_than_old_value
     if number_of_people.to_i < number_of_people_was.to_i
       errors.add(:number_of_people, 'Cannot be less than the existing capacity')

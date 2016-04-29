@@ -83,14 +83,14 @@ RSpec.describe Cabpool, type: :model do
     expect(cabpool.available_slots).to eq 4
   end
 
-  it "should show available slots when one user is present" do
+  it 'should show available slots when one user is present' do
     cabpool = build(:cabpool, :without_users)
     user = build(:user)
     cabpool.users = [user]
     expect(cabpool.available_slots).to eq 3
   end
 
-  it "should show available slots when one request made" do
+  it 'should show available slots when one request made' do
     cabpool = build(:cabpool, :without_users)
     user = build(:user)
     cabpool.requested_users = [user]
@@ -120,64 +120,85 @@ RSpec.describe Cabpool, type: :model do
     expect(cabpool.valid?).to be false
   end
 
-  it 'should return an array of validation errors on localities when invalid localities are passed to the cabpool' do
-    cabpool = build(:cabpool)
-    cabpool_clone = cabpool.dup
-    duplicate_localities = build(:locality)
-    invalid_localities = [duplicate_localities, duplicate_localities]
-    expect(cabpool).to receive(:dup).and_return(cabpool_clone)
-
-    errors_on_localities = cabpool.get_validation_errors_on_localities(invalid_localities)
-
-    expect(errors_on_localities.empty?).to be false
-    expect(errors_on_localities).to eq ['This already Exists.']
-  end
-
-  it 'should return an empty array of validation errors on localities when valid localities are passed to the cabpool' do
-    cabpool = build(:cabpool)
-    cabpool_clone = cabpool.dup
-    localities = [build(:locality), build(:locality, :another_locality)]
-    expect(cabpool).to receive(:dup).and_return(cabpool_clone)
-    expect(cabpool_clone).to receive(:validate)
-
-    errors_on_localities = cabpool.get_validation_errors_on_localities(localities)
-
-    expect(errors_on_localities.empty?).to be true
-  end
-
   it 'should add localities in order in which its passed to it' do
     cabpool = build(:cabpool)
     locality1 = create(:locality, name: 'L1')
     locality2 = create(:locality, name: 'L2')
     localities = [locality1, locality2]
+    associations_of_the_cabpool = {localities: localities}
 
     expect(cabpool.localities).to receive(:clear)
-    cabpool.add_localities_in_order(localities)
+    cabpool.add_associations_in_order(associations_of_the_cabpool)
 
     expect(cabpool.localities).to eq localities
   end
 
-  it 'should populate validation errors of attributes and localities that are passed to it' do
+  it 'should add users in order in which its passed to it' do
     cabpool = build(:cabpool)
-    locality_errors = ['Ola Locality errors']
+    user = build(:user)
+    another_user = build(:user, :another_user)
+    users = [user, another_user]
+    associations_of_the_cabpool = {users: users}
 
-    expect(cabpool).to receive(:validate)
-    cabpool.populate_validation_errors(locality_errors)
+    expect(cabpool.users).to receive(:clear)
+    cabpool.add_associations_in_order(associations_of_the_cabpool)
 
-    expect(cabpool.errors.messages.empty?).to be false
-    expect(cabpool.errors[:localities].empty?).to be false
+    expect(cabpool.users).to eq users
   end
 
-  it 'should populate validation errors of only attributes and not localities when locality validation errors are empty' do
+  it 'should add users and localities in order in which its passed to it' do
     cabpool = build(:cabpool)
-    locality_errors = ['']
+    locality1 = create(:locality, name: 'L1')
+    locality2 = create(:locality, name: 'L2')
+    localities = [locality1, locality2]
+    user = build(:user)
+    another_user = build(:user, :another_user)
+    users = [user, another_user]
+    associations_of_the_cabpool = {localities: localities, users: users}
 
-    expect(cabpool).to receive(:validate)
-    cabpool.populate_validation_errors(locality_errors)
+    expect(cabpool.users).to receive(:clear)
+    cabpool.add_associations_in_order(associations_of_the_cabpool)
 
-    expect(cabpool.errors.messages.empty?).to be false
-    expect(cabpool.errors[:localities].size).to be 1
-    expect(cabpool.errors[:localities].first.empty?).to be true
+    expect(cabpool.users).to eq users
+    expect(cabpool.localities).to eq localities
+  end
+
+  it 'should have validation errors on attributes and not on associations when attributes are invalid' do
+    invalid_cabpool = build(:cabpool, :without_time_in)
+    invalid_cabpool.users.clear
+    invalid_cabpool.localities.clear
+    valid_associations = {localities: [build(:locality)], users: [build(:user)]}
+
+    expect(invalid_cabpool.valid_including_associations? valid_associations).to be false
+    expect(invalid_cabpool.errors.messages.empty?).to be false
+    expect(invalid_cabpool.errors[:localities].empty?).to be true
+    expect(invalid_cabpool.errors[:users].empty?).to be true
+  end
+
+  it 'should have validation errors on associations and not on attributes when associations are invalid' do
+    invalid_cabpool = build(:cabpool)
+    invalid_cabpool.users.clear
+    invalid_cabpool.localities.clear
+    invalid_associations = {localities: [], users: []}
+
+    expect(invalid_cabpool.valid_including_associations? invalid_associations).to be false
+    expect(invalid_cabpool.errors.messages.empty?).to be false
+    expect(invalid_cabpool.errors[:timein].empty?).to be true
+    expect(invalid_cabpool.errors[:localities].empty?).to be false
+    expect(invalid_cabpool.errors[:users].empty?).to be false
+  end
+
+  it 'should have validation errors on associations and attributes when attributes and associations are invalid' do
+    invalid_cabpool = build(:cabpool, :without_time_in)
+    invalid_cabpool.users.clear
+    invalid_cabpool.localities.clear
+    invalid_associations = {localities: [], users: []}
+
+    expect(invalid_cabpool.valid_including_associations? invalid_associations).to be false
+    expect(invalid_cabpool.errors.messages.empty?).to be false
+    expect(invalid_cabpool.errors[:timein].empty?).to be false
+    expect(invalid_cabpool.errors[:localities].empty?).to be false
+    expect(invalid_cabpool.errors[:users].empty?).to be false
   end
 
   describe 'Order of localities' do

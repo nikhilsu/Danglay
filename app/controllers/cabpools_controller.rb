@@ -54,7 +54,8 @@ class CabpoolsController < ApplicationController
       @cabpool.timein = params[:cabpool][:timein]
       @cabpool.timeout = params[:cabpool][:timeout]
       @cabpool.route = params[:cabpool][:route]
-      if create_or_update_of_cabpool_successful?
+      associations_of_the_cabpool = {localities: get_localities_to_update_from_params}
+      if create_or_update_of_cabpool_successful? associations_of_the_cabpool
         send_email_to_cabpool_members_about_cabpool_update(@cabpool, current_user)
         flash[:success] = 'Your Cabpool has been Updated'
         redirect_to your_cabpools_path and return
@@ -76,7 +77,8 @@ class CabpoolsController < ApplicationController
       flash[:success] = 'You have successfully requested the admins for a cab pool.'
       redirect_to root_url
     else
-      if create_or_update_of_cabpool_successful?
+      associations_of_the_cabpool = {localities: get_localities_to_update_from_params}
+      if create_or_update_of_cabpool_successful? associations_of_the_cabpool
         flash[:success] = "You have successfully created your cab pool. Please check the 'MyRide' tab for details."
         redirect_to root_url
       else
@@ -276,7 +278,7 @@ class CabpoolsController < ApplicationController
   def registered?
     store_location
     if !is_registered?
-      flash[:danger] = "Please update your profile to create a new cab pool."
+      flash[:danger] = 'Please update your profile to create a new cab pool.'
       redirect_to new_user_path
     end
   end
@@ -304,19 +306,11 @@ class CabpoolsController < ApplicationController
     return localities_to_be_added
   end
 
-  def create_or_update_of_cabpool_successful?
-    localities_to_add = get_localities_to_update_from_params
-    validation_errors_on_localities = @cabpool.get_validation_errors_on_localities(localities_to_add)
-
-    if validation_errors_on_localities.empty?
-      @cabpool.add_localities_in_order localities_to_add
-      if @cabpool.valid?
-        @cabpool.save!
-        return true
-      end
+  def create_or_update_of_cabpool_successful? associations_of_the_cabpool
+    if @cabpool.valid_including_associations? associations_of_the_cabpool
+      @cabpool.add_associations_in_order associations_of_the_cabpool
+      return @cabpool.save
     end
-
-    @cabpool.populate_validation_errors(validation_errors_on_localities)
     return false
   end
 
