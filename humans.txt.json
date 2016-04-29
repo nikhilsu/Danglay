@@ -3,90 +3,60 @@
     "name": "Abhishek S P",
     "imageName": "abhishek.jpg",
     "role": "Developer",
-    "roleDescription": "",
-    "twitterHandle": "#",
-    "jigsawUserName": "abhisp",
-    "linkedInProfile": "#"
+    "jigsawUserName": "abhisp"
   },
   {
     "name": "Deepika Vasudevan",
     "imageName": "deepika.jpg",
     "role": "Developer",
-    "roleDescription": "",
-    "jigsawUserName": "vdeepika",
-    "twitterHandle": "#",
-    "linkedInProfile": "#"
+    "jigsawUserName": "vdeepika"
   },
   {
     "name": "Kusum Ijari",
     "imageName": "kusum.jpg",
     "role": "Developer",
-    "roleDescription": "",
-    "jigsawUserName": "kusumi",
-    "twitterHandle": "#",
-    "linkedInProfile": "#"
+    "jigsawUserName": "kusumi"
   },
   {
     "name": "Nikhil Sulegaon",
     "imageName": "nikhil.jpg",
     "role": "Developer",
-    "roleDescription": "",
-    "jigsawUserName": "nikhilsu",
-    "twitterHandle": "#",
-    "linkedInProfile": "#"
+    "jigsawUserName": "nikhilsu"
   },
   {
     "name": "Prakash Upadhyay",
     "imageName": "prakash.jpg",
     "role": "UI Developer",
-    "roleDescription": "Danglay App Design, User Experience and UI development",
-    "jigsawUserName": "prakashu",
-    "twitterHandle": "#",
-    "linkedInProfile": "#"
+    "jigsawUserName": "prakashu"
   },
   {
     "name": "Riju Nayak",
     "imageName": "riju.jpg",
     "role": "Developer",
-    "roleDescription": "",
-    "jigsawUserName": "rijun",
-    "twitterHandle": "#",
-    "linkedInProfile": "#"
+    "jigsawUserName": "rijun"
   },
   {
     "name": "Sandeep Hegde",
     "imageName": "sandeep.jpg",
     "role": "Developer",
-    "roleDescription": "",
-    "jigsawUserName": "sandeeph",
-    "twitterHandle": "#",
-    "linkedInProfile": "#"
+    "jigsawUserName": "sandeeph"
   },
   {
     "name": "Sneha Prabhu",
     "imageName": "sneha.jpg",
     "role": "BA (used to be a DEV)",
-    "roleDescription": "",
-    "jigsawUserName": "snehasp",
-    "twitterHandle": "#",
-    "linkedInProfile": "#"
+    "jigsawUserName": "snehasp"
   },
   {
     "name": "Thejas Babu",
     "imageName": "thejas.jpg",
     "role": "Developer",
-    "roleDescription": "",
-    "jigsawUserName": "thejasb",
-    "twitterHandle": "#",
-    "linkedInProfile": "#"
+    "jigsawUserName": "thejasb"
   },
   {
     "name": "Varsha Varadarajan",
     "imageName": "varsha.jpg",
     "role": "Developer",
-    "roleDescription": "",
-    "jigsawUserName": "varshavs",
-    "twitterHandle": "#",
-    "linkedInProfile": "#"
+    "jigsawUserName": "varshavs"
   }
 ]

@@ -4,7 +4,6 @@
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
-// Team page styles
 .dev-team {
   .title {
     font-size: 20px;
@@ -90,81 +89,9 @@
       font-weight: 600;
     }
   }
-
-  .back {
-    h3 {
-      border-bottom: 1px solid $alert;
-      padding-bottom: 10px;
-      position: relative;
-
-      &:before {
-        position: absolute;
-        left: 49%;
-        bottom: 0;
-        content: "";
-        width: 0;
-        height: 0;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-bottom: 5px solid $alert;
-      }
-
-      &:after {
-        position: absolute;
-        left: 49%;
-        bottom: -5px;
-        content: "";
-        width: 0;
-        height: 0;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 5px solid $alert;
-      }
-    }
-    label {
-      display: block;
-      text-align: left;
-      margin: 15px 0 5px;
-    }
-
-    p{
-      display: block;
-      text-align: left;
-      font-size: 14px;
-      color: #666;
-      line-height: 1.3;
-      margin: 20px 0;
-      font-weight: 300;
-      span{
-        color: #333;
-        padding-right: 5px;
-        font-weight: 600;
-      }
-    }
-    .link{
-      display: block;
-      text-align: left;
-
-      a {
-        font-weight: 400;
-        padding-right: 5px;
-        text-align: center;
-        color: $alert;
-        font-size: 14px;
-        line-height: 1.5;
-        text-decoration: none;
-
-        &:hover {
-          color: $calm;
-        }
-      }
-    }
-  }
 }
 
-
-
-.flip-container {
+.container {
   -webkit-perspective: 1000;
   -moz-perspective: 1000;
   -o-perspective:1000;
@@ -177,65 +104,17 @@
   -ms-transform-style: preserve-3d;
 }
 
-
-/* for IE */
-.flip-container:hover .back, .flip-container.hover .back {
-  -webkit-transform: rotateY(0deg);
-  -moz-transform: rotateY(0deg);
-  -o-transform: rotateY(0deg);
-  -ms-transform: rotateY(0deg);
-  transform: rotateY(0deg);
-}
-
-.flip-container:hover .front, .flip-container.hover .front {
-  -webkit-transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg);
-  -o-transform: rotateY(180deg);
-  transform: rotateY(180deg);
-}
-
-/* END: for IE */
-
-
-.flipper {
-  -webkit-transition: 0.6s;
-  -webkit-transform-style: preserve-3d;
-  -ms-transition: 0.6s;
-
-  -moz-transition: 0.6s;
-  -moz-transform: perspective(1000px);
-  -moz-transform-style: preserve-3d;
-  -ms-transform-style: preserve-3d;
-
-  transition: 0.6s;
-  transform-style: preserve-3d;
-
-  position: relative;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  min-height: 280px;
-  -webkit-transition: all 0.4s ease-in-out;
-  -moz-transition: all 0.4s ease-in-out;
-  -o-transition: all 0.4s ease-in-out;
-}
-
-.front, .back {
+.profile {
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   -ms-backface-visibility: hidden;
   backface-visibility: hidden;
-
   -webkit-transition: 0.6s;
   -webkit-transform-style: preserve-3d;
-
   -moz-transition: 0.6s;
   -moz-transform-style: preserve-3d;
-
   -o-transition: 0.6s;
   -o-transform-style: preserve-3d;
-
   -ms-transition: 0.6s;
   -ms-transform-style: preserve-3d;
 
@@ -248,11 +127,6 @@
   width: 100%;
   min-height: 280px;
   height: 100%;
-}
-
-.front {
-  -webkit-transform: rotateY(0deg);
-  -ms-transform: rotateY(0deg);
   background-position: center center;
   z-index: 2;
   background: #f5f5f5;
@@ -261,18 +135,4 @@
   text-align: center;
   padding: 25px 20px 0;
   box-sizing: border-box;
-}
-
-.back {
-  background: #eee;
-  box-shadow: 3px 3px 7px #CCCACA;
-  border-radius: 4px;
-  text-align: center;
-  padding: 20px;
-  box-sizing: border-box;
-  -webkit-transform: rotateY(-180deg);
-  -moz-transform: rotateY(-180deg);
-  -o-transform: rotateY(-180deg);
-  -ms-transform: rotateY(180deg);
-  transform: rotateY(-180deg);
 }
