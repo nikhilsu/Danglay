@@ -27,5 +27,18 @@ RSpec.describe StaticPagesController, type: :controller do
       end
     end
 
+    describe 'GET #terms_and_conditions' do
+      it 'should get the terms and conditions page' do
+        get :terms_and_conditions
+        expect(response).to render_template('terms_and_conditions')
+      end
+      end
+
+    describe 'GET #privacy_policy' do
+      it 'should get the privacy policy page' do
+        get :privacy_policy
+        expect(response).to render_template('privacy_policy')
+      end
+    end
   end
 end
