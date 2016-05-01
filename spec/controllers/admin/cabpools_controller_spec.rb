@@ -111,16 +111,48 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
   end
 
   it 'should render Edit' do
-    user = build_stubbed(:user)
-    admin_role = build_stubbed(:role, :admin_role)
+    user = build(:user)
+    admin_role = build(:role, :admin_role)
     user.role = admin_role
     allow(User).to receive(:find_by_email).and_return(user)
-    cabpool = build_stubbed(:cabpool)
+    cabpool = build(:cabpool)
+    cabpool.id = 1
+    cabpool.cabpool_type = build(:cabpool_type, :company_provided_cab)
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool)
 
     get :edit, :id=> cabpool.id
 
     expect(response).to render_template "admin/cabpools/edit"
+  end
+
+  it 'should redirect to admin page when admin tries to Edit a non company provided cabpool' do
+    user = build(:user)
+    admin_role = build(:role, :admin_role)
+    user.role = admin_role
+    allow(User).to receive(:find_by_email).and_return(user)
+    cabpool = build(:cabpool)
+    cabpool.id = 1
+    cabpool.cabpool_type = build(:cabpool_type, :personal_car)
+    expect(Cabpool).to receive(:find_by_id).and_return(cabpool)
+
+    get :edit, :id=> cabpool.id
+
+    expect(response).to redirect_to '/admin'
+    expect(flash[:danger]).to eq 'Cannot Edit a Non-Company Provided Cabpool'
+  end
+
+  it 'should redirect to admin home when admin tries to update a non company provided cabpool' do
+    user = build(:user)
+    user.role = build_stubbed(:role, :admin_role)
+    expect(User).to receive(:find_by_email).and_return(user)
+    cabpool_to_update = build(:cabpool)
+    cabpool_to_update.cabpool_type = build(:cabpool_type, :personal_car)
+
+    expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
+    patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 1, remarks: 'Edited Remark'}, :cabpool_type => {:cabpool_type_one_id => '1'}
+
+    expect(response).to redirect_to '/admin'
+    expect(flash[:danger]).to eq 'Cannot Edit a Non-Company Provided Cabpool'
   end
 
   it 'should render edit cabpool page when persistence of the cabpool fails' do
@@ -130,10 +162,8 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     another_user = build_stubbed(:user)
     cabpool_to_update = build(:cabpool)
     cabpool_to_update.users = [another_user]
-    passenger = build(:user, :yet_another_user)
-    passenger.id = 1
+    cabpool_to_update.cabpool_type = build(:cabpool_type, :company_provided_cab)
     failure = Failure.new(cabpool_to_update, 'Failure Message')
-    allow(User).to receive(:find_by_id).and_return(passenger)
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
     expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(failure)
@@ -157,6 +187,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     old_user.id = 3
     cabpool = build(:cabpool)
     cabpool.users = [old_user]
+    cabpool.cabpool_type = build(:cabpool_type, :company_provided_cab)
     cabpool.localities = [Locality.find_by_id(1)]
     success = Success.new(cabpool, 'Success Message')
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool)

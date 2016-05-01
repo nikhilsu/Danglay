@@ -41,6 +41,10 @@ class Cabpool < ActiveRecord::Base
     end
   end
 
+  def is_company_provided?
+    return cabpool_type.name == 'Company provided Cab'
+  end
+
   private
   def add_validation_errors_on_association(association_name, association_to_validate)
     cabpool_clone = self.dup

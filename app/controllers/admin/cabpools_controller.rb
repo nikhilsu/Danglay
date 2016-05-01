@@ -1,4 +1,5 @@
 class Admin::CabpoolsController < Admin::AdminController
+  before_action :company_provided_cabpool?, only: [:edit, :update]
 
   def show
     company_provided_cabpools = Cabpool.where(cabpool_type: CabpoolType.find_by_name('Company provided Cab'))
@@ -24,11 +25,9 @@ class Admin::CabpoolsController < Admin::AdminController
   end
 
   def edit
-    @cabpool = Cabpool.find_by_id(params[:id])
   end
 
   def update
-    @cabpool = Cabpool.find_by_id(params[:id])
     @cabpool.remarks = params[:cabpool][:remarks]
     @cabpool.number_of_people = params[:cabpool][:number_of_people]
     members_before_cabpool_update = get_members_before_cabpool_update
@@ -103,5 +102,13 @@ class Admin::CabpoolsController < Admin::AdminController
       localities_to_be_added << locality if !locality.nil?
     end if !params[:localities].nil?
     return localities_to_be_added
+  end
+
+  def company_provided_cabpool?
+    @cabpool = Cabpool.find_by_id(params[:id])
+    if !@cabpool.is_company_provided?
+      flash[:danger] = 'Cannot Edit a Non-Company Provided Cabpool'
+      redirect_to '/admin'
+    end
   end
 end

@@ -208,6 +208,20 @@ RSpec.describe Cabpool, type: :model do
     expect(invalid_cabpool.errors[:users].empty?).to be false
   end
 
+  it 'should return true when the cabpool is company provided' do
+    cabpool = build(:cabpool, :without_cabpool_type)
+    cabpool.cabpool_type = build(:cabpool_type, :company_provided_cab)
+
+    expect(cabpool.is_company_provided?).to be true
+  end
+
+  it 'should return false when the cabpool is not company provided' do
+    cabpool = build(:cabpool, :without_cabpool_type)
+    cabpool.cabpool_type = build(:cabpool_type, :personal_car)
+
+    expect(cabpool.is_company_provided?).to be false
+  end
+
   describe 'Order of localities' do
     before(:all) do
       @locality1 = create(:locality, name: 'L1')
