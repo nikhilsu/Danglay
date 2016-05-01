@@ -10,7 +10,7 @@ class Cabpool < ActiveRecord::Base
   validates_numericality_of :number_of_people, less_than_or_equal_to: 4, greater_than_or_equal_to: 1
   validate :invalidate_empty_localities, :invalidate_duplicate_localities, :invalidate_more_than_five_localities,
            :invalidate_empty_cabpool_type, :invalidate_new_number_of_people_being_lesser_than_old_value, :invalidate_empty_users,
-           :invalidate_having_more_users_than_capacity, :invalidate_timein_after_timeout
+           :invalidate_having_more_users_than_capacity, :invalidate_timein_after_timeout, :invalidate_duplicate_users
   validates :remarks, length: {maximum: 300}
 
   def ordered_localities
@@ -32,8 +32,12 @@ class Cabpool < ActiveRecord::Base
 
   def add_associations_in_order associations_of_the_cabpool
     associations_of_the_cabpool.each do |association_name, association_value|
-      self.send(association_name).clear
-      self.send("#{association_name}=", association_value)
+      if association_name == :users
+          self.users = association_value
+      elsif association_name == :localities
+          self.localities.clear
+          self.localities = association_value
+      end
     end
   end
 
@@ -68,31 +72,39 @@ class Cabpool < ActiveRecord::Base
 
   def invalidate_more_than_five_localities
     if localities.length > 5
-      errors.add(:localities, "More than 5 localities.")
+      errors.add(:localities, 'More than 5 localities.')
     end
   end
+
   def invalidate_empty_cabpool_type
     if cabpool_type.nil?
-      errors.add(:cabpool_types, "This should not be empty.")
+      errors.add(:cabpool_types, 'This should not be empty.')
     end
   end
 
   def invalidate_empty_users
     if users.length == 0
-      errors.add(:users, "This should not be empty")
+      errors.add(:users, 'This should not be empty')
     end
   end
 
   def invalidate_having_more_users_than_capacity
     if users.length > number_of_people.to_i
-      errors.add(:users, "Users cannot be greater than capacity.")
+      errors.add(:users, 'Users cannot be greater than capacity.')
+    end
+  end
+
+  def invalidate_duplicate_users
+    difference = users.size - users.uniq.size
+    if difference != 0
+      errors.add(:users, 'User already exists')
     end
   end
 
   def invalidate_timein_after_timeout
     if !timein.nil? and !timeout.nil?
       if timein > timeout
-        errors.add(:timein, "cannot be after Departure time.")
+        errors.add(:timein, 'cannot be after Departure time.')
       end
     end
   end

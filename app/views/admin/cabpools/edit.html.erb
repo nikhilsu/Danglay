@@ -12,6 +12,7 @@
 
         <div class="form-group">
           <label class="label-blue"> Passengers </label>
+          <%= render 'shared/error_messages', errors: @cabpool.errors[:users] if !@cabpool.errors[:users].empty? %>
 
           <div>
             <span class="label-name">Add a passenger </span>

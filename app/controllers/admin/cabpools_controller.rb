@@ -92,7 +92,7 @@ class Admin::CabpoolsController < Admin::AdminController
     params[:passengers].values.each do |user_id|
       user = User.find_by_id(user_id)
       members_of_cabpool << user if !user.nil?
-    end
+    end if !params[:passengers].nil?
     return members_of_cabpool
   end
 
@@ -101,7 +101,7 @@ class Admin::CabpoolsController < Admin::AdminController
     params[:localities].values.each do |locality_id|
       locality = Locality.find_by_id(locality_id)
       localities_to_be_added << locality if !locality.nil?
-    end
+    end if !params[:localities].nil?
     return localities_to_be_added
   end
 end

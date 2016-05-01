@@ -58,7 +58,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(User).to receive(:find_by_id).and_return(another_user)
 
     expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(Failure.new(nil, 'Failure Message'))
-    post :create, :cabpool => {number_of_people: 0, timein: '9:30', timeout: '2:30'}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
+    post :create, :cabpool => {number_of_people: 0, timein: '9:30', timeout: '2:30'}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}
 
     expect(response).to render_template 'admin/cabpools/new'
     expect(flash[:danger]).to eq 'Failure Message'
@@ -137,7 +137,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
     expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(failure)
-    patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 1, remarks: 'Edited Remark'}, :passengers => {:user_id => passenger.id}, :cabpool_type => {:cabpool_type_one_id => '1'}
+    patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 1, remarks: 'Edited Remark'}, :cabpool_type => {:cabpool_type_one_id => '1'}
 
     expect(response).to render_template 'admin/cabpools/edit'
     expect(flash[:danger]).to eq 'Failure Message'

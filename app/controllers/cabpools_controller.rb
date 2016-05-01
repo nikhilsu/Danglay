@@ -305,7 +305,7 @@ class CabpoolsController < ApplicationController
     params[:localities].values.each do |locality_id|
       locality = Locality.find_by_id(locality_id)
       localities_to_be_added << locality if !locality.nil?
-    end
+    end if !params[:localities].nil?
     return localities_to_be_added
   end
 

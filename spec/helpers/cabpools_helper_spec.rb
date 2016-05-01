@@ -323,14 +323,13 @@ RSpec.describe CabpoolsHelper, type: :helper do
   it 'should return appropriate confirm message when user raises a join request and he is part of a pool' do
     user = build(:user)
     names = user.name.split(' ')
-    cabpool = build(:cabpool)
-    user.cabpool = cabpool
+    cabpool = build(:cabpool, :without_users)
+    cabpool.users = [user, build(:user, :another_user)]
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
     allow(User).to receive(:find_by).and_return(user)
-
-    expect(confirm_message_for_the_current_users_join_request cabpool).to eq "Are you sure you want to join this cabpool? Confirming would mean that you would be taken out of your existing cabpool if your request is accepted."
+    expect(confirm_message_for_the_current_users_join_request cabpool).to eq 'Are you sure you want to join this cabpool? Confirming would mean that you would be taken out of your existing cabpool if your request is accepted.'
   end
 
   it 'should return appropriate confirm message when user raises a join request and he is part of a pool which has no users' do

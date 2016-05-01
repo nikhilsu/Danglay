@@ -13,7 +13,7 @@ FactoryGirl.define do
     end
 
     after(:build) do |cabpool|
-      2.times do
+      1.times do
         cabpool.users << FactoryGirl.build(:user, name: Faker::Name.name)
       end
     end

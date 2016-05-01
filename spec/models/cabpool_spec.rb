@@ -103,6 +103,14 @@ RSpec.describe Cabpool, type: :model do
     expect(cabpool.valid?).to be false
   end
 
+  it 'should not allow duplicate users to be part of the cabpool' do
+    cabpool = build(:cabpool, :without_users)
+    duplicate_user = build(:user)
+    cabpool.users = [duplicate_user, duplicate_user]
+    expect(cabpool.valid?).to be false
+    expect(cabpool.errors[:users]).to eq ['User already exists']
+  end
+
   it 'should not allow the remarks to have more than 300 characters' do
     cabpool = build(:cabpool, :with_more_than_300_character_remarks)
     expect(cabpool.remarks.length).to be > 300
@@ -140,7 +148,6 @@ RSpec.describe Cabpool, type: :model do
     users = [user, another_user]
     associations_of_the_cabpool = {users: users}
 
-    expect(cabpool.users).to receive(:clear)
     cabpool.add_associations_in_order(associations_of_the_cabpool)
 
     expect(cabpool.users).to eq users
@@ -156,7 +163,7 @@ RSpec.describe Cabpool, type: :model do
     users = [user, another_user]
     associations_of_the_cabpool = {localities: localities, users: users}
 
-    expect(cabpool.users).to receive(:clear)
+    expect(cabpool.localities).to receive(:clear)
     cabpool.add_associations_in_order(associations_of_the_cabpool)
 
     expect(cabpool.users).to eq users
