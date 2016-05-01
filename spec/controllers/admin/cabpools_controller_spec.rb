@@ -49,18 +49,19 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(response). to render_template 'admin/cabpools/new'
   end
 
-  it 'should render new cabpool page when invalid number of people is entered' do
-    admin_role = build_stubbed(:role, :admin_role)
-    user.role = admin_role
-    allow(User).to receive(:find_by_email).and_return(user)
-    another_user = build_stubbed(:user)
-    allow(User).to receive(:find_by_id).and_return(another_user)
+  it 'should render new cabpool page when persistence of cabpool fails' do
+    admin = build(:user)
+    admin_role = build(:role, :admin_role)
+    admin.role = admin_role
+    expect(User).to receive(:find_by_email).and_return(admin)
+    another_user = build(:user)
+    expect(User).to receive(:find_by_id).and_return(another_user)
 
-    post :create, :cabpool => {number_of_people: 0, timein: "9:30", timeout: "2:30"}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
-    cabpool = assigns(:cabpool)
+    expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(Failure.new(nil, 'Failure Message'))
+    post :create, :cabpool => {number_of_people: 0, timein: '9:30', timeout: '2:30'}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
 
     expect(response).to render_template 'admin/cabpools/new'
-    expect(cabpool.errors.any?).to be true
+    expect(flash[:danger]).to eq 'Failure Message'
   end
 
   it 'should render new cabpool page with errors when invalid params are passed' do
@@ -77,108 +78,36 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(cabpool.errors.any?).to be true
   end
 
-  it 'should render new cabpool page with errors when no route is given' do
+  it 'should render show cabpool page and send mail to all members of cabpool when valid details are entered and cabpool is persisted successfully' do
+    admin = build(:user)
     admin_role = build_stubbed(:role, :admin_role)
-    user.role = admin_role
-    allow(User).to receive(:find_by_email).and_return(user)
-    another_user = build_stubbed(:user)
-    allow(User).to receive(:find_by_id).and_return(another_user)
-    allow(another_user).to receive(:save).and_return(true)
-
-    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "2:30"}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => ''}
-    cabpool = assigns(:cabpool)
-
-    expect(response).to render_template 'cabpools/new'
-    expect(cabpool.errors.any?).to be true
-  end
-
-  it 'should render new cabpool page with errors when duplicate routes are given' do
-    admin_role = build_stubbed(:role, :admin_role)
-    user.role = admin_role
-    allow(User).to receive(:find_by_email).and_return(user)
-    another_user = build_stubbed(:user)
-    allow(User).to receive(:find_by_id).and_return(another_user)
-
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1', :locality_two_id => '1'}
-    cabpool = assigns(:cabpool)
-
-    expect(response).to render_template 'cabpools/new'
-    expect(cabpool.errors.any?).to be true
-  end
-
-  it 'should render new cabpool page with flash message if no passengers are added' do
-    admin_role = build_stubbed(:role, :admin_role)
-    user.role = admin_role
-    allow(User).to receive(:find_by_email).and_return(user)
-
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1', :locality_two_id => '1'}
-
-    expect(response).to render_template 'cabpools/new'
-    expect(flash[:danger]).to eq "Please add some people to the cab"
-  end
-
-  it 'should render new cabpool page with flash message when duplicate passengers are added' do
-    admin_role = build_stubbed(:role, :admin_role)
-    user.role = admin_role
-    allow(User).to receive(:find_by_email).and_return(user)
-    another_user = build_stubbed(:user)
-    allow(User).to receive(:find_by_id).and_return(another_user)
-    allow(another_user).to receive(:save).and_return(true)
-
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :passengers => {user_id1: another_user.id, user_id2: another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1', :locality_two_id => '1'}
-
-    expect(response).to render_template 'cabpools/new'
-    expect(flash[:danger]).to eq "Same passenger cannot be added multiple times"
-  end
-
-  it 'should render new cabpool page with flash message if the add passenger field is left empty' do
-    admin_role = build_stubbed(:role, :admin_role)
-    user.role = admin_role
-    allow(User).to receive(:find_by_email).and_return(user)
-
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "2:30"}, :passengers => {:user_id => ''},:cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1', :locality_two_id => '1'}
-    cabpool = assigns(:cabpool)
-
-    expect(response).to render_template 'cabpools/new'
-    expect(flash[:danger]).to be_present
-  end
-
-  it 'should render new cabpool page with flash message if the number of  passengers is greater than the capacity' do
-    admin_role = build_stubbed(:role, :admin_role)
-    user.role = admin_role
-    allow(User).to receive(:find_by_email).and_return(user)
+    admin.role = admin_role
+    allow(User).to receive(:find_by_email).and_return(admin)
     first_user = build_stubbed(:user)
     allow(User).to receive(:find_by_id).and_return(first_user)
     allow(first_user).to receive(:save).and_return(true)
     second_user = build_stubbed(:user)
     allow(User).to receive(:find_by_id).and_return(second_user)
     allow(second_user).to receive(:save).and_return(true)
+    first_locality = build(:locality)
+    first_locality.id = 1
+    expect(Locality).to receive(:find_by_id).with(first_locality.id.to_s).and_return(first_locality)
 
-    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "12:30"}, :passengers => {:user_id_one => first_user.id, :user_id_two => second_user.id},:cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1', :locality_two_id => '1'}
+    expect_any_instance_of(CabpoolPersister).to receive(:persist) do
+      assigns(:cabpool).users = [first_user, second_user]
+      assigns(:cabpool).localities = [first_locality]
+      Success.new(nil, 'Success Message')
+    end
+    post :create, :cabpool => {number_of_people: 2, timein: '9:30', timeout: '12:30', remarks: 'Driver Details'}, :passengers => {:user_id_one => first_user.id, :user_id_two=> second_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => first_locality.id}
 
-    expect(response).to render_template 'cabpools/new'
-    expect(flash[:danger]).to eq "Number of people are more than the capacity of the cab"
-  end
-
-  it 'should render show cabpool page and send mail to all members of cabpool when valid details are entered in create cabpool by admin' do
-    user = build(:user)
-    admin_role = build_stubbed(:role, :admin_role)
-    user.role = admin_role
-    allow(User).to receive(:find_by_email).and_return(user)
-    cabpool_type = create(:cabpool_type).id
-    first_user = build_stubbed(:user)
-    allow(User).to receive(:find_by_id).and_return(first_user)
-    allow(first_user).to receive(:save).and_return(true)
-    second_user = build_stubbed(:user)
-    allow(User).to receive(:find_by_id).and_return(second_user)
-    allow(second_user).to receive(:save).and_return(true)
-
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "12:30", remarks: 'Driver Details'}, :passengers => {:user_id_one => first_user.id, :user_id_two=> second_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => '1'}
     cabpool = assigns(:cabpool)
-
     expect(response).to redirect_to '/admin'
     expect(cabpool.users.size).to eq ActionMailer::Base.deliveries.size
+    expect(cabpool.timein).to eq Time.new(2000, 01, 01, 9, 30, 0, '+00:00')
+    expect(cabpool.timeout).to eq Time.new(2000, 01, 01, 12, 30, 0, '+00:00')
+    expect(cabpool.remarks).to eq 'Driver Details'
     expect(cabpool.errors.any?).to be false
+    expect(ActionMailer::Base.deliveries.size).to eq 2
   end
 
   it 'should render Edit' do
@@ -194,80 +123,24 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(response).to render_template "admin/cabpools/edit"
   end
 
-  it 'should render edit cabpool page when invalid number of people is entered during cabpool update' do
-    admin_role = build_stubbed(:role, :admin_role)
-    user.role = admin_role
-    allow(User).to receive(:find_by_email).and_return(user)
+  it 'should render edit cabpool page when persistence of the cabpool fails' do
+    user = build(:user)
+    user.role = build_stubbed(:role, :admin_role)
+    expect(User).to receive(:find_by_email).and_return(user)
     another_user = build_stubbed(:user)
-    allow(User).to receive(:find_by_id).and_return(another_user)
-    cabpool = build(:cabpool)
-    allow(Cabpool).to receive(:find).and_return(cabpool)
+    cabpool_to_update = build(:cabpool)
+    cabpool_to_update.users = [another_user]
+    passenger = build(:user, :yet_another_user)
+    passenger.id = 1
+    failure = Failure.new(cabpool_to_update, 'Failure Message')
+    allow(User).to receive(:find_by_id).and_return(passenger)
 
-    patch :update, :id => cabpool.id, :cabpool => {number_of_people: 0}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}
-
-    expect(response).to render_template 'admin/cabpools/edit'
-    expect(cabpool.errors.any?).to be true
-  end
-
-  it 'should render edit cabpool page with flash message if no passengers are added during cabpool update' do
-    admin_role = build_stubbed(:role, :admin_role)
-    user.role = admin_role
-    allow(User).to receive(:find_by_email).and_return(user)
-    cabpool = build(:cabpool)
-    allow(Cabpool).to receive(:find).and_return(cabpool)
-
-    patch :update, :id => cabpool.id, :cabpool => {number_of_people: 2}, :cabpool_type => {:cabpool_type_one_id => '1'}
+    expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
+    expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(failure)
+    patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 1, remarks: 'Edited Remark'}, :passengers => {:user_id => passenger.id}, :cabpool_type => {:cabpool_type_one_id => '1'}
 
     expect(response).to render_template 'admin/cabpools/edit'
-    expect(flash[:danger]).to eq "Please add some people to the cab"
-  end
-
-  it 'should render edit cabpool page with flash message when duplicate passengers are added during cabpool update' do
-    admin_role = build_stubbed(:role, :admin_role)
-    user.role = admin_role
-    allow(User).to receive(:find_by_email).and_return(user)
-    another_user = build_stubbed(:user)
-    allow(User).to receive(:find_by_id).and_return(another_user)
-    allow(another_user).to receive(:save).and_return(true)
-    cabpool = build(:cabpool)
-    allow(Cabpool).to receive(:find).and_return(cabpool)
-
-    patch :update, :id => cabpool.id, :cabpool => {number_of_people: 2}, :passengers => {user_id1: another_user.id, user_id2: another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}
-
-    expect(response).to render_template 'admin/cabpools/edit'
-    expect(flash[:danger]).to eq "Same passenger cannot be added multiple times"
-  end
-
-  it 'should render edit cabpool page with flash message if the add passenger field is left empty during cabpool update' do
-    admin_role = build_stubbed(:role, :admin_role)
-    user.role = admin_role
-    allow(User).to receive(:find_by_email).and_return(user)
-    cabpool = build(:cabpool)
-    allow(Cabpool).to receive(:find).and_return(cabpool)
-
-    patch :update, :id => cabpool.id, :cabpool => {number_of_people: 2}, :passengers => {:user_id => ''},:cabpool_type => {:cabpool_type_one_id => '1'}
-
-    expect(response).to render_template 'cabpools/edit'
-    expect(flash[:danger]).to be_present
-  end
-
-  it 'should render edit cabpool page with flash message if the number of passengers are greater than the capacity during update' do
-    admin_role = build_stubbed(:role, :admin_role)
-    user.role = admin_role
-    allow(User).to receive(:find_by_email).and_return(user)
-    first_user = build_stubbed(:user)
-    allow(User).to receive(:find_by_id).and_return(first_user)
-    allow(first_user).to receive(:save).and_return(true)
-    second_user = build_stubbed(:user)
-    allow(User).to receive(:find_by_id).and_return(second_user)
-    allow(second_user).to receive(:save).and_return(true)
-    cabpool = build(:cabpool)
-    allow(Cabpool).to receive(:find).and_return(cabpool)
-
-    patch :update, :id => cabpool.id, :cabpool => {number_of_people: 1}, :passengers => {:user_id_one => first_user.id, :user_id_two => second_user.id},:cabpool_type => {:cabpool_type_one_id => '1'}
-
-    expect(response).to render_template 'admin/cabpools/edit'
-    expect(flash[:danger]).to eq "Number of people are more than the capacity of the cab"
+    expect(flash[:danger]).to eq 'Failure Message'
   end
 
   it 'should render show cabpool page and send mail to all current and previous members of cabpool when valid details are entered during update' do
@@ -277,42 +150,30 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     allow(User).to receive(:find_by_email).and_return(user)
     first_new_user = build(:user, :existing_user)
     first_new_user.id = 1
-    allow(first_new_user).to receive(:save).and_return(true)
     second_new_user = build(:user, :another_user)
     second_new_user.id = 2
-    allow(second_new_user).to receive(:save).and_return(true)
     allow(User).to receive(:find_by_id).and_return(first_new_user, second_new_user)
     old_user = build(:user, :yet_another_user)
     old_user.id = 3
     cabpool = build(:cabpool)
     cabpool.users = [old_user]
     cabpool.localities = [Locality.find_by_id(1)]
-    expect(Cabpool).to receive(:find).and_return(cabpool)
-    expect(cabpool).to receive(:save).and_return(true)
+    success = Success.new(cabpool, 'Success Message')
+    expect(Cabpool).to receive(:find_by_id).and_return(cabpool)
 
-    patch :update, :id => cabpool.id, :cabpool => {number_of_people: 2}, :passengers => {:user_id_one => first_new_user.id, :user_id_two=> second_new_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}
+    expect_any_instance_of(CabpoolPersister).to receive(:persist) do
+      cabpool.users.clear
+      cabpool.users = [first_new_user, second_new_user]
+      success
+    end
+    patch :update, :id => cabpool.id, :cabpool => {number_of_people: 2, :remarks => 'This is the new remark'}, :passengers => {:user_id_one => first_new_user.id, :user_id_two=> second_new_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}
 
+    expect(cabpool.errors.any?).to be false
+    expect(cabpool.number_of_people).to eq 2
+    expect(cabpool.remarks).to eq 'This is the new remark'
+    expect(cabpool.users).to eq [first_new_user, second_new_user]
     expect(response).to redirect_to '/admin'
     expect(ActionMailer::Base.deliveries.size).to eq 3
-    expect(cabpool.errors.any?).to be false
-  end
-
-  it 'should be able to edit the remarks of the cabpool' do
-    first_user = build_stubbed(:user)
-    admin_role = build_stubbed(:role, :admin_role)
-    first_user.role = admin_role
-    allow(first_user).to receive(:save).and_return(true)
-    cabpool = build(:cabpool, :with_remarks)
-    users = []
-    users << first_user
-    cabpool.users = users
-    cabpool.localities = [Locality.find_by_id(1)]
-    allow(User).to receive(:find_by_email).and_return(first_user)
-    allow(Cabpool).to receive(:find).and_return(cabpool)
-
-    patch :update, :id => cabpool.id, :cabpool => {:remarks => "This is the new remark"}
-
-    expect(cabpool.remarks).to eq "This is the new remark"
   end
 
   it 'should be able to delete a cabpool' do

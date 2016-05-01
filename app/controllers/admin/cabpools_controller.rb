@@ -1,7 +1,7 @@
 class Admin::CabpoolsController < Admin::AdminController
 
   def show
-    company_provided_cabpools = Cabpool.where(cabpool_type: CabpoolType.find_by_name("Company provided Cab"))
+    company_provided_cabpools = Cabpool.where(cabpool_type: CabpoolType.find_by_name('Company provided Cab'))
     @cabpools = company_provided_cabpools.paginate(page: params[:page], :per_page => 10)
   end
 
@@ -11,15 +11,16 @@ class Admin::CabpoolsController < Admin::AdminController
 
   def create
     @cabpool = Cabpool.new(cabpool_params)
-    add_localities_to_cabpool
-    if no_passengers_edge_case_violation?
-      add_or_update_users_to_cabpool
-      if @cabpool.save
-        send_email_to_cabpool_users @cabpool
-        redirect_to '/admin' and return
-      end
+    association_of_cabpool = {localities: get_localities_of_cabpool_from_params, users: get_members_of_cabpool_from_params}
+    response = CabpoolPersister.new(@cabpool, association_of_cabpool).persist
+    if response.success?
+      flash[:success] = 'Cabpool creation successful'
+      send_email_to_cabpool_users @cabpool
+      redirect_to '/admin' and return
+    else
+      flash[:danger] = response.message
+      render 'admin/cabpools/new'
     end
-    render 'admin/cabpools/new'
   end
 
   def edit
@@ -27,43 +28,31 @@ class Admin::CabpoolsController < Admin::AdminController
   end
 
   def update
-    @cabpool = Cabpool.find(params[:id])
+    @cabpool = Cabpool.find_by_id(params[:id])
     @cabpool.remarks = params[:cabpool][:remarks]
     @cabpool.number_of_people = params[:cabpool][:number_of_people]
     members_before_cabpool_update = get_members_before_cabpool_update
-    if no_passengers_edge_case_violation?
-      add_or_update_users_to_cabpool
-      if @cabpool.save
-        send_email_to_cabpool_users_about_cabpool_update_by_admin(@cabpool, members_before_cabpool_update)
-        flash[:success] = "Cabpool has been Updated"
-        redirect_to '/admin' and return
-      end
+    associations_of_cabpool = {users: get_members_of_cabpool_from_params}
+    response = CabpoolPersister.new(@cabpool, associations_of_cabpool).persist
+    if response.success?
+      send_email_to_cabpool_users_about_cabpool_update_by_admin(@cabpool, members_before_cabpool_update)
+      flash[:success] = 'Cabpool has been Updated'
+      redirect_to '/admin' and return
+    else
+      flash[:danger] = response.message
+      render 'edit'
     end
-    render 'edit'
   end
 
 
   def delete
     cabpool = Cabpool.find(params[:id])
     destroy cabpool
-    flash[:success] = "Cabpool has been Deleted"
+    flash[:success] = 'Cabpool has been Deleted'
     redirect_to '/admin'
   end
 
   private
-
-  def no_passengers_edge_case_violation?
-    if (no_passengers_added?)
-      flash.now[:danger] = 'Please add some people to the cab'
-    elsif (passengers_are_greater_than_capacity?)
-      flash.now[:danger] = 'Number of people are more than the capacity of the cab'
-    elsif (same_passenger_added_multiple_times?)
-      flash.now[:danger] = 'Same passenger cannot be added multiple times'
-    else
-      return true
-    end
-    return false
-  end
 
   def destroy cabpool
     cabpool.users.clear
@@ -77,43 +66,12 @@ class Admin::CabpoolsController < Admin::AdminController
     allowed_params.merge(cabpool_type: cabpool_type)
   end
 
-  def add_localities_to_cabpool
-    params[:localities].values.each do |locality_id|
-      locality = Locality.find_by_id(locality_id)
-      @cabpool.localities << locality if !locality.nil?
-    end
-  end
-
-  def add_or_update_users_to_cabpool
-    users = []
-    if params[:passengers] != nil
-      params[:passengers].values.each do |user_id|
-        user = User.find_by_id(user_id)
-        users << user if !user.nil?
-      end
-    end
-    @cabpool.users = users
-  end
-
   def get_members_before_cabpool_update
     members = []
     @cabpool.users.each do |user|
       members << user
     end
     return members
-  end
-
-  def no_passengers_added?
-    params[:passengers] == nil || params[:passengers].values.first.empty?
-  end
-
-  def passengers_are_greater_than_capacity?
-    (params[:passengers].length > params[:cabpool][:number_of_people].to_i) && (params[:cabpool][:number_of_people].to_i > 0)
-  end
-
-  def same_passenger_added_multiple_times?
-    passengers = params[:passengers].values
-    passengers.uniq.length != passengers.length
   end
 
   def send_email_to_cabpool_users cabpool
@@ -127,5 +85,23 @@ class Admin::CabpoolsController < Admin::AdminController
     members_needing_update_email.collect do |user|
       CabpoolMailer.cabpool_updated_by_admin(user, members_needing_update_email).deliver_now
     end
+  end
+
+  def get_members_of_cabpool_from_params
+    members_of_cabpool = []
+    params[:passengers].values.each do |user_id|
+      user = User.find_by_id(user_id)
+      members_of_cabpool << user if !user.nil?
+    end
+    return members_of_cabpool
+  end
+
+  def get_localities_of_cabpool_from_params
+    localities_to_be_added = []
+    params[:localities].values.each do |locality_id|
+      locality = Locality.find_by_id(locality_id)
+      localities_to_be_added << locality if !locality.nil?
+    end
+    return localities_to_be_added
   end
 end

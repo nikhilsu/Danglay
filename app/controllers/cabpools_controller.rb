@@ -55,7 +55,9 @@ class CabpoolsController < ApplicationController
       @cabpool.timeout = params[:cabpool][:timeout]
       @cabpool.route = params[:cabpool][:route]
       associations_of_the_cabpool = {localities: get_localities_to_update_from_params}
-      if create_or_update_of_cabpool_successful? associations_of_the_cabpool
+      persister = CabpoolPersister.new(@cabpool, associations_of_the_cabpool)
+      response = persister.persist
+      if response.success?
         send_email_to_cabpool_members_about_cabpool_update(@cabpool, current_user)
         flash[:success] = 'Your Cabpool has been Updated'
         redirect_to your_cabpools_path and return
@@ -71,14 +73,15 @@ class CabpoolsController < ApplicationController
 
   def create
     @cabpool = Cabpool.new(cabpool_params)
-    add_current_user_to_cabpool
     if selected_cabpool_type_is_company_provided_cabpool
+      add_current_user_to_cabpool
       send_email_to_admins_to_request_cabpool_creation(current_user, Time.new(params[:cabpool][:timein]), Time.new(params[:cabpool][:timeout]), params[:remarks])
       flash[:success] = 'You have successfully requested the admins for a cab pool.'
       redirect_to root_url
     else
-      associations_of_the_cabpool = {localities: get_localities_to_update_from_params}
-      if create_or_update_of_cabpool_successful? associations_of_the_cabpool
+      associations_of_the_cabpool = {localities: get_localities_to_update_from_params, users: [current_user]}
+      response = CabpoolPersister.new(@cabpool, associations_of_the_cabpool).persist
+      if response.success?
         flash[:success] = "You have successfully created your cab pool. Please check the 'MyRide' tab for details."
         redirect_to root_url
       else
@@ -304,14 +307,6 @@ class CabpoolsController < ApplicationController
       localities_to_be_added << locality if !locality.nil?
     end
     return localities_to_be_added
-  end
-
-  def create_or_update_of_cabpool_successful? associations_of_the_cabpool
-    if @cabpool.valid_including_associations? associations_of_the_cabpool
-      @cabpool.add_associations_in_order associations_of_the_cabpool
-      return @cabpool.save
-    end
-    return false
   end
 
   def has_cabpool

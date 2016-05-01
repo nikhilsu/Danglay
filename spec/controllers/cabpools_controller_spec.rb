@@ -96,15 +96,6 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to render_template('new')
   end
 
-  it 'should render new cabpool page when invalid number of people is entered' do
-    user = build(:user)
-    allow(User).to receive(:find_by_email).and_return(user)
-    post :create, :cabpool => {number_of_people: 0, timein: "9:30", timeout: "12:30"}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => '1'}
-    cabpool = assigns(:cabpool)
-    expect(response).to render_template 'cabpools/new'
-    expect(cabpool.errors.any?).to be true
-  end
-
   it 'should render new cabpool page with errors when invalid params are passed' do
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
@@ -114,16 +105,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(cabpool.errors.any?).to be true
   end
 
-  it 'should render new carpool page with errors when no route is given' do
-    user = build(:user)
-    allow(User).to receive(:find_by_email).and_return(user)
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "12:30"}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => ''}
-    cabpool = assigns(:cabpool)
-    expect(response).to render_template 'cabpools/new'
-    expect(cabpool.errors.any?).to be true
-  end
-
-  it 'should render new carpool page with errors when no cabpool_type is given' do
+  it 'should render new cabpool page with errors when no cabpool_type is given' do
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
     post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "12:30"}, :cabpool_type => {:cabpool_type_one_id => ''}, :localities => {:locality_one_id => ''}
@@ -133,35 +115,45 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(cabpool.errors.any?).to be true
   end
 
-  it 'should render new carpool page with errors when duplicate routes are given' do
+  it 'should render new carpool page with errors cabpool type is not company provided persistence fails' do
     user = build(:user)
-    allow(User).to receive(:find_by_email).and_return(user)
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "12:30"}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => '1', :locality_two_id => '1'}
-    cabpool = assigns(:cabpool)
+    expect(User).to receive(:find_by_email).and_return(user)
+    duplicate_locality = build(:locality)
+    duplicate_locality.id = 1
+    failure = Failure.new(nil, 'Failure Message')
+    expect(Locality).to receive(:find_by_id).with(duplicate_locality.id.to_s).and_return(duplicate_locality).twice
+
+    expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(failure)
+    post :create, :cabpool => {number_of_people: 2, timein: '9:30', timeout: '12:30'}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => '1', :locality_two_id => '1'}
+
     expect(response).to render_template 'cabpools/new'
-    expect(cabpool.errors.any?).to be true
+    expect(flash[:danger]).to eq 'Cannot create because of the following errors'
   end
 
   it 'should render show cabpool page when valid details are entered and cabpool type is not company provided' do
     user = build(:user)
-    allow(User).to receive(:find_by_email).and_return(user)
+    expect(User).to receive(:find_by_email).and_return(user)
+    first_updated_locality = build(:locality)
+    first_updated_locality.id = 1
+    success = Success.new(nil, 'Success message')
+    expect(Locality).to receive(:find_by_id).with(first_updated_locality.id.to_s).and_return(first_updated_locality)
 
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "12:30", remarks: 'Driver Details.'}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => '1'}
+    expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(success)
+    post :create, :cabpool => {number_of_people: 2, timein: '9:30', timeout: '12:30', remarks: 'Driver Details.'}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => '1'}
 
-    cabpool = assigns(:cabpool)
     expect(response).to redirect_to root_url
-    expect(cabpool.errors.any?).to be false
+    expect(flash[:success]).to eq "You have successfully created your cab pool. Please check the 'MyRide' tab for details."
   end
 
     it 'should render show cabpool page when valid details are entered and cabpool type is company provided' do
     user = build(:user, :existing_user)
     allow(User).to receive(:find_by_email).and_return(user)
 
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "12:30", remarks: 'Driver Details.'}, :cabpool_type => {:cabpool_type_two_id => '1'}, :localities => {:locality_one_id => '1'}
+    post :create, :cabpool => {number_of_people: 2, timein: '9:30', timeout: '12:30', remarks: 'Driver Details.'}, :cabpool_type => {:cabpool_type_two_id => '1'}, :localities => {:locality_one_id => '1'}
 
     cabpool = assigns(:cabpool)
 
-    expect(flash[:success]).to eq flash[:success] = "You have successfully requested the admins for a cab pool."
+    expect(flash[:success]).to eq 'You have successfully requested the admins for a cab pool.'
     expect(response).to redirect_to root_url
     expect(cabpool.errors.any?).to be false
     expect(ActionMailer::Base.deliveries.size).to eq 1
@@ -573,17 +565,13 @@ RSpec.describe CabpoolsController, type: :controller do
     cabpool_to_update.users = [user, another_user_part_of_cabpool]
     first_updated_locality = build(:locality)
     first_updated_locality.id = 10
-    second_updated_locality = build(:locality, :another_locality)
-    second_updated_locality.id = 20
-    allow(cabpool_to_update).to receive(:ordered_localities).and_return([first_updated_locality, second_updated_locality])
-    expect(Locality).to receive(:find_by_id).with(first_updated_locality.id.to_s).and_return(first_updated_locality).once
-    expect(Locality).to receive(:find_by_id).with(second_updated_locality.id.to_s).and_return(second_updated_locality).once
+    success = Success.new(cabpool_to_update, 'Success message')
+    allow(cabpool_to_update).to receive(:ordered_localities).and_return([first_updated_locality])
+    expect(Locality).to receive(:find_by_id).with(first_updated_locality.id.to_s).and_return(first_updated_locality)
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
-    expect(cabpool_to_update).to receive(:valid_including_associations?).with({localities: [first_updated_locality, second_updated_locality]}).and_return(true)
-    expect(cabpool_to_update).to receive(:add_associations_in_order).once
-    expect(cabpool_to_update).to receive(:save).and_return(true)
-    patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: first_updated_locality.id, key2: second_updated_locality.id}
+    expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(success)
+    patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: ThoughtWorks}'}, :localities => {key1: first_updated_locality.id}
 
     expect(response).to redirect_to your_cabpools_path
     expect(cabpool_to_update.errors.any?).to be false
@@ -591,43 +579,23 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(ActionMailer::Base.deliveries.size).to eq 1
   end
 
-  it 'should not update a cabpool when there are validation errors on attributes and/or associations' do
+  it 'should not update a cabpool when persistence of the cabpool fails' do
     user = build(:user)
     expect(User).to receive(:find_by_email).and_return(user)
     cabpool_to_update = build(:cabpool)
     duplicate_locality = build(:locality)
     duplicate_locality.id = 10
     cabpool_to_update.users = [user]
+    failure = Failure.new(cabpool_to_update, 'Failure Message')
     expect(Locality).to receive(:find_by_id).with(duplicate_locality.id.to_s).and_return(duplicate_locality).twice
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
-    expect(cabpool_to_update).to receive(:valid_including_associations?).with({localities: [duplicate_locality, duplicate_locality]}).and_return(false)
+    expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(failure)
     patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '19:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: duplicate_locality.id, key2: duplicate_locality.id}
 
     expect(response).to render_template 'edit'
     expect(flash[:danger]).to eq 'Cannot update because of the following errors'
     expect(cabpool_to_update.valid?).to be false
-  end
-
-  it 'should not update the cabpool when there are no validation errors but cabpool could not be saved' do
-    user = build(:user)
-    expect(User).to receive(:find_by_email).and_return(user)
-    cabpool_to_update = build(:cabpool)
-    first_updated_locality = build(:locality)
-    first_updated_locality.id = 10
-    second_updated_locality = build(:locality, :another_locality)
-    second_updated_locality.id = 20
-    cabpool_to_update.users = [user]
-
-    expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
-    expect(cabpool_to_update).to receive(:valid_including_associations?).with({localities: [first_updated_locality, second_updated_locality]}).and_return(true)
-    expect(cabpool_to_update).to receive(:add_associations_in_order).once
-    expect(cabpool_to_update).to receive(:save).and_return(false)
-    patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 3, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: first_updated_locality.id, key2: second_updated_locality.id}
-
-    expect(response).to render_template 'edit'
-    expect(cabpool_to_update.errors[:localities].empty?).to be true
-    expect(flash[:danger]).to eq 'Cannot update because of the following errors'
   end
 
   it 'should not allow a user to update a cabpool that he/she is not part of' do
