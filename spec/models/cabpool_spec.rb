@@ -222,6 +222,23 @@ RSpec.describe Cabpool, type: :model do
     expect(cabpool.is_company_provided?).to be false
   end
 
+  it 'should return true when a user is part of a cabpool' do
+    cabpool = build(:cabpool)
+    user = build(:user)
+    cabpool.users << [user]
+
+    expect(cabpool.user_is_part_of_cabpool? user).to be true
+  end
+
+  it 'should return false when a user is not part of a cabpool' do
+    cabpool = build(:cabpool)
+    user = build(:user)
+    another_user = build(:user, :another_user)
+    cabpool.users = [another_user]
+
+    expect(cabpool.user_is_part_of_cabpool? user).to be false
+  end
+
   describe 'Order of localities' do
     before(:all) do
       @locality1 = create(:locality, name: 'L1')

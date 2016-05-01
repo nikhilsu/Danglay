@@ -2,6 +2,8 @@ class CabpoolsController < ApplicationController
   include CabpoolsHelper
   before_action :registered?, except: [:show, :approve_reject_handler]
   before_action :has_cabpool, only: [:leave, :edit, :update]
+  before_action :cabpool_exists_and_user_part_of_it?, only: [:edit, :update]
+  before_action :not_company_provided_cabpool?, only: [:edit, :update]
   before_action :user_should_not_have_cabpool, only: :new
 
   def user_should_not_have_cabpool
@@ -36,38 +38,23 @@ class CabpoolsController < ApplicationController
   end
 
   def edit
-    cabpool_to_edit = Cabpool.find_by_id(params[:id])
-    if !cabpool_to_edit.nil? and cabpool_to_edit.users.include?(current_user)
-      @cabpool = cabpool_to_edit
-    else
-      flash[:danger] = 'Cannot Edit a cabpool that you are not part of'
-      redirect_to root_url and return
-    end
   end
 
   def update
-    cabpool_to_update = Cabpool.find_by_id(params[:cabpool][:id])
-    if !cabpool_to_update.nil? and cabpool_to_update.users.include?(current_user)
-      @cabpool = cabpool_to_update
-      @cabpool.number_of_people = params[:cabpool][:number_of_people]
-      @cabpool.remarks = params[:cabpool][:remarks]
-      @cabpool.timein = params[:cabpool][:timein]
-      @cabpool.timeout = params[:cabpool][:timeout]
-      @cabpool.route = params[:cabpool][:route]
-      associations_of_the_cabpool = {localities: get_localities_to_update_from_params}
-      persister = CabpoolPersister.new(@cabpool, associations_of_the_cabpool)
-      response = persister.persist
-      if response.success?
-        send_email_to_cabpool_members_about_cabpool_update(@cabpool, current_user)
-        flash[:success] = 'Your Cabpool has been Updated'
-        redirect_to your_cabpools_path and return
-      else
-        flash[:danger] = 'Cannot update because of the following errors'
-        render 'edit'
-      end
+    @cabpool.number_of_people = params[:cabpool][:number_of_people]
+    @cabpool.remarks = params[:cabpool][:remarks]
+    @cabpool.timein = params[:cabpool][:timein]
+    @cabpool.timeout = params[:cabpool][:timeout]
+    @cabpool.route = params[:cabpool][:route]
+    associations_of_the_cabpool = {localities: get_localities_to_update_from_params}
+    response = CabpoolPersister.new(@cabpool, associations_of_the_cabpool).persist
+    if response.success?
+      send_email_to_cabpool_members_about_cabpool_update(@cabpool, current_user)
+      flash[:success] = 'Your Cabpool has been Updated'
+      redirect_to your_cabpools_path and return
     else
-      flash[:danger] = 'Cannot Edit a cabpool that you are not part of'
-      redirect_to root_url and return
+      flash[:danger] = 'Cannot update because of the following errors'
+      render 'edit'
     end
   end
 
@@ -325,5 +312,20 @@ class CabpoolsController < ApplicationController
       return false
     end
     return cabpool_type.name == CabpoolType.find_by_name('Company provided Cab').name
+  end
+
+  def not_company_provided_cabpool?
+    if @cabpool.is_company_provided?
+      flash[:danger] = 'Cannot Edit a Company Provided Cabpool'
+      redirect_to '/'
+    end
+  end
+
+  def cabpool_exists_and_user_part_of_it?
+    @cabpool = Cabpool.find_by_id(params[:id])
+    if @cabpool.nil? or !@cabpool.user_is_part_of_cabpool? current_user
+      flash[:danger] = 'Cannot Edit a cabpool that you are not part of'
+      redirect_to root_url
+    end
   end
 end

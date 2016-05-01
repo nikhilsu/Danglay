@@ -45,6 +45,10 @@ class Cabpool < ActiveRecord::Base
     return cabpool_type.name == 'Company provided Cab'
   end
 
+  def user_is_part_of_cabpool? user
+    return users.include?(user)
+  end
+
   private
   def add_validation_errors_on_association(association_name, association_to_validate)
     cabpool_clone = self.dup

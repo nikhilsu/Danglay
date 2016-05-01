@@ -512,12 +512,28 @@ RSpec.describe CabpoolsController, type: :controller do
     another_user = build(:user, :another_user)
     allow(User).to receive(:find_by_email).and_return(user)
     cabpool_to_update = build(:cabpool)
+    cabpool_to_update.cabpool_type = build(:cabpool_type, :personal_car)
     cabpool_to_update.users = [user, another_user]
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
     get :edit, id: 1
 
     expect(response).to render_template 'cabpools/edit'
+  end
+
+  it 'should redirect to home page when a user tries to Edit a company provided cabpool' do
+    user = build(:user)
+    allow(User).to receive(:find_by_email).and_return(user)
+    cabpool = build(:cabpool)
+    cabpool.users = [user]
+    cabpool.id = 1
+    cabpool.cabpool_type = build(:cabpool_type, :company_provided_cab)
+    expect(Cabpool).to receive(:find_by_id).and_return(cabpool)
+
+    get :edit, :id=> cabpool.id
+
+    expect(response).to redirect_to '/'
+    expect(flash[:danger]).to eq 'Cannot Edit a Company Provided Cabpool'
   end
 
   it 'should render home page when the user tries to edit a cabpool that he/she is not part of' do
@@ -577,6 +593,20 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(cabpool_to_update.errors.any?).to be false
     expect(flash[:success]).to eq 'Your Cabpool has been Updated'
     expect(ActionMailer::Base.deliveries.size).to eq 1
+  end
+
+  it 'should redirect to home page when a user tries to update a Company provided cabpool' do
+    user = build(:user)
+    expect(User).to receive(:find_by_email).and_return(user)
+    cabpool_to_update = build(:cabpool)
+    cabpool_to_update.cabpool_type = build(:cabpool_type, :company_provided_cab)
+    cabpool_to_update.users = [user]
+
+    expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
+    patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '19:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: 1, key2: 2}
+
+    expect(response).to redirect_to root_url
+    expect(flash[:danger]).to eq 'Cannot Edit a Company Provided Cabpool'
   end
 
   it 'should not update a cabpool when persistence of the cabpool fails' do

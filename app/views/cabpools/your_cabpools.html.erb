@@ -29,8 +29,10 @@
                 <%= form_for(users_cabpool, url: 'leave_cabpool', method: 'post', :html => {onsubmit: "return popup_confirmation(this, 'Are you sure you want to Leave your Cabpool?');"}) do |f| %>
                   <%= f.button button(users_cabpool) %>
                 <% end %>
-                <%= form_for(users_cabpool, url: "cabpool/#{users_cabpool.id}/edit", method: 'get') do |f| %>
-                    <button name="button" type="submit" class="cabpool-edit-button" title="Edit Cabpool"><i class="fa fa-pencil"></i></button>
+                <% if !users_cabpool.is_company_provided? %>
+                  <%= form_for(users_cabpool, url: "cabpool/#{users_cabpool.id}/edit", method: 'get') do |f| %>
+                      <button name="button" type="submit" class="cabpool-edit-button" title="Edit Cabpool"><i class="fa fa-pencil"></i></button>
+                  <% end %>
                 <% end %>
               </div>
             </div>
@@ -80,9 +82,11 @@
                       <%= form_for(users_cabpool, url: 'leave_cabpool', method: 'post', :html => {onsubmit: "return popup_confirmation(this, 'Are you sure you want to Leave your Cabpool?');"}) do |f| %>
                         <%= f.button button(users_cabpool), class: 'btn-ride' %>
                       <% end %>
+                  <% if !users_cabpool.is_company_provided? %>
                     <%= form_for(users_cabpool, url: "cabpool/#{users_cabpool.id}/edit", method: 'get') do |f| %>
-                        <button name="button" type="submit" class="btn-ride cabpool-edit-button" title="Edit Cabpool"><i class="fa fa-pencil"></i></button>
+                          <button name="button" type="submit" class="btn-ride cabpool-edit-button" title="Edit Cabpool"><i class="fa fa-pencil"></i></button>
                     <% end %>
+                  <% end %>
                   </div>
                 </div>
               </div>
