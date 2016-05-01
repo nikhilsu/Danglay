@@ -67,20 +67,20 @@ class Cabpool < ActiveRecord::Base
 
   def invalidate_empty_localities
     if localities.empty?
-      errors.add(:localities, 'This should not be empty')
+      errors.add(:localities, 'Localities cannot be empty')
     end
   end
 
   def invalidate_duplicate_localities
     difference = localities.size - localities.uniq.size
     if difference != 0
-      errors[:localities] = 'This already Exists.'
+      errors[:localities] = 'Duplicate Localities entered'
     end
   end
 
   def invalidate_more_than_five_localities
     if localities.length > 5
-      errors.add(:localities, 'More than 5 localities.')
+      errors.add(:localities, 'Cannot have More than 5 localities.')
     end
   end
 
@@ -92,7 +92,7 @@ class Cabpool < ActiveRecord::Base
 
   def invalidate_empty_users
     if users.length == 0
-      errors.add(:users, 'This should not be empty')
+      errors.add(:users, 'Users Cannot be empty')
     end
   end
 
@@ -105,7 +105,7 @@ class Cabpool < ActiveRecord::Base
   def invalidate_duplicate_users
     difference = users.size - users.uniq.size
     if difference != 0
-      errors.add(:users, 'User already exists')
+      errors.add(:users, 'Duplicate User entered')
     end
   end
 

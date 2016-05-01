@@ -108,7 +108,7 @@ RSpec.describe Cabpool, type: :model do
     duplicate_user = build(:user)
     cabpool.users = [duplicate_user, duplicate_user]
     expect(cabpool.valid?).to be false
-    expect(cabpool.errors[:users]).to eq ['User already exists']
+    expect(cabpool.errors[:users]).to eq ['Duplicate User entered']
   end
 
   it 'should not allow the remarks to have more than 300 characters' do

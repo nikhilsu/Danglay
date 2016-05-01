@@ -22,14 +22,13 @@
         <%= f.text_area :remarks %>
         <%= render 'shared/error_messages', errors: @cabpool.errors[:remarks] if !@cabpool.errors[:remarks].empty? %>
 
-        <div class="form-group <% unless @cabpool.errors[:localities].empty? %> field_with_errors
-          <% end %> ">
+        <div class="form-group">
           <label class="label-blue" for="user_locality">Route :-</label>
+          <%= render 'shared/error_messages', errors: @cabpool.errors[:localities] if !@cabpool.errors[:localities].empty? %>
           <label class="label-blue" for="user_locality">Start Point</label>
 
           <div class="full-width-selectize">
             <%= collection_select(:localities, 'source', Locality.all, :id, :name, {prompt: true, selected: @cabpool.ordered_localities.first.id}, class: 'form-control add-locality', id: 'sourceLocation') %>
-            <%= render 'shared/error_messages', errors: @cabpool.errors[:localities] if !@cabpool.errors[:localities].empty? %>
           </div>
 
           <div class="add-locality-label-and-button">
@@ -41,7 +40,6 @@
               <label class="control-label pull-left" for="user_locality">Via</label>
               <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control add-locality') %>
             </div>
-            <%= render 'shared/error_messages', errors: @cabpool.errors[:localities] if !@cabpool.errors[:localities].empty? %>
           </div>
         </div>
 
