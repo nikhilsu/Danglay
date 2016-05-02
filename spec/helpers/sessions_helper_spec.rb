@@ -2,11 +2,18 @@ require 'rails_helper'
 
 RSpec.describe SessionsHelper, type: :helper do
 
-    let(:request) { double('request', url: 'host.com') }
+    let(:request) { double('request', url: 'host.com' , fullpath: '/saml/init') }
 
     it 'should return request url if get' do
       allow(request).to receive(:get?).and_return(true)
       expect(store_location).to eq 'host.com'
+    end
+
+    it 'should return request url if get' do
+      allow(request).to receive(:get?).and_return(true)
+      allow(request).to receive(:fullpath).and_return('/')
+      store_location
+      expect(session[:forward_url]).to be nil
     end
 
     it 'should delete the forward_url in the session if not get' do

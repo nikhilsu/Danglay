@@ -2,7 +2,9 @@ module SessionsHelper
 
   def store_location
     if request.get?
-      session[:forward_url] = request.url
+      if request.fullpath != '/'
+        session[:forward_url] = request.url
+      end
     else
       session.delete(:forward_url)
     end

@@ -23,6 +23,14 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(response).to render_template 'custom_errors/not_found_error'
   end
 
+  it 'should show error page if user is unregistered and not an admin' do
+    allow(User).to receive(:find_by_email).and_return(nil)
+
+    get :show
+
+    expect(response).to render_template 'custom_errors/not_found_error'
+  end
+
   it 'should display list of company provided cabpools if user is admin' do
     admin_role = build_stubbed(:role, :admin_role)
     user.role = admin_role
