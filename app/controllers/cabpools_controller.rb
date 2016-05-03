@@ -10,7 +10,7 @@ class CabpoolsController < ApplicationController
     user = current_user
     if !user.nil?
       if user.cabpool
-        flash[:danger] = "You are already part of a Cab pool. Please leave the cabpool to create a new cab pool."
+        flash[:danger] = 'You are already part of a Cab pool. Please leave the cabpool to create a new cab pool.'
         redirect_to your_cabpools_path
       end
     end
@@ -46,7 +46,8 @@ class CabpoolsController < ApplicationController
     @cabpool.timein = params[:cabpool][:timein]
     @cabpool.timeout = params[:cabpool][:timeout]
     @cabpool.route = params[:cabpool][:route]
-    associations_of_the_cabpool = {localities: get_localities_to_update_from_params}
+    locality_ids = params[:localities].nil? ? [] : params[:localities].values
+    associations_of_the_cabpool = {localities: LocalityService.fetch_all_localities(locality_ids)}
     response = CabpoolPersister.new(@cabpool, associations_of_the_cabpool).persist
     if response.success?
       send_email_to_cabpool_members_about_cabpool_update(@cabpool, current_user)
@@ -66,7 +67,8 @@ class CabpoolsController < ApplicationController
       flash[:success] = 'You have successfully requested the admins for a cab pool.'
       redirect_to root_url
     else
-      associations_of_the_cabpool = {localities: get_localities_to_update_from_params, users: [current_user]}
+      locality_ids = params[:localities].nil? ? [] : params[:localities].values
+      associations_of_the_cabpool = {localities: LocalityService.fetch_all_localities(locality_ids), users: [current_user]}
       response = CabpoolPersister.new(@cabpool, associations_of_the_cabpool).persist
       if response.success?
         flash[:success] = "You have successfully created your cab pool. Please check the 'MyRide' tab for details."
@@ -285,15 +287,6 @@ class CabpoolsController < ApplicationController
   def add_current_user_to_cabpool
     user = current_user
     @cabpool.users << user if !user.nil?
-  end
-
-  def get_localities_to_update_from_params
-    localities_to_be_added = []
-    params[:localities].values.each do |locality_id|
-      locality = Locality.find_by_id(locality_id)
-      localities_to_be_added << locality if !locality.nil?
-    end if !params[:localities].nil?
-    return localities_to_be_added
   end
 
   def has_cabpool

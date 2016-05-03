@@ -63,7 +63,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     admin.role = admin_role
     expect(User).to receive(:find_by_email).and_return(admin)
     another_user = build(:user)
-    expect(User).to receive(:find_by_id).and_return(another_user)
+    expect(UserService).to receive(:fetch_all_users).with([another_user.id]).and_return([another_user])
 
     expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(Failure.new(nil, 'Failure Message'))
     post :create, :cabpool => {number_of_people: 0, timein: '9:30', timeout: '2:30'}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}
@@ -77,7 +77,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     user.role = admin_role
     allow(User).to receive(:find_by_email).and_return(user)
     another_user = build_stubbed(:user)
-    allow(User).to receive(:find_by_id).and_return(another_user)
+    expect(UserService).to receive(:fetch_all_users).with([another_user.id.to_s]).and_return([another_user])
 
     post :create, :cabpool => {number_of_people: 2, gibbrish: 'hello'}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:a => '1'}
     cabpool = assigns(:cabpool)
@@ -92,14 +92,13 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     admin.role = admin_role
     allow(User).to receive(:find_by_email).and_return(admin)
     first_user = build_stubbed(:user)
-    allow(User).to receive(:find_by_id).and_return(first_user)
     allow(first_user).to receive(:save).and_return(true)
     second_user = build_stubbed(:user)
-    allow(User).to receive(:find_by_id).and_return(second_user)
     allow(second_user).to receive(:save).and_return(true)
     first_locality = build(:locality)
     first_locality.id = 1
     expect(Locality).to receive(:find_by_id).with(first_locality.id.to_s).and_return(first_locality)
+    expect(UserService).to receive(:fetch_all_users).with([first_user.id.to_s, second_user.id.to_s]).and_return([first_user, first_user])
 
     expect_any_instance_of(CabpoolPersister).to receive(:persist) do
       assigns(:cabpool).users = [first_user, second_user]
@@ -181,7 +180,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(flash[:danger]).to eq 'Failure Message'
   end
 
-  it 'should render show cabpool page and send mail to all current and previous members of cabpool when valid details are entered during update' do
+  it 'should render show cabpool page and send mail to all current and previous members of cabpool and update localities when valid details are entered during update' do
     user = build(:user)
     admin_role = build_stubbed(:role, :admin_role)
     user.role = admin_role
@@ -190,27 +189,33 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     first_new_user.id = 1
     second_new_user = build(:user, :another_user)
     second_new_user.id = 2
-    allow(User).to receive(:find_by_id).and_return(first_new_user, second_new_user)
     old_user = build(:user, :yet_another_user)
     old_user.id = 3
+    first_locality = build(:locality)
+    second_locality = build(:locality, :another_locality)
     cabpool = build(:cabpool)
     cabpool.users = [old_user]
     cabpool.cabpool_type = build(:cabpool_type, :company_provided_cab)
     cabpool.localities = [Locality.find_by_id(1)]
     success = Success.new(cabpool, 'Success Message')
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool)
+    expect(UserService).to receive(:fetch_all_users).with(['1', '2']).and_return([first_new_user, second_new_user])
+    expect(LocalityService).to receive(:fetch_all_localities).with(['1', '2']).and_return([first_locality, second_locality])
 
     expect_any_instance_of(CabpoolPersister).to receive(:persist) do
-      cabpool.users.clear
       cabpool.users = [first_new_user, second_new_user]
+      cabpool.localities.clear
+      cabpool.localities = [first_locality, second_locality]
       success
     end
-    patch :update, :id => cabpool.id, :cabpool => {number_of_people: 2, :remarks => 'This is the new remark'}, :passengers => {:user_id_one => first_new_user.id, :user_id_two=> second_new_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}
+    patch :update, :id => cabpool.id, :cabpool => {number_of_people: 2, :remarks => 'This is the new remark', :route => 'Ola new route'}, :passengers => {:user_id_one => first_new_user.id, :user_id_two=> second_new_user.id}, :localities => {key1: 1, key2: 2}, :cabpool_type => {:cabpool_type_one_id => '1'}
 
     expect(cabpool.errors.any?).to be false
     expect(cabpool.number_of_people).to eq 2
     expect(cabpool.remarks).to eq 'This is the new remark'
     expect(cabpool.users).to eq [first_new_user, second_new_user]
+    expect(cabpool.route).to eq 'Ola new route'
+    expect(cabpool.localities).to eq [first_locality, second_locality]
     expect(response).to redirect_to '/admin'
     expect(ActionMailer::Base.deliveries.size).to eq 3
   end

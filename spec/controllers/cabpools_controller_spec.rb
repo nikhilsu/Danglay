@@ -121,7 +121,7 @@ RSpec.describe CabpoolsController, type: :controller do
     duplicate_locality = build(:locality)
     duplicate_locality.id = 1
     failure = Failure.new(nil, 'Failure Message')
-    expect(Locality).to receive(:find_by_id).with(duplicate_locality.id.to_s).and_return(duplicate_locality).twice
+    expect(LocalityService).to receive(:fetch_all_localities).with([duplicate_locality.id.to_s, duplicate_locality.id.to_s]).and_return([duplicate_locality, duplicate_locality])
 
     expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(failure)
     post :create, :cabpool => {number_of_people: 2, timein: '9:30', timeout: '12:30'}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => '1', :locality_two_id => '1'}
@@ -136,7 +136,7 @@ RSpec.describe CabpoolsController, type: :controller do
     first_updated_locality = build(:locality)
     first_updated_locality.id = 1
     success = Success.new(nil, 'Success message')
-    expect(Locality).to receive(:find_by_id).with(first_updated_locality.id.to_s).and_return(first_updated_locality)
+    expect(LocalityService).to receive(:fetch_all_localities).with([first_updated_locality.id.to_s]).and_return([first_updated_locality])
 
     expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(success)
     post :create, :cabpool => {number_of_people: 2, timein: '9:30', timeout: '12:30', remarks: 'Driver Details.'}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => '1'}
@@ -583,7 +583,7 @@ RSpec.describe CabpoolsController, type: :controller do
     first_updated_locality.id = 10
     success = Success.new(cabpool_to_update, 'Success message')
     allow(cabpool_to_update).to receive(:ordered_localities).and_return([first_updated_locality])
-    expect(Locality).to receive(:find_by_id).with(first_updated_locality.id.to_s).and_return(first_updated_locality)
+    expect(LocalityService).to receive(:fetch_all_localities).with([first_updated_locality.id.to_s]).and_return([first_updated_locality])
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
     expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(success)
@@ -617,7 +617,7 @@ RSpec.describe CabpoolsController, type: :controller do
     duplicate_locality.id = 10
     cabpool_to_update.users = [user]
     failure = Failure.new(cabpool_to_update, 'Failure Message')
-    expect(Locality).to receive(:find_by_id).with(duplicate_locality.id.to_s).and_return(duplicate_locality).twice
+    expect(LocalityService).to receive(:fetch_all_localities).with([duplicate_locality.id.to_s, duplicate_locality.id.to_s]).and_return([duplicate_locality, duplicate_locality])
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
     expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(failure)

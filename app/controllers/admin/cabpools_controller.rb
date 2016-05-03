@@ -12,7 +12,9 @@ class Admin::CabpoolsController < Admin::AdminController
 
   def create
     @cabpool = Cabpool.new(cabpool_params)
-    association_of_cabpool = {localities: get_localities_of_cabpool_from_params, users: get_members_of_cabpool_from_params}
+    user_ids = params[:passengers].nil? ? [] : params[:passengers].values
+    locality_ids = params[:localities].nil? ? [] : params[:localities].values
+    association_of_cabpool = {localities: LocalityService.fetch_all_localities(locality_ids), users: UserService.fetch_all_users(user_ids)}
     response = CabpoolPersister.new(@cabpool, association_of_cabpool).persist
     if response.success?
       flash[:success] = 'Cabpool creation successful'
@@ -30,8 +32,11 @@ class Admin::CabpoolsController < Admin::AdminController
   def update
     @cabpool.remarks = params[:cabpool][:remarks]
     @cabpool.number_of_people = params[:cabpool][:number_of_people]
+    @cabpool.route = params[:cabpool][:route]
     members_before_cabpool_update = get_members_before_cabpool_update
-    associations_of_cabpool = {users: get_members_of_cabpool_from_params}
+    user_ids = params[:passengers].nil? ? [] : params[:passengers].values
+    locality_ids = params[:localities].nil? ? [] : params[:localities].values
+    associations_of_cabpool = {users: UserService.fetch_all_users(user_ids), localities: LocalityService.fetch_all_localities(locality_ids)}
     response = CabpoolPersister.new(@cabpool, associations_of_cabpool).persist
     if response.success?
       send_email_to_cabpool_users_about_cabpool_update_by_admin(@cabpool, members_before_cabpool_update)
@@ -84,24 +89,6 @@ class Admin::CabpoolsController < Admin::AdminController
     members_needing_update_email.collect do |user|
       CabpoolMailer.cabpool_updated_by_admin(user, members_needing_update_email).deliver_now
     end
-  end
-
-  def get_members_of_cabpool_from_params
-    members_of_cabpool = []
-    params[:passengers].values.each do |user_id|
-      user = User.find_by_id(user_id)
-      members_of_cabpool << user if !user.nil?
-    end if !params[:passengers].nil?
-    return members_of_cabpool
-  end
-
-  def get_localities_of_cabpool_from_params
-    localities_to_be_added = []
-    params[:localities].values.each do |locality_id|
-      locality = Locality.find_by_id(locality_id)
-      localities_to_be_added << locality if !locality.nil?
-    end if !params[:localities].nil?
-    return localities_to_be_added
   end
 
   def company_provided_cabpool?
