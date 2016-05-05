@@ -30,9 +30,7 @@ class Admin::CabpoolsController < Admin::AdminController
   end
 
   def update
-    @cabpool.remarks = params[:cabpool][:remarks]
-    @cabpool.number_of_people = params[:cabpool][:number_of_people]
-    @cabpool.route = params[:cabpool][:route]
+    @cabpool.attributes = params.require(:cabpool).permit(:number_of_people, :remarks, :timein, :timeout, :route)
     members_before_cabpool_update = get_members_before_cabpool_update
     user_ids = params[:passengers].nil? ? [] : params[:passengers].values
     locality_ids = params[:localities].nil? ? [] : params[:localities].values

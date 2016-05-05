@@ -41,11 +41,7 @@ class CabpoolsController < ApplicationController
   end
 
   def update
-    @cabpool.number_of_people = params[:cabpool][:number_of_people]
-    @cabpool.remarks = params[:cabpool][:remarks]
-    @cabpool.timein = params[:cabpool][:timein]
-    @cabpool.timeout = params[:cabpool][:timeout]
-    @cabpool.route = params[:cabpool][:route]
+    @cabpool.attributes = params.require(:cabpool).permit(:number_of_people, :remarks, :timein, :timeout, :route)
     locality_ids = params[:localities].nil? ? [] : params[:localities].values
     associations_of_the_cabpool = {localities: LocalityService.fetch_all_localities(locality_ids)}
     response = CabpoolPersister.new(@cabpool, associations_of_the_cabpool).persist
@@ -62,7 +58,6 @@ class CabpoolsController < ApplicationController
   def create
     @cabpool = Cabpool.new(cabpool_params)
     if selected_cabpool_type_is_company_provided_cabpool
-      add_current_user_to_cabpool
       send_email_to_admins_to_request_cabpool_creation(current_user, Time.new(params[:cabpool][:timein]), Time.new(params[:cabpool][:timeout]), params[:remarks])
       flash[:success] = 'You have successfully requested the admins for a cab pool.'
       redirect_to root_url
@@ -284,11 +279,6 @@ class CabpoolsController < ApplicationController
     end
   end
 
-  def add_current_user_to_cabpool
-    user = current_user
-    @cabpool.users << user if !user.nil?
-  end
-
   def has_cabpool
     if current_user.cabpool.nil?
       flash[:danger] = 'You are not part of a cabpool.'
@@ -310,7 +300,7 @@ class CabpoolsController < ApplicationController
   def not_company_provided_cabpool?
     if @cabpool.is_company_provided?
       flash[:danger] = 'Cannot Edit a Company Provided Cabpool'
-      redirect_to '/'
+      redirect_to root_url
     end
   end
 
