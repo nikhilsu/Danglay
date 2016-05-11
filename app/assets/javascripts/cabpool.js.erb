@@ -276,7 +276,7 @@ var CabPoolListenerPassenger = {
     hideAddPassengerButtonIfLimitExceeds($('div.passengersForm').length);
 
     function hideAddPassengerButtonIfLimitExceeds(number_of_people, limit) {
-      if (number_of_people == 4) {
+      if (number_of_people == 6) {
         $('#addPassenger').hide();
         $('.label-name').text('Passenger limit exceeded, cannot add more.');
       }
@@ -284,7 +284,7 @@ var CabPoolListenerPassenger = {
 
     $('#addPassenger').click(function () {
       var number_of_people = $('div.passengersForm').length;
-      if (number_of_people <= 3) {
+      if (number_of_people < 6) {
         var passenger_form_with_remove_icon = '<div class="form-group"> ' +
             '<div class="passengersForm">' + select_tag + '</div> ' +
             '<button id="removePassenger">-</button>' +
@@ -302,7 +302,7 @@ var CabPoolListenerPassenger = {
     $('#passengersSelection').on('click', '#removePassenger', function () {
       $(this).closest('.form-group').remove();
       var number_of_passenger_forms = $("div.passengersForm").length;
-      if (number_of_passenger_forms <= 3 && $('#addPassenger').is(':hidden')) {
+      if (number_of_passenger_forms < 6 && $('#addPassenger').is(':hidden')) {
         $('#addPassenger').show();
         $('.label-name').text('Add a passenger');
       }

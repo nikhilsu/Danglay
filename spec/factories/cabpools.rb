@@ -31,8 +31,8 @@ FactoryGirl.define do
     timeout ''
   end
 
-  trait :without_less_than_four_people do
-    number_of_people 6
+  trait :without_less_than_six_people do
+    number_of_people 8
   end
 
   trait :without_greater_than_one_person do

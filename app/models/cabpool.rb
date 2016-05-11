@@ -7,10 +7,10 @@ class Cabpool < ActiveRecord::Base
   has_many :requested_users, through: :requests, source: :user
 
   validates_time :timein, :timeout
-  validates_numericality_of :number_of_people, less_than_or_equal_to: 4, greater_than_or_equal_to: 1
+  validates_numericality_of :number_of_people, less_than_or_equal_to: 6, greater_than_or_equal_to: 1
   validate :invalidate_empty_localities, :invalidate_duplicate_localities, :invalidate_more_than_five_localities,
-           :invalidate_empty_cabpool_type, :invalidate_new_number_of_people_being_lesser_than_old_value, :invalidate_empty_users,
-           :invalidate_having_more_users_than_capacity, :invalidate_timein_after_timeout, :invalidate_duplicate_users
+           :invalidate_empty_cabpool_type, :invalidate_empty_users, :invalidate_having_more_users_than_capacity,
+           :invalidate_timein_after_timeout, :invalidate_duplicate_users
   validates :remarks, length: {maximum: 300}
 
   def ordered_localities
@@ -59,12 +59,6 @@ class Cabpool < ActiveRecord::Base
     end
   end
 
-  def invalidate_new_number_of_people_being_lesser_than_old_value
-    if number_of_people.to_i < number_of_people_was.to_i
-      errors.add(:number_of_people, 'Cannot be less than the existing capacity')
-    end
-  end
-
   def invalidate_empty_localities
     if localities.empty?
       errors.add(:localities, 'Localities cannot be empty')
@@ -98,7 +92,7 @@ class Cabpool < ActiveRecord::Base
 
   def invalidate_having_more_users_than_capacity
     if users.length > number_of_people.to_i
-      errors.add(:users, 'Users cannot be greater than capacity.')
+      errors.add(:number_of_people, 'Lesser than Number of Current Users')
     end
   end
 

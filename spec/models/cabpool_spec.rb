@@ -17,8 +17,8 @@ RSpec.describe Cabpool, type: :model do
     expect(cabpool.valid?).to be false
   end
 
-  it 'Number of people should be less than or equal to 4' do
-      cabpool = build(:cabpool, :without_less_than_four_people)
+  it 'Number of people should be less than or equal to 6' do
+      cabpool = build(:cabpool, :without_less_than_six_people)
       expect(cabpool.valid?).to be false
   end
 
@@ -114,17 +114,6 @@ RSpec.describe Cabpool, type: :model do
   it 'should not allow the remarks to have more than 300 characters' do
     cabpool = build(:cabpool, :with_more_than_300_character_remarks)
     expect(cabpool.remarks.length).to be > 300
-    expect(cabpool.valid?).to be false
-  end
-
-  it 'current value of number of people cannot be less than previous value of a cabpool' do
-    cabpool = build(:cabpool)
-    cabpool.number_of_people = 3
-    cabpool.users = [build(:user)]
-    cabpool.localities = [build(:locality)]
-    cabpool.save
-
-    cabpool.number_of_people = 2
     expect(cabpool.valid?).to be false
   end
 
