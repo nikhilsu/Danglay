@@ -239,6 +239,10 @@ header {
     font-weight: 800;
     border-bottom: 1px solid $calm;
     display: inline-block;
+
+    @media screen and (max-width: 470px) {
+      font-size: 20px;
+    }
   }
   label {
     color: #525151;
@@ -342,6 +346,7 @@ header {
       line-height: 1;
       position: absolute;
       right: 0;
+      z-index: 3;
     }
     .label-name {
       float: left;
@@ -396,6 +401,11 @@ header {
 
 label.label-blue {
   color: $calm;
+}
+.info-txt {
+  color: #666;
+  font-size: 12px;
+  margin: 20px 0;
 }
 
 .hero-module {
@@ -1326,6 +1336,19 @@ input, textarea {
 }
 
 @media only screen and (max-width: 470px) {
+  .admin-dashboard {
+    .list-label .seats {
+      font-size: 10px;
+    }
+
+    .pool-title form button{
+      display: none;
+    }
+    .cabpool-id {
+      display: none;
+    }
+
+  }
   .list-label {
     .col-20.no-value {
       display: none;
@@ -1370,6 +1393,11 @@ input, textarea {
       .pool-title .col-20:nth-of-type(3) {
         width: 35%;
       }
+    }
+  }
+  .admin-dashboard {
+    ul li .pool-title .col-20:nth-of-type(3) {
+      width: 30%;
     }
   }
   .pool-list ul li .pool-description .btn-ride {
