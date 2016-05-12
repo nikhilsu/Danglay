@@ -31,7 +31,7 @@
                 <% end %>
                 <% if !users_cabpool.is_company_provided? %>
                   <%= form_for(users_cabpool, url: "cabpool/#{users_cabpool.id}/edit", method: 'get') do |f| %>
-                      <button name="button" type="submit" class="cabpool-edit-button" title="Edit Cabpool"><i class="fa fa-pencil"></i></button>
+                      <button name="button" type="submit" class="cabpool-edit-button" title="Edit Cabpool"><i class="fa fa-pencil"></i> Edit</button>
                   <% end %>
                 <% end %>
               </div>
@@ -84,7 +84,7 @@
                       <% end %>
                   <% if !users_cabpool.is_company_provided? %>
                     <%= form_for(users_cabpool, url: "cabpool/#{users_cabpool.id}/edit", method: 'get') do |f| %>
-                          <button name="button" type="submit" class="btn-ride cabpool-edit-button" title="Edit Cabpool"><i class="fa fa-pencil"></i></button>
+                          <button name="button" type="submit" class="btn-ride cabpool-edit-button" title="Edit Cabpool"><i class="fa fa-pencil"></i> Edit</button>
                     <% end %>
                   <% end %>
                   </div>
