@@ -505,6 +505,12 @@ label.label-blue {
   background-size: cover;
   position: relative;
 
+  span {
+    color: #F6F197;
+    font-weight: 600;
+    padding-left: 6px;
+  }
+
   @media screen and (min-width: 768px) {
     padding: 60px 0;
   }

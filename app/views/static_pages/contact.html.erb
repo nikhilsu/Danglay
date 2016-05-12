@@ -1,11 +1,13 @@
 <% provide(:banner) do %>
     <%= render partial: 'layouts/secondary_banner',
                object: { banner_ui_style: 'static-pages',
+                         banner_paragraph: 'If you have any queries, contact us at',
+                         highlighted_additional_information: 'danglay@thoughtworks.com',
                          banner_heading: 'Contact Us' }%>
 <% end %>
 
 <div class="dev-team">
-  <h2 class="title">If you have any queries, contact us at <strong>danglay@thoughtworks.com</strong>.<br>Danglay Team</h2>
+  <h2 class="title">Danglay Team</h2>
 
   <ul>
     <% humans = JSON.parse(File.read('humans.txt.json')) %>
