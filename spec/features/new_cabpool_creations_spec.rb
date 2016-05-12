@@ -32,7 +32,7 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     find(:xpath, '//*[@id="localitySelections"]/div[1]/div/div/div[1]/input').set("HAL")
     find(:xpath, '//*[@id="localitySelections"]/div[1]/div/div/div[1]/input').native.send_keys(:return)
     find(:xpath, "//*[@id='submit_button']").click()
-    expect(page.current_path).to eq '/'
+    expect(page.current_path).to eq '/your_cabpools'
     page.assert_selector('div.notification', :count => 1)
 
     page.set_rack_session(FirstName: 'Sandeep')

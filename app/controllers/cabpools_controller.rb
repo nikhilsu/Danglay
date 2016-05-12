@@ -60,14 +60,14 @@ class CabpoolsController < ApplicationController
     if selected_cabpool_type_is_company_provided_cabpool
       send_email_to_admins_to_request_cabpool_creation(current_user, Time.new(params[:cabpool][:timein]), Time.new(params[:cabpool][:timeout]), params[:remarks])
       flash[:success] = 'You have successfully requested the admins for a cab pool.'
-      redirect_to root_url
+      redirect_to root_path
     else
       locality_ids = params[:localities].nil? ? [] : params[:localities].values
       associations_of_the_cabpool = {localities: LocalityService.fetch_all_localities(locality_ids), users: [current_user]}
       response = CabpoolPersister.new(@cabpool, associations_of_the_cabpool).persist
       if response.success?
         flash[:success] = "You have successfully created your cab pool. Please check the 'MyRide' tab for details."
-        redirect_to root_url
+        redirect_to your_cabpools_path
       else
         flash[:danger] = 'Cannot create because of the following errors'
         render 'new'

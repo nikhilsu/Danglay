@@ -141,7 +141,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(success)
     post :create, :cabpool => {number_of_people: 2, timein: '9:30', timeout: '12:30', remarks: 'Driver Details.'}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => '1'}
 
-    expect(response).to redirect_to root_url
+    expect(response).to redirect_to your_cabpools_path
     expect(flash[:success]).to eq "You have successfully created your cab pool. Please check the 'MyRide' tab for details."
   end
 
