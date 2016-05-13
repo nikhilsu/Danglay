@@ -1631,3 +1631,9 @@ label.required:after {
 .cabpool-edit-button {
   margin-left: 5px;
 }
+
+.cannot-find-locality {
+  cursor: pointer;
+  color: $calm;
+  text-decoration: none;
+}

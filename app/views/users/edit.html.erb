@@ -33,6 +33,7 @@
                 <input class="form-control" type="text" name="user[other]" id="otherBox" style="display: none" placeholder="(Other Location)"/>
                 <%= render 'shared/error_messages', errors: @locality_errors if !@locality_errors.nil? %>
               </div>
+              <span class="cannot-find-locality">Can't find your Locality?</span>
             </div>
             <%= f.submit "Update Profile", class: "btn-submit display-block" %>
           </div>

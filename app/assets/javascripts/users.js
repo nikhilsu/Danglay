@@ -9,12 +9,19 @@ var UserListener = {
 
         $('#user_locality').on('change', function () {
             if ($(this).val() === '-1') {
-                $("#otherBox").show()
+                $("#otherBox").show();
+                $('.cannot-find-locality').hide();
             }
             else {
-                $("#otherBox").hide()
+                $("#otherBox").hide();
+                $('.cannot-find-locality').show();
             }
         });
+
+        $('.cannot-find-locality').on('click', function () {
+            selectize.setValue(-1);
+            $(this).hide();
+        })
     }
 };
 
