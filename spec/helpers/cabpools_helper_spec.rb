@@ -327,7 +327,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:LastName] = names[1]
     session[:Email] = user.email
     allow(User).to receive(:find_by).and_return(user)
-    expect(confirm_message_for_the_current_users_join_request cabpool).to eq "Are you sure you want to join this cabpool? Confirming would mean that your existing cabpool will be deleted if your request is accepted."
+    expect(confirm_message_for_the_current_users_join_request cabpool).to eq 'Are you sure you want to join this cabpool? Confirming would mean that your existing cabpool will be deleted if your request is accepted.'
   end
 
   it 'should return appropriate confirm message when user raises a join request for a company provided cab and he is not part of a cabpool' do
@@ -340,7 +340,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:LastName] = names[1]
     session[:Email] = user.email
     allow(User).to receive(:find_by).and_return(user)
-    expect(confirm_message_for_the_current_users_join_request cabpool).to eq "Are you sure you want to join this cabpool? This would send a request to the ADMIN."
+    expect(confirm_message_for_the_current_users_join_request cabpool).to eq 'Are you sure you want to join this cabpool? This would send a request to the ADMIN.'
   end
 
 
@@ -355,7 +355,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:Email] = user.email
     allow(User).to receive(:find_by).and_return(user)
 
-    expect(confirm_message_for_the_current_users_join_request cabpool).to eq "Are you sure you want to join this cabpool? This would send a request to all members of cabpool"
+    expect(confirm_message_for_the_current_users_join_request cabpool).to eq 'Are you sure you want to join this cabpool? This would send a request to all members of cabpool'
   end
 
   it 'should return the cabpool_type id when the params contains cabpool type information' do
@@ -366,5 +366,17 @@ RSpec.describe CabpoolsHelper, type: :helper do
   it 'should return empty hash when params contains no cabpool type information' do
     params[:cabpool_type] = nil
     expect(cabpool_type_that_was_retained).to be nil
+  end
+
+  it 'should return the displayable version of the cabpool ID as the sum of the ID and 100 When id is not nil' do
+    cabpool_id = 1
+
+    expect(displayable(cabpool_id)).to eq 101
+  end
+
+  it 'should return the displayable version of the cabpool ID as nil id is nil' do
+    cabpool_id = nil
+
+    expect(displayable(cabpool_id)).to be nil
   end
 end

@@ -270,7 +270,9 @@ var CabPoolListenerPassenger = {
 
     $('div.passengersForm > select').each(function () {
       $(this).attr('name', 'passengers[' + $.now() + ']');
-      $(this).selectize();
+      $(this).selectize({plugins: ['remove_button'],
+          persist: false,
+          });
     });
 
     hideAddPassengerButtonIfLimitExceeds($('div.passengersForm').length);

@@ -11,54 +11,54 @@ RSpec.describe CabpoolMailer, type: :mailer do
       CabpoolMailer.cabpool_join_request(@cabpool_user, @cabpool, @requesting_user, request.approve_digest)
     }
 
-    it "renders the headers" do
+    it 'renders the headers' do
       expect(mail.subject).to eq('Someone wants to join your carpool!')
       expect(mail.to).to eq([@cabpool_user.email])
       expect(mail.from).to eq(['danglay@thoughtworks.com'])
     end
 
-    it "renders the body" do
-      expect(mail.body.encoded).to include "has requested to join your carpool."
+    it 'renders the body' do
+      expect(mail.body.encoded).to include 'has requested to join your carpool.'
     end
   end
 
-  describe "cabpool_approve_request" do
+  describe 'cabpool_approve_request' do
 
     let(:mail) {
       @approved_user = build(:user)
       CabpoolMailer.cabpool_approve_request(@approved_user)
     }
 
-    it "renders the headers" do
+    it 'renders the headers' do
       expect(mail.subject).to eq('Your cabpool request has been approved!')
       expect(mail.to).to eq([@approved_user.email])
       expect(mail.from).to eq(['danglay@thoughtworks.com'])
     end
 
-    it "renders the body" do
-      expect(mail.body.encoded).to include "has just been approved!"
+    it 'renders the body' do
+      expect(mail.body.encoded).to include 'has just been approved!'
     end
   end
 
-  describe "cabpool_reject_request" do
+  describe 'cabpool_reject_request' do
 
     let(:mail) {
       @rejected_user = build(:user)
       CabpoolMailer.cabpool_reject_request(@rejected_user)
     }
 
-    it "renders the headers" do
+    it 'renders the headers' do
       expect(mail.subject).to eq('Your cabpool request has been rejected')
       expect(mail.to).to eq([@rejected_user.email])
       expect(mail.from).to eq(['danglay@thoughtworks.com'])
     end
 
-    it "renders the body" do
-      expect(mail.body.encoded).to include "has been rejected."
+    it 'renders the body' do
+      expect(mail.body.encoded).to include 'has been rejected.'
     end
   end
 
-  describe "cabpool leave notifier" do
+  describe 'cabpool leave notifier' do
     let(:mail) {
       @user = build(:user)
       @left_user = build(:user, :another_user)
@@ -72,14 +72,16 @@ RSpec.describe CabpoolMailer, type: :mailer do
     end
 
     it 'should render the body' do
-      expect(mail.body.encoded).to include "has left your carpool."
+      expect(mail.body.encoded).to include 'has left your carpool.'
     end
   end
 
-  describe "admin mail for inactive cabpool" do
+  describe 'admin mail for inactive cabpool' do
     let(:mail) {
       @user = build(:user)
-      @user.cabpool = build(:cabpool)
+      cabpool = build(:cabpool)
+      cabpool.id = 100
+      @user.cabpool = cabpool
       locality = build_stubbed(:locality)
       localities = [locality, locality]
       allow(@user.cabpool).to receive(:ordered_localities).and_return(localities)
@@ -87,15 +89,17 @@ RSpec.describe CabpoolMailer, type: :mailer do
     }
 
     it 'should send mail to admin about new user' do
-      expect(mail.subject).to eq("A Cabpool is inactive")
-      expect(mail.to).to include("sandeeph@thoughtworks.com")
+      expect(mail.subject).to eq('A Cabpool is inactive')
+      expect(mail.to).to include('sandeeph@thoughtworks.com')
     end
   end
 
-  describe "admin mail when a user leaves" do
+  describe 'admin mail when a user leaves' do
     let(:mail) {
       @user = build(:user)
-      @user.cabpool = build(:cabpool)
+      cabpool = build(:cabpool)
+      cabpool.id = 100
+      @user.cabpool = cabpool
       locality = build_stubbed(:locality)
       localities = [locality, locality]
       allow(@user.cabpool).to receive(:ordered_localities).and_return(localities)
@@ -104,12 +108,12 @@ RSpec.describe CabpoolMailer, type: :mailer do
     }
 
     it 'should send mail to admin about new user' do
-      expect(mail.subject).to eq("A member is leaving the cabpool")
-      expect(mail.to).to include("sandeeph@thoughtworks.com")
+      expect(mail.subject).to eq('A member is leaving the cabpool')
+      expect(mail.to).to include('sandeeph@thoughtworks.com')
     end
   end
 
-  describe "admin mail when a user Requests a company provided cabpool" do
+  describe 'admin mail when a user Requests a company provided cabpool' do
     let(:mail) {
       request = build_stubbed(:request)
       @user = build(:user)
@@ -119,29 +123,29 @@ RSpec.describe CabpoolMailer, type: :mailer do
     }
 
     it 'should send mail to admin to accept or reject the request' do
-      expect(mail.subject).to eq("Join Request for a cabpool")
-      expect(mail.to).to include("sandeeph@thoughtworks.com")
+      expect(mail.subject).to eq('Join Request for a cabpool')
+      expect(mail.to).to include('sandeeph@thoughtworks.com')
     end
   end
   
-  describe "admin mail when a user Requests a creation of company provided cabpool" do
+  describe 'admin mail when a user Requests a creation of company provided cabpool' do
     let(:mail) {
       @user = build(:user)
       @timein = Time.now
       @timeout = Time.now
-      @remarks = "some remarks"
+      @remarks = 'some remarks'
       CabpoolMailer.admin_notifier_for_new_cabpool_creation_request(@user, @timein, @timeout, @remarks)
     }
 
     it 'should send mail to admin to create a request for creation of cabpool by admin' do
-      expect(mail.subject).to eq("Cabpool creation request")
-      expect(mail.to).to include("sandeeph@thoughtworks.com")
+      expect(mail.subject).to eq('Cabpool creation request')
+      expect(mail.to).to include('sandeeph@thoughtworks.com')
     end
   end
 
-  describe "mail to other members of a cabpool when a user accepts a new member" do
+  describe 'mail to other members of a cabpool when a user accepts a new member' do
 
-    it "should send mail to other members of a cabpool when a user accepts a new member" do
+    it 'should send mail to other members of a cabpool when a user accepts a new member' do
       approving_user = build(:user)
       user = build(:user)
       cabpool = build(:cabpool)
@@ -150,11 +154,11 @@ RSpec.describe CabpoolMailer, type: :mailer do
 
       mail = CabpoolMailer.member_addition_to_cabpool(approving_user, user)
 
-      expect(mail.subject).to eq("New member added to cabpool")
-      expect(mail.body.encoded).to include "has added"
+      expect(mail.subject).to eq('New member added to cabpool')
+      expect(mail.body.encoded).to include 'has added'
     end
 
-    it "should send no mails when a user is a part of a pool with no other members in it and accepts a new member" do
+    it 'should send no mails when a user is a part of a pool with no other members in it and accepts a new member' do
       approving_user = build(:user)
       user = build(:user)
       cabpool = build(:cabpool)
@@ -169,7 +173,7 @@ RSpec.describe CabpoolMailer, type: :mailer do
     end
   end
 
-  describe "mail to members of a cabpool when admin creates a cabpool" do
+  describe 'mail to members of a cabpool when admin creates a cabpool' do
     let (:mail) {
       user = build(:user)
       cabpool = build(:cabpool)
@@ -178,13 +182,13 @@ RSpec.describe CabpoolMailer, type: :mailer do
       CabpoolMailer.cabpool_is_created(user, cabpool)
     }
 
-    it "should send mail to members of a cabpool when admin creates a cabpool" do
-      expect(mail.subject).to eq("You have been added to a cabpool")
-      expect(mail.body.encoded).to include "new cabpool"
+    it 'should send mail to members of a cabpool when admin creates a cabpool' do
+      expect(mail.subject).to eq('You have been added to a cabpool')
+      expect(mail.body.encoded).to include 'new cabpool'
     end
   end
 
-  describe "should send mail to members of a cabpool when admin udpates a cabpool" do
+  describe 'should send mail to members of a cabpool when admin udpates a cabpool' do
     let (:mail) {
       user = build(:user)
       another_user = build(:user, another_user)
@@ -195,9 +199,9 @@ RSpec.describe CabpoolMailer, type: :mailer do
       CabpoolMailer.cabpool_updated_by_admin(user, members_needing_update_mail)
     }
 
-    it "should send mail to members of a cabpool when admin updates a cabpool" do
-      expect(mail.subject).to eq("Members of your cabpool have been updated")
-      expect(mail.body.encoded).to include "has been updated"
+    it 'should send mail to members of a cabpool when admin updates a cabpool' do
+      expect(mail.subject).to eq('Members of your cabpool have been updated')
+      expect(mail.body.encoded).to include 'has been updated'
     end
   end
 

@@ -1,12 +1,7 @@
 Hi Admin!
 
-A user named <%= @user.name %> has requested for the cabpool having ID: <%= @cabpool %>. Please check the application for more information.
-
-
-Hi <%= @user.name %>,
-
 <%= @user.name %> (<%= @user.email %>) has requested for a
-  cabpool having ID: <%= @cabpool %>.
+  cabpool having ID: <%= displayable @cabpool %>.
 
 <%= @user.name %> lives at:
 <%= @user.address %>

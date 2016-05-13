@@ -1,12 +1,7 @@
 <h4>Hi Admin!</h4>
 
-<p> A user named <strong> <%= @user.name %></strong> has requested for the cabpool having ID: <strong> <%= @cabpool %></strong>. Please check the application for more information.</p>
-
-
-<h4>Hi <%= @user.name %>,</h4>
-
 <p><strong><%= @user.name %> (<%= @user.email %>)</strong> has requested for a
-  cabpool having ID: <strong> <%= @cabpool %></strong>. </p>
+  cabpool having ID: <strong> <%= displayable @cabpool %></strong>. </p>
 
 <p> <%= @user.name %> lives at:</p>
 <p><%= @user.address %></p>

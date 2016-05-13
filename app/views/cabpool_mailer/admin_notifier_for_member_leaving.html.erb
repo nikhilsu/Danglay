@@ -1,6 +1,6 @@
 <h4>Hi Admin!</h4>
 
-<p> A user named <strong> <%= @username %></strong> has left the cabpool having ID: <strong> <%= @cabpool %></strong>. Please check the <%= link_to 'application', admin_url, target: '_blank' %> for more information.</p>
+<p> A user named <strong> <%= @username %></strong> has left the cabpool having ID: <strong> <%= displayable @cabpool %></strong>. Please check the <%= link_to 'application', admin_url, target: '_blank' %> for more information.</p>
 
 <p>Thanks!</p>
 <p>Danglay</p>

@@ -1,6 +1,6 @@
 <li>
   <div class="pool-title roundtrip">
-    <div class="col-10"><span><%= cabpool.id %></span></div>
+    <div class="col-10"><span><%= displayable cabpool.id %></span></div>
     <div class="col-20"><%= image_tag("tw.png") %></div>
     <div class="col-20 local"><span><%= cabpool.ordered_localities.first.name %></span> <span>ThoughtWorks</span></div>
     <div class="col-20 time"><span>Arrival: <%= formatted_time(cabpool.timein) %></span>
