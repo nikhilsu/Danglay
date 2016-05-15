@@ -25,7 +25,6 @@ if Rails.env != 'production'
   User.create!(id: 101, name: 'Sandeep Hegde', email: 'sandeeph@thoughtworks.com', emp_id: '18071', address: "Blah on Mars", locality: Locality.first, phone_no: "+91 9080706033", role: admin_role)
 
   current_localities = Locality.all
-  current_cabpool_types = [:company_provided_cab, :external_cab, :personal_car]
   current_users = User.all
   current_users = current_users.reject { |user| user.id == 100 || user.id == 101 }
 
@@ -38,6 +37,7 @@ if Rails.env != 'production'
     capacity_of_cabpool = Faker::Number.between(2, 4)
     built_localities = []
     built_users = []
+    cabpool_type_id = Faker::Number.between(1,3)
 
     number_of_localities = Faker::Number.between(2, 4)
 
@@ -56,7 +56,7 @@ if Rails.env != 'production'
       current_users = current_users.reject { |u| u.name == user.name }
     end
 
-    cabpool = Cabpool.new(timein: timein, timeout: timeout, number_of_people: capacity_of_cabpool, route: route, remarks: remarks, cabpool_type: current_cabpool_types.first)
+    cabpool = Cabpool.new(timein: timein, timeout: timeout, number_of_people: capacity_of_cabpool, route: route, remarks: remarks, cabpool_type: Cabpool.cabpool_types.key(cabpool_type_id))
     cabpool.localities = built_localities
     cabpool.users = built_users
     cabpool.save!
