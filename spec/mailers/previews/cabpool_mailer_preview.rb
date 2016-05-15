@@ -65,9 +65,9 @@ class CabpoolMailerPreview < ActionMailer::Preview
 
 # Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/cabpool_updated_by_admin
   def cabpool_updated_by_admin
-    members_needing_update_email = [User.second, User.third]
+    cabpool = Cabpool.first
     user = User.first
-    CabpoolMailer.cabpool_updated_by_admin(user, members_needing_update_email)
+    CabpoolMailer.cabpool_updated_by_admin(user, cabpool)
   end
 
 # Preview this email at http://localhost:3000/rails/mailers/cabpool_mailer/member_of_a_cabpool_updated_it

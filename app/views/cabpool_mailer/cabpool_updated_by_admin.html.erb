@@ -1,9 +1,23 @@
 <h4>Hi <%= @user %>!</h4>
 
-<p>Your cabpool has been updated by admin. Now it contains the following members :-</p>
-
+<p>Your cabpool has been updated by admin. The following are the updated details of it :-</p>
+<p>Capacity of the cabpool : <%= @updated_cabpool.number_of_people %></p>
+<p>Arrival Time To Office : <%= @updated_cabpool.timein %></p>
+<p>Departure Time From Office : <%= @updated_cabpool.timeout %></p>
+<p>Remarks : <%= @updated_cabpool.remarks %></p>
+<p>Route :- </p>
 <ul>
-<% @members.each do |user| %>
+  <li>Start point : <%= @updated_cabpool.ordered_localities.first.name %></li>
+  <li>Via :-</li>
+  <ol>
+    <% @updated_cabpool.ordered_localities.drop(1).each do |locality| %>
+        <li><%= locality.name %></li>
+    <% end %>
+  </ol>
+</ul>
+<p>Members of cabpool :- </p>
+<ul>
+<% @updated_cabpool.users.each do |user| %>
     <li><strong><%= user.name %></strong></li>
 <% end %>
 </ul>

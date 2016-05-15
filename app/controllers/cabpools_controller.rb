@@ -20,45 +20,10 @@ class CabpoolsController < ApplicationController
     @cabpool = Cabpool.new
   end
 
-  def leave
-    current_user_cabpool = current_user.cabpool
-    current_user.cabpool = nil
-    current_user.save
-    users = current_user_cabpool.users
-    if current_user_cabpool.users.size == 0
-      current_user_cabpool.destroy
-    elsif current_user_cabpool.users.size == 1
-      send_email_to_admin_about_invalid_cabpool(current_user_cabpool)
-    else
-      send_email_to_cabpool_users_on_member_leaving(users, current_user)
-      send_email_to_admin_when_user_leaves(users, current_user)
-    end
-    flash[:success] = 'You have left your cab pool.'
-    redirect_to root_url
-  end
-
-  def edit
-  end
-
-  def update
-    @cabpool.attributes = params.require(:cabpool).permit(:number_of_people, :remarks, :timein, :timeout, :route)
-    locality_ids = params[:localities].nil? ? [] : params[:localities].values
-    associations_of_the_cabpool = {localities: LocalityService.fetch_all_localities(locality_ids)}
-    response = CabpoolPersister.new(@cabpool, associations_of_the_cabpool).persist
-    if response.success?
-      send_email_to_cabpool_members_about_cabpool_update(@cabpool, current_user)
-      flash[:success] = 'Your Cabpool has been Updated'
-      redirect_to your_cabpools_path and return
-    else
-      flash[:danger] = 'Cannot update because of the following errors'
-      render 'edit'
-    end
-  end
-
   def create
     @cabpool = Cabpool.new(cabpool_params)
     if selected_cabpool_type_is_company_provided_cabpool
-      send_email_to_admins_to_request_cabpool_creation(current_user, Time.new(params[:cabpool][:timein]), Time.new(params[:cabpool][:timeout]), params[:remarks])
+      MailService.send_email_to_admins_to_request_cabpool_creation(current_user, Time.new(params[:cabpool][:timein]), Time.new(params[:cabpool][:timeout]), params[:remarks])
       flash[:success] = 'You have successfully requested the admins for a cab pool.'
       redirect_to root_path
     else
@@ -75,22 +40,22 @@ class CabpoolsController < ApplicationController
     end
   end
 
-  def join
-    id = params[:cabpool][:id]
-    joining_cabpool = Cabpool.find_by_id(id)
-    requesting_user = User.find_by_email(session[:Email])
-    if joining_cabpool.available_slots > 0
-      flash[:success] = 'Join Request Sent!'
-      request = Request.create(user: requesting_user, cabpool: joining_cabpool)
-      if joining_cabpool.cabpool_type.name == 'Company provided Cab'
-        send_email_to_admins_for_join_request(joining_cabpool, current_user, request.approve_digest)
-      else
-        send_emails_to_cabpool_users(joining_cabpool, current_user, request.approve_digest)
-      end
+  def edit
+  end
+
+  def update
+    @cabpool.attributes = params.require(:cabpool).permit(:number_of_people, :remarks, :timein, :timeout, :route)
+    locality_ids = params[:localities].nil? ? [] : params[:localities].values
+    associations_of_the_cabpool = {localities: LocalityService.fetch_all_localities(locality_ids)}
+    response = CabpoolPersister.new(@cabpool, associations_of_the_cabpool).persist
+    if response.success?
+      MailService.send_email_to_cabpool_members_about_cabpool_update(@cabpool, current_user)
+      flash[:success] = 'Your Cabpool has been Updated'
+      redirect_to your_cabpools_path and return
     else
-      flash[:danger] = 'Cab capacity exceeded!'
+      flash[:danger] = 'Cannot update because of the following errors'
+      render 'edit'
     end
-    redirect_to root_path
   end
 
   def show
@@ -112,6 +77,38 @@ class CabpoolsController < ApplicationController
     @cabpools = @cabpools.paginate(page: params[:page], :per_page => 10)
   end
 
+  def join
+    id = params[:cabpool][:id]
+    joining_cabpool = Cabpool.find_by_id(id)
+    requesting_user = User.find_by_email(session[:Email])
+    if joining_cabpool.available_slots > 0
+    request = Request.create(user: requesting_user, cabpool: joining_cabpool)
+    flash[:success] = 'Join Request Sent!'
+    MailService.send_emails_to_notify_join_request(joining_cabpool, current_user, request.approve_digest)
+  else
+    flash[:danger] = 'Cab capacity exceeded!'
+  end
+    redirect_to root_path
+  end
+
+
+  def leave
+    current_user_cabpool = current_user.cabpool
+    current_user.cabpool = nil
+    current_user.save
+    users = current_user_cabpool.users
+    if current_user_cabpool.users.size == 0
+      current_user_cabpool.destroy
+    elsif current_user_cabpool.users.size == 1
+      MailService.send_email_to_admin_about_invalid_cabpool(current_user_cabpool)
+    else
+      MailService.send_email_to_cabpool_users_on_member_leaving(users, current_user)
+      MailService.send_email_to_admin_when_user_leaves(users, current_user)
+    end
+    flash[:success] = 'You have left your cab pool.'
+    redirect_to root_url
+  end
+
   def your_cabpools
 
   end
@@ -129,7 +126,7 @@ class CabpoolsController < ApplicationController
     else
       digest = request.approve_digest
       if digest == token
-        if approve == "true"
+        if approve == 'true'
           approve_user requesting_user, request, approver
         else
           reject_user requesting_user, request
@@ -166,12 +163,12 @@ class CabpoolsController < ApplicationController
 
   def view_notification
     user = current_user
-    if user.status == "approved"
+    if user.status == 'approved'
       user.status = nil
       user.save!
       redirect_to your_cabpools_path
     else
-      if user.status == "rejected"
+      if user.status == 'rejected'
         user.status = nil
         user.save!
       end
@@ -183,7 +180,7 @@ class CabpoolsController < ApplicationController
   def approve_user(user, request, approver)
     if !user.cabpool.nil?
       if user.cabpool.users.length > 1
-        send_email_to_cabpool_users_on_member_leaving(user.cabpool.users.reject { |u| u.id == user.id }, user)
+        MailService.send_email_to_cabpool_users_on_member_leaving(user.cabpool.users.reject { |u| u.id == user.id }, user)
       else
         destroy user.cabpool
       end
@@ -194,8 +191,8 @@ class CabpoolsController < ApplicationController
     request.user.requests.each do |req|
       req.destroy!
     end
-    send_member_addition_email_to_cabpool_members(approver, user)
-    send_email_to_approved_user user
+    MailService.send_member_addition_email_to_cabpool_members(approver, user)
+    MailService.send_email_to_approved_user user
     render 'request_accept'
   end
 
@@ -205,60 +202,11 @@ class CabpoolsController < ApplicationController
     cabpool.destroy!
   end
 
-  def send_member_addition_email_to_cabpool_members(approver, user)
-    CabpoolMailer.member_addition_to_cabpool(approver, user).deliver_now
-  end
-
-  def send_email_to_admin_about_invalid_cabpool deleting_cabpool
-    if deleting_cabpool.cabpool_type_id == 1
-      CabpoolMailer.admin_notifier_for_invalid_cabpool(deleting_cabpool).deliver_now
-    end
-  end
-
-  def send_email_to_admins_to_request_cabpool_creation(requesting_user, timein, timeout, remarks)
-    CabpoolMailer.admin_notifier_for_new_cabpool_creation_request(requesting_user, timein, timeout, remarks).deliver_now
-  end
-
-  def send_email_to_rejected_user(rejected_user)
-    CabpoolMailer.cabpool_reject_request(rejected_user).deliver_now
-  end
-
-  def send_email_to_admin_when_user_leaves(users, leaving_user)
-    cabpool = users.first.cabpool
-    if cabpool.cabpool_type_id == 1
-      CabpoolMailer.admin_notifier_for_member_leaving(cabpool, leaving_user).deliver_now
-    end
-  end
-
-  def send_email_to_cabpool_users_on_member_leaving(users, current_user)
-    users.collect do |user|
-      CabpoolMailer.cabpool_leave_notifier(user, current_user).deliver_now
-    end
-  end
-
-  def send_email_to_approved_user(approved_user)
-    CabpoolMailer.cabpool_approve_request(approved_user).deliver_now
-  end
-
-  def send_email_to_cabpool_members_about_cabpool_update(updated_cabpool, member_updating_cabpool)
-    CabpoolMailer.member_of_a_cabpool_updated_it(updated_cabpool, member_updating_cabpool).deliver_now
-  end
-
-  def send_emails_to_cabpool_users(cabpool, current_user, digest)
-    cabpool.users.collect do |user|
-      CabpoolMailer.cabpool_join_request(user, cabpool, current_user, digest).deliver_now
-    end
-  end
-
-  def send_email_to_admins_for_join_request(joining_cab, joining_user, digest)
-    CabpoolMailer.admin_notifier_for_join_cabpool(joining_cab, joining_user, digest).deliver_now
-  end
-
   def reject_user(user, request)
     request.destroy!
     user.status = 'rejected'
     user.save
-    send_email_to_rejected_user user
+    MailService.send_email_to_rejected_user user
     render 'request_reject'
   end
 

@@ -94,11 +94,11 @@ module CabpoolsHelper
     cabpool_types.reject { |cabpool_type| cabpool_type.name == 'Company provided Cab' }
   end
 
-  def sort_by_available_slots cabpools
+  def sort_by_available_slots(cabpools)
     cabpools.sort_by { |cabpool| cabpool.available_slots }.reverse
   end
 
-  def confirm_message_for_the_current_users_join_request requesting_cabpool
+  def confirm_message_for_the_current_users_join_request(requesting_cabpool)
     current_users_cabpool = current_user.cabpool
     if !current_users_cabpool.nil?
       if current_users_cabpool.users.size == 1

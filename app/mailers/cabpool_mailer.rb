@@ -83,7 +83,7 @@ class CabpoolMailer < ApplicationMailer
     approving_user.cabpool.users.each do |user|
       if user != approving_user and user != added_user
         @current_user = user.name
-        mail to: user.email , subject: "New member added to cabpool"
+        mail to: user.email , subject: 'New member added to cabpool'
       end
     end
   end
@@ -91,14 +91,14 @@ class CabpoolMailer < ApplicationMailer
   def cabpool_is_created user, cabpool
     @cabpool = cabpool
     @user = user
-    mail to: user.email , subject: "You have been added to a cabpool"
+    mail to: user.email , subject: 'You have been added to a cabpool'
   end
 
-  def cabpool_updated_by_admin(user, members_needing_update_email)
+  def cabpool_updated_by_admin(user, cabpool)
     @user = user.name
-    @members = members_needing_update_email
+    @updated_cabpool = cabpool
 
-    mail to: user.email, subject: "Members of your cabpool have been updated"
+    mail to: user.email, subject: 'Cabpool Updated by Admin'
   end
 
   def member_of_a_cabpool_updated_it(updated_cabpool, member_updating_cabpool)

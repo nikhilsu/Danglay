@@ -198,6 +198,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     cabpool.cabpool_type = build(:cabpool_type, :company_provided_cab)
     cabpool.localities = [Locality.find_by_id(1)]
     success = Success.new(cabpool, 'Success Message')
+    allow(cabpool).to receive(:ordered_localities).and_return(cabpool.localities)
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool)
     expect(UserService).to receive(:fetch_all_users).with(['1', '2']).and_return([first_new_user, second_new_user])
     expect(LocalityService).to receive(:fetch_all_localities).with(['1', '2']).and_return([first_locality, second_locality])

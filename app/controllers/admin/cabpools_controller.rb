@@ -18,7 +18,7 @@ class Admin::CabpoolsController < Admin::AdminController
     response = CabpoolPersister.new(@cabpool, association_of_cabpool).persist
     if response.success?
       flash[:success] = 'Cabpool creation successful'
-      send_email_to_cabpool_users @cabpool
+      MailService.send_emails_to_cabpool_members_when_admin_creates_a_pool @cabpool
       redirect_to '/admin' and return
     else
       flash[:danger] = response.message
@@ -37,7 +37,7 @@ class Admin::CabpoolsController < Admin::AdminController
     associations_of_cabpool = {users: UserService.fetch_all_users(user_ids), localities: LocalityService.fetch_all_localities(locality_ids)}
     response = CabpoolPersister.new(@cabpool, associations_of_cabpool).persist
     if response.success?
-      send_email_to_cabpool_users_about_cabpool_update_by_admin(@cabpool, members_before_cabpool_update)
+      MailService.send_email_to_cabpool_users_about_cabpool_update_by_admin(@cabpool, members_before_cabpool_update)
       flash[:success] = 'Cabpool has been Updated'
       redirect_to '/admin' and return
     else
@@ -74,19 +74,6 @@ class Admin::CabpoolsController < Admin::AdminController
       members << user
     end
     return members
-  end
-
-  def send_email_to_cabpool_users cabpool
-    cabpool.users.collect do |user|
-      CabpoolMailer.cabpool_is_created(user, cabpool).deliver_now
-    end
-  end
-
-  def send_email_to_cabpool_users_about_cabpool_update_by_admin(cabpool, members_before_cabpool_update)
-    members_needing_update_email = cabpool.users | members_before_cabpool_update
-    members_needing_update_email.collect do |user|
-      CabpoolMailer.cabpool_updated_by_admin(user, members_needing_update_email).deliver_now
-    end
   end
 
   def company_provided_cabpool?
