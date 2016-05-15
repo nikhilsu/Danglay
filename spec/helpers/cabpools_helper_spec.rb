@@ -102,7 +102,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     user.cabpool = users_cabpool
     allow(User).to receive(:find_by_email).and_return(user)
 
-    expect(cabpools_to_render(Cabpool.all)).to_not include users_cabpool
+    expect(remove_current_users_cabpool(Cabpool.all)).to_not include users_cabpool
   end
 
   it "should render all cabpools if current user has no cabpool" do
@@ -115,7 +115,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     allow(user).to receive(:requested_cabpools).and_return([])
     all_cabpools = Cabpool.all
 
-    expect(cabpools_to_render(all_cabpools)).to eq all_cabpools
+    expect(remove_current_users_cabpool(all_cabpools)).to eq all_cabpools
   end
 
   it "should return requested cabpool of current user" do
@@ -301,7 +301,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     another_cabpool = build(:cabpool, :without_users)
     cabpools = [cabpool, another_cabpool]
 
-    cabpools = sort_by_available_slots cabpools
+    cabpools = sort_by_available_seats_in_cabpool cabpools
 
     expect(cabpools).to eq [another_cabpool,cabpool]
   end

@@ -3,13 +3,13 @@ module CabpoolsHelper
   def formatted_time(time)
     formatted_time = ''
     if (time.hour == 0)
-      formatted_time += time.advance(hours: 12).to_formatted_s(:time) + " AM"
+      formatted_time += time.advance(hours: 12).to_formatted_s(:time) + ' AM'
     elsif (time.hour < 12)
-      formatted_time += time.to_formatted_s(:time) + " AM"
+      formatted_time += time.to_formatted_s(:time) + ' AM'
     elsif (time.hour > 12)
-      formatted_time += time.change(hour: time.hour - 12, min: time.min).to_formatted_s(:time) + " PM"
+      formatted_time += time.change(hour: time.hour - 12, min: time.min).to_formatted_s(:time) + ' PM'
     else
-      formatted_time += time.to_formatted_s(:time) + " PM"
+      formatted_time += time.to_formatted_s(:time) + ' PM'
     end
   end
 
@@ -23,16 +23,16 @@ module CabpoolsHelper
 
   def image_to_be_displayed cabpool
     if cabpool.cabpool_type_id == 1
-      "tw.png"
+      'tw.png'
     elsif cabpool.cabpool_type_id == 2
-      "ola.png"
+      'ola.png'
     else
-      "carpool.png"
+      'carpool.png'
     end
   end
 
   def destination
-    "Koramangala"
+    'Koramangala'
   end
 
   def user_cabpool_exists?
@@ -69,20 +69,20 @@ module CabpoolsHelper
   def button(cabpool)
     if is_registered?
       if requested_user?(cabpool)
-        "Requested"
+        'Requested'
       elsif current_user.cabpool == cabpool
-        "Leave Ride"
+        'Leave Ride'
       elsif cabpool.available_slots > 0
-        "Join Ride"
+        'Join Ride'
       end
     else
       if cabpool.available_slots > 0
-        "Join Ride"
+        'Join Ride'
       end
     end
   end
 
-  def cabpools_to_render(cabpools)
+  def remove_current_users_cabpool(cabpools)
     if user_cabpool_exists?
       cabpools = cabpools.reject { |cabpool| cabpool.id == users_cabpool.id }
     end
@@ -94,7 +94,7 @@ module CabpoolsHelper
     cabpool_types.reject { |cabpool_type| cabpool_type.name == 'Company provided Cab' }
   end
 
-  def sort_by_available_slots(cabpools)
+  def sort_by_available_seats_in_cabpool(cabpools)
     cabpools.sort_by { |cabpool| cabpool.available_slots }.reverse
   end
 

@@ -15,7 +15,7 @@ class Admin::CabpoolsController < Admin::AdminController
     user_ids = params[:passengers].nil? ? [] : params[:passengers].values
     locality_ids = params[:localities].nil? ? [] : params[:localities].values
     association_of_cabpool = {localities: LocalityService.fetch_all_localities(locality_ids), users: UserService.fetch_all_users(user_ids)}
-    response = CabpoolPersister.new(@cabpool, association_of_cabpool).persist
+    response = CabpoolService.persist(@cabpool, association_of_cabpool)
     if response.success?
       flash[:success] = 'Cabpool creation successful'
       MailService.send_emails_to_cabpool_members_when_admin_creates_a_pool @cabpool
@@ -35,7 +35,7 @@ class Admin::CabpoolsController < Admin::AdminController
     user_ids = params[:passengers].nil? ? [] : params[:passengers].values
     locality_ids = params[:localities].nil? ? [] : params[:localities].values
     associations_of_cabpool = {users: UserService.fetch_all_users(user_ids), localities: LocalityService.fetch_all_localities(locality_ids)}
-    response = CabpoolPersister.new(@cabpool, associations_of_cabpool).persist
+    response = CabpoolService.persist(@cabpool, associations_of_cabpool)
     if response.success?
       MailService.send_email_to_cabpool_users_about_cabpool_update_by_admin(@cabpool, members_before_cabpool_update)
       flash[:success] = 'Cabpool has been Updated'

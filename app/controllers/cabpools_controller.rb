@@ -29,7 +29,7 @@ class CabpoolsController < ApplicationController
     else
       locality_ids = params[:localities].nil? ? [] : params[:localities].values
       associations_of_the_cabpool = {localities: LocalityService.fetch_all_localities(locality_ids), users: [current_user]}
-      response = CabpoolPersister.new(@cabpool, associations_of_the_cabpool).persist
+      response = CabpoolService.persist(@cabpool, associations_of_the_cabpool)
       if response.success?
         flash[:success] = "You have successfully created your cab pool. Please check the 'MyRide' tab for details."
         redirect_to your_cabpools_path
@@ -47,7 +47,7 @@ class CabpoolsController < ApplicationController
     @cabpool.attributes = params.require(:cabpool).permit(:number_of_people, :remarks, :timein, :timeout, :route)
     locality_ids = params[:localities].nil? ? [] : params[:localities].values
     associations_of_the_cabpool = {localities: LocalityService.fetch_all_localities(locality_ids)}
-    response = CabpoolPersister.new(@cabpool, associations_of_the_cabpool).persist
+    response = CabpoolService.persist(@cabpool, associations_of_the_cabpool)
     if response.success?
       MailService.send_email_to_cabpool_members_about_cabpool_update(@cabpool, current_user)
       flash[:success] = 'Your Cabpool has been Updated'
@@ -59,22 +59,11 @@ class CabpoolsController < ApplicationController
   end
 
   def show
-    if params[:localities].nil?
-      @cabpools = cabpools_to_render(Cabpool.all)
-    else
-      searched_locality_id = params[:localities].values.first
-      locality = Locality.find_by_id(searched_locality_id)
-      if locality.nil?
-        flash.now[:danger] = 'Select a locality'
-        @cabpools = cabpools_to_render(Cabpool.all)
-      elsif !locality.cabpools.empty?
-        @cabpools = cabpools_to_render(locality.cabpools)
-      else
-        @cabpools = cabpools_to_render([])
-      end
-    end
-    @cabpools = sort_by_available_slots @cabpools
-    @cabpools = @cabpools.paginate(page: params[:page], :per_page => 10)
+    response = CabpoolService.fetch_all_cabpools_of_a_particular_locality(params[:localities])
+    flash[:danger] = response.message if !response.success?
+    cabpools_to_render = remove_current_users_cabpool(response.data)
+    sorted_cabpools = sort_by_available_seats_in_cabpool cabpools_to_render
+    @cabpools = sorted_cabpools.paginate(page: params[:page], :per_page => 10)
   end
 
   def join

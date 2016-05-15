@@ -4,7 +4,7 @@ class MailService
     CabpoolMailer.member_addition_to_cabpool(approver, user).deliver_now
   end
 
-  def self.send_email_to_admin_about_invalid_cabpool deleting_cabpool
+  def self.send_email_to_admin_about_invalid_cabpool(deleting_cabpool)
     if deleting_cabpool.cabpool_type_id == 1
       CabpoolMailer.admin_notifier_for_invalid_cabpool(deleting_cabpool).deliver_now
     end

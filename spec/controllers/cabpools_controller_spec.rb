@@ -21,8 +21,8 @@ RSpec.describe CabpoolsController, type: :controller do
     all_cabpools = [cabpool, another_cabpool]
 
     expect(Cabpool).to receive(:all).and_return(all_cabpools)
-    expect_any_instance_of(CabpoolsHelper).to receive(:cabpools_to_render).with(array_including(cabpool, another_cabpool)).and_return(all_cabpools)
-    expect_any_instance_of(CabpoolsHelper).to receive(:sort_by_available_slots).and_return(all_cabpools)
+    expect_any_instance_of(CabpoolsHelper).to receive(:remove_current_users_cabpool).with(array_including(cabpool, another_cabpool)).and_return(all_cabpools)
+    expect_any_instance_of(CabpoolsHelper).to receive(:sort_by_available_seats_in_cabpool).and_return(all_cabpools)
     expect(all_cabpools).to receive(:paginate).and_return(all_cabpools)
 
     get :show
@@ -37,11 +37,12 @@ RSpec.describe CabpoolsController, type: :controller do
     cabpool = build(:cabpool, :without_localities)
     locality = build(:locality, name: Faker::Address.street_name)
     cabpools_of_a_particular_locality = [cabpool]
-    locality.cabpools << cabpool
+    locality.cabpools = cabpools_of_a_particular_locality
+    success_response = Success.new(cabpools_of_a_particular_locality, 'Success message')
 
-    expect(Locality).to receive(:find_by_id).with(locality.id).and_return(locality)
-    expect_any_instance_of(CabpoolsHelper).to receive(:cabpools_to_render).with(array_including(cabpool)).and_return(cabpools_of_a_particular_locality)
-    expect_any_instance_of(CabpoolsHelper).to receive(:sort_by_available_slots).and_return(cabpools_of_a_particular_locality)
+    expect(CabpoolService).to receive(:fetch_all_cabpools_of_a_particular_locality).and_return(success_response)
+    expect_any_instance_of(CabpoolsHelper).to receive(:remove_current_users_cabpool).with(array_including(cabpool)).and_return(cabpools_of_a_particular_locality)
+    expect_any_instance_of(CabpoolsHelper).to receive(:sort_by_available_seats_in_cabpool).and_return(cabpools_of_a_particular_locality)
     expect(cabpools_of_a_particular_locality).to receive(:paginate).and_return(cabpools_of_a_particular_locality)
 
     post :show, localities: {locality_id: locality.id}
@@ -50,43 +51,24 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(assigns(:cabpools)).to eq cabpools_of_a_particular_locality
   end
 
-  it 'render home page with no cabpools if the searched locality does not have any cabpools' do
-    user = build(:user)
-    allow(User).to receive(:find_by_email).and_return(user)
-    locality = build(:locality, name: Faker::Address.street_name)
-    locality.cabpools.clear
-    cabpools_for_the_searched_locality = []
-
-    expect(Locality).to receive(:find_by_id).with(locality.id).and_return(locality)
-    expect_any_instance_of(CabpoolsHelper).to receive(:cabpools_to_render).with(array_including()).and_return(cabpools_for_the_searched_locality)
-    expect_any_instance_of(CabpoolsHelper).to receive(:sort_by_available_slots).and_return(cabpools_for_the_searched_locality)
-    expect(cabpools_for_the_searched_locality).to receive(:paginate).and_return(cabpools_for_the_searched_locality)
-
-    post :show, localities: { locality_id: locality.id }
-
-    expect(assigns(:cabpools)).to eq cabpools_for_the_searched_locality
-    expect(response).to render_template('show')
-  end
-
   it 'render home page with all cabpools and flash if no locality selected' do
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
     cabpool = build(:cabpool)
     another_cabpool = build(:cabpool, :with_remarks)
     all_cabpools = [cabpool, another_cabpool]
-    no_locality = nil
+    failure_response = Failure.new(all_cabpools, 'Select a locality')
 
-    expect(Locality).to receive(:find_by_id).with('').and_return(no_locality)
-    expect(Cabpool).to receive(:all).and_return(all_cabpools)
-    expect_any_instance_of(CabpoolsHelper).to receive(:cabpools_to_render).with(array_including(cabpool, another_cabpool)).and_return(all_cabpools)
-    expect_any_instance_of(CabpoolsHelper).to receive(:sort_by_available_slots).and_return(all_cabpools)
+    expect(CabpoolService).to receive(:fetch_all_cabpools_of_a_particular_locality).and_return(failure_response)
+    expect_any_instance_of(CabpoolsHelper).to receive(:remove_current_users_cabpool).with(array_including(cabpool, another_cabpool)).and_return(all_cabpools)
+    expect_any_instance_of(CabpoolsHelper).to receive(:sort_by_available_seats_in_cabpool).and_return(all_cabpools)
     expect(all_cabpools).to receive(:paginate).and_return(all_cabpools)
 
     post :show, localities: { locality_id: '' }
 
     expect(response).to render_template('show')
     expect(assigns(:cabpools)).to eq all_cabpools
-    expect(flash[:danger]).to eq "Select a locality"
+    expect(flash[:danger]).to eq 'Select a locality'
   end
 
   it 'should render create cabpools page' do
@@ -123,7 +105,7 @@ RSpec.describe CabpoolsController, type: :controller do
     failure = Failure.new(nil, 'Failure Message')
     expect(LocalityService).to receive(:fetch_all_localities).with([duplicate_locality.id.to_s, duplicate_locality.id.to_s]).and_return([duplicate_locality, duplicate_locality])
 
-    expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(failure)
+    expect(CabpoolService).to receive(:persist).and_return(failure)
     post :create, :cabpool => {number_of_people: 2, timein: '9:30', timeout: '12:30'}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => '1', :locality_two_id => '1'}
 
     expect(response).to render_template 'cabpools/new'
@@ -138,7 +120,7 @@ RSpec.describe CabpoolsController, type: :controller do
     success = Success.new(nil, 'Success message')
     expect(LocalityService).to receive(:fetch_all_localities).with([first_updated_locality.id.to_s]).and_return([first_updated_locality])
 
-    expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(success)
+    expect(CabpoolService).to receive(:persist).and_return(success)
     post :create, :cabpool => {number_of_people: 2, timein: '9:30', timeout: '12:30', remarks: 'Driver Details.'}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => '1'}
 
     expect(response).to redirect_to your_cabpools_path
@@ -586,7 +568,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(LocalityService).to receive(:fetch_all_localities).with([first_updated_locality.id.to_s]).and_return([first_updated_locality])
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
-    expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(success)
+    expect(CabpoolService).to receive(:persist).and_return(success)
     patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: ThoughtWorks}'}, :localities => {key1: first_updated_locality.id}
 
     expect(response).to redirect_to your_cabpools_path
@@ -620,7 +602,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(LocalityService).to receive(:fetch_all_localities).with([duplicate_locality.id.to_s, duplicate_locality.id.to_s]).and_return([duplicate_locality, duplicate_locality])
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
-    expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(failure)
+    expect(CabpoolService).to receive(:persist).and_return(failure)
     patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '19:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: duplicate_locality.id, key2: duplicate_locality.id}
 
     expect(response).to render_template 'edit'

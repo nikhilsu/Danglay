@@ -65,7 +65,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     another_user = build(:user)
     expect(UserService).to receive(:fetch_all_users).with([another_user.id]).and_return([another_user])
 
-    expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(Failure.new(nil, 'Failure Message'))
+    expect(CabpoolService).to receive(:persist).and_return(Failure.new(nil, 'Failure Message'))
     post :create, :cabpool => {number_of_people: 0, timein: '9:30', timeout: '2:30'}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}
 
     expect(response).to render_template 'admin/cabpools/new'
@@ -100,7 +100,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(Locality).to receive(:find_by_id).with(first_locality.id.to_s).and_return(first_locality)
     expect(UserService).to receive(:fetch_all_users).with([first_user.id.to_s, second_user.id.to_s]).and_return([first_user, first_user])
 
-    expect_any_instance_of(CabpoolPersister).to receive(:persist) do
+    expect(CabpoolService).to receive(:persist) do
       assigns(:cabpool).users = [first_user, second_user]
       assigns(:cabpool).localities = [first_locality]
       Success.new(nil, 'Success Message')
@@ -173,7 +173,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     failure = Failure.new(cabpool_to_update, 'Failure Message')
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
-    expect_any_instance_of(CabpoolPersister).to receive(:persist).and_return(failure)
+    expect(CabpoolService).to receive(:persist).and_return(failure)
     patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 1, remarks: 'Edited Remark'}, :cabpool_type => {:cabpool_type_one_id => '1'}
 
     expect(response).to render_template 'admin/cabpools/edit'
@@ -203,7 +203,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(UserService).to receive(:fetch_all_users).with(['1', '2']).and_return([first_new_user, second_new_user])
     expect(LocalityService).to receive(:fetch_all_localities).with(['1', '2']).and_return([first_locality, second_locality])
 
-    expect_any_instance_of(CabpoolPersister).to receive(:persist) do
+    expect(CabpoolService).to receive(:persist) do
       cabpool.users = [first_new_user, second_new_user]
       cabpool.localities.clear
       cabpool.localities = [first_locality, second_locality]
