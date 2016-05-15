@@ -5,7 +5,7 @@ class MailService
   end
 
   def self.send_email_to_admin_about_invalid_cabpool(deleting_cabpool)
-    if deleting_cabpool.cabpool_type_id == 1
+    if deleting_cabpool.company_provided_cab?
       CabpoolMailer.admin_notifier_for_invalid_cabpool(deleting_cabpool).deliver_now
     end
   end
@@ -20,7 +20,7 @@ class MailService
 
   def self.send_email_to_admin_when_user_leaves(users, leaving_user)
     cabpool = users.first.cabpool
-    if cabpool.cabpool_type_id == 1
+    if cabpool.company_provided_cab?
       CabpoolMailer.admin_notifier_for_member_leaving(cabpool, leaving_user).deliver_now
     end
   end
@@ -40,7 +40,7 @@ class MailService
   end
 
   def self.send_emails_to_notify_join_request(cabpool, requesting_user, digest)
-    if cabpool.cabpool_type.name == 'Company provided Cab'
+    if cabpool.company_provided_cab?
       CabpoolMailer.admin_notifier_for_join_cabpool(cabpool, requesting_user, digest).deliver_now
     else
       cabpool.users.collect do |user|

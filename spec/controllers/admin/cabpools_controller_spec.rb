@@ -36,8 +36,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     user.role = admin_role
     allow(User).to receive(:find_by_email).and_return(user)
     cabpool = build_stubbed(:cabpool)
-    cabpool_type = build_stubbed(:cabpool_type)
-    cabpool.cabpool_type = cabpool_type
+    cabpool.cabpool_type = :company_provided_cab
     all_company_provided_cabpools = [cabpool]
     expect(Cabpool).to receive(:where).and_return(all_company_provided_cabpools)
     expect(all_company_provided_cabpools).to receive(:paginate).and_return(all_company_provided_cabpools)
@@ -124,7 +123,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     allow(User).to receive(:find_by_email).and_return(user)
     cabpool = build(:cabpool)
     cabpool.id = 1
-    cabpool.cabpool_type = build(:cabpool_type, :company_provided_cab)
+    cabpool.cabpool_type = :company_provided_cab
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool)
 
     get :edit, :id=> cabpool.id
@@ -139,7 +138,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     allow(User).to receive(:find_by_email).and_return(user)
     cabpool = build(:cabpool)
     cabpool.id = 1
-    cabpool.cabpool_type = build(:cabpool_type, :personal_car)
+    cabpool.cabpool_type = :personal_car
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool)
 
     get :edit, :id=> cabpool.id
@@ -153,7 +152,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     user.role = build_stubbed(:role, :admin_role)
     expect(User).to receive(:find_by_email).and_return(user)
     cabpool_to_update = build(:cabpool)
-    cabpool_to_update.cabpool_type = build(:cabpool_type, :personal_car)
+    cabpool_to_update.cabpool_type = :personal_car
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
     patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 1, remarks: 'Edited Remark'}, :cabpool_type => {:cabpool_type_one_id => '1'}
@@ -169,7 +168,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     another_user = build_stubbed(:user)
     cabpool_to_update = build(:cabpool)
     cabpool_to_update.users = [another_user]
-    cabpool_to_update.cabpool_type = build(:cabpool_type, :company_provided_cab)
+    cabpool_to_update.cabpool_type = :company_provided_cab
     failure = Failure.new(cabpool_to_update, 'Failure Message')
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
@@ -195,7 +194,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     second_locality = build(:locality, :another_locality)
     cabpool = build(:cabpool)
     cabpool.users = [old_user]
-    cabpool.cabpool_type = build(:cabpool_type, :company_provided_cab)
+    cabpool.cabpool_type = :company_provided_cab
     cabpool.localities = [Locality.find_by_id(1)]
     success = Success.new(cabpool, 'Success Message')
     allow(cabpool).to receive(:ordered_localities).and_return(cabpool.localities)

@@ -22,7 +22,7 @@ class CabpoolsController < ApplicationController
 
   def create
     @cabpool = Cabpool.new(cabpool_params)
-    if selected_cabpool_type_is_company_provided_cabpool
+    if @cabpool.company_provided_cab?
       MailService.send_email_to_admins_to_request_cabpool_creation(current_user, Time.new(params[:cabpool][:timein]), Time.new(params[:cabpool][:timeout]), params[:remarks])
       flash[:success] = 'You have successfully requested the admins for a cab pool.'
       redirect_to root_path
@@ -71,12 +71,12 @@ class CabpoolsController < ApplicationController
     joining_cabpool = Cabpool.find_by_id(id)
     requesting_user = User.find_by_email(session[:Email])
     if joining_cabpool.available_slots > 0
-    request = Request.create(user: requesting_user, cabpool: joining_cabpool)
-    flash[:success] = 'Join Request Sent!'
-    MailService.send_emails_to_notify_join_request(joining_cabpool, current_user, request.approve_digest)
-  else
-    flash[:danger] = 'Cab capacity exceeded!'
-  end
+      request = Request.create(user: requesting_user, cabpool: joining_cabpool)
+      flash[:success] = 'Join Request Sent!'
+      MailService.send_emails_to_notify_join_request(joining_cabpool, current_user, request.approve_digest)
+    else
+      flash[:danger] = 'Cab capacity exceeded!'
+    end
     redirect_to root_path
   end
 
@@ -210,10 +210,8 @@ class CabpoolsController < ApplicationController
   def cabpool_params
     allowed_params = params.require(:cabpool).permit(:number_of_people, :timein, :timeout, :route, :remarks)
     _, cabpool_type_id = params[:cabpool_type].first if !params[:cabpool_type].nil?
-    cabpool_type = CabpoolType.find_by_id(cabpool_type_id)
-    if allowed_cabpool_types_for_user.include? cabpool_type
-      allowed_params.merge(cabpool_type: cabpool_type)
-    end
+    cabpool_type = get_cabpool_type_by_id(cabpool_type_id)
+    allowed_params.merge!(cabpool_type: cabpool_type)
   end
 
   def has_cabpool
@@ -223,19 +221,8 @@ class CabpoolsController < ApplicationController
     end
   end
 
-  def selected_cabpool_type_is_company_provided_cabpool
-    cabpool_type = CabpoolType.new
-    params[:cabpool_type].values.each do |cabpool_type_id|
-      cabpool_type = CabpoolType.find_by_id(cabpool_type_id)
-    end
-    if cabpool_type == nil
-      return false
-    end
-    return cabpool_type.name == CabpoolType.find_by_name('Company provided Cab').name
-  end
-
   def not_company_provided_cabpool?
-    if @cabpool.is_company_provided?
+    if @cabpool.company_provided_cab?
       flash[:danger] = 'Cannot Edit a Company Provided Cabpool'
       redirect_to root_url
     end

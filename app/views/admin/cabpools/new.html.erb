@@ -9,12 +9,12 @@
       <div class="col-50">
         <h2><%= "Create a Cab Pool" %></h2>
         <div id="cabpool_type" class="form-group
-              <% unless @cabpool.errors[:cabpool_types].empty? %> field_with_errors
+              <% unless @cabpool.errors[:cabpool_type].empty? %> field_with_errors
               <% end %> ">
           <label for="cabpool_type">Cabpool Type</label>
 
           <div>
-            <input disabled="disabled" value="<%= CabpoolType.find_by_name('Company provided Cab').name %>">
+            <input disabled="disabled" value="<%= :company_provided_cab.to_s.humanize %>">
           </div>
         </div>
         <label class="required" for="capacity_of_cab"> Capacity of Cab </label>

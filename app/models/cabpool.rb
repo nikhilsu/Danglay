@@ -1,6 +1,6 @@
 class Cabpool < ActiveRecord::Base
 
-  belongs_to :cabpool_type
+  enum cabpool_type: {company_provided_cab: 1, external_cab: 2, personal_car: 3}
   has_and_belongs_to_many :localities
   has_many :users
   has_many :requests
@@ -41,10 +41,6 @@ class Cabpool < ActiveRecord::Base
     end
   end
 
-  def is_company_provided?
-    return cabpool_type.name == 'Company provided Cab'
-  end
-
   def user_is_part_of_cabpool? user
     return users.include?(user)
   end
@@ -80,7 +76,7 @@ class Cabpool < ActiveRecord::Base
 
   def invalidate_empty_cabpool_type
     if cabpool_type.nil?
-      errors.add(:cabpool_types, 'This should not be empty.')
+      errors.add(:cabpool_type, 'This should not be empty.')
     end
   end
 

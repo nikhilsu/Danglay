@@ -266,34 +266,23 @@ RSpec.describe CabpoolsHelper, type: :helper do
 
   it 'should return tw.png when cabpool is of type company provided cab' do
     cabpool = build(:cabpool)
-    cabpool.cabpool_type_id = 1
+    cabpool.cabpool_type = :company_provided_cab
 
     expect(image_to_be_displayed(cabpool)).to eq "tw.png"
   end
 
   it 'should return ola.png when cabpool is of type external cab' do
     cabpool = build(:cabpool)
-    cabpool.cabpool_type_id = 2
+    cabpool.cabpool_type = :external_cab
 
     expect(image_to_be_displayed(cabpool)).to eq "ola.png"
   end
 
   it 'should return carpool.png when cabpool is of type own cab cab' do
     cabpool = build(:cabpool)
-    cabpool.cabpool_type_id = 3
+    cabpool.cabpool_type = :personal_car
 
     expect(image_to_be_displayed(cabpool)).to eq "carpool.png"
-  end
-
-  it 'should return a list of cabpool types without Company provided cabpool' do
-    personal_car = CabpoolType.new(name: 'Personal Car')
-    external_cab = CabpoolType.new(name: 'External cab')
-    company_provide_cab = CabpoolType.new(name: 'Company provided Cab')
-    all_cabpool_types = [personal_car, external_cab, company_provide_cab]
-    cabpool_types_without_company_provide_cab = [personal_car, external_cab]
-    allow(CabpoolType).to receive(:all).and_return(all_cabpool_types)
-
-    expect(allowed_cabpool_types_for_user).to eq cabpool_types_without_company_provide_cab
   end
 
   it 'should sort cabpools based on descending order of available slots' do
@@ -334,8 +323,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     user = build(:user)
     names = user.name.split(' ')
     cabpool = build(:cabpool)
-    cabpool_type = build(:cabpool_type, :company_provided_cab)
-    cabpool.cabpool_type = cabpool_type
+    cabpool.cabpool_type = :company_provided_cab
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -348,8 +336,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     user = build(:user)
     names = user.name.split(' ')
     cabpool = build(:cabpool)
-    cabpool_type = build(:cabpool_type, :personal_car)
-    cabpool.cabpool_type = cabpool_type
+    cabpool.cabpool_type = :personal_car
     session[:FirstName] = names[0]
     session[:LastName] = names[1]
     session[:Email] = user.email
@@ -378,5 +365,17 @@ RSpec.describe CabpoolsHelper, type: :helper do
     cabpool_id = nil
 
     expect(displayable(cabpool_id)).to be nil
+  end
+
+  it 'should return cabpool_type symbol of compnay provided cab when id 1 is passed' do
+    expect(get_cabpool_type_by_id 1).to eq :company_provided_cab
+  end
+
+  it 'should return cabpool_type symbol of external cab when id 2 is passed as string' do
+    expect(get_cabpool_type_by_id '2').to eq :external_cab
+  end
+
+  it 'should not return cabpool_type symbol when id 4 is passed' do
+    expect(get_cabpool_type_by_id 4).to eq nil
   end
 end

@@ -4,7 +4,7 @@ FactoryGirl.define do
     timein '9:30'
     timeout '15:30'
     remarks ''
-    association :cabpool_type, factory: :cabpool_type, strategy: :build
+    cabpool_type :company_provided_cab
 
     after(:build) do |cabpool|
       3.times do
@@ -31,11 +31,11 @@ FactoryGirl.define do
     timeout ''
   end
 
-  trait :without_less_than_six_people do
+  trait :more_than_six_people do
     number_of_people 8
   end
 
-  trait :without_greater_than_one_person do
+  trait :lesser_than_one_person do
     number_of_people 0
   end
 
@@ -70,6 +70,14 @@ FactoryGirl.define do
 
   trait :without_cabpool_type do
     cabpool_type nil
+  end
+
+  trait :personal_car do
+    cabpool_type :personal_car
+  end
+
+  trait :external_cab do
+    cabpool_type :external_cab
   end
 
   trait :without_localities do

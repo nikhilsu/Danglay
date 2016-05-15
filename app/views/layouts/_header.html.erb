@@ -30,7 +30,7 @@
                   <% current_user.cabpool.requested_users.each do |user| %>
                       <li>
                         <p><%= user.name %> from <%= user.locality.name %> has requested for a cabpool</p>
-                          <% if !current_user.cabpool.is_company_provided?%>
+                          <% if !current_user.cabpool.company_provided_cab?%>
                             <%= form_tag controller: "/cabpools", action: "reject_via_notification", method: 'post' do %>
                                 <%= hidden_field_tag "user_id", user.id %>
                                 <%= button_tag 'Reject', class: "btn-alert" %>

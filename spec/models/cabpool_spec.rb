@@ -18,12 +18,12 @@ RSpec.describe Cabpool, type: :model do
   end
 
   it 'Number of people should be less than or equal to 6' do
-      cabpool = build(:cabpool, :without_less_than_six_people)
+      cabpool = build(:cabpool, :more_than_six_people)
       expect(cabpool.valid?).to be false
   end
 
   it 'Number of people should be greater than or equal to 1' do
-      cabpool = build(:cabpool, :without_greater_than_one_person)
+      cabpool = build(:cabpool, :lesser_than_one_person)
       expect(cabpool.valid?).to be false
   end
 
@@ -199,16 +199,16 @@ RSpec.describe Cabpool, type: :model do
 
   it 'should return true when the cabpool is company provided' do
     cabpool = build(:cabpool, :without_cabpool_type)
-    cabpool.cabpool_type = build(:cabpool_type, :company_provided_cab)
+    cabpool.cabpool_type = :company_provided_cab
 
-    expect(cabpool.is_company_provided?).to be true
+    expect(cabpool.company_provided_cab?).to be true
   end
 
   it 'should return false when the cabpool is not company provided' do
     cabpool = build(:cabpool, :without_cabpool_type)
-    cabpool.cabpool_type = build(:cabpool_type, :personal_car)
+    cabpool.cabpool_type = :personal_car
 
-    expect(cabpool.is_company_provided?).to be false
+    expect(cabpool.company_provided_cab?).to be false
   end
 
   it 'should return true when a user is part of a cabpool' do

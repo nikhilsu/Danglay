@@ -194,14 +194,12 @@ RSpec.describe CabpoolsController, type: :controller do
 
   it 'should send email admins when a user joins the campany provided cabpool' do
     cabpool = Cabpool.new({number_of_people: 3, timein: "9:30", timeout: "12:30"})
-    cabpool_type = CabpoolType.new({:id => '1'})
-    cabpool.cabpool_type = cabpool_type
+    cabpool.cabpool_type = :company_provided_cab
     user = build(:user, :existing_user)
     allow(Cabpool).to receive(:find_by_id).and_return(cabpool)
     allow(User).to receive(:find_by_email).and_return(user)
     allow(User).to receive(:find_by).and_return(user)
-    allow(cabpool).to receive(:cabpool_type).and_return(cabpool_type)
-    allow(cabpool_type).to receive(:name).and_return('Company provided Cab')
+    allow(cabpool).to receive(:cabpool_type).and_return(:company_provided_cab)
     post :join, cabpool: {id: cabpool.id}
     expect(ActionMailer::Base.deliveries.size).to eq 1
     expect(response).to redirect_to root_path
@@ -217,8 +215,7 @@ RSpec.describe CabpoolsController, type: :controller do
 
   it "should send inactive email to admin when cabpool has only 1 memeber in it" do
     cabpool = Cabpool.new({number_of_people: 3, timein: "9:30", timeout: "12:30"})
-    cabpool_type = CabpoolType.new({:id => '1'})
-    cabpool.cabpool_type = cabpool_type
+    cabpool.cabpool_type = :company_provided_cab
     user = build(:user)
     user.cabpool = cabpool
     another_user = build(:user, :another_user)
@@ -232,8 +229,7 @@ RSpec.describe CabpoolsController, type: :controller do
 
   it 'should set the current user\'s cabpool to nil if the user leaves the cab pool and send email to existing members' do
     cabpool = Cabpool.new({number_of_people: 3, timein: "9:30", timeout: "12:30"})
-    cabpool_type = CabpoolType.new({:id => '1'})
-    cabpool.cabpool_type = cabpool_type
+    cabpool.cabpool_type = :company_provided_cab
     user = build(:user)
     user.cabpool = cabpool
     another_user = build(:user, :another_user)
@@ -493,8 +489,7 @@ RSpec.describe CabpoolsController, type: :controller do
     user = build(:user)
     another_user = build(:user, :another_user)
     allow(User).to receive(:find_by_email).and_return(user)
-    cabpool_to_update = build(:cabpool)
-    cabpool_to_update.cabpool_type = build(:cabpool_type, :personal_car)
+    cabpool_to_update = build(:cabpool, :personal_car)
     cabpool_to_update.users = [user, another_user]
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
@@ -509,7 +504,7 @@ RSpec.describe CabpoolsController, type: :controller do
     cabpool = build(:cabpool)
     cabpool.users = [user]
     cabpool.id = 1
-    cabpool.cabpool_type = build(:cabpool_type, :company_provided_cab)
+    cabpool.cabpool_type = :company_provided_cab
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool)
 
     get :edit, :id=> cabpool.id
@@ -558,7 +553,7 @@ RSpec.describe CabpoolsController, type: :controller do
   it 'should successfully update a cabpool and send out emails to concerned members when all valid details and localities are entered by user' do
     user = build(:user)
     expect(User).to receive(:find_by_email).and_return(user)
-    cabpool_to_update = build(:cabpool)
+    cabpool_to_update = build(:cabpool, :personal_car)
     another_user_part_of_cabpool = build(:user, :another_user)
     cabpool_to_update.users = [user, another_user_part_of_cabpool]
     first_updated_locality = build(:locality)
@@ -581,7 +576,7 @@ RSpec.describe CabpoolsController, type: :controller do
     user = build(:user)
     expect(User).to receive(:find_by_email).and_return(user)
     cabpool_to_update = build(:cabpool)
-    cabpool_to_update.cabpool_type = build(:cabpool_type, :company_provided_cab)
+    cabpool_to_update.cabpool_type = :company_provided_cab
     cabpool_to_update.users = [user]
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
@@ -594,7 +589,7 @@ RSpec.describe CabpoolsController, type: :controller do
   it 'should not update a cabpool when persistence of the cabpool fails' do
     user = build(:user)
     expect(User).to receive(:find_by_email).and_return(user)
-    cabpool_to_update = build(:cabpool)
+    cabpool_to_update = build(:cabpool, :external_cab)
     duplicate_locality = build(:locality)
     duplicate_locality.id = 10
     cabpool_to_update.users = [user]

@@ -1,7 +1,6 @@
 require 'json'
 
 localities = JSON.parse(File.read('localities/localitiesBangalore.json'))
-cabpool_types = JSON.parse(File.read('cabpool_type/cabpool_types.json'))
 
 localities.each do |locality|
   locality_name = locality["LOCATION"]
@@ -10,11 +9,6 @@ end
 
 user_role = Role.create!(name: "user")
 admin_role = Role.create!(name: "admin")
-
-cabpool_types.each do |cabpool_type|
-  cabpool_type_name = cabpool_type["TYPE"]
-  CabpoolType.create!(name: cabpool_type_name)
-end
 
 if Rails.env != 'production'
   60.times do
@@ -31,7 +25,7 @@ if Rails.env != 'production'
   User.create!(id: 101, name: 'Sandeep Hegde', email: 'sandeeph@thoughtworks.com', emp_id: '18071', address: "Blah on Mars", locality: Locality.first, phone_no: "+91 9080706033", role: admin_role)
 
   current_localities = Locality.all
-  current_cabpool_types = CabpoolType.all
+  current_cabpool_types = [:company_provided_cab, :external_cab, :personal_car]
   current_users = User.all
   current_users = current_users.reject { |user| user.id == 100 || user.id == 101 }
 

@@ -2,7 +2,7 @@ class Admin::CabpoolsController < Admin::AdminController
   before_action :company_provided_cabpool?, only: [:edit, :update]
 
   def show
-    company_provided_cabpools = Cabpool.where(cabpool_type: CabpoolType.find_by_name('Company provided Cab'))
+    company_provided_cabpools = Cabpool.company_provided_cab
     @cabpools = company_provided_cabpools.paginate(page: params[:page], :per_page => 10)
   end
 
@@ -64,7 +64,7 @@ class Admin::CabpoolsController < Admin::AdminController
 
   def cabpool_params
     allowed_params = params.require(:cabpool).permit(:number_of_people, :timein, :timeout, :route, :remarks)
-    cabpool_type = CabpoolType.find_by_name('Company provided Cab')
+    cabpool_type = :company_provided_cab
     allowed_params.merge(cabpool_type: cabpool_type)
   end
 
@@ -78,7 +78,7 @@ class Admin::CabpoolsController < Admin::AdminController
 
   def company_provided_cabpool?
     @cabpool = Cabpool.find_by_id(params[:id])
-    if !@cabpool.is_company_provided?
+    if !@cabpool.company_provided_cab?
       flash[:danger] = 'Cannot Edit a Non-Company Provided Cabpool'
       redirect_to '/admin'
     end

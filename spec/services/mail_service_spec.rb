@@ -15,9 +15,7 @@ RSpec.describe MailService, type: :service do
   it 'should call admin_notifier_for_invalid_cabpool once if cabpool type is company provided' do
     mail_object = double
     cabpool = build(:cabpool)
-    cabpool_type = build(:cabpool_type, :company_provided_cab)
-    cabpool_type.id = 1
-    cabpool.cabpool_type = cabpool_type
+    cabpool.cabpool_type = :company_provided_cab
     expect(mail_object).to receive(:deliver_now)
     expect(CabpoolMailer).to receive(:admin_notifier_for_invalid_cabpool).and_return(mail_object).once
 
@@ -25,7 +23,7 @@ RSpec.describe MailService, type: :service do
   end
 
   it 'should not invoke admin_notifier_for_invalid_cabpool once if cabpool type is not a company provided cab' do
-    cabpool = build(:cabpool)
+    cabpool = build(:cabpool, :personal_car)
     expect(CabpoolMailer).to receive(:admin_notifier_for_invalid_cabpool).exactly(0).times
 
     MailService.send_email_to_admin_about_invalid_cabpool(cabpool)
@@ -60,7 +58,7 @@ RSpec.describe MailService, type: :service do
     users = [user, another_user]
     cabpool = build(:cabpool)
     cabpool.users = users
-    cabpool.cabpool_type_id = 1
+    cabpool.cabpool_type = :company_provided_cab
     expect(mail_object).to receive(:deliver_now)
     expect(CabpoolMailer).to receive(:admin_notifier_for_member_leaving).and_return(mail_object).once
 
@@ -75,7 +73,7 @@ RSpec.describe MailService, type: :service do
     users = [user, another_user]
     cabpool = build(:cabpool)
     cabpool.users = users
-    cabpool.cabpool_type_id = 2
+    cabpool.cabpool_type = :external_cab
     expect(CabpoolMailer).to receive(:admin_notifier_for_member_leaving).and_return(mail_object).exactly(0)
 
     MailService.send_email_to_admin_when_user_leaves(users, leaving_user)
@@ -123,8 +121,7 @@ RSpec.describe MailService, type: :service do
     user = build(:user)
     another_user = build(:user, :another_user)
     requesting_user = build(:user, :yet_another_user)
-    cabpool = build(:cabpool)
-    cabpool.cabpool_type.name = 'Personal Car'
+    cabpool = build(:cabpool, :personal_car)
     cabpool.users = [user, another_user]
     expect(mail_object).to receive(:deliver_now).twice
     expect(CabpoolMailer).to receive(:cabpool_join_request).with(user, cabpool, requesting_user, digest).and_return(mail_object)
@@ -140,7 +137,7 @@ RSpec.describe MailService, type: :service do
     another_user = build(:user, :another_user)
     requesting_user = build(:user, :yet_another_user)
     cabpool = build(:cabpool)
-    cabpool.cabpool_type.name = 'Company provided Cab'
+    cabpool.cabpool_type = :company_provided_cab
     cabpool.users = [user, another_user]
     expect(mail_object).to receive(:deliver_now)
     expect(CabpoolMailer).to receive(:admin_notifier_for_join_cabpool).with(cabpool, requesting_user, digest).and_return(mail_object)
@@ -153,7 +150,7 @@ RSpec.describe MailService, type: :service do
     user = build(:user)
     another_user = build(:user, :another_user)
     cabpool = build(:cabpool)
-    cabpool.cabpool_type.name = 'Company provided Cab'
+    cabpool.cabpool_type = :company_provided_cab
     cabpool.users = [user, another_user]
     expect(mail_object).to receive(:deliver_now).twice
     expect(CabpoolMailer).to receive(:cabpool_is_created).with(user, cabpool).and_return(mail_object)

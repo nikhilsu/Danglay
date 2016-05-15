@@ -22,10 +22,10 @@ module CabpoolsHelper
   end
 
   def image_to_be_displayed cabpool
-    if cabpool.cabpool_type_id == 1
-      'tw.png'
-    elsif cabpool.cabpool_type_id == 2
-      'ola.png'
+    if cabpool.company_provided_cab?
+      "tw.png"
+    elsif cabpool.external_cab?
+      "ola.png"
     else
       'carpool.png'
     end
@@ -89,9 +89,9 @@ module CabpoolsHelper
     return cabpools
   end
 
-  def allowed_cabpool_types_for_user
-    cabpool_types = CabpoolType.all
-    cabpool_types.reject { |cabpool_type| cabpool_type.name == 'Company provided Cab' }
+  def get_cabpool_type_by_id(cabpool_type_id)
+    cabpool_cabpool_types_key = Cabpool.cabpool_types.key(cabpool_type_id.to_i)
+    cabpool_cabpool_types_key.to_sym if cabpool_cabpool_types_key
   end
 
   def sort_by_available_seats_in_cabpool(cabpools)
@@ -107,7 +107,7 @@ module CabpoolsHelper
         return 'Are you sure you want to join this cabpool? Confirming would mean that you would be taken out of your existing cabpool if your request is accepted.'
       end
     end
-    if requesting_cabpool.cabpool_type.name == 'Company provided Cab'
+    if requesting_cabpool.company_provided_cab?
       return 'Are you sure you want to join this cabpool? This would send a request to the ADMIN.'
     else
       return 'Are you sure you want to join this cabpool? This would send a request to all members of cabpool'
