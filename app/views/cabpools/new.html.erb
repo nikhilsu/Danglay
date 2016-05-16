@@ -45,7 +45,7 @@
             <%= render 'shared/error_messages', errors: @cabpool.errors[:remarks] if !@cabpool.errors[:remarks].empty? %>
 
             <div class="form-group">
-              <label class="label-blue" for="user_locality">Route :-</label>
+              <label class="label-blue" for="user_locality">Route (In order) :-</label>
               <label class="label-blue" for="user_locality">Start Point</label>
               <span class="label-name" id="locality"> <%= User.find_by_email(session[:Email]).locality.name %> </span>
               <div class="hideable">
