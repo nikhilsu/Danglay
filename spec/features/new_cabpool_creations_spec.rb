@@ -51,6 +51,6 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     page.set_rack_session(Email: 'vdeepika@thoughtworks.com')
 
     visit root_path
-    expect(page.body).to have_content("Sandeep Hegde from AF Station Yelahanka has requested for a cabpool")
+    expect(page.body).to have_content("Sandeep Hegde from AECS Layout has requested for a cabpool")
   end
 end

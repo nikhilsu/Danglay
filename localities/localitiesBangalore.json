@@ -1,15 +1,15 @@
 [
   {
-    "LOCATION": "AF Station Yelahanka"
+    "LOCATION": "AECS Layout"
+  },
+  {
+    "LOCATION": "Abbigere"
   },
   {
     "LOCATION": "Adugodi"
   },
   {
-    "LOCATION": "AECS Layout"
-  },
-  {
-    "LOCATION": "Agara"
+    "LOCATION": "Agara Lake"
   },
   {
     "LOCATION": "Agram"
@@ -21,10 +21,7 @@
     "LOCATION": "Akshaya Nagar"
   },
   {
-    "LOCATION": "Abbigere"
-  },
-  {
-    "LOCATION": "Amruthahalli"
+    "LOCATION": "Amrutahalli"
   },
   {
     "LOCATION": "Anagalapura"
@@ -45,22 +42,19 @@
     "LOCATION": "Anjanapura"
   },
   {
-    "LOCATION": "Annapurneshwarinagar"
+    "LOCATION": "Annapurneshwari Nagar"
   },
   {
     "LOCATION": "Arabic College"
   },
   {
-    "LOCATION": "Ashirvad Colony"
-  },
-  {
-    "LOCATION": "Azad Nagar"
-  },
-  {
     "LOCATION": "Aranya Bhavan"
   },
   {
-    "LOCATION": "Ashoknagar"
+    "LOCATION": "Ashirvad Colony"
+  },
+  {
+    "LOCATION": "Ashok Nagar"
   },
   {
     "LOCATION": "Attibele"
@@ -69,7 +63,7 @@
     "LOCATION": "Attiguppe"
   },
   {
-    "LOCATION": "Attur"
+    "LOCATION": "Attur Layout"
   },
   {
     "LOCATION": "Austin Town"
@@ -78,28 +72,40 @@
     "LOCATION": "Avalahalli"
   },
   {
-    "LOCATION": "Avani Sringeri Mutt"
-  },
-  {
     "LOCATION": "Avenue Road"
   },
   {
-    "LOCATION": "Banashankari II Stage"
+    "LOCATION": "Azad Nagar"
   },
   {
-    "LOCATION": "BSF Campus Yelahanka"
+    "LOCATION": "BEML Layout"
+  },
+  {
+    "LOCATION": "BEML Layout Raja Rajeshwari Nagar"
+  },
+  {
+    "LOCATION": "BSF Campus"
+  },
+  {
+    "LOCATION": "BTM Layout"
+  },
+  {
+    "LOCATION": "BTM Layout 1st Stage"
+  },
+  {
+    "LOCATION": "BTM Layout 2nd Stage"
   },
   {
     "LOCATION": "Babusapalya"
   },
   {
-    "LOCATION": "Bagalgunte"
+    "LOCATION": "Bagalakunte"
   },
   {
     "LOCATION": "Bagalur"
   },
   {
-    "LOCATION": "Baiyyappanahalli"
+    "LOCATION": "Bagepalli"
   },
   {
     "LOCATION": "Balepete"
@@ -108,16 +114,25 @@
     "LOCATION": "Banashankari"
   },
   {
-    "LOCATION": "Banashankari III Stage"
+    "LOCATION": "Banashankari 1st Stage"
   },
   {
-    "LOCATION": "Banaswadi"
+    "LOCATION": "Banashankari 2nd Stage"
   },
   {
-    "LOCATION": "Bandikodigehalli"
+    "LOCATION": "Banashankari 3rb Stage"
   },
   {
-    "LOCATION": "Bangalore Airport"
+    "LOCATION": "Banashankari 4th Stage"
+  },
+  {
+    "LOCATION": "Banashankari 5th Stage"
+  },
+  {
+    "LOCATION": "Banashankari 6th Stage"
+  },
+  {
+    "LOCATION": "Bande Kodigehalli"
   },
   {
     "LOCATION": "Bangalore Bazaar"
@@ -129,49 +144,43 @@
     "LOCATION": "Bangalore District Offices Building"
   },
   {
-    "LOCATION": "Bangalore Fort"
-  },
-  {
-    "LOCATION": "Bangalore Sub Foreign Post"
-  },
-  {
-    "LOCATION": "Bannerghatta"
-  },
-  {
-    "LOCATION": "Battarahalli"
+    "LOCATION": "Bangalore Viswavidalaya"
   },
   {
     "LOCATION": "Bannerghatta Road"
   },
   {
-    "LOCATION": "Bagepalli"
+    "LOCATION": "Bannerughatta"
   },
   {
-    "LOCATION": "Bapujinagar"
+    "LOCATION": "Banswadi"
+  },
+  {
+    "LOCATION": "Bapuji Nagar"
   },
   {
     "LOCATION": "Basapura"
   },
   {
-    "LOCATION": "Basavanagudi"
+    "LOCATION": "Basavanagar"
   },
   {
-    "LOCATION": "Basavanagar"
+    "LOCATION": "Basavanagudi"
   },
   {
     "LOCATION": "Basavaraja Market"
   },
   {
-    "LOCATION": "Basaveshwaranagar"
+    "LOCATION": "Basaveshwar Nagar"
   },
   {
-    "LOCATION": "Basaveswaranagar II Stage"
+    "LOCATION": "Battarahalli"
   },
   {
     "LOCATION": "Begur"
   },
   {
-    "LOCATION": "Begur Road"
+    "LOCATION": "Begur Main Road"
   },
   {
     "LOCATION": "Belathur"
@@ -186,13 +195,7 @@
     "LOCATION": "Bellary Road"
   },
   {
-    "LOCATION": "BEML Layout"
-  },
-  {
-    "LOCATION": "BEML Layout Raja Rajeshwari Nagar"
-  },
-  {
-    "LOCATION": "Benniganahalli"
+    "LOCATION": "Bennigana Halli"
   },
   {
     "LOCATION": "Benson Town"
@@ -201,7 +204,7 @@
     "LOCATION": "Bestamaranahalli"
   },
   {
-    "LOCATION": "Bettahalsur"
+    "LOCATION": "Bettahalsoor"
   },
   {
     "LOCATION": "Bhashyam Circle"
@@ -219,6 +222,9 @@
     "LOCATION": "Bidaraguppe"
   },
   {
+    "LOCATION": "Bidrahalli"
+  },
+  {
     "LOCATION": "Bikkanahalli"
   },
   {
@@ -228,16 +234,13 @@
     "LOCATION": "Binny Pete"
   },
   {
-    "LOCATION": "Bidrahalli"
-  },
-  {
-    "LOCATION": "Bangalore Viswavidalaya"
-  },
-  {
     "LOCATION": "Bommanahalli"
   },
   {
     "LOCATION": "Bommasandra"
+  },
+  {
+    "LOCATION": "Bommasandra Industrial Area"
   },
   {
     "LOCATION": "Brigade Road"
@@ -246,13 +249,10 @@
     "LOCATION": "Brookefield"
   },
   {
-    "LOCATION": "BTM layout"
+    "LOCATION": "Budigere"
   },
   {
     "LOCATION": "Budihal"
-  },
-  {
-    "LOCATION": "Budigere"
   },
   {
     "LOCATION": "Byatarayanapura"
@@ -261,25 +261,19 @@
     "LOCATION": "Byatarhi"
   },
   {
-    "LOCATION": "Carmeleram"
+    "LOCATION": "C V Raman Nagar"
+  },
+  {
+    "LOCATION": "CRPF Bus Stop"
+  },
+  {
+    "LOCATION": "Cahmrajendrapet"
   },
   {
     "LOCATION": "Cambridge Layout"
   },
   {
-    "LOCATION": "CV Raman nagar"
-  },
-  {
-    "LOCATION": "CMP Centre and School"
-  },
-  {
-    "LOCATION": "Cottonpete"
-  },
-  {
-    "LOCATION": "CRPF Campus Yelahanka"
-  },
-  {
-    "LOCATION": "Cahmrajendrapet"
+    "LOCATION": "Carmelaram"
   },
   {
     "LOCATION": "Chambal River"
@@ -294,13 +288,13 @@
     "LOCATION": "Chamundi Nagar"
   },
   {
-    "LOCATION": "Chandapur"
+    "LOCATION": "Chandapura"
+  },
+  {
+    "LOCATION": "Chandapura-Anekal Road"
   },
   {
     "LOCATION": "Chandra Layout"
-  },
-  {
-    "LOCATION": "Chandapura Anekal Road"
   },
   {
     "LOCATION": "Chansandra"
@@ -309,10 +303,7 @@
     "LOCATION": "Chickpet"
   },
   {
-    "LOCATION": "Chikbanavara"
-  },
-  {
-    "LOCATION": "Chikkabasavanapura"
+    "LOCATION": "Chikka Tirupathi"
   },
   {
     "LOCATION": "Chikkaballapur"
@@ -321,10 +312,16 @@
     "LOCATION": "Chikkaballapur-Gauribidanur Road"
   },
   {
-    "LOCATION": "Chikkabettahalli"
+    "LOCATION": "Chikkabanavara"
+  },
+  {
+    "LOCATION": "Chikkabasavanapura"
   },
   {
     "LOCATION": "Chikkabellandur"
+  },
+  {
+    "LOCATION": "Chikkabettahalli"
   },
   {
     "LOCATION": "Chikkabidarakallu"
@@ -339,16 +336,13 @@
     "LOCATION": "Chikkanahalli"
   },
   {
-    "LOCATION": "Chikka Tirupathi"
-  },
-  {
     "LOCATION": "Chintamani"
   },
   {
-    "LOCATION": "Choodasandra"
+    "LOCATION": "Cholanayakanahalli"
   },
   {
-    "LOCATION": "Cholanayakanahalli"
+    "LOCATION": "Choodasandra"
   },
   {
     "LOCATION": "Chunchanakuppe"
@@ -357,7 +351,13 @@
     "LOCATION": "Commercial Street"
   },
   {
-    "LOCATION": "Cookes Town"
+    "LOCATION": "Cooke Town"
+  },
+  {
+    "LOCATION": "Corps Of Military Police Centre And School"
+  },
+  {
+    "LOCATION": "Cottonpete"
   },
   {
     "LOCATION": "Cox Town"
@@ -381,25 +381,22 @@
     "LOCATION": "Dayananda Nagar"
   },
   {
-    "LOCATION": "Deepanjalinagar"
+    "LOCATION": "Deepanjali Nagar"
   },
   {
     "LOCATION": "Defence Colony"
   },
   {
-    "LOCATION": "Defence Colony - Bagalagunte"
-  },
-  {
-    "LOCATION": "Devanagundi"
+    "LOCATION": "Devanagundhi Bus Stop"
   },
   {
     "LOCATION": "Devanahalli"
   },
   {
-    "LOCATION": "Devarachikkanahalli"
+    "LOCATION": "Devara Jeevanahalli"
   },
   {
-    "LOCATION": "Devarjeevanahalli"
+    "LOCATION": "Devarachikkana Halli"
   },
   {
     "LOCATION": "Devasandra"
@@ -417,22 +414,34 @@
     "LOCATION": "Dodda Aalada Mara Road"
   },
   {
+    "LOCATION": "Dodda Banaswadi"
+  },
+  {
     "LOCATION": "Doddaballapur"
   },
   {
     "LOCATION": "Doddaballapur Road"
   },
   {
-    "LOCATION": "Doddabanasvadi"
+    "LOCATION": "Doddabommasandra"
   },
   {
     "LOCATION": "Doddagubbi"
   },
   {
-    "LOCATION": "Doddakannalli"
+    "LOCATION": "Doddajala"
+  },
+  {
+    "LOCATION": "Doddakallasandra"
   },
   {
     "LOCATION": "Doddakammanahalli"
+  },
+  {
+    "LOCATION": "Doddakannelli"
+  },
+  {
+    "LOCATION": "Doddanekkundi"
   },
   {
     "LOCATION": "Doddathoguru"
@@ -444,22 +453,10 @@
     "LOCATION": "Doddenakundi"
   },
   {
-    "LOCATION": "Doddobommasandra"
-  },
-  {
     "LOCATION": "Dodsworth Layout"
   },
   {
     "LOCATION": "Dollars Colony"
-  },
-  {
-    "LOCATION": "Doddajala"
-  },
-  {
-    "LOCATION": "Doddakallasandra"
-  },
-  {
-    "LOCATION": "Doddanekkundi"
   },
   {
     "LOCATION": "Domlur"
@@ -468,22 +465,22 @@
     "LOCATION": "Dommasandra"
   },
   {
-    "LOCATION": "Doorvaninagar"
+    "LOCATION": "Dooravani Nagar"
   },
   {
-    "LOCATION": "Dr. Ambedkar Veedhi"
-  },
-  {
-    "LOCATION": "Electronics City"
-  },
-  {
-    "LOCATION": "Electronics City Phase 1"
-  },
-  {
-    "LOCATION": "Electronics City Phase 2"
+    "LOCATION": "Dr BR Ambedkar Road"
   },
   {
     "LOCATION": "Ejipura"
+  },
+  {
+    "LOCATION": "Electronic City"
+  },
+  {
+    "LOCATION": "Electronic City Phase II"
+  },
+  {
+    "LOCATION": "Electronics City Phase 1"
   },
   {
     "LOCATION": "Fraser Town"
@@ -492,28 +489,28 @@
     "LOCATION": "GKVK"
   },
   {
-    "LOCATION": "Gaviopuram Extension"
-  },
-  {
-    "LOCATION": "Ganganagar"
-  },
-  {
-    "LOCATION": "Jnana Ganga Nagar"
+    "LOCATION": "GM Palya"
   },
   {
     "LOCATION": "Gandhi Nagar"
   },
   {
+    "LOCATION": "Ganganagar"
+  },
+  {
     "LOCATION": "Garvebhavipalya"
+  },
+  {
+    "LOCATION": "Gauribidanur"
   },
   {
     "LOCATION": "Gaviopuram Guttanahalli"
   },
   {
-    "LOCATION": "Gayathrinagar"
+    "LOCATION": "Gavipuram Extension"
   },
   {
-    "LOCATION": "Gauribidanur"
+    "LOCATION": "Gayatrinagar"
   },
   {
     "LOCATION": "Girinagar"
@@ -528,10 +525,10 @@
     "LOCATION": "Goripalya"
   },
   {
-    "LOCATION": "Governmemnt Electric factory"
+    "LOCATION": "Gottigere"
   },
   {
-    "LOCATION": "Gottigere"
+    "LOCATION": "Government Primary School Kammagondanahalli"
   },
   {
     "LOCATION": "Govindapalya"
@@ -543,34 +540,55 @@
     "LOCATION": "Guttahalli"
   },
   {
-    "LOCATION": "GM Palya"
-  },
-  {
-    "LOCATION": "HMT"
-  },
-  {
     "LOCATION": "HA Farm"
   },
   {
     "LOCATION": "HAL"
   },
   {
-    "LOCATION": "HAL II stage"
-  },
-  {
-    "LOCATION": "Haudin Road"
-  },
-  {
-    "LOCATION": "HKP road"
+    "LOCATION": "HAL 2nd Stage"
   },
   {
     "LOCATION": "HBR Layout"
   },
   {
+    "LOCATION": "HKP Road"
+  },
+  {
+    "LOCATION": "HMT Layout"
+  },
+  {
+    "LOCATION": "HMT Watch Factory"
+  },
+  {
+    "LOCATION": "HRBR Layout"
+  },
+  {
     "LOCATION": "HSR Layout"
   },
   {
-    "LOCATION": "Hampinagar"
+    "LOCATION": "HSR Layout 1st Sector"
+  },
+  {
+    "LOCATION": "HSR Layout 2nd Sector"
+  },
+  {
+    "LOCATION": "HSR Layout 3rd Sector"
+  },
+  {
+    "LOCATION": "HSR Layout 4th Sector"
+  },
+  {
+    "LOCATION": "HSR Layout 5th Sector"
+  },
+  {
+    "LOCATION": "HSR Layout 6th Sector"
+  },
+  {
+    "LOCATION": "HSR Layout 7th Sector"
+  },
+  {
+    "LOCATION": "Hampi Nagar"
   },
   {
     "LOCATION": "Hancharahalli"
@@ -579,25 +597,25 @@
     "LOCATION": "Handenahalli"
   },
   {
-    "LOCATION": "Harogadde"
+    "LOCATION": "Hanumanth Nagar"
   },
   {
-    "LOCATION": "Harohalli"
+    "LOCATION": "Haragadde"
   },
   {
-    "LOCATION": "Harlur"
+    "LOCATION": "Haralur Road"
   },
   {
-    "LOCATION": "Harlur Road"
+    "LOCATION": "Harohalli Road"
   },
   {
-    "LOCATION": "Hebbal Kempapura"
+    "LOCATION": "Haudin Road"
   },
   {
     "LOCATION": "Hebbal"
   },
   {
-    "LOCATION": "Hegde Nagar"
+    "LOCATION": "Hebbal Kempapura"
   },
   {
     "LOCATION": "Hennagara"
@@ -606,19 +624,16 @@
     "LOCATION": "Hennur"
   },
   {
-    "LOCATION": "Hennur Road"
+    "LOCATION": "Hesaraghatta Lake"
   },
   {
-    "LOCATION": "High Court"
+    "LOCATION": "Hesaraghatta Main Road"
   },
   {
-    "LOCATION": "Hanumanth nagar"
+    "LOCATION": "High Court of Karnataka"
   },
   {
-    "LOCATION": "HMT Layout"
-  },
-  {
-    "LOCATION": "Hombegowdanagar"
+    "LOCATION": "Hombegowda Nagar"
   },
   {
     "LOCATION": "Hongasandra"
@@ -631,6 +646,9 @@
   },
   {
     "LOCATION": "Horamavu Agara"
+  },
+  {
+    "LOCATION": "Horamavu Agara Road"
   },
   {
     "LOCATION": "Hosa Road"
@@ -646,12 +664,6 @@
   },
   {
     "LOCATION": "Hosur Road"
-  },
-  {
-    "LOCATION": "Hesaraghatta"
-  },
-  {
-    "LOCATION": "Hesaraghatta Main Road"
   },
   {
     "LOCATION": "Hulimangala"
@@ -672,22 +684,19 @@
     "LOCATION": "Huttanahalli"
   },
   {
-    "LOCATION": "HRBR Layout"
-  },
-  {
     "LOCATION": "ISRO Anthariksha Bhavan"
   },
   {
     "LOCATION": "ISRO Layout"
   },
   {
-    "LOCATION": "Immedihalli"
+    "LOCATION": "ITPL"
   },
   {
-    "LOCATION": "Indraprastha"
+    "LOCATION": "ITPL Road"
   },
   {
-    "LOCATION": "Lavelle Road"
+    "LOCATION": "IVC Road"
   },
   {
     "LOCATION": "Immadihalli"
@@ -696,10 +705,13 @@
     "LOCATION": "Indalavadi"
   },
   {
+    "LOCATION": "Indian Institute of Science"
+  },
+  {
     "LOCATION": "Indiranagar"
   },
   {
-    "LOCATION": "Industrial Estate"
+    "LOCATION": "Indraprastha"
   },
   {
     "LOCATION": "Infantry Road"
@@ -711,13 +723,7 @@
     "LOCATION": "Ittamadu Layout"
   },
   {
-    "LOCATION": "ITPL"
-  },
-  {
-    "LOCATION": "ITPL Road"
-  },
-  {
-    "LOCATION": "IVC Road"
+    "LOCATION": "J.C.Nagar"
   },
   {
     "LOCATION": "JP Nagar"
@@ -750,13 +756,10 @@
     "LOCATION": "JP Nagar Phase 9"
   },
   {
-    "LOCATION": "JC Nagar"
-  },
-  {
     "LOCATION": "Jagadish Nagar"
   },
   {
-    "LOCATION": "Jagajeevanramnagar"
+    "LOCATION": "Jagajeevanram Nagar"
   },
   {
     "LOCATION": "Jakkur"
@@ -768,7 +771,7 @@
     "LOCATION": "Jalahalli"
   },
   {
-    "LOCATION": "Jalahalli Cross"
+    "LOCATION": "Jalahalli Cross Road"
   },
   {
     "LOCATION": "Jalahalli East"
@@ -795,70 +798,67 @@
     "LOCATION": "Jayanagar"
   },
   {
-    "LOCATION": "Jayanagar West"
+    "LOCATION": "Jayanagar 1st block"
   },
   {
-    "LOCATION": "Jayangar East"
+    "LOCATION": "Jayanagar 2nd block"
   },
   {
-    "LOCATION": "Jayangar III block"
+    "LOCATION": "Jayanagar 3rd block"
+  },
+  {
+    "LOCATION": "Jayanagar 4th block"
+  },
+  {
+    "LOCATION": "Jayanagar 5th block"
+  },
+  {
+    "LOCATION": "Jayanagar 6th block"
+  },
+  {
+    "LOCATION": "Jayanagar 7th block"
+  },
+  {
+    "LOCATION": "Jayanagar 8th block"
+  },
+  {
+    "LOCATION": "Jayanagar 9th block"
+  },
+  {
+    "LOCATION": "Jayanagar East"
   },
   {
     "LOCATION": "Jeevanahalli"
   },
   {
-    "LOCATION": "Jeevanbhimanagar"
+    "LOCATION": "Jeevanbheemanagar"
   },
   {
-    "LOCATION": "Jigani"
+    "LOCATION": "Jigani Road"
+  },
+  {
+    "LOCATION": "Jnana Ganga Nagar"
   },
   {
     "LOCATION": "K Channasandra"
   },
   {
-    "LOCATION": "Kallumantapa"
+    "LOCATION": "KG Road"
   },
   {
     "LOCATION": "KHB Colony"
   },
   {
-    "LOCATION": "KG Road"
+    "LOCATION": "KP West"
   },
   {
-    "LOCATION": "KP West"
+    "LOCATION": "KR Puram"
   },
   {
     "LOCATION": "Kacharakanahalli"
   },
   {
-    "LOCATION": "Kamalanagar"
-  },
-  {
-    "LOCATION": "Kanakapura"
-  },
-  {
-    "LOCATION": "Kanakapura Road"
-  },
-  {
-    "LOCATION": "Kanakanagar"
-  },
-  {
     "LOCATION": "Kadabagere"
-  },
-  {
-    "LOCATION": "Karuna Nagar"
-  },
-  {
-    "LOCATION": "Kodihalli"
-  },
-  {
-    "LOCATION": "Kodipur"
-  },
-  {
-    "LOCATION": "Kodathi"
-  },
-  {
-    "LOCATION": "Kodichikkanahalli"
   },
   {
     "LOCATION": "Kadubeesanahalli"
@@ -870,10 +870,10 @@
     "LOCATION": "Kadugondanahalli"
   },
   {
-    "LOCATION": "Kadusonnappanhalli"
+    "LOCATION": "Kadusonnapanahalli"
   },
   {
-    "LOCATION": "Kaggadaspura"
+    "LOCATION": "Kaggadasapura"
   },
   {
     "LOCATION": "Kaikondrahalli"
@@ -891,13 +891,16 @@
     "LOCATION": "Kalkunte"
   },
   {
-    "LOCATION": "Kalyanagar"
+    "LOCATION": "Kallumantapa"
   },
   {
-    "LOCATION": "Kamagondanahalli"
+    "LOCATION": "Kalyan Nagar"
   },
   {
-    "LOCATION": "Kamakshipalya"
+    "LOCATION": "Kamaksipalya"
+  },
+  {
+    "LOCATION": "Kamalanagar"
   },
   {
     "LOCATION": "Kammanahalli"
@@ -909,34 +912,49 @@
     "LOCATION": "Kammasandra Agrahara"
   },
   {
+    "LOCATION": "Kanaka Nagar"
+  },
+  {
+    "LOCATION": "Kanakapura"
+  },
+  {
+    "LOCATION": "Kanakapura Road"
+  },
+  {
     "LOCATION": "Kannamangala"
   },
   {
-    "LOCATION": "Kannur"
+    "LOCATION": "Kannuru"
+  },
+  {
+    "LOCATION": "Kanteerava Nagar"
+  },
+  {
+    "LOCATION": "Karuna Nagar"
   },
   {
     "LOCATION": "Kasabanahalli"
   },
   {
-    "LOCATION": "Kasturinagar"
+    "LOCATION": "Kasturi Nagar"
   },
   {
-    "LOCATION": "Kanteeravanagar"
-  },
-  {
-    "LOCATION": "Kathriguppe"
+    "LOCATION": "Kathreguppe"
   },
   {
     "LOCATION": "Kattigenahalli"
   },
   {
-    "LOCATION": "Kavalbyrasandra"
+    "LOCATION": "Kaval Bairasandra"
   },
   {
     "LOCATION": "Kempapura"
   },
   {
-    "LOCATION": "Kempegowdanagar"
+    "LOCATION": "Kempegowda International Airport"
+  },
+  {
+    "LOCATION": "Kempegowda Nagar"
   },
   {
     "LOCATION": "Kenchanahalli"
@@ -954,16 +972,25 @@
     "LOCATION": "Kengeri Satellite Town"
   },
   {
+    "LOCATION": "Kodathi"
+  },
+  {
+    "LOCATION": "Kodichikknahalli"
+  },
+  {
     "LOCATION": "Kodigehalli"
   },
   {
-    "LOCATION": "Kogilu"
+    "LOCATION": "Kodihalli"
+  },
+  {
+    "LOCATION": "Kodipur"
+  },
+  {
+    "LOCATION": "Kogilu Road"
   },
   {
     "LOCATION": "Kolar-Chikkaballapur Road"
-  },
-  {
-    "LOCATION": "Kolar Road"
   },
   {
     "LOCATION": "Konanakunte"
@@ -975,16 +1002,34 @@
     "LOCATION": "Koramangala"
   },
   {
-    "LOCATION": "Koramangala I Block"
+    "LOCATION": "Koramangala 1st Block"
   },
   {
-    "LOCATION": "Koramangala VI Block"
+    "LOCATION": "Koramangala 2nd Block"
+  },
+  {
+    "LOCATION": "Koramangala 3rd Block"
+  },
+  {
+    "LOCATION": "Koramangala 4th Block"
+  },
+  {
+    "LOCATION": "Koramangala 5th Block"
+  },
+  {
+    "LOCATION": "Koramangala 6th Block"
+  },
+  {
+    "LOCATION": "Koramangala 7th Block"
+  },
+  {
+    "LOCATION": "Koramangala 8th Block"
+  },
+  {
+    "LOCATION": "Koramangala 9th Block"
   },
   {
     "LOCATION": "Kothanur"
-  },
-  {
-    "LOCATION": "KR Puram"
   },
   {
     "LOCATION": "Kudlu Gate"
@@ -1002,22 +1047,28 @@
     "LOCATION": "Kundalahalli"
   },
   {
+    "LOCATION": "LB Shastri Nagar"
+  },
+  {
     "LOCATION": "Laggere"
   },
   {
-    "LOCATION": "Lalbagh"
+    "LOCATION": "Lakkur Main Road"
   },
   {
-    "LOCATION": "Lalbagh West"
+    "LOCATION": "Lalbagh Botanical Garden"
   },
   {
-    "LOCATION": "Langford Town"
+    "LOCATION": "Lalbagh West Gate"
   },
   {
     "LOCATION": "Langford Road"
   },
   {
-    "LOCATION": "LB Shastri Nagar"
+    "LOCATION": "Langford Town"
+  },
+  {
+    "LOCATION": "Lavelle Road"
   },
   {
     "LOCATION": "Legislators Home"
@@ -1026,10 +1077,13 @@
     "LOCATION": "Lingarajapuram"
   },
   {
-    "LOCATION": "MS Palya"
+    "LOCATION": "M.S. Ramaiah Institute of Technology"
   },
   {
-    "LOCATION": "Mysore road"
+    "LOCATION": "MG Road"
+  },
+  {
+    "LOCATION": "MS Palya Bus Stop"
   },
   {
     "LOCATION": "MSR road"
@@ -1038,7 +1092,7 @@
     "LOCATION": "Madhavan Park"
   },
   {
-    "LOCATION": "Madivala"
+    "LOCATION": "Madiwala"
   },
   {
     "LOCATION": "Magadi Road"
@@ -1050,13 +1104,7 @@
     "LOCATION": "Mahalakshmi Layout"
   },
   {
-    "LOCATION": "Mahalakshmipuram Layout"
-  },
-  {
     "LOCATION": "Majestic"
-  },
-  {
-    "LOCATION": "MG Road"
   },
   {
     "LOCATION": "Malkand Lines"
@@ -1065,10 +1113,10 @@
     "LOCATION": "Mallathahalli"
   },
   {
-    "LOCATION": "Mallesh Palaya"
+    "LOCATION": "Malleshpalya"
   },
   {
-    "LOCATION": "Malleswaram"
+    "LOCATION": "Malleshwaram"
   },
   {
     "LOCATION": "Malleswaram West"
@@ -1080,28 +1128,31 @@
     "LOCATION": "Mandalay Lines"
   },
   {
+    "LOCATION": "Mandur"
+  },
+  {
     "LOCATION": "Manek Chowk"
   },
   {
-    "LOCATION": "Marathahalli Colony"
+    "LOCATION": "Maragondanahalli"
   },
   {
     "LOCATION": "Marathahalli"
   },
   {
-    "LOCATION": "Marathahalli-Sarjapur Outer Ring Road"
+    "LOCATION": "Marathahalli Colony"
   },
   {
-    "LOCATION": "Margondanahalli"
+    "LOCATION": "Marathahalli-Sarjapur Outer Ring Road"
   },
   {
     "LOCATION": "Marsur"
   },
   {
-    "LOCATION": "Maruthi Sevanagar"
+    "LOCATION": "Maruthi Nagar"
   },
   {
-    "LOCATION": "Maruthi Nagar"
+    "LOCATION": "Maruthi Sevanagar"
   },
   {
     "LOCATION": "Mathikere"
@@ -1113,10 +1164,10 @@
     "LOCATION": "Mayasandra"
   },
   {
-    "LOCATION": "Medihalli"
+    "LOCATION": "Medi Mallasandra"
   },
   {
-    "LOCATION": "Medimallasandra"
+    "LOCATION": "Medihalli"
   },
   {
     "LOCATION": "Mico Layout"
@@ -1131,16 +1182,13 @@
     "LOCATION": "Mount St Joseph School"
   },
   {
-    "LOCATION": "MSRIT"
-  },
-  {
-    "LOCATION": "Mundur"
-  },
-  {
     "LOCATION": "Munireddy Layout"
   },
   {
     "LOCATION": "Munnekollal"
+  },
+  {
+    "LOCATION": "Murugeshpalya"
   },
   {
     "LOCATION": "Museum Road"
@@ -1149,16 +1197,22 @@
     "LOCATION": "Muthanallur"
   },
   {
-    "LOCATION": "Muthusandra"
+    "LOCATION": "Muthasandra"
   },
   {
-    "LOCATION": "Murugeshpalya"
+    "LOCATION": "Mysore road"
   },
   {
-    "LOCATION": "NAL"
+    "LOCATION": "NR Road"
   },
   {
-    "LOCATION": "Naduvathi"
+    "LOCATION": "NRI Layout"
+  },
+  {
+    "LOCATION": "Nadavathi"
+  },
+  {
+    "LOCATION": "Naganathapura"
   },
   {
     "LOCATION": "Nagarbhavi"
@@ -1167,13 +1221,10 @@
     "LOCATION": "Nagarbhavi Circle"
   },
   {
-    "LOCATION": "Naganathapura"
-  },
-  {
     "LOCATION": "Nagasandra"
   },
   {
-    "LOCATION": "Nagavara"
+    "LOCATION": "Nagawara"
   },
   {
     "LOCATION": "Nallurhalli"
@@ -1194,10 +1245,10 @@
     "LOCATION": "Narasimharaja Colony"
   },
   {
-    "LOCATION": "Narasimjharaja Road"
+    "LOCATION": "Narayan Pillai Street"
   },
   {
-    "LOCATION": "Narayan Pillai Street"
+    "LOCATION": "National Aerospace Laboratories"
   },
   {
     "LOCATION": "National Highway 207"
@@ -1215,19 +1266,22 @@
     "LOCATION": "Nelamangala"
   },
   {
-    "LOCATION": "Neralur"
+    "LOCATION": "Neralur Bus Stop"
   },
   {
     "LOCATION": "New BEL Road"
   },
   {
-    "LOCATION": "New Tharaggupet"
+    "LOCATION": "New Government Electric Factory"
   },
   {
-    "LOCATION": "New Thippasandra"
+    "LOCATION": "New Tharagupet"
   },
   {
-    "LOCATION": "NRI Layout"
+    "LOCATION": "New Tippasandra"
+  },
+  {
+    "LOCATION": "OMBR Layout"
   },
   {
     "LOCATION": "Off Sarjapur Road"
@@ -1239,10 +1293,10 @@
     "LOCATION": "Old Airport Road"
   },
   {
-    "LOCATION": "Old Madras Road"
+    "LOCATION": "Old Baiyyappanahalli"
   },
   {
-    "LOCATION": "OMBR Layout"
+    "LOCATION": "Old Madras Road"
   },
   {
     "LOCATION": "Outer Ring Road"
@@ -1251,7 +1305,7 @@
     "LOCATION": "P&T Colony Kavalbyrasandra"
   },
   {
-    "LOCATION": "Padmanabhnagar"
+    "LOCATION": "Padmanabhanagar"
   },
   {
     "LOCATION": "Pai Layout"
@@ -1263,13 +1317,13 @@
     "LOCATION": "Palace Road"
   },
   {
+    "LOCATION": "Pampa Mahakavi Road"
+  },
+  {
     "LOCATION": "Panathur"
   },
   {
     "LOCATION": "Panduranga Nagar"
-  },
-  {
-    "LOCATION": "Pasmpamahakavi Road"
   },
   {
     "LOCATION": "Pattandur Agrahara"
@@ -1290,22 +1344,49 @@
     "LOCATION": "Prashanth Nagar"
   },
   {
+    "LOCATION": "R.K. Hegde Nagar"
+  },
+  {
+    "LOCATION": "R.M.V. 2nd Stage"
+  },
+  {
+    "LOCATION": "RBI Layout"
+  },
+  {
     "LOCATION": "RT Nagar"
+  },
+  {
+    "LOCATION": "RV Niketan"
   },
   {
     "LOCATION": "Race Course Road"
   },
   {
-    "LOCATION": "Ragavendranagar"
+    "LOCATION": "Raghavendra Nagar"
   },
   {
-    "LOCATION": "Rajajinagar"
+    "LOCATION": "Raj Bhavan"
   },
   {
-    "LOCATION": "Rajajinagar I Block"
+    "LOCATION": "Rajaji Nagar"
   },
   {
-    "LOCATION": "Rajajinagar IV Block"
+    "LOCATION": "Rajaji Nagar 1st Block"
+  },
+  {
+    "LOCATION": "Rajaji Nagar 2nd Block"
+  },
+  {
+    "LOCATION": "Rajaji Nagar 3rd Block"
+  },
+  {
+    "LOCATION": "Rajaji Nagar 4th Block"
+  },
+  {
+    "LOCATION": "Rajaji Nagar 5th Block"
+  },
+  {
+    "LOCATION": "Rajaji Nagar 6th Block"
   },
   {
     "LOCATION": "Rajanakunte"
@@ -1314,22 +1395,7 @@
     "LOCATION": "Rajarajeshwarinagar"
   },
   {
-    "LOCATION": "Rajbhavan"
-  },
-  {
     "LOCATION": "Ramachandrapuram"
-  },
-  {
-    "LOCATION": "Ramohalli"
-  },
-  {
-    "LOCATION": "RK Hegde Nagar"
-  },
-  {
-    "LOCATION": "RBI Layout"
-  },
-  {
-    "LOCATION": "Raj Bhavan"
   },
   {
     "LOCATION": "Ramagondanahalli"
@@ -1338,16 +1404,19 @@
     "LOCATION": "Ramamurthy Nagar"
   },
   {
-    "LOCATION": "Rameshnagar"
+    "LOCATION": "Ramesh Nagar"
+  },
+  {
+    "LOCATION": "Ramohalli"
   },
   {
     "LOCATION": "Rayasandra"
   },
   {
-    "LOCATION": "Richmond Road"
+    "LOCATION": "Residency Road"
   },
   {
-    "LOCATION": "Richmond Town"
+    "LOCATION": "Rest House Road"
   },
   {
     "LOCATION": "Richards Park"
@@ -1356,31 +1425,25 @@
     "LOCATION": "Richards Town"
   },
   {
-    "LOCATION": "Rest House Road"
+    "LOCATION": "Richmond Road"
   },
   {
-    "LOCATION": "Residency Road"
+    "LOCATION": "Richmond Town"
   },
   {
-    "LOCATION": "RMV Extension Stage"
-  },
-  {
-    "LOCATION": "RMV Extension II Stage"
-  },
-  {
-    "LOCATION": "RV Niketan"
+    "LOCATION": "SMV Layout"
   },
   {
     "LOCATION": "Sadaramangala"
   },
   {
-    "LOCATION": "Sadashivanagar"
+    "LOCATION": "Sadashiva Nagar"
   },
   {
     "LOCATION": "Sadduguntepalya"
   },
   {
-    "LOCATION": "Sahakaranagar"
+    "LOCATION": "Sahakara Nagar"
   },
   {
     "LOCATION": "Samandur"
@@ -1389,22 +1452,16 @@
     "LOCATION": "Samethanahalli"
   },
   {
-    "LOCATION": "Sampangiramnagar"
+    "LOCATION": "Sampangiram Nagar"
   },
   {
-    "LOCATION": "Sanjay Nagar"
+    "LOCATION": "Sanjaynagar"
   },
   {
-    "LOCATION": "Sarjapura"
+    "LOCATION": "Sarjapur"
   },
   {
-    "LOCATION": "Siddapura"
-  },
-  {
-    "LOCATION": "Silk Board"
-  },
-  {
-    "LOCATION": "Silver Springs Layout"
+    "LOCATION": "Sarjapur Road"
   },
   {
     "LOCATION": "Sarjapur-Attibele  Road"
@@ -1413,37 +1470,37 @@
     "LOCATION": "Sarjapur-Bagalur  Road"
   },
   {
-    "LOCATION": "Sarjapur Road"
-  },
-  {
-    "LOCATION": "Science Institute"
-  },
-  {
     "LOCATION": "Seegehalli"
   },
   {
-    "LOCATION": "Seshadripuram"
+    "LOCATION": "Shankar Pura"
   },
   {
-    "LOCATION": "Shankarpura"
+    "LOCATION": "Shanthi Nagar Bus Station"
   },
   {
-    "LOCATION": "Shanthinagar"
+    "LOCATION": "Sheshadripuram"
   },
   {
     "LOCATION": "Shettihalli"
   },
   {
-    "LOCATION": "Shigehalli"
+    "LOCATION": "Shivaji Nagar"
   },
   {
-    "LOCATION": "Shivajinagar"
+    "LOCATION": "Siddapura"
   },
   {
-    "LOCATION": "Sidihoskote"
+    "LOCATION": "Sidihosakote"
   },
   {
     "LOCATION": "Sidlaghatta"
+  },
+  {
+    "LOCATION": "Silk Board Flyover"
+  },
+  {
+    "LOCATION": "Silver Springs Layout"
   },
   {
     "LOCATION": "Singanahalli"
@@ -1455,16 +1512,13 @@
     "LOCATION": "Singasandra"
   },
   {
-    "LOCATION": "Sivan Chetty Gardens"
-  },
-  {
-    "LOCATION": "SMV Layout"
+    "LOCATION": "Sivanchetti Gardens"
   },
   {
     "LOCATION": "Solur"
   },
   {
-    "LOCATION": "Someswarapura"
+    "LOCATION": "Someshwarapura"
   },
   {
     "LOCATION": "Sompura"
@@ -1473,40 +1527,46 @@
     "LOCATION": "Sonnenahalli"
   },
   {
-    "LOCATION": "Soundaraya Layout"
+    "LOCATION": "Soundarya Layout"
+  },
+  {
+    "LOCATION": "Sri Avani Shringeri Shankar Mutt"
   },
   {
     "LOCATION": "Sri Jayachamarajendra Road"
   },
   {
-    "LOCATION": "Srirampuram"
-  },
-  {
     "LOCATION": "Srinagar"
   },
   {
-    "LOCATION": "Srinivasanagar"
+    "LOCATION": "Srinivasa Nagar"
+  },
+  {
+    "LOCATION": "Srirampura"
+  },
+  {
+    "LOCATION": "St Thomas Town"
   },
   {
     "LOCATION": "St. John's Road"
   },
   {
-    "LOCATION": "St. John's Medical College"
+    "LOCATION": "St. John\u2019s Medical College"
   },
   {
-    "LOCATION": "St. Thomas Town"
+    "LOCATION": "State Bank Of Mysore, SBM Colony"
   },
   {
-    "LOCATION": "State Bank Of Mysore Colony"
+    "LOCATION": "Sub Foreign Post Office"
   },
   {
-    "LOCATION": "Subhashnagar"
+    "LOCATION": "Subhash Nagar"
   },
   {
     "LOCATION": "Subramanyapura"
   },
   {
-    "LOCATION": "Sudhamanagar"
+    "LOCATION": "Sudhama Nagar"
   },
   {
     "LOCATION": "Sunkadakatte"
@@ -1515,10 +1575,10 @@
     "LOCATION": "Swimming Pool Extension"
   },
   {
-    "LOCATION": "T Dasarahalli"
+    "LOCATION": "TC Palya Road"
   },
   {
-    "LOCATION": "Tarahunise"
+    "LOCATION": "Tarbanahalli"
   },
   {
     "LOCATION": "Tavarekere"
@@ -1530,25 +1590,13 @@
     "LOCATION": "Tavarekere-Magadi Road"
   },
   {
-    "LOCATION": "TC Palya Road"
+    "LOCATION": "Teachers Colony"
   },
   {
     "LOCATION": "Thambuchetty Palya"
   },
   {
-    "LOCATION": "Thyagaraj Nagar"
-  },
-  {
     "LOCATION": "Thammanayakanahalli"
-  },
-  {
-    "LOCATION": "Tharabanahalli"
-  },
-  {
-    "LOCATION": "Tilaknagar"
-  },
-  {
-    "LOCATION": "Thippasandra"
   },
   {
     "LOCATION": "Thanisandra"
@@ -1557,10 +1605,22 @@
     "LOCATION": "Thanisandra Main Road"
   },
   {
+    "LOCATION": "Tharahunise"
+  },
+  {
+    "LOCATION": "Thippasandra"
+  },
+  {
     "LOCATION": "Thubarahalli"
   },
   {
-    "LOCATION": "Thurahalli"
+    "LOCATION": "Thyagaraja Nagar"
+  },
+  {
+    "LOCATION": "Tilaknagar"
+  },
+  {
+    "LOCATION": "Tipu Sultan's Fort"
   },
   {
     "LOCATION": "Training Command IAF"
@@ -1569,16 +1629,13 @@
     "LOCATION": "Tumkur Road"
   },
   {
-    "LOCATION": "Tyagrajnagar"
-  },
-  {
     "LOCATION": "Ullal"
   },
   {
     "LOCATION": "Ullalu Upanagara"
   },
   {
-    "LOCATION": "Uttarahalli"
+    "LOCATION": "Uttarahalli Hobli"
   },
   {
     "LOCATION": "Vanakanahalli"
@@ -1590,7 +1647,7 @@
     "LOCATION": "Varthur Road"
   },
   {
-    "LOCATION": "Vasanthnagar"
+    "LOCATION": "Vasanth Nagar"
   },
   {
     "LOCATION": "Venkatapura"
@@ -1599,37 +1656,34 @@
     "LOCATION": "Venkatarangapura"
   },
   {
-    "LOCATION": "Venkateshapura"
+    "LOCATION": "Venkateshpuram Bus Stop"
   },
   {
     "LOCATION": "Vidhana Soudha"
   },
   {
-    "LOCATION": "Vidyanagara"
+    "LOCATION": "Vidyanagar"
   },
   {
     "LOCATION": "Vidyaranyapura"
   },
   {
-    "LOCATION": "Vigyan Nagar"
+    "LOCATION": "Vignan Nagar"
   },
   {
     "LOCATION": "Vijaya Bank Layout"
   },
   {
-    "LOCATION": "Vijaypura"
-  },
-  {
     "LOCATION": "Vijayanagar"
   },
   {
-    "LOCATION": "Vijayanagar East"
+    "LOCATION": "Vijaypura"
   },
   {
-    "LOCATION": "Vikramnagar"
+    "LOCATION": "Vikram Nagar"
   },
   {
-    "LOCATION": "Vimapura"
+    "LOCATION": "Vimanapura"
   },
   {
     "LOCATION": "Vinayaka Layout"
@@ -1641,19 +1695,19 @@
     "LOCATION": "Virupakshapura"
   },
   {
+    "LOCATION": "Vishwaneedam"
+  },
+  {
     "LOCATION": "Vishweshwaraiah Layout"
   },
   {
-    "LOCATION": "Visveswarapuram"
-  },
-  {
-    "LOCATION": "Viswaneedam"
+    "LOCATION": "Vishweshwarapura"
   },
   {
     "LOCATION": "Vittal Mallya Road"
   },
   {
-    "LOCATION": "Vittalnagar"
+    "LOCATION": "Vittal Nagar"
   },
   {
     "LOCATION": "Viveknagar"
@@ -1663,9 +1717,6 @@
   },
   {
     "LOCATION": "Weavers Colony"
-  },
-  {
-    "LOCATION": "Wind Tunnel Road"
   },
   {
     "LOCATION": "Wheel And Axle Plant"
@@ -1686,6 +1737,9 @@
     "LOCATION": "Wilson Garden"
   },
   {
+    "LOCATION": "Wind Tunnel Road"
+  },
+  {
     "LOCATION": "Yadavanahalli"
   },
   {
@@ -1698,6 +1752,9 @@
     "LOCATION": "Yelahanka"
   },
   {
+    "LOCATION": "Yelahanka Air Force Base"
+  },
+  {
     "LOCATION": "Yelahanka New Town"
   },
   {
@@ -1707,9 +1764,9 @@
     "LOCATION": "Yemalur"
   },
   {
-    "LOCATION": "Yeshwanthpur Bazar"
+    "LOCATION": "Yeshwanthpur"
   },
   {
-    "LOCATION": "Yeswanthpura"
+    "LOCATION": "Yeshwanthpur Bazar"
   }
 ]
