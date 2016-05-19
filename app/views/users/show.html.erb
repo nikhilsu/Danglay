@@ -1,6 +1,6 @@
 <% provide(:title, @user.name) %>
 <% provide(:banner) do %>
-    <%= render partial: 'layouts/secondary_banner',
+    <%= render partial: 'layouts/banners/default',
                object: { banner_heading: @user.name,
                          banner_paragraph: 'ThoughtWorks, Bangalore'}%>
 <% end %>

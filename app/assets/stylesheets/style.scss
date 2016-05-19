@@ -409,7 +409,7 @@ label.label-blue {
 }
 
 .hero-module {
-  background: $dark url(image-path('banner.jpg')) no-repeat 50%;
+  background: $dark url(image-path('home-page-banner.jpg')) no-repeat 50%;
   background-size: cover;
   min-height: 400px;
   text-align: center;
@@ -499,8 +499,8 @@ label.label-blue {
 // sub header style
 .sub-header {
   background-color: #647482;
-  background-image:url(image-path('default-secondary-banner.jpg'));
-  background-position: 0 30%;
+  background-image:url(image-path('user-profile-banner.jpg'));
+  background-position: 0 55%;
   padding: 25px 0;
   background-size: cover;
   position: relative;
@@ -554,18 +554,23 @@ label.label-blue {
   }
 
   &.create-cabpool {
-    background-image:url(image-path('sub-header-banner.jpeg'));
+    background-image:url(image-path('create-cabpool-banner.jpeg'));
     background-position: 0 67%;
   }
 
   &.your-cabpool {
-    background-image:url(image-path('response-pages-banner.jpg'));
+    background-image:url(image-path('myride-banner.jpg'));
     background-position: 0 40%;
   }
 
   &.static-pages {
     background-image:url(image-path('static-pages-banner.jpg'));
     background-position: 0 40%;
+  }
+
+  &.admin-pages {
+    background-image:url(image-path('admin-pages-banner.jpg'));
+    background-position: 0 68%;
   }
 }
 // Admin tab
@@ -629,7 +634,7 @@ label.label-blue {
 
 // Email Response Pages style
 .response-page {
-  background: $dark url(image-path('response-pages-banner.jpg'));
+  background: $dark url(image-path('myride-banner.jpg'));
   background-position: 50%;
   background-size: cover;
   position: relative;

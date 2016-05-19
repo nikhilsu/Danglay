@@ -1,6 +1,6 @@
 <% provide(:title, 'Update Profile') %>
 <% provide(:banner) do %>
-    <%= render partial: 'layouts/secondary_banner',
+    <%= render partial: 'layouts/banners/default',
                object: { banner_heading: "Hi, #{@user.name}",
                          banner_paragraph: "You have signed in with #{@user.email}.
                                             In order to proceed, please complete your details below."

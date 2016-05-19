@@ -1,6 +1,6 @@
 <% provide(:title, 'Edit Profile') %>
 <% provide(:banner) do %>
-    <%= render partial: 'layouts/secondary_banner',
+    <%= render partial: 'layouts/banners/default',
                object: { banner_heading: "Hi, #{@user.name}",
                          banner_paragraph: 'In order to edit your details please fill in the following fields.'
                }%>
