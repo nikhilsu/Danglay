@@ -23,9 +23,9 @@ module CabpoolsHelper
 
   def image_to_be_displayed cabpool
     if cabpool.company_provided_cab?
-      "tw.png"
+      'tw.png'
     elsif cabpool.external_cab?
-      "ola.png"
+      'ola.png'
     else
       'carpool.png'
     end

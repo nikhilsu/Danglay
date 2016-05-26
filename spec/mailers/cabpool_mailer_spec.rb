@@ -1,7 +1,7 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe CabpoolMailer, type: :mailer do
-  describe "cabpool_join_request" do
+  describe 'cabpool_join_request' do
 
     let(:mail) {
       request = build_stubbed(:request)
@@ -14,7 +14,7 @@ RSpec.describe CabpoolMailer, type: :mailer do
     it 'renders the headers' do
       expect(mail.subject).to eq('Someone wants to join your carpool!')
       expect(mail.to).to eq([@cabpool_user.email])
-      expect(mail.from).to eq(['danglay@thoughtworks.com'])
+      expect(mail.from).to eq(['danglay@thoughtworks-labs.net'])
     end
 
     it 'renders the body' do
@@ -32,7 +32,7 @@ RSpec.describe CabpoolMailer, type: :mailer do
     it 'renders the headers' do
       expect(mail.subject).to eq('Your cabpool request has been approved!')
       expect(mail.to).to eq([@approved_user.email])
-      expect(mail.from).to eq(['danglay@thoughtworks.com'])
+      expect(mail.from).to eq(['danglay@thoughtworks-labs.net'])
     end
 
     it 'renders the body' do
@@ -50,7 +50,7 @@ RSpec.describe CabpoolMailer, type: :mailer do
     it 'renders the headers' do
       expect(mail.subject).to eq('Your cabpool request has been rejected')
       expect(mail.to).to eq([@rejected_user.email])
-      expect(mail.from).to eq(['danglay@thoughtworks.com'])
+      expect(mail.from).to eq(['danglay@thoughtworks-labs.net'])
     end
 
     it 'renders the body' do
@@ -68,7 +68,7 @@ RSpec.describe CabpoolMailer, type: :mailer do
     it 'should render the headers' do
       expect(mail.subject).to eq('Someone has left your cabpool!')
       expect(mail.to).to eq([@user.email])
-      expect(mail.from).to eq(['danglay@thoughtworks.com'])
+      expect(mail.from).to eq(['danglay@thoughtworks-labs.net'])
     end
 
     it 'should render the body' do

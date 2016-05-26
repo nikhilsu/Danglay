@@ -268,14 +268,14 @@ RSpec.describe CabpoolsHelper, type: :helper do
     cabpool = build(:cabpool)
     cabpool.cabpool_type = :company_provided_cab
 
-    expect(image_to_be_displayed(cabpool)).to eq "tw.png"
+    expect(image_to_be_displayed(cabpool)).to eq 'tw.png'
   end
 
   it 'should return ola.png when cabpool is of type external cab' do
     cabpool = build(:cabpool)
     cabpool.cabpool_type = :external_cab
 
-    expect(image_to_be_displayed(cabpool)).to eq "ola.png"
+    expect(image_to_be_displayed(cabpool)).to eq 'ola.png'
   end
 
   it 'should return carpool.png when cabpool is of type own cab cab' do
