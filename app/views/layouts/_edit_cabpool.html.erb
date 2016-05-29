@@ -66,6 +66,6 @@
     <div id="map" class="map"></div>
   </div>
   <script async defer
-          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuETg3lyde0IR6XSO1WhVZY69bAp5owcs&callback=initMap_show">
+          src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.secrets[:map_api_key] %>&callback=initMap_show">
   </script>
 </div>
