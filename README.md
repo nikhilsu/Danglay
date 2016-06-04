@@ -1,3 +1,5 @@
+[![Build Status](https://snap-ci.com/cHvYW_LvRxgkaNF41a-TLR8MxYsoqkJHayKumYgwxA0/build_image)](https://snap-ci.com/ThoughtWorksInc/danglay/branch/master)
+
 README
 ======
 # Problem Description:
