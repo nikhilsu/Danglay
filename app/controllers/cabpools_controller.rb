@@ -31,7 +31,7 @@ class CabpoolsController < ApplicationController
       associations_of_the_cabpool = {localities: LocalityService.fetch_all_localities(locality_ids), users: [current_user]}
       response = CabpoolService.persist(@cabpool, associations_of_the_cabpool)
       if response.success?
-        flash[:success] = "You have successfully created your cab pool. Please check the 'MyRide' tab for details."
+        flash[:success] = 'You have successfully created your cab pool.'
         redirect_to your_cabpools_path
       else
         flash[:danger] = 'Cannot create because of the following errors'

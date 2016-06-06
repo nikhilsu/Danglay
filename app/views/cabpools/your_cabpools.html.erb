@@ -27,7 +27,7 @@
               <div class="col-20"><span><%= users_cabpool.available_slots %></span></div>
               <div class="col-20">
                 <%= form_for(users_cabpool, url: 'leave_cabpool', method: 'post', :html => {onsubmit: "return popup_confirmation(this, 'Are you sure you want to Leave your Cabpool?');"}) do |f| %>
-                  <%= f.button button(users_cabpool) %>
+                  <%= f.button button_info(users_cabpool)[:name] %>
                 <% end %>
                 <% if !users_cabpool.company_provided_cab? %>
                   <%= form_for(users_cabpool, url: "cabpool/#{users_cabpool.id}/edit", method: 'get') do |f| %>
@@ -80,7 +80,7 @@
 
                     <div class="route-info"></div>
                       <%= form_for(users_cabpool, url: 'leave_cabpool', method: 'post', :html => {onsubmit: "return popup_confirmation(this, 'Are you sure you want to Leave your Cabpool?');"}) do |f| %>
-                        <%= f.button button(users_cabpool), class: 'btn-ride' %>
+                        <%= f.button button_info(users_cabpool)[:name], class: 'btn-ride' %>
                       <% end %>
                   <% if !users_cabpool.company_provided_cab? %>
                     <%= form_for(users_cabpool, url: "cabpool/#{users_cabpool.id}/edit", method: 'get') do |f| %>

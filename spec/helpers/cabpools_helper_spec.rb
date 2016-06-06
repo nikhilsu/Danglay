@@ -24,36 +24,6 @@ RSpec.describe CabpoolsHelper, type: :helper do
     expect(formatted_time(cabpool.timeout)).to eq '12:01 PM'
   end
 
-  it "should return false when user is not registered" do
-    cabpool = build(:cabpool)
-    expect(requested_user?(cabpool)).to be false
-  end
-
-  it 'should return false when user has requested for a particular cab pool' do
-    user = build(:user)
-    names = user.name.split(' ')
-    session[:FirstName] = names[0]
-    session[:LastName] = names[1]
-    session[:Email] = user.email
-    cabpool = build(:cabpool)
-    allow(User).to receive(:find_by_email).and_return(user)
-    expect(requested_user?(cabpool)).to be false
-  end
-
-  it 'should return true when user has requested for a particular cab pool' do
-    user = build(:user)
-    names = user.name.split(' ')
-    session[:FirstName] = names[0]
-    session[:LastName] = names[1]
-    session[:Email] = user.email
-    cabpool = build(:cabpool)
-    request = build(:request)
-    user.requests = [request]
-    user.requested_cabpools = [cabpool]
-    allow(User).to receive(:find_by_email).and_return(user)
-    expect(requested_user?(cabpool)).to be true
-  end
-
   it 'should return destination as Koramangala' do
     expect(destination).to eq 'Koramangala'
   end
@@ -127,7 +97,7 @@ RSpec.describe CabpoolsHelper, type: :helper do
     cabpool = build(:cabpool)
     user.requested_cabpools << cabpool
     allow(User).to receive(:find_by_email).and_return(user)
-    expect(users_requested_cabpool).to be user.requested_cabpools
+    expect(current_users_requested_cabpool).to be user.requested_cabpools
   end
 
   it 'should return true if current user has requested for cabpool' do
@@ -172,96 +142,52 @@ RSpec.describe CabpoolsHelper, type: :helper do
     session[:LastName] = names[1]
     session[:Email] = user.email
     allow(User).to receive(:find_by_email).and_return(user)
-
     expect(received_response_for_cabpool_request?).to be true
   end
 
-  it 'should return no button if user is not registered and no available slots' do
-    cabpool = double()
-    @current_user = nil
-    session.delete(:Email)
+  it 'should return a Requested button which is disabled when the current user has requested for the cabpool' do
+    requesting_user = build(:user)
+    joining_cabpool = build(:cabpool)
+    allow(requesting_user).to receive(:requested_cabpools).and_return([joining_cabpool])
+    allow_any_instance_of(SessionsHelper).to receive(:current_user).and_return(requesting_user)
+
+    expect(button_info(joining_cabpool)[:name]).to eq 'Requested'
+    expect(button_info(joining_cabpool)[:disabled]).to be true
+  end
+
+  it 'should return a Leave Ride button which is not disabled when the current user is part of the cabpool' do
+    user = build(:user)
+    cabpool = build(:cabpool)
+    user.cabpool = cabpool
+    allow_any_instance_of(SessionsHelper).to receive(:current_user).and_return(user)
+
+    expect(button_info(cabpool)[:name]).to eq 'Leave Ride'
+    expect(button_info(cabpool)[:disabled]).to be false
+  end
+
+  it 'should return a Join Ride button which is not disabled the cabpool has seats available' do
+    user = build(:user)
+    cabpool = build(:cabpool)
+    allow(cabpool).to receive(:available_slots).and_return(1)
+    allow_any_instance_of(SessionsHelper).to receive(:current_user).and_return(user)
+
+    expect(button_info(cabpool)[:name]).to eq 'Join Ride'
+    expect(button_info(cabpool)[:disabled]).to be false
+  end
+
+  it 'should return a Ride Full button which is disabled when the cabpool has no seats available' do
+    user = build(:user)
+    cabpool = build(:cabpool)
     allow(cabpool).to receive(:available_slots).and_return(0)
-    expect(button(cabpool)).to eq nil
+    allow_any_instance_of(SessionsHelper).to receive(:current_user).and_return(user)
+
+    expect(button_info(cabpool)[:name]).to eq 'Ride Full'
+    expect(button_info(cabpool)[:disabled]).to be true
   end
 
-  it 'should show Join button if user is not registered and 2 available slots' do
-    cabpool = double()
-    @current_user = nil
-    session.delete(:Email)
-    allow(cabpool).to receive(:available_slots).and_return(2)
-    expect(button(cabpool)).to eq "Join Ride"
-  end
-
-  it 'should return requested as the button to be shown if cabpool is requested by user' do
-    cabpool = double()
-    user = build(:user)
-    names = user.name.split(' ')
-    session[:FirstName] = names[0]
-    session[:LastName] = names[1]
-    session[:Email] = user.email
-    allow(User).to receive(:find_by_email).and_return(user)
-    allow(user).to receive(:requested_cabpools).and_return([cabpool])
-    expect(button(cabpool)).to eq "Requested"
-  end
-
-  it 'should return leave button if user is of the same cabpool' do
-    cabpool = double()
-    user = build(:user)
-    names = user.name.split(' ')
-    session[:FirstName] = names[0]
-    session[:LastName] = names[1]
-    session[:Email] = user.email
-    allow(User).to receive(:find_by_email).and_return(user)
-    allow(user).to receive(:requested_cabpools).and_return([])
-    allow(current_user).to receive(:cabpool).and_return(cabpool)
-    allow(cabpool).to receive(:available_slots).and_return(2)
-    expect(button(cabpool)).to eq "Leave Ride"
-  end
-
-  it 'should return no button if cabpool has no available slots' do
-    cabpool = double()
-    another_cabpool = double()
-    user = build(:user)
-    names = user.name.split(' ')
-    session[:FirstName] = names[0]
-    session[:LastName] = names[1]
-    session[:Email] = user.email
-    allow(User).to receive(:find_by_email).and_return(user)
-    allow(user).to receive(:requested_cabpools).and_return([])
-    allow(current_user).to receive(:cabpool).and_return(another_cabpool)
-    allow(cabpool).to receive(:available_slots).and_return(0)
-    expect(button(cabpool)).to eq nil
-  end
-
-  it 'should return join button if user has multiple requests' do
-    cabpool = double()
-    two_cabpool = double()
-    three_cabpool = double()
-    user = build(:user)
-    names = user.name.split(' ')
-    session[:FirstName] = names[0]
-    session[:LastName] = names[1]
-    session[:Email] = user.email
-    allow(User).to receive(:find_by_email).and_return(user)
-    allow(user).to receive(:requested_cabpools).and_return([three_cabpool])
-    allow(current_user).to receive(:cabpool).and_return(two_cabpool)
-    allow(cabpool).to receive(:available_slots).and_return(2)
-    expect(button(cabpool)).to eq "Join Ride"
-  end
-
-  it 'should show join button when current user has no requests, has another assigned cabpool, and available slots present' do
-    cabpool = double()
-    two_cabpool = double()
-    user = build(:user)
-    names = user.name.split(' ')
-    session[:FirstName] = names[0]
-    session[:LastName] = names[1]
-    session[:Email] = user.email
-    allow(User).to receive(:find_by_email).and_return(user)
-    allow(user).to receive(:requested_cabpools).and_return([])
-    allow(current_user).to receive(:cabpool).and_return(two_cabpool)
-    allow(cabpool).to receive(:available_slots).and_return(2)
-    expect(button(cabpool)).to eq "Join Ride"
+  it 'should return no button when the cabpool does not exists' do
+    cabpool_that_does_not_exists = nil
+    expect(button_info(cabpool_that_does_not_exists)).to be nil
   end
 
   it 'should return tw.png when cabpool is of type company provided cab' do

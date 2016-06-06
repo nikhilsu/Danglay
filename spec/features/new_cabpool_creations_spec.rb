@@ -40,7 +40,7 @@ RSpec.feature "NewCabpoolCreations", type: :feature do
     page.set_rack_session(Email: 'sandeeph@thoughtworks.com')
 
     visit root_path
-    all("button[name='Join Ride']")[0].click
+    click_button('Join Ride', match: :first)
     expect(page).to have_css('.popup.is-visible')
     expect(page.body).to have_content("Are you sure you want to join this cabpool? This would send a request to all members of cabpool")
     page.find('#yes').click

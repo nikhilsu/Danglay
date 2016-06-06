@@ -1,10 +1,5 @@
 <%= form_for(join_cabpool[:cabpool], url: '/cabpools/join', method: 'post', :html => join_cabpool[:popup_action_js]) do |f| %>
     <%= f.hidden_field(:id) %>
-    <% if !button(join_cabpool[:cabpool]).nil? %>
-        <% if button(join_cabpool[:cabpool]) == "Requested" %>
-            <%= f.button button(join_cabpool[:cabpool]), class: join_cabpool[:join_button_style], disabled: true %>
-        <% else %>
-            <%= f.button button(join_cabpool[:cabpool]), class: join_cabpool[:join_button_style], name: 'Join Ride' %>
-        <% end %>
-    <% end %>
+    <% button = button_info(join_cabpool[:cabpool]) %>
+    <%= f.button button[:name], class: join_cabpool[:join_button_style], disabled: button[:disabled]%>
 <% end %>

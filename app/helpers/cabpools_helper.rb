@@ -13,14 +13,6 @@ module CabpoolsHelper
     end
   end
 
-  def requested_user?(cabpool)
-    if !is_registered?
-      false
-    else
-      current_user.requested_cabpools.include?(cabpool)
-    end
-  end
-
   def image_to_be_displayed cabpool
     if cabpool.company_provided_cab?
       'tw.png'
@@ -41,16 +33,15 @@ module CabpoolsHelper
   end
 
   def received_response_for_cabpool_request?
-    user = User.find_by_email(session[:Email])
-    !user.status.nil?
+    !current_user.status.nil?
   end
 
   def user_requested_cabpool_exists?
-    user_requested_cabpool = users_requested_cabpool
+    user_requested_cabpool = current_users_requested_cabpool
     !user_requested_cabpool.empty?
   end
 
-  def users_requested_cabpool
+  def current_users_requested_cabpool
     user = current_user
     if !user.nil?
       user.requested_cabpools
@@ -66,18 +57,16 @@ module CabpoolsHelper
     end
   end
 
-  def button(cabpool)
-    if is_registered?
-      if requested_user?(cabpool)
-        'Requested'
-      elsif current_user.cabpool == cabpool
-        'Leave Ride'
+  def button_info(cabpool)
+    if !cabpool.nil?
+      if current_users_requested_cabpool.include?(cabpool)
+        return { name: 'Requested', disabled: true }
+      elsif users_cabpool == cabpool
+        return { name: 'Leave Ride', disabled: false }
       elsif cabpool.available_slots > 0
-        'Join Ride'
-      end
-    else
-      if cabpool.available_slots > 0
-        'Join Ride'
+        return {name: 'Join Ride', disabled: false}
+      elsif cabpool.available_slots <= 0
+        return {name: 'Ride Full', disabled: true}
       end
     end
   end
