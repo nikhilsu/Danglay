@@ -12,6 +12,7 @@
       <%= form_for(@user, layout: :horizontal) do |f| %>
           <div class="col-50 center-form">
             <label class= "required" for="employee_id"> Employee ID </label>
+            <div class = "empid-info"> Employee ID is not editable. Please ensure that you have entered it correctly before submitting.</div>
             <%= f.text_field :emp_id %>
             <%= render 'shared/error_messages', errors: @user.errors[:emp_id] if !@user.errors[:emp_id].empty? %>
            <label class= "required" for="address"> Address </label>

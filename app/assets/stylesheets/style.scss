@@ -1642,3 +1642,12 @@ label.required:after {
   color: $calm;
   text-decoration: none;
 }
+
+.empid-info {
+  max-width: 100%;
+  font-weight: lighter;
+  font-size: 12px;
+  @media screen and (min-width:768px) {
+    max-width: 300px;
+  }
+}
