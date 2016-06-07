@@ -34,7 +34,7 @@ RSpec.describe Admin::UsersController, type: :controller do
       user = assigns(:user)
       allow(user).to receive(:save).and_return(true)
       expect(user.errors.any?).to be false
-      expect(response).to redirect_to root_path
+      expect(response).to redirect_to admin_path
     end
 
  end

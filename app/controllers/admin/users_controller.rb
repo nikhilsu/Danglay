@@ -9,7 +9,7 @@ class Admin::UsersController < Admin::AdminController
     @user = User.new(user_params)
     if @user.save
       flash[:success] = "The Profile has been updated"
-      redirect_back_or(root_path)
+      redirect_to admin_path
     else
       @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
       render 'admin/users/new'
