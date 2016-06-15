@@ -15,11 +15,11 @@ module CabpoolsHelper
 
   def image_to_be_displayed cabpool
     if cabpool.company_provided_cab?
-      'tw.png'
+      'thoughtworks.png'
     elsif cabpool.external_cab?
-      'ola.png'
+      'external.png'
     else
-      'carpool.png'
+      'personal.png'
     end
   end
 
