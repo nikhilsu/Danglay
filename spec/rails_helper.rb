@@ -12,6 +12,7 @@ require 'simplecov'
 require 'database_cleaner'
 require 'capybara/poltergeist'
 
+# TODO: Better to move this into the '.simplecov' file at the project root
 SimpleCov.start do
   add_filter 'spec/'
   add_group 'Controllers', 'app/controllers'
@@ -55,12 +56,14 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   config.before(:suite) do
+    # TODO: Move this to separate file - 'spec_helpers/database_cleaner.rb'
     DatabaseCleaner.clean_with(:truncation)
     Rails.application.load_seed # loading seeds
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  # TODO: Move into separate file; also turn on FG-linting
   config.include FactoryGirl::Syntax::Methods
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your

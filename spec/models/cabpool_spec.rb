@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Cabpool, type: :model do
-
+# TODO: Rewrite with shoulda-matchers gem so that these become one-liners
   it 'Number of people should not be empty' do
     cabpool = build(:cabpool, :without_number_of_people)
     expect(cabpool.valid?).to be false

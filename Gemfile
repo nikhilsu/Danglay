@@ -1,5 +1,11 @@
 source 'https://rubygems.org'
+
 ruby '2.2.3'
+
+# TODO: Lock down all gems to specific versions. Upgrade should be a conscious effort by the devs so that they can be completely tested
+# in various envs before getting pushed to prod
+# TODO: Use annotate gem
+# TODO: Explicitly require some gems as false so that startup time is optimized in dev mode.
 gem 'rails',                   '4.2.5.2'
 gem 'bcrypt'
 gem 'faker',                   '1.4.2'

@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Request, type: :model do
+  # TODO: Rewrite with shoulda-matchers gem so that these become one-liners
 
   it "should have a user" do
     request = build(:request, :without_user)

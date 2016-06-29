@@ -11,10 +11,10 @@ README
   **1. Postgres 9.4.5**
 
 *    Mac OS X: https://github.com/PostgresApp/PostgresApp/releases
-    Ubuntu:Add the version of postgres you want from the repository by doing the given in Apt Repository http://www.postgresql.org/download/linux/ubuntu/
+*    Ubuntu:Add the version of postgres you want from the repository by doing the given in Apt Repository http://www.postgresql.org/download/linux/ubuntu/
         >   $apt-get install postgresql
 
-**2. Rbenv 0.4.0** 
+**2. Rbenv 0.4.0**
 
 **3. Ruby 2.2.3**
 
@@ -25,14 +25,17 @@ README
 # Building the application
   **Run the following commands to build the application.**
 
-* $cd <path-to-project-directory>
-* $bundle update
-* $bundle install
-* $bundle exec rake all_test
+```bash
+cd <path-to-project-directory>
+bundle install
+bundle exec rake all_test
+```
 
 ## Running the application ##
 **Run the following command to view the application in the browser.**
 
-* $rails server
+```bash
+rails server
+```
 
-**Now you can view the application at localhost:3000**
+**Now you can view the application at `http://localhost:3000`**

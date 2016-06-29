@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
 
   private
 
+  # TODO: Can this be a single-line validates method/macro call?
   def validate_phone_no
     if phone_no.nil?
       return

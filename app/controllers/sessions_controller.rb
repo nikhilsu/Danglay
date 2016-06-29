@@ -2,6 +2,7 @@ class SessionsController < ApplicationController
 
   def destroy
     delete_session
+    # TODO: Move this to env-specific config files
     if Rails.env == 'staging' or Rails.env == 'production'
       redirect_to 'https://thoughtworks.okta.com'
     else

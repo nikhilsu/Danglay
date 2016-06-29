@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Locality, type: :model do
+  # TODO: Rewrite with shoulda-matchers gem so that these become one-liners
   it 'name should not be empty' do
     locality = build(:locality, :without_name)
     expect(locality.valid?).to be false

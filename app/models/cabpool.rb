@@ -70,16 +70,18 @@ class Cabpool < ActiveRecord::Base
 
   def invalidate_more_than_five_localities
     if localities.length > 5
-      errors.add(:localities, 'Cannot have More than 5 localities.')
+      errors.add(:localities, 'Cannot have more than 5 localities.')
     end
   end
 
+  # TODO: validates_presence_of?
   def invalidate_empty_cabpool_type
     if cabpool_type.nil?
       errors.add(:cabpool_type, 'This should not be empty.')
     end
   end
 
+  # TODO: validates_presence_of?
   def invalidate_empty_users
     if users.length == 0
       errors.add(:users, 'Users Cannot be empty')
