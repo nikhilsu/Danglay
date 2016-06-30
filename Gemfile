@@ -39,6 +39,7 @@ group :development, :test do
   gem 'web-console',              '2.1.3'
   gem 'rspec-rails',              '3.4.2'
   gem 'rspec-activemodel-mocks',  '1.0.3'
+  gem 'rspec-mocks',              '3.4.1'
   gem 'guard-rspec',              '4.7.2', require: false
   gem 'guard-rails',              '~> 0.7.2', require: false
   gem 'fuubar',                   '2.0.0'

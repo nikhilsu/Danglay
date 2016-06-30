@@ -5,8 +5,9 @@ RSpec.describe LocalityService, type: :service do
   it 'gets all the localities using the ids' do
     locality1 = build(:locality)
     locality2 = build(:locality, :another_locality)
-    expect(Locality).to receive(:find_by_id).with(1).and_return(locality1)
-    expect(Locality).to receive(:find_by_id).with(2).and_return(locality2)
+    mock_localities = double("mock localities")
+    expect(Locality).to receive(:where).with(id: [1, 2]).and_return(mock_localities)
+    expect(mock_localities).to receive(:all).and_return([locality1, locality2])
 
     localities = described_class.fetch_all_localities([1, 2])
 
@@ -15,8 +16,9 @@ RSpec.describe LocalityService, type: :service do
 
   it 'gets only localities that exists' do
     locality1 = build(:locality)
-    expect(Locality).to receive(:find_by_id).with(1).and_return(locality1)
-    expect(Locality).to receive(:find_by_id).with(2).and_return(nil)
+    mock_localities = double("mock localities")
+    expect(Locality).to receive(:where).with(id: [1, 2]).and_return(mock_localities)
+    expect(mock_localities).to receive(:all).and_return([locality1])
 
     localities = described_class.fetch_all_localities([1, 2])
 

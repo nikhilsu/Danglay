@@ -626,6 +626,7 @@ DEPENDENCIES
   rails (= 4.2.6)
   rails_12factor (= 0.0.2)
   rspec-activemodel-mocks (= 1.0.3)
+  rspec-mocks (= 3.4.1)
   rspec-rails (= 3.4.2)
   rubocop (~> 0.41.1)
   rubocop-rspec (~> 1.5)

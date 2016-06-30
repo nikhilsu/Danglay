@@ -96,7 +96,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     allow(second_user).to receive(:save).and_return(true)
     first_locality = build(:locality)
     first_locality.id = 1
-    expect(Locality).to receive(:find_by_id).with(first_locality.id.to_s).and_return(first_locality)
+    expect(LocalityService).to receive(:fetch_all_localities).with([first_locality.id.to_s]).and_return([first_locality])
     expect(UserService).to receive(:fetch_all_users).with([first_user.id.to_s, second_user.id.to_s]).and_return([first_user, first_user])
 
     expect(CabpoolService).to receive(:persist) do
