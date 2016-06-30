@@ -3,27 +3,14 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
+require 'simplecov'
 require 'spec_helper'
 require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/rspec'
 require 'webmock/rspec'
-require 'simplecov'
 require 'database_cleaner'
 require 'capybara/poltergeist'
-
-# TODO: Better to move this into the '.simplecov' file at the project root
-SimpleCov.start do
-  add_filter 'spec/'
-  add_group 'Controllers', 'app/controllers'
-  add_group 'Models', 'app/models'
-  add_group 'Helpers', 'app/helpers'
-  add_group 'Mailers', 'app/mailers'
-  add_group 'Views', 'app/views'
-end if ENV['COVERAGE']
-
-SimpleCov.minimum_coverage 80
-SimpleCov.maximum_coverage_drop 5
 
 require "rack_session_access/capybara"
 WebMock.disable_net_connect!(allow_localhost: true)
