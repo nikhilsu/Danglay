@@ -8,7 +8,6 @@ coverage
 
 .idea/
 .DS_Store
-.ruby-version
 
 
 # Ignore cordova mobile platforms and plugins

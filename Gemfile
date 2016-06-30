@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.3'
+ruby '2.3.0'
 
 # TODO: Lock down all gems to specific versions. Upgrade should be a conscious effort by the devs so that they can be completely tested
 # in various envs before getting pushed to prod

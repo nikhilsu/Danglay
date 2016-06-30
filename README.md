@@ -16,7 +16,7 @@ README
 
 **2. Rbenv 0.4.0**
 
-**3. Ruby 2.2.3**
+**3. Ruby 2.3.0**
 
 **4. Rails 4.2.5**
 * Follow the steps provided in the following link Mac OS X: https://gorails.com/setup/osx/10.10-yosemite.
