@@ -32,7 +32,7 @@ gem 'font-awesome-sass',       '4.6.2'
 
 group :development, :test do
   gem 'annotate',                 '~> 2.7.0'
-  gem 'spring',                   '1.7.1'
+  # gem 'spring',                   '1.7.1'
   gem 'quiet_assets',             '~> 1.1.0'
   gem 'bundler-audit',            '0.5.0', require: false
   gem 'byebug',                   '3.4.0'
