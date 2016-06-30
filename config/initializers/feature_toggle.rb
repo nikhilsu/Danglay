@@ -1,4 +1,5 @@
-#All toggles as per the environment should be defined here.
+# frozen_string_literal: true
+# All toggles as per the environment should be defined here.
 
 FEATURES = FeatureToggle.load(File.join(Rails.root, 'config', 'features.yml'))
 

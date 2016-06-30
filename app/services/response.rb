@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Response
   attr_reader :data, :message
   def initialize(data, message)

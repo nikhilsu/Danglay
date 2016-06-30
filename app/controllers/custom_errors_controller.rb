@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CustomErrorsController < ApplicationController
   def page_not_found
     render 'not_found_error', status: 404

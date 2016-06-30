@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # == Schema Information
 #
 # Table name: cabpools
@@ -16,7 +17,6 @@
 require 'rails_helper'
 
 RSpec.describe CabpoolsController, type: :controller do
-
   include SessionsHelper
 
   before(:each) do
@@ -28,7 +28,7 @@ RSpec.describe CabpoolsController, type: :controller do
     ActionMailer::Base.deliveries.clear
   end
 
-  it 'should get the show page with a paginated list of all the cabpools' do
+  it 'gets the show page with a paginated list of all the cabpools' do
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
     cabpool = build(:cabpool)
@@ -60,7 +60,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect_any_instance_of(CabpoolsHelper).to receive(:sort_by_available_seats_in_cabpool).and_return(cabpools_of_a_particular_locality)
     expect(cabpools_of_a_particular_locality).to receive(:paginate).and_return(cabpools_of_a_particular_locality)
 
-    post :show, localities: {locality_id: locality.id}
+    post :show, localities: { locality_id: locality.id }
 
     expect(response).to render_template('show')
     expect(assigns(:cabpools)).to eq cabpools_of_a_particular_locality
@@ -86,33 +86,33 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(flash[:danger]).to eq 'Select a locality'
   end
 
-  it 'should render create cabpools page' do
+  it 'renders create cabpools page' do
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
     get :new
     expect(response).to render_template('new')
   end
 
-  it 'should render new cabpool page with errors when invalid params are passed' do
+  it 'renders new cabpool page with errors when invalid params are passed' do
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
-    post :create, :cabpool => {gibbrish: 'hello'}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:a => '1'}
+    post :create, cabpool: { gibbrish: 'hello' }, cabpool_type: { cabpool_type_two_id: '2' }, localities: { a: '1' }
     cabpool = assigns(:cabpool)
     expect(response).to render_template 'cabpools/new'
     expect(cabpool.errors.any?).to be true
   end
 
-  it 'should render new cabpool page with errors when no cabpool_type is given' do
+  it 'renders new cabpool page with errors when no cabpool_type is given' do
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "12:30"}, :cabpool_type => {:cabpool_type_one_id => ''}, :localities => {:locality_one_id => ''}
+    post :create, cabpool: { number_of_people: 2, timein: '9:30', timeout: '12:30' }, cabpool_type: { cabpool_type_one_id: '' }, localities: { locality_one_id: '' }
     cabpool = assigns(:cabpool)
     expect(response).to render_template 'cabpools/new'
 
     expect(cabpool.errors.any?).to be true
   end
 
-  it 'should render new carpool page with errors cabpool type is not company provided persistence fails' do
+  it 'renders new carpool page with errors cabpool type is not company provided persistence fails' do
     user = build(:user)
     expect(User).to receive(:find_by_email).and_return(user)
     duplicate_locality = build(:locality)
@@ -121,13 +121,13 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(LocalityService).to receive(:fetch_all_localities).with([duplicate_locality.id.to_s, duplicate_locality.id.to_s]).and_return([duplicate_locality, duplicate_locality])
 
     expect(CabpoolService).to receive(:persist).and_return(failure)
-    post :create, :cabpool => {number_of_people: 2, timein: '9:30', timeout: '12:30'}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => '1', :locality_two_id => '1'}
+    post :create, cabpool: { number_of_people: 2, timein: '9:30', timeout: '12:30' }, cabpool_type: { cabpool_type_two_id: '2' }, localities: { locality_one_id: '1', locality_two_id: '1' }
 
     expect(response).to render_template 'cabpools/new'
     expect(flash[:danger]).to eq 'Cannot create because of the following errors'
   end
 
-  it 'should render show cabpool page when valid details are entered and cabpool type is not company provided' do
+  it 'renders show cabpool page when valid details are entered and cabpool type is not company provided' do
     user = build(:user)
     expect(User).to receive(:find_by_email).and_return(user)
     first_updated_locality = build(:locality)
@@ -136,17 +136,17 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(LocalityService).to receive(:fetch_all_localities).with([first_updated_locality.id.to_s]).and_return([first_updated_locality])
 
     expect(CabpoolService).to receive(:persist).and_return(success)
-    post :create, :cabpool => {number_of_people: 2, timein: '9:30', timeout: '12:30', remarks: 'Driver Details.'}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => '1'}
+    post :create, cabpool: { number_of_people: 2, timein: '9:30', timeout: '12:30', remarks: 'Driver Details.' }, cabpool_type: { cabpool_type_two_id: '2' }, localities: { locality_one_id: '1' }
 
     expect(response).to redirect_to your_cabpools_path
     expect(flash[:success]).to eq 'You have successfully created your cab pool.'
   end
 
-    it 'should render show cabpool page when valid details are entered and cabpool type is company provided' do
+  it 'renders show cabpool page when valid details are entered and cabpool type is company provided' do
     user = build(:user, :existing_user)
     allow(User).to receive(:find_by_email).and_return(user)
 
-    post :create, :cabpool => {number_of_people: 2, timein: '9:30', timeout: '12:30', remarks: 'Driver Details.'}, :cabpool_type => {:cabpool_type_two_id => '1'}, :localities => {:locality_one_id => '1'}
+    post :create, cabpool: { number_of_people: 2, timein: '9:30', timeout: '12:30', remarks: 'Driver Details.' }, cabpool_type: { cabpool_type_two_id: '1' }, localities: { locality_one_id: '1' }
 
     cabpool = assigns(:cabpool)
 
@@ -156,71 +156,71 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(ActionMailer::Base.deliveries.size).to eq 1
   end
 
-  it 'should redirect to new user path when unregistered user tries to create a pool' do
+  it 'redirects to new user path when unregistered user tries to create a pool' do
     @current_user = nil
     session[:Email] = 'newUser@mail.com'
     get :new
     expect(response).to redirect_to new_user_path
   end
 
-  it 'should show respective success message when join is successful when cabpool type is not company provided' do
+  it 'shows respective success message when join is successful when cabpool type is not company provided' do
     user = build(:user)
     allow(User).to receive(:find_by).and_return(user)
-    post :create, :cabpool => {number_of_people: 2, timein: "9:30", timeout: "12:30"}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => '1'}
+    post :create, cabpool: { number_of_people: 2, timein: '9:30', timeout: '12:30' }, cabpool_type: { cabpool_type_two_id: '2' }, localities: { locality_one_id: '1' }
     cabpool = assigns(:cabpool)
-    post :join, cabpool: {id: cabpool.id}
+    post :join, cabpool: { id: cabpool.id }
     expect(response).to redirect_to root_path
 
     expect(flash[:success]).to eq 'Join Request Sent!'
     expect(user.requests.count).to eq 1
   end
 
-  it 'should show respective error message when join is unsuccessful' do
+  it 'shows respective error message when join is unsuccessful' do
     user = build(:user)
     allow(User).to receive(:find_by).and_return(user)
-    post :create, :cabpool => {number_of_people: 1, timein: "9:30", timeout: "12:30"}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => '1'}
+    post :create, cabpool: { number_of_people: 1, timein: '9:30', timeout: '12:30' }, cabpool_type: { cabpool_type_two_id: '2' }, localities: { locality_one_id: '1' }
     cabpool = assigns(:cabpool)
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
-    post :join, cabpool: {id: cabpool.id}
+    post :join, cabpool: { id: cabpool.id }
     user = build(:user, :another_user)
     allow(User).to receive(:find_by_email).and_return(user)
-    post :join, cabpool: {id: cabpool.id}
+    post :join, cabpool: { id: cabpool.id }
     expect(response).to redirect_to root_path
     expect(flash[:danger]).to eq 'Cab capacity exceeded!'
   end
 
-  it 'should send emails to cabpool users when a user joins that cabpool' do
+  it 'sends emails to cabpool users when a user joins that cabpool' do
     user = build(:user, :existing_user)
     allow(User).to receive(:find_by_email).and_return(user)
 
-    post :create, :cabpool => {number_of_people: 4, timein: "9:30", timeout: "12:30"}, :cabpool_type => {:cabpool_type_two_id => '2'}, :localities => {:locality_one_id => '1'}
+    post :create, cabpool: { number_of_people: 4, timein: '9:30', timeout: '12:30' }, cabpool_type: { cabpool_type_two_id: '2' }, localities: { locality_one_id: '1' }
 
     cabpool = assigns(:cabpool)
     allow(Cabpool).to receive(:find_by_id).and_return(cabpool)
     requesting_user = build(:user)
     allow(User).to receive(:find_by_email).and_return(requesting_user)
 
-    post :join, cabpool: {id: cabpool.id}
+    post :join, cabpool: { id: cabpool.id }
 
     expect(cabpool.users.count).to eq ActionMailer::Base.deliveries.size
     expect(response).to redirect_to root_path
   end
 
-  it 'should send email admins when a user joins the campany provided cabpool' do
-    cabpool = Cabpool.new({number_of_people: 3, timein: "9:30", timeout: "12:30"})
+  it 'sends email admins when a user joins the campany provided cabpool' do
+    cabpool = Cabpool.new(number_of_people: 3, timein: '9:30', timeout: '12:30')
     cabpool.cabpool_type = :company_provided_cab
     user = build(:user, :existing_user)
     allow(Cabpool).to receive(:find_by_id).and_return(cabpool)
     allow(User).to receive(:find_by_email).and_return(user)
     allow(User).to receive(:find_by).and_return(user)
     allow(cabpool).to receive(:cabpool_type).and_return(:company_provided_cab)
-    post :join, cabpool: {id: cabpool.id}
+    post :join, cabpool: { id: cabpool.id }
     expect(ActionMailer::Base.deliveries.size).to eq 1
     expect(response).to redirect_to root_path
   end
 
-  it 'should redirect to home page if current user does not have a cab pool' do
+  it 'redirects to home page if current user does not have a cab pool' do
     user = build(:user)
     allow(User).to receive(:find_by).and_return(user)
     post :leave
@@ -228,8 +228,8 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to redirect_to root_path
   end
 
-  it "should send inactive email to admin when cabpool has only 1 memeber in it" do
-    cabpool = Cabpool.new({number_of_people: 3, timein: "9:30", timeout: "12:30"})
+  it 'sends inactive email to admin when cabpool has only 1 memeber in it' do
+    cabpool = Cabpool.new(number_of_people: 3, timein: '9:30', timeout: '12:30')
     cabpool.cabpool_type = :company_provided_cab
     user = build(:user)
     user.cabpool = cabpool
@@ -242,8 +242,8 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(ActionMailer::Base.deliveries.size).to eq 1
   end
 
-  it 'should set the current user\'s cabpool to nil if the user leaves the cab pool and send email to existing members' do
-    cabpool = Cabpool.new({number_of_people: 3, timein: "9:30", timeout: "12:30"})
+  it 'sets the current user\'s cabpool to nil if the user leaves the cab pool and send email to existing members' do
+    cabpool = Cabpool.new(number_of_people: 3, timein: '9:30', timeout: '12:30')
     cabpool.cabpool_type = :company_provided_cab
     user = build(:user)
     user.cabpool = cabpool
@@ -259,8 +259,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(flash[:success]).to eq 'You have left your cab pool.'
   end
 
-
-  it 'should set the current user\'s cabppol to nil if the user leaves the cab pool with no existing members in the cabpool' do
+  it 'sets the current user\'s cabppol to nil if the user leaves the cab pool with no existing members in the cabpool' do
     user = build_stubbed(:user)
     cabpool = build_stubbed(:cabpool)
     user.cabpool = cabpool
@@ -276,24 +275,24 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(flash[:success]).to eq 'You have left your cab pool.'
   end
 
-  it 'should render error message when request is deleted from the request table' do
+  it 'renders error message when request is deleted from the request table' do
     user = build(:user)
     allow(User).to receive(:find).and_return(user)
     allow(Request).to receive(:find_by_user_id).and_return(nil)
-    get :approve_reject_handler, approve: "true", token: "ABCD", user: '1', approver: '2'
+    get :approve_reject_handler, approve: 'true', token: 'ABCD', user: '1', approver: '2'
     expect(response).to render_template 'request_duplicate'
   end
 
-  it 'should render error message when token is not the same' do
+  it 'renders error message when token is not the same' do
     user = build(:user)
     allow(User).to receive(:find).and_return(user)
     request = build_stubbed(:request)
     allow(Request).to receive(:find_by).and_return(request)
-    get :approve_reject_handler, approve: "true", token: "ABCD", user: '1', cabpool: '2', approver: '2'
+    get :approve_reject_handler, approve: 'true', token: 'ABCD', user: '1', cabpool: '2', approver: '2'
     expect(response).to render_template 'request_invalid'
   end
 
-  it 'should render Accept message and send email to approved user and other cabpool members when token is same and approve is true' do
+  it 'renders Accept message and send email to approved user and other cabpool members when token is same and approve is true' do
     approving_user = build(:user)
     cabpool = build(:cabpool)
     request = build(:request)
@@ -303,16 +302,16 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(request).to receive(:destroy!).and_return(true)
     allow(User).to receive(:find).and_return(user)
     allow(Request).to receive(:find_by).and_return(request)
-    allow(request).to receive(:approve_digest).and_return("ABCD")
+    allow(request).to receive(:approve_digest).and_return('ABCD')
     allow(User).to receive(:find_by).and_return(approving_user)
     allow(approving_user).to receive(:cabpool).and_return(cabpool)
 
-    get :approve_reject_handler, approve: "true", token: "ABCD", user: '1', cabpool: '2', approver: approving_user.id
+    get :approve_reject_handler, approve: 'true', token: 'ABCD', user: '1', cabpool: '2', approver: approving_user.id
     expect(ActionMailer::Base.deliveries.size).to eq 2
     expect(response).to render_template 'request_accept'
   end
 
-  it 'should render Accept message and send email to approved user and other cabpool members and send email to previous cabpoolers when token is same and approve is true' do
+  it 'renders Accept message and send email to approved user and other cabpool members and send email to previous cabpoolers when token is same and approve is true' do
     request = build_stubbed(:request)
     requesting_user = request.user
     another_user = build(:user, :another_user)
@@ -328,29 +327,29 @@ RSpec.describe CabpoolsController, type: :controller do
     allow(request).to receive(:destroy!).and_return(true)
     allow(User).to receive(:find).and_return(requesting_user)
     allow(Request).to receive(:find_by).and_return(request)
-    allow(request).to receive(:approve_digest).and_return("ABCD")
+    allow(request).to receive(:approve_digest).and_return('ABCD')
     allow(User).to receive(:find_by).and_return(approving_user)
     allow(approving_user).to receive(:cabpool).and_return(old_cabpool)
 
-    get :approve_reject_handler, approve: "true", token: "ABCD", user: '1', cabpool: '2', approver: approving_user.id
+    get :approve_reject_handler, approve: 'true', token: 'ABCD', user: '1', cabpool: '2', approver: approving_user.id
     expect(ActionMailer::Base.deliveries.size).to eq 3
     expect(response).to render_template 'request_accept'
   end
 
-  it 'should render reject message when token is same and approve is false' do
+  it 'renders reject message when token is same and approve is false' do
     request = build_stubbed(:request)
     user = request.user
     allow(user).to receive(:save).and_return(true)
     allow(request).to receive(:destroy!).and_return(true)
     allow(User).to receive(:find).and_return(user)
     allow(Request).to receive(:find_by).and_return(request)
-    allow(request).to receive(:approve_digest).and_return("ABCD")
-    get :approve_reject_handler, approve: "false", token: "ABCD", user: '1', cabpool: '2', approver: '2'
+    allow(request).to receive(:approve_digest).and_return('ABCD')
+    get :approve_reject_handler, approve: 'false', token: 'ABCD', user: '1', cabpool: '2', approver: '2'
     expect(ActionMailer::Base.deliveries.size).to eq 1
     expect(response).to render_template 'request_reject'
   end
 
-  it 'should render your_cabpools view for a user having a cabpool' do
+  it 'renders your_cabpools view for a user having a cabpool' do
     user = build(:user)
     user.cabpool = build(:cabpool)
     allow(User).to receive(:find_by).and_return(user)
@@ -358,7 +357,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to render_template 'your_cabpools'
   end
 
-  it 'should render accept message if request is accept via notification and user has requested for this cabpool' do
+  it 'renders accept message if request is accept via notification and user has requested for this cabpool' do
     request = build(:request)
     requested_user = request.user
     cabpool = request.cabpool
@@ -378,7 +377,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to render_template 'cabpools/request_accept'
   end
 
-  it 'should render accept message if request is accept via notification and user has requested for this cabpool and delete him from previous cabpool if he was only person in previous cabpool' do
+  it 'renders accept message if request is accept via notification and user has requested for this cabpool and delete him from previous cabpool if he was only person in previous cabpool' do
     request = build(:request)
     requested_user = request.user
     requested_user_cabpool = build(:cabpool, :without_users)
@@ -402,7 +401,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to render_template 'cabpools/request_accept'
   end
 
-  it 'should render invalid message if request is accept via notification and user has not requested for this cabpool' do
+  it 'renders invalid message if request is accept via notification and user has not requested for this cabpool' do
     request = build(:request)
     requested_user = request.user
     cabpool = request.cabpool
@@ -419,7 +418,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to render_template 'cabpools/request_invalid'
   end
 
-  it 'should render rejected message if request is reject via notification and user has requested for this cabpool' do
+  it 'renders rejected message if request is reject via notification and user has requested for this cabpool' do
     request = build(:request)
     requested_user = request.user
     cabpool = request.cabpool
@@ -437,7 +436,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to render_template 'cabpools/request_reject'
   end
 
-  it 'should render rejected message if request is reject via notification and user has not requested for this cabpool' do
+  it 'renders rejected message if request is reject via notification and user has not requested for this cabpool' do
     request = build(:request)
     requested_user = request.user
     cabpool = request.cabpool
@@ -453,10 +452,9 @@ RSpec.describe CabpoolsController, type: :controller do
 
     post :reject_via_notification, user: '2'
     expect(response).to render_template 'cabpools/request_invalid'
-
   end
 
-  it 'should update user status on notification view for approved user' do
+  it 'updates user status on notification view for approved user' do
     user = build_stubbed(:user)
     user.status = 'approved'
     allow(User).to receive(:find_by).and_return(user)
@@ -467,7 +465,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to redirect_to your_cabpools_path
   end
 
-  it 'should update user status on notification view for rejected user' do
+  it 'updates user status on notification view for rejected user' do
     user = build_stubbed(:user)
     user.status = 'rejected'
     allow(User).to receive(:find_by).and_return(user)
@@ -478,7 +476,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to redirect_to root_path
   end
 
-  it 'should redirect to root path if user status is not approved nor rejected' do
+  it 'redirects to root path if user status is not approved nor rejected' do
     user = build_stubbed(:user)
     user.status = 'not'
     allow(User).to receive(:find_by).and_return(user)
@@ -488,7 +486,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to redirect_to root_path
   end
 
-  it 'should not route to new if user has already a part of cabpool' do
+  it 'does not route to new if user has already a part of cabpool' do
     user = build_stubbed(:user)
     cabpool = build_stubbed(:cabpool)
     user.cabpool = cabpool
@@ -500,7 +498,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to redirect_to your_cabpools_path
   end
 
-  it 'should render Edit when the current user has a cabpool' do
+  it 'renders Edit when the current user has a cabpool' do
     user = build(:user)
     another_user = build(:user, :another_user)
     allow(User).to receive(:find_by_email).and_return(user)
@@ -513,7 +511,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to render_template 'cabpools/edit'
   end
 
-  it 'should redirect to home page when a user tries to Edit a company provided cabpool' do
+  it 'redirects to home page when a user tries to Edit a company provided cabpool' do
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
     cabpool = build(:cabpool)
@@ -522,13 +520,13 @@ RSpec.describe CabpoolsController, type: :controller do
     cabpool.cabpool_type = :company_provided_cab
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool)
 
-    get :edit, :id=> cabpool.id
+    get :edit, id: cabpool.id
 
     expect(response).to redirect_to '/'
     expect(flash[:danger]).to eq 'Cannot Edit a Company Provided Cabpool'
   end
 
-  it 'should render home page when the user tries to edit a cabpool that he/she is not part of' do
+  it 'renders home page when the user tries to edit a cabpool that he/she is not part of' do
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
     cabpool = build(:cabpool)
@@ -542,7 +540,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(flash[:danger]).to eq 'Cannot Edit a cabpool that you are not part of'
   end
 
-  it 'should render home page when the user tries to edit a cabpool that does not exist' do
+  it 'renders home page when the user tries to edit a cabpool that does not exist' do
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
     cabpool = build(:cabpool)
@@ -555,7 +553,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(flash[:danger]).to eq 'Cannot Edit a cabpool that you are not part of'
   end
 
-  it 'should render home page when the current user does not have a cabpool' do
+  it 'renders home page when the current user does not have a cabpool' do
     user = build(:user)
     allow(User).to receive(:find_by_email).and_return(user)
     user.cabpool = nil
@@ -565,7 +563,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(response).to redirect_to root_url
   end
 
-  it 'should successfully update a cabpool and send out emails to concerned members when all valid details and localities are entered by user' do
+  it 'successfullies update a cabpool and send out emails to concerned members when all valid details and localities are entered by user' do
     user = build(:user)
     expect(User).to receive(:find_by_email).and_return(user)
     cabpool_to_update = build(:cabpool, :personal_car)
@@ -579,7 +577,7 @@ RSpec.describe CabpoolsController, type: :controller do
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
     expect(CabpoolService).to receive(:persist).and_return(success)
-    patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: ThoughtWorks}'}, :localities => {key1: first_updated_locality.id}
+    patch :update, id: cabpool_to_update.id, cabpool: { number_of_people: 4, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: ThoughtWorks}' }, localities: { key1: first_updated_locality.id }
 
     expect(response).to redirect_to your_cabpools_path
     expect(cabpool_to_update.errors.any?).to be false
@@ -587,7 +585,7 @@ RSpec.describe CabpoolsController, type: :controller do
     expect(ActionMailer::Base.deliveries.size).to eq 1
   end
 
-  it 'should redirect to home page when a user tries to update a Company provided cabpool' do
+  it 'redirects to home page when a user tries to update a Company provided cabpool' do
     user = build(:user)
     expect(User).to receive(:find_by_email).and_return(user)
     cabpool_to_update = build(:cabpool)
@@ -595,13 +593,13 @@ RSpec.describe CabpoolsController, type: :controller do
     cabpool_to_update.users = [user]
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
-    patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '19:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: 1, key2: 2}
+    patch :update, id: cabpool_to_update.id, cabpool: { number_of_people: 4, timein: '19:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}' }, localities: { key1: 1, key2: 2 }
 
     expect(response).to redirect_to root_url
     expect(flash[:danger]).to eq 'Cannot Edit a Company Provided Cabpool'
   end
 
-  it 'should not update a cabpool when persistence of the cabpool fails' do
+  it 'does not update a cabpool when persistence of the cabpool fails' do
     user = build(:user)
     expect(User).to receive(:find_by_email).and_return(user)
     cabpool_to_update = build(:cabpool, :external_cab)
@@ -613,14 +611,14 @@ RSpec.describe CabpoolsController, type: :controller do
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
     expect(CabpoolService).to receive(:persist).and_return(failure)
-    patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 4, timein: '19:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}'}, :localities => {key1: duplicate_locality.id, key2: duplicate_locality.id}
+    patch :update, id: cabpool_to_update.id, cabpool: { number_of_people: 4, timein: '19:30', timeout: '12:30', remarks: 'Edited Remark', route: '{source: New Locality, destination: Thoughtworks}' }, localities: { key1: duplicate_locality.id, key2: duplicate_locality.id }
 
     expect(response).to render_template 'edit'
     expect(flash[:danger]).to eq 'Cannot update because of the following errors'
     expect(cabpool_to_update.valid?).to be false
   end
 
-  it 'should not allow a user to update a cabpool that he/she is not part of' do
+  it 'does not allow a user to update a cabpool that he/she is not part of' do
     user = build(:user)
     expect(User).to receive(:find_by_email).and_return(user)
     first_updated_locality = build(:locality)
@@ -629,13 +627,13 @@ RSpec.describe CabpoolsController, type: :controller do
     cabpool_to_update_that_does_not_include_user = build(:cabpool)
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update_that_does_not_include_user)
-    patch :update, :id => '', :cabpool => {number_of_people: 4, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: ''}, :localities => {key1: first_updated_locality.id}
+    patch :update, id: '', cabpool: { number_of_people: 4, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: '' }, localities: { key1: first_updated_locality.id }
 
     expect(response).to redirect_to root_url
     expect(flash[:danger]).to eq 'Cannot Edit a cabpool that you are not part of'
   end
 
-  it 'should not allow a user to update a cabpool that does not exist' do
+  it 'does not allow a user to update a cabpool that does not exist' do
     user = build(:user)
     expect(User).to receive(:find_by_email).and_return(user)
     first_updated_locality = build(:locality)
@@ -643,19 +641,19 @@ RSpec.describe CabpoolsController, type: :controller do
     user.cabpool = cabpool_that_user_part_of
 
     expect(Cabpool).to receive(:find_by_id).and_return(nil)
-    patch :update, :id => '', :cabpool => {number_of_people: 4, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: ''}, :localities => {key1: first_updated_locality.id}
+    patch :update, id: '', cabpool: { number_of_people: 4, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: '' }, localities: { key1: first_updated_locality.id }
 
     expect(response).to redirect_to root_url
     expect(flash[:danger]).to eq 'Cannot Edit a cabpool that you are not part of'
   end
 
-  it 'should not allow a user to update if he/she is not part of a cabpool' do
+  it 'does not allow a user to update if he/she is not part of a cabpool' do
     user = build(:user)
     expect(User).to receive(:find_by_email).and_return(user)
     first_updated_locality = build(:locality)
     user.cabpool = nil
 
-    patch :update, :id => '', :cabpool => {number_of_people: 4, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: ''}, :localities => {key1: first_updated_locality.id}
+    patch :update, id: '', cabpool: { number_of_people: 4, timein: '9:30', timeout: '12:30', remarks: 'Edited Remark', route: '' }, localities: { key1: first_updated_locality.id }
 
     expect(response).to redirect_to root_url
     expect(flash[:danger]).to eq 'You are not part of a cabpool.'

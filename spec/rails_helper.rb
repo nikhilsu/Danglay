@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'simplecov'
 require 'spec_helper'
 require 'rspec/rails'
@@ -12,11 +13,11 @@ require 'webmock/rspec'
 require 'database_cleaner'
 require 'capybara/poltergeist'
 
-require "rack_session_access/capybara"
+require 'rack_session_access/capybara'
 WebMock.disable_net_connect!(allow_localhost: true)
- Capybara.javascript_driver = :poltergeist
+Capybara.javascript_driver = :poltergeist
 
-options = {js_errors: false}
+options = { js_errors: false }
 Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, options)
 end

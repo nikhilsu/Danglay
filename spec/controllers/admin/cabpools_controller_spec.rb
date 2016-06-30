@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe Admin::CabpoolsController, type: :controller do
-
   user = nil
 
   before(:each) do
@@ -13,7 +13,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     ActionMailer::Base.deliveries.clear
   end
 
-  it 'should show error page if user is not an admin' do
+  it 'shows error page if user is not an admin' do
     role = build_stubbed(:role)
     user.role = role
     allow(User).to receive(:find_by_email).and_return(user)
@@ -23,7 +23,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(response).to render_template 'custom_errors/not_found_error'
   end
 
-  it 'should show error page if user is unregistered and not an admin' do
+  it 'shows error page if user is unregistered and not an admin' do
     allow(User).to receive(:find_by_email).and_return(nil)
 
     get :show
@@ -31,7 +31,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(response).to render_template 'custom_errors/not_found_error'
   end
 
-  it 'should display list of company provided cabpools if user is admin' do
+  it 'displays list of company provided cabpools if user is admin' do
     admin_role = build_stubbed(:role, :admin_role)
     user.role = admin_role
     allow(User).to receive(:find_by_email).and_return(user)
@@ -47,7 +47,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(response).to render_template 'admin/cabpools/show'
   end
 
-  it 'should render create pool page' do
+  it 'renders create pool page' do
     admin_role = build_stubbed(:role, :admin_role)
     user.role = admin_role
     allow(User).to receive(:find_by_email).and_return(user)
@@ -56,7 +56,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(response). to render_template 'admin/cabpools/new'
   end
 
-  it 'should render new cabpool page when persistence of cabpool fails' do
+  it 'renders new cabpool page when persistence of cabpool fails' do
     admin = build(:user)
     admin_role = build(:role, :admin_role)
     admin.role = admin_role
@@ -65,27 +65,27 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(UserService).to receive(:fetch_all_users).with([another_user.id]).and_return([another_user])
 
     expect(CabpoolService).to receive(:persist).and_return(Failure.new(nil, 'Failure Message'))
-    post :create, :cabpool => {number_of_people: 0, timein: '9:30', timeout: '2:30'}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}
+    post :create, cabpool: { number_of_people: 0, timein: '9:30', timeout: '2:30' }, passengers: { user_id: another_user.id }, cabpool_type: { cabpool_type_one_id: '1' }
 
     expect(response).to render_template 'admin/cabpools/new'
     expect(flash[:danger]).to eq 'Failure Message'
   end
 
-  it 'should render new cabpool page with errors when invalid params are passed' do
+  it 'renders new cabpool page with errors when invalid params are passed' do
     admin_role = build(:role, :admin_role)
     user.role = admin_role
     allow(User).to receive(:find_by_email).and_return(user)
     another_user = build_stubbed(:user)
     expect(UserService).to receive(:fetch_all_users).with([another_user.id.to_s]).and_return([another_user])
 
-    post :create, :cabpool => {number_of_people: 2, gibbrish: 'hello'}, :passengers => {:user_id => another_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:a => '1'}
+    post :create, cabpool: { number_of_people: 2, gibbrish: 'hello' }, passengers: { user_id: another_user.id }, cabpool_type: { cabpool_type_one_id: '1' }, localities: { a: '1' }
     cabpool = assigns(:cabpool)
 
     expect(response).to render_template 'admin/cabpools/new'
     expect(cabpool.errors.any?).to be true
   end
 
-  it 'should render show cabpool page and send mail to all members of cabpool when valid details are entered and cabpool is persisted successfully' do
+  it 'renders show cabpool page and send mail to all members of cabpool when valid details are entered and cabpool is persisted successfully' do
     admin = build(:user)
     admin_role = build_stubbed(:role, :admin_role)
     admin.role = admin_role
@@ -104,19 +104,19 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
       assigns(:cabpool).localities = [first_locality]
       Success.new(nil, 'Success Message')
     end
-    post :create, :cabpool => {number_of_people: 2, timein: '9:30', timeout: '12:30', remarks: 'Driver Details'}, :passengers => {:user_id_one => first_user.id, :user_id_two=> second_user.id}, :cabpool_type => {:cabpool_type_one_id => '1'}, :localities => {:locality_one_id => first_locality.id}
+    post :create, cabpool: { number_of_people: 2, timein: '9:30', timeout: '12:30', remarks: 'Driver Details' }, passengers: { user_id_one: first_user.id, user_id_two: second_user.id }, cabpool_type: { cabpool_type_one_id: '1' }, localities: { locality_one_id: first_locality.id }
 
     cabpool = assigns(:cabpool)
     expect(response).to redirect_to '/admin'
     expect(cabpool.users.size).to eq ActionMailer::Base.deliveries.size
-    expect(cabpool.timein).to eq Time.new(2000, 01, 01, 9, 30, 0, '+00:00')
-    expect(cabpool.timeout).to eq Time.new(2000, 01, 01, 12, 30, 0, '+00:00')
+    expect(cabpool.timein).to eq Time.new(2000, 0o1, 0o1, 9, 30, 0, '+00:00')
+    expect(cabpool.timeout).to eq Time.new(2000, 0o1, 0o1, 12, 30, 0, '+00:00')
     expect(cabpool.remarks).to eq 'Driver Details'
     expect(cabpool.errors.any?).to be false
     expect(ActionMailer::Base.deliveries.size).to eq 2
   end
 
-  it 'should render Edit' do
+  it 'renders Edit' do
     user = build(:user)
     admin_role = build(:role, :admin_role)
     user.role = admin_role
@@ -126,12 +126,12 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     cabpool.cabpool_type = :company_provided_cab
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool)
 
-    get :edit, :id=> cabpool.id
+    get :edit, id: cabpool.id
 
-    expect(response).to render_template "admin/cabpools/edit"
+    expect(response).to render_template 'admin/cabpools/edit'
   end
 
-  it 'should redirect to admin page when admin tries to Edit a non company provided cabpool' do
+  it 'redirects to admin page when admin tries to Edit a non company provided cabpool' do
     user = build(:user)
     admin_role = build(:role, :admin_role)
     user.role = admin_role
@@ -141,13 +141,13 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     cabpool.cabpool_type = :personal_car
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool)
 
-    get :edit, :id=> cabpool.id
+    get :edit, id: cabpool.id
 
     expect(response).to redirect_to '/admin'
     expect(flash[:danger]).to eq 'Cannot Edit a Non-Company Provided Cabpool'
   end
 
-  it 'should redirect to admin home when admin tries to update a non company provided cabpool' do
+  it 'redirects to admin home when admin tries to update a non company provided cabpool' do
     user = build(:user)
     user.role = build_stubbed(:role, :admin_role)
     expect(User).to receive(:find_by_email).and_return(user)
@@ -155,13 +155,13 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     cabpool_to_update.cabpool_type = :personal_car
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
-    patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 1, remarks: 'Edited Remark'}, :cabpool_type => {:cabpool_type_one_id => '1'}
+    patch :update, id: cabpool_to_update.id, cabpool: { number_of_people: 1, remarks: 'Edited Remark' }, cabpool_type: { cabpool_type_one_id: '1' }
 
     expect(response).to redirect_to '/admin'
     expect(flash[:danger]).to eq 'Cannot Edit a Non-Company Provided Cabpool'
   end
 
-  it 'should render edit cabpool page when persistence of the cabpool fails' do
+  it 'renders edit cabpool page when persistence of the cabpool fails' do
     user = build(:user)
     user.role = build_stubbed(:role, :admin_role)
     expect(User).to receive(:find_by_email).and_return(user)
@@ -173,13 +173,13 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
 
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool_to_update)
     expect(CabpoolService).to receive(:persist).and_return(failure)
-    patch :update, :id => cabpool_to_update.id, :cabpool => {number_of_people: 1, remarks: 'Edited Remark'}, :cabpool_type => {:cabpool_type_one_id => '1'}
+    patch :update, id: cabpool_to_update.id, cabpool: { number_of_people: 1, remarks: 'Edited Remark' }, cabpool_type: { cabpool_type_one_id: '1' }
 
     expect(response).to render_template 'admin/cabpools/edit'
     expect(flash[:danger]).to eq 'Failure Message'
   end
 
-  it 'should render show cabpool page and send mail to all current and previous members of cabpool and update localities when valid details are entered during update' do
+  it 'renders show cabpool page and send mail to all current and previous members of cabpool and update localities when valid details are entered during update' do
     user = build(:user)
     admin_role = build_stubbed(:role, :admin_role)
     user.role = admin_role
@@ -199,8 +199,8 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     success = Success.new(cabpool, 'Success Message')
     allow(cabpool).to receive(:ordered_localities).and_return(cabpool.localities)
     expect(Cabpool).to receive(:find_by_id).and_return(cabpool)
-    expect(UserService).to receive(:fetch_all_users).with(['1', '2']).and_return([first_new_user, second_new_user])
-    expect(LocalityService).to receive(:fetch_all_localities).with(['1', '2']).and_return([first_locality, second_locality])
+    expect(UserService).to receive(:fetch_all_users).with(%w(1 2)).and_return([first_new_user, second_new_user])
+    expect(LocalityService).to receive(:fetch_all_localities).with(%w(1 2)).and_return([first_locality, second_locality])
 
     expect(CabpoolService).to receive(:persist) do
       cabpool.users = [first_new_user, second_new_user]
@@ -208,7 +208,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
       cabpool.localities = [first_locality, second_locality]
       success
     end
-    patch :update, :id => cabpool.id, :cabpool => {number_of_people: 2, :remarks => 'This is the new remark', :route => 'Ola new route'}, :passengers => {:user_id_one => first_new_user.id, :user_id_two=> second_new_user.id}, :localities => {key1: 1, key2: 2}, :cabpool_type => {:cabpool_type_one_id => '1'}
+    patch :update, id: cabpool.id, cabpool: { number_of_people: 2, remarks: 'This is the new remark', route: 'Ola new route' }, passengers: { user_id_one: first_new_user.id, user_id_two: second_new_user.id }, localities: { key1: 1, key2: 2 }, cabpool_type: { cabpool_type_one_id: '1' }
 
     expect(cabpool.errors.any?).to be false
     expect(cabpool.number_of_people).to eq 2
@@ -220,7 +220,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     expect(ActionMailer::Base.deliveries.size).to eq 3
   end
 
-  it 'should be able to delete a cabpool' do
+  it 'is able to delete a cabpool' do
     user = build_stubbed(:user)
     admin_role = build_stubbed(:role, :admin_role)
     cabpool = build(:cabpool)
@@ -236,7 +236,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
 
     expect(Cabpool).to receive(:find).once.and_return(cabpool)
     expect(cabpool).to receive(:destroy!).once
-    delete :delete, :id => cabpool.id
+    delete :delete, id: cabpool.id
 
     expect(cabpool.users).to be_empty
     expect(cabpool.requests).to be_empty

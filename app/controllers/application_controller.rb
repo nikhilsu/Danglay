@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -5,7 +6,7 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
 
   if FEATURES.active?('okta_feature')
-    before_action :authorized? , except: [:init, :consume, :approve_reject_handler]
+    before_action :authorized?, except: [:init, :consume, :approve_reject_handler]
   end
   before_action :set_user_name, except: [:init, :consume]
   before_filter :check_feature_activated?

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # == Schema Information
 #
 # Table name: requests
@@ -25,13 +26,13 @@ class Request < ActiveRecord::Base
   before_create :create_approve_digest
   belongs_to :user
   belongs_to :cabpool
-  validates_presence_of  :user, :cabpool
+  validates_presence_of :user, :cabpool
 
-  def Request.new_token
+  def self.new_token
     SecureRandom.urlsafe_base64
   end
 
-  def Request.digest(string)
+  def self.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
     BCrypt::Password.create(string, cost: cost)
   end

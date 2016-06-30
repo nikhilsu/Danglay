@@ -1,22 +1,22 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe ApplicationController, type: :controller do
-
-  it 'should set username when the user is logged in' do
+  it 'sets username when the user is logged in' do
     session[:Email] = 'userLoggedIn@mail.com'
     session[:FirstName] = 'first name'
 
     expect(@controller.set_user_name).to eq 'First name'
   end
 
-  it 'should not set username when the user is not logged in' do
+  it 'does not set username when the user is not logged in' do
     session[:Email] = nil
     session[:FirstName] = 'first name'
 
     expect(@controller.set_user_name).to be nil
   end
 
-  it 'should check if a feature is activated' do
+  it 'checks if a feature is activated' do
     controller_name = 'Some Controller'
     action_name = 'Some Action'
 

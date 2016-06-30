@@ -1,3 +1,4 @@
+# frozen_string_literal: false
 # == Schema Information
 #
 # Table name: cabpools
@@ -137,5 +138,4 @@ FactoryGirl.define do
     end
     remarks string_containing_more_than_300_chars
   end
-
 end

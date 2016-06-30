@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # == Schema Information
 #
 # Table name: localities
@@ -23,7 +24,7 @@ RSpec.describe Locality, type: :model do
     expect(same_locality.valid?).to be false
   end
 
-  it 'should create a valid locality' do
+  it 'creates a valid locality' do
     locality = build(:locality)
     expect(locality.valid?).to be true
   end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # == Schema Information
 #
 # Table name: roles
@@ -10,10 +11,10 @@
 
 FactoryGirl.define do
   factory :role do
-    name "user"
+    name 'user'
   end
 
   trait :admin_role do
-    name "admin"
+    name 'admin'
   end
 end

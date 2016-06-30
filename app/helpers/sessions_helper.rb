@@ -1,10 +1,8 @@
+# frozen_string_literal: true
 module SessionsHelper
-
   def store_location
     if request.get?
-      if request.fullpath != '/'
-        session[:forward_url] = request.url
-      end
+      session[:forward_url] = request.url if request.fullpath != '/'
     else
       session.delete(:forward_url)
     end
@@ -21,9 +19,7 @@ module SessionsHelper
 
   def current_user
     email = session[:Email]
-    if !email.nil?
-      @current_user ||= User.find_by_email(email)
-    end
+    @current_user ||= User.find_by_email(email) unless email.nil?
   end
 
   def is_admin?

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 namespace :brakeman do
   desc 'Run Brakeman'
   task :run, :output_files do |_t, args|

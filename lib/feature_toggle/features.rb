@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'set'
 module FeatureToggle
   class Features
@@ -35,7 +36,7 @@ module FeatureToggle
     private
 
     def valid?(feature_name)
-      @features.has_key?(feature_name).tap do |exists|
+      @features.key?(feature_name).tap do |exists|
         puts "Unknown feature: #{feature_name}" unless exists
       end
     end

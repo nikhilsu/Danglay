@@ -1,19 +1,19 @@
+# frozen_string_literal: true
 module CabpoolsHelper
-
   def formatted_time(time)
     formatted_time = ''
-    if (time.hour == 0)
-      formatted_time += time.advance(hours: 12).to_formatted_s(:time) + ' AM'
-    elsif (time.hour < 12)
-      formatted_time += time.to_formatted_s(:time) + ' AM'
-    elsif (time.hour > 12)
-      formatted_time += time.change(hour: time.hour - 12, min: time.min).to_formatted_s(:time) + ' PM'
-    else
-      formatted_time += time.to_formatted_s(:time) + ' PM'
-    end
+    formatted_time += if time.hour == 0
+                        time.advance(hours: 12).to_formatted_s(:time) + ' AM'
+                      elsif time.hour < 12
+                        time.to_formatted_s(:time) + ' AM'
+                      elsif time.hour > 12
+                        time.change(hour: time.hour - 12, min: time.min).to_formatted_s(:time) + ' PM'
+                      else
+                        time.to_formatted_s(:time) + ' PM'
+                      end
   end
 
-  def image_to_be_displayed cabpool
+  def image_to_be_displayed(cabpool)
     if cabpool.company_provided_cab?
       'thoughtworks.png'
     elsif cabpool.external_cab?
@@ -52,21 +52,19 @@ module CabpoolsHelper
 
   def users_cabpool
     user = current_user
-    if !user.nil?
-      user.cabpool
-    end
+    user.cabpool unless user.nil?
   end
 
   def button_info(cabpool)
-    if !cabpool.nil?
+    unless cabpool.nil?
       if current_users_requested_cabpool.include?(cabpool)
         return { name: 'Requested', disabled: true }
       elsif users_cabpool == cabpool
         return { name: 'Leave Ride', disabled: false }
       elsif cabpool.available_slots > 0
-        return {name: 'Join Ride', disabled: false}
+        return { name: 'Join Ride', disabled: false }
       elsif cabpool.available_slots <= 0
-        return {name: 'Ride Full', disabled: true}
+        return { name: 'Ride Full', disabled: true }
       end
     end
   end
@@ -75,7 +73,7 @@ module CabpoolsHelper
     if user_cabpool_exists?
       cabpools = cabpools.reject { |cabpool| cabpool.id == users_cabpool.id }
     end
-    return cabpools
+    cabpools
   end
 
   def get_cabpool_type_by_id(cabpool_type_id)
@@ -84,12 +82,12 @@ module CabpoolsHelper
   end
 
   def sort_by_available_seats_in_cabpool(cabpools)
-    cabpools.sort_by { |cabpool| cabpool.available_slots }.reverse
+    cabpools.sort_by(&:available_slots).reverse
   end
 
   def confirm_message_for_the_current_users_join_request(requesting_cabpool)
     current_users_cabpool = current_user.cabpool
-    if !current_users_cabpool.nil?
+    unless current_users_cabpool.nil?
       if current_users_cabpool.users.size == 1
         return 'Are you sure you want to join this cabpool? Confirming would mean that your existing cabpool will be deleted if your request is accepted.'
       else
@@ -111,7 +109,7 @@ module CabpoolsHelper
     end
   end
 
-  def displayable cabpool_id
-    cabpool_id + 100 if !cabpool_id.nil?
+  def displayable(cabpool_id)
+    cabpool_id + 100 unless cabpool_id.nil?
   end
 end

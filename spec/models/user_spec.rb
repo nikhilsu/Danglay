@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # == Schema Information
 #
 # Table name: users
@@ -87,12 +88,12 @@ RSpec.describe User, type: :model do
     expect(user.valid?).to be false
   end
 
-  it 'should be valid if everything is valid' do
+  it 'is valid if everything is valid' do
     user = build(:user)
     expect(user.valid?).to be true
   end
 
-  it "can have multiple requests" do
+  it 'can have multiple requests' do
     user = build(:user)
     r1 = build(:request)
     r2 = build(:request)
@@ -102,21 +103,21 @@ RSpec.describe User, type: :model do
     expect(user.valid?).to be true
   end
 
-  it "emp_id cannot be re-written" do
+  it 'emp_id cannot be re-written' do
     user = build(:user)
-    expect{
-      user.update_attribute(:emp_id, 19211)
-    }.to raise_error(ActiveRecord::ActiveRecordError, 'emp_id is marked as readonly')
+    expect do
+      user.update_attribute(:emp_id, 19_211)
+    end.to raise_error(ActiveRecord::ActiveRecordError, 'emp_id is marked as readonly')
   end
 
-  it 'should have default role as user' do
+  it 'has default role as user' do
     user = create(:user)
-    expect(user.role.name).to eq "user"
+    expect(user.role.name).to eq 'user'
   end
 
-  it 'should have role as admin if user with admin role is created' do
+  it 'has role as admin if user with admin role is created' do
     user = create(:user, :with_admin_role)
-    expect(user.role.name).to eq "admin"
+    expect(user.role.name).to eq 'admin'
   end
 
   it 'emp_id cannot be alphabetic' do
@@ -138,5 +139,4 @@ RSpec.describe User, type: :model do
     user = build(:user)
     expect(user.valid?).to be true
   end
-
 end

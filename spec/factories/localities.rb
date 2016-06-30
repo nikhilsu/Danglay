@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # == Schema Information
 #
 # Table name: localities
@@ -9,7 +10,6 @@
 #
 
 FactoryGirl.define do
-
   factory :locality do
     name Faker::Address.street_name
 

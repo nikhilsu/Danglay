@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class MailService
-
   def self.send_member_addition_email_to_cabpool_members(approver, user)
     CabpoolMailer.member_addition_to_cabpool(approver, user).deliver_now
   end

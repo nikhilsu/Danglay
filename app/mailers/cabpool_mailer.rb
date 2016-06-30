@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CabpoolMailer < ApplicationMailer
   helper CabpoolsHelper
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -29,69 +30,69 @@ class CabpoolMailer < ApplicationMailer
     mail to: user.email, subject: 'Someone has left your cabpool!'
   end
 
-  def admin_notifier_for_invalid_cabpool deleting_cabpool
+  def admin_notifier_for_invalid_cabpool(deleting_cabpool)
     @cabpool = deleting_cabpool.id
 
-    admins = Role.find_by_name("admin").users
+    admins = Role.find_by_name('admin').users
     emails = []
-    admins.each do |admin| emails << admin.email end
-    mail to: emails , subject: "A Cabpool is inactive"
+    admins.each { |admin| emails << admin.email }
+    mail to: emails, subject: 'A Cabpool is inactive'
   end
 
-  def admin_notifier_for_member_leaving cabpool, leaving_user
+  def admin_notifier_for_member_leaving(cabpool, leaving_user)
     @cabpool = cabpool.id
     @username = leaving_user.name
 
-    admins = Role.find_by_name("admin").users
+    admins = Role.find_by_name('admin').users
     emails = []
-    admins.each do |admin| emails << admin.email end
-    mail to: emails , subject: "A member is leaving the cabpool"
+    admins.each { |admin| emails << admin.email }
+    mail to: emails, subject: 'A member is leaving the cabpool'
   end
 
-  def admin_notifier_for_join_cabpool cabpool, requesting_user, digest
+  def admin_notifier_for_join_cabpool(cabpool, requesting_user, digest)
     @cabpool = cabpool.id
     @user = requesting_user
     @digest = digest
 
-    admins = Role.find_by_name("admin").users
+    admins = Role.find_by_name('admin').users
     emails = []
-    admins.each do |admin| emails << admin.email end
-    mail to: emails , subject: "Join Request for a cabpool"
+    admins.each { |admin| emails << admin.email }
+    mail to: emails, subject: 'Join Request for a cabpool'
   end
 
-  def admin_notifier_for_new_cabpool_creation_request requesting_user, timein, timeout, remarks
-    @requesting_user  = requesting_user
+  def admin_notifier_for_new_cabpool_creation_request(requesting_user, timein, timeout, remarks)
+    @requesting_user = requesting_user
     @timein = timein
     @timeout = timeout
-    if(remarks == nil)
-      @remarks = ""
-    else
-      @remarks = remarks
-    end
+    @remarks = if remarks.nil?
+                 ''
+               else
+                 remarks
+               end
 
-    admins = Role.find_by_name("admin").users
+    admins = Role.find_by_name('admin').users
     emails = []
-    admins.each do |admin| emails << admin.email end
-    mail to: emails , subject: "Cabpool creation request" 
+    admins.each { |admin| emails << admin.email }
+    mail to: emails, subject: 'Cabpool creation request'
   end
 
-  def member_addition_to_cabpool approving_user, added_user
+  def member_addition_to_cabpool(approving_user, added_user)
     @approving_user = approving_user.name
     @added_user = added_user.name
     @address = added_user.address
 
     approving_user.cabpool.users.each do |user|
-      if user != approving_user and user != added_user
+      if user != approving_user && user != added_user
         @current_user = user.name
-        mail to: user.email , subject: 'New member added to cabpool'
+        mail to: user.email, subject: 'New member added to cabpool'
       end
     end
   end
 
-  def cabpool_is_created user, cabpool
+  def cabpool_is_created(user, cabpool)
     @cabpool = cabpool
     @user = user
-    mail to: user.email , subject: 'You have been added to a cabpool'
+    mail to: user.email, subject: 'You have been added to a cabpool'
   end
 
   def cabpool_updated_by_admin(user, cabpool)

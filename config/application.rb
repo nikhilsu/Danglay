@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
@@ -20,10 +21,8 @@ module Danglay
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    config.exceptions_app = self.routes
-    if Rails.env != 'test' and Rails.env!='development'
-      config.force_ssl = true
-    end
+    config.exceptions_app = routes
+    config.force_ssl = true if Rails.env != 'test' && Rails.env != 'development'
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true

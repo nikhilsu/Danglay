@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.feature "CustomErrorPages", type: :feature do
+RSpec.feature 'CustomErrorPages', type: :feature do
   before(:each) do
     page.set_rack_session(FirstName: 'Deepika')
     page.set_rack_session(LastName: 'Vasudevan')
@@ -13,7 +14,7 @@ RSpec.feature "CustomErrorPages", type: :feature do
     expect(page.status_code).to eq 404
   end
   scenario 'should render custom 500 page when 500 error occurs' do
-    page.driver.post '/saml/consume' #raise 500 error
+    page.driver.post '/saml/consume' # raise 500 error
     expect(page.body).to have_content 'Oops! something went wrong'
     expect(page.status_code).to eq 500
   end

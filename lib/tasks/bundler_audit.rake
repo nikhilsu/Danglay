@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Overriding the default task with one that accepts the output file
 # Can be invoked as: rake bundler:audit\[bundler-audit-report.html\]
 namespace :bundler do

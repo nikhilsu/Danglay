@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CabpoolsController < ApplicationController
   include CabpoolsHelper
   before_action :registered?, except: [:show, :approve_reject_handler]
@@ -8,7 +9,7 @@ class CabpoolsController < ApplicationController
 
   def user_should_not_have_cabpool
     user = current_user
-    if !user.nil?
+    unless user.nil?
       if user.cabpool
         flash[:danger] = 'You are already part of a Cab pool. Please leave the cabpool to create a new cab pool.'
         redirect_to your_cabpools_path
@@ -28,7 +29,7 @@ class CabpoolsController < ApplicationController
       redirect_to root_path
     else
       locality_ids = params[:localities].nil? ? [] : params[:localities].values
-      associations_of_the_cabpool = {localities: LocalityService.fetch_all_localities(locality_ids), users: [current_user]}
+      associations_of_the_cabpool = { localities: LocalityService.fetch_all_localities(locality_ids), users: [current_user] }
       response = CabpoolService.persist(@cabpool, associations_of_the_cabpool)
       if response.success?
         flash[:success] = 'You have successfully created your cab pool.'
@@ -46,12 +47,12 @@ class CabpoolsController < ApplicationController
   def update
     @cabpool.attributes = params.require(:cabpool).permit(:number_of_people, :remarks, :timein, :timeout, :route)
     locality_ids = params[:localities].nil? ? [] : params[:localities].values
-    associations_of_the_cabpool = {localities: LocalityService.fetch_all_localities(locality_ids)}
+    associations_of_the_cabpool = { localities: LocalityService.fetch_all_localities(locality_ids) }
     response = CabpoolService.persist(@cabpool, associations_of_the_cabpool)
     if response.success?
       MailService.send_email_to_cabpool_members_about_cabpool_update(@cabpool, current_user)
       flash[:success] = 'Your Cabpool has been Updated'
-      redirect_to your_cabpools_path and return
+      redirect_to(your_cabpools_path) && return
     else
       flash[:danger] = 'Cannot update because of the following errors'
       render 'edit'
@@ -60,10 +61,10 @@ class CabpoolsController < ApplicationController
 
   def show
     response = CabpoolService.fetch_all_cabpools_of_a_particular_locality(params[:localities])
-    flash[:danger] = response.message if !response.success?
+    flash[:danger] = response.message unless response.success?
     cabpools_to_render = remove_current_users_cabpool(response.data)
     sorted_cabpools = sort_by_available_seats_in_cabpool cabpools_to_render
-    @cabpools = sorted_cabpools.paginate(page: params[:page], :per_page => 10)
+    @cabpools = sorted_cabpools.paginate(page: params[:page], per_page: 10)
   end
 
   def join
@@ -80,13 +81,12 @@ class CabpoolsController < ApplicationController
     redirect_to root_path
   end
 
-
   def leave
     current_user_cabpool = current_user.cabpool
     current_user.cabpool = nil
     current_user.save
     users = current_user_cabpool.users
-    if current_user_cabpool.users.size == 0
+    if current_user_cabpool.users.empty?
       current_user_cabpool.destroy
     elsif current_user_cabpool.users.size == 1
       MailService.send_email_to_admin_about_invalid_cabpool(current_user_cabpool)
@@ -99,7 +99,6 @@ class CabpoolsController < ApplicationController
   end
 
   def your_cabpools
-
   end
 
   def approve_reject_handler
@@ -131,7 +130,7 @@ class CabpoolsController < ApplicationController
     current_user = User.find_by_email(session[:Email])
     requested_user = User.find(requested_users_id)
     request = Request.find_by(user_id: requested_users_id, cabpool_id: current_user.cabpool.id)
-    if (current_user.cabpool.requested_users.exists?(:id => requested_users_id))
+    if current_user.cabpool.requested_users.exists?(id: requested_users_id)
       approve_user requested_user, request, current_user
     else
       render 'request_invalid'
@@ -143,7 +142,7 @@ class CabpoolsController < ApplicationController
     current_user = User.find_by_email(session[:Email])
     requested_user = User.find(requested_users_id)
     request = Request.find_by(user_id: requested_users_id, cabpool_id: current_user.cabpool.id)
-    if (current_user.cabpool.requested_users.exists?(:id => requested_users_id))
+    if current_user.cabpool.requested_users.exists?(id: requested_users_id)
       reject_user requested_user, request
     else
       render 'request_invalid'
@@ -166,8 +165,9 @@ class CabpoolsController < ApplicationController
   end
 
   private
+
   def approve_user(user, request, approver)
-    if !user.cabpool.nil?
+    unless user.cabpool.nil?
       if user.cabpool.users.length > 1
         MailService.send_email_to_cabpool_users_on_member_leaving(user.cabpool.users.reject { |u| u.id == user.id }, user)
       else
@@ -177,15 +177,13 @@ class CabpoolsController < ApplicationController
     user.cabpool = request.cabpool
     user.status = 'approved'
     user.save
-    request.user.requests.each do |req|
-      req.destroy!
-    end
+    request.user.requests.each(&:destroy!)
     MailService.send_member_addition_email_to_cabpool_members(approver, user)
     MailService.send_email_to_approved_user user
     render 'request_accept'
   end
 
-  def destroy cabpool
+  def destroy(cabpool)
     cabpool.users.clear
     cabpool.requests.clear
     cabpool.destroy!
@@ -201,7 +199,7 @@ class CabpoolsController < ApplicationController
 
   def registered?
     store_location
-    if !is_registered?
+    unless is_registered?
       flash[:danger] = 'Please update your profile to create a new cab pool.'
       redirect_to new_user_path
     end
@@ -209,7 +207,7 @@ class CabpoolsController < ApplicationController
 
   def cabpool_params
     allowed_params = params.require(:cabpool).permit(:number_of_people, :timein, :timeout, :route, :remarks)
-    _, cabpool_type_id = params[:cabpool_type].first if !params[:cabpool_type].nil?
+    _, cabpool_type_id = params[:cabpool_type].first unless params[:cabpool_type].nil?
     cabpool_type = get_cabpool_type_by_id(cabpool_type_id)
     allowed_params.merge!(cabpool_type: cabpool_type)
   end
@@ -230,7 +228,7 @@ class CabpoolsController < ApplicationController
 
   def cabpool_exists_and_user_part_of_it?
     @cabpool = Cabpool.find_by_id(params[:id])
-    if @cabpool.nil? or !@cabpool.user_is_part_of_cabpool? current_user
+    if @cabpool.nil? || !@cabpool.user_is_part_of_cabpool?(current_user)
       flash[:danger] = 'Cannot Edit a cabpool that you are not part of'
       redirect_to root_url
     end

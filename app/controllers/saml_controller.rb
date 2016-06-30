@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class SamlController < ApplicationController
   skip_before_action :verify_authenticity_token
   def init
@@ -24,7 +25,7 @@ class SamlController < ApplicationController
 
   private
 
-  def set_session response
+  def set_session(response)
     session[:FirstName] = response.attributes[:FirstName]
     session[:LastName] = response.attributes[:LastName]
     session[:Email] = response.attributes[:Email]
@@ -35,7 +36,7 @@ class SamlController < ApplicationController
     settings = idp_metadata_parser.parse(Rails.application.secrets[:idp_metadata])
     settings.assertion_consumer_service_url = "http://#{root_url}/saml/consume"
     settings.issuer = 'thedanglayfollowers'
-    settings.name_identifier_format = "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
+    settings.name_identifier_format = 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'
     settings
   end
 end

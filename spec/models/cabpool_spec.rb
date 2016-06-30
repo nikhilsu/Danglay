@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # == Schema Information
 #
 # Table name: cabpools
@@ -16,7 +17,7 @@
 require 'rails_helper'
 
 RSpec.describe Cabpool, type: :model do
-# TODO: Rewrite with shoulda-matchers gem so that these become one-liners
+  # TODO: Rewrite with shoulda-matchers gem so that these become one-liners
   it 'Number of people should not be empty' do
     cabpool = build(:cabpool, :without_number_of_people)
     expect(cabpool.valid?).to be false
@@ -33,34 +34,34 @@ RSpec.describe Cabpool, type: :model do
   end
 
   it 'Number of people should be less than or equal to 6' do
-      cabpool = build(:cabpool, :more_than_six_people)
-      expect(cabpool.valid?).to be false
+    cabpool = build(:cabpool, :more_than_six_people)
+    expect(cabpool.valid?).to be false
   end
 
   it 'Number of people should be greater than or equal to 1' do
-      cabpool = build(:cabpool, :lesser_than_one_person)
-      expect(cabpool.valid?).to be false
+    cabpool = build(:cabpool, :lesser_than_one_person)
+    expect(cabpool.valid?).to be false
   end
 
   it 'Timein should be a in a HH:MM format' do
-      cabpool = build(:cabpool, :timein_in_invalid_format)
-      expect(cabpool.valid?).to be false
+    cabpool = build(:cabpool, :timein_in_invalid_format)
+    expect(cabpool.valid?).to be false
   end
 
   it 'Timein can have seconds and milliseconds in its HH:MM format' do
-      cabpool = build(:cabpool, :timein_with_milliseconds)
-      expect(cabpool.valid?).to be true
+    cabpool = build(:cabpool, :timein_with_milliseconds)
+    expect(cabpool.valid?).to be true
   end
 
   it 'Timeout should be a in a HH:MM format' do
-      cabpool = build(:cabpool, :timeout_in_invalid_format)
-      expect(cabpool.valid?).to be false
+    cabpool = build(:cabpool, :timeout_in_invalid_format)
+    expect(cabpool.valid?).to be false
   end
 
   it 'Timeout can have seconds and milliseconds in its HH:MM format' do
-      cabpool = build(:cabpool, :timeout_with_milliseconds)
+    cabpool = build(:cabpool, :timeout_with_milliseconds)
 
-      expect(cabpool.valid?).to be true
+    expect(cabpool.valid?).to be true
   end
 
   it 'Localities can\'t be empty' do
@@ -89,23 +90,23 @@ RSpec.describe Cabpool, type: :model do
   end
 
   it 'Cabpool is valid if everything is valid' do
-      cabpool = build(:cabpool)
-      expect(cabpool.valid?).to be true
+    cabpool = build(:cabpool)
+    expect(cabpool.valid?).to be true
   end
 
-  it "should show available slots when no users present" do
+  it 'shows available slots when no users present' do
     cabpool = build(:cabpool, :without_users)
     expect(cabpool.available_slots).to eq 4
   end
 
-  it 'should show available slots when one user is present' do
+  it 'shows available slots when one user is present' do
     cabpool = build(:cabpool, :without_users)
     user = build(:user)
     cabpool.users = [user]
     expect(cabpool.available_slots).to eq 3
   end
 
-  it 'should show available slots when one request made' do
+  it 'shows available slots when one request made' do
     cabpool = build(:cabpool, :without_users)
     user = build(:user)
     cabpool.requested_users = [user]
@@ -118,7 +119,7 @@ RSpec.describe Cabpool, type: :model do
     expect(cabpool.valid?).to be false
   end
 
-  it 'should not allow duplicate users to be part of the cabpool' do
+  it 'does not allow duplicate users to be part of the cabpool' do
     cabpool = build(:cabpool, :without_users)
     duplicate_user = build(:user)
     cabpool.users = [duplicate_user, duplicate_user]
@@ -126,18 +127,18 @@ RSpec.describe Cabpool, type: :model do
     expect(cabpool.errors[:users]).to eq ['Duplicate User entered']
   end
 
-  it 'should not allow the remarks to have more than 300 characters' do
+  it 'does not allow the remarks to have more than 300 characters' do
     cabpool = build(:cabpool, :with_more_than_300_character_remarks)
     expect(cabpool.remarks.length).to be > 300
     expect(cabpool.valid?).to be false
   end
 
-  it 'should add localities in order in which its passed to it' do
+  it 'adds localities in order in which its passed to it' do
     cabpool = build(:cabpool)
     locality1 = create(:locality, name: 'L1')
     locality2 = create(:locality, name: 'L2')
     localities = [locality1, locality2]
-    associations_of_the_cabpool = {localities: localities}
+    associations_of_the_cabpool = { localities: localities }
 
     expect(cabpool.localities).to receive(:clear)
     cabpool.add_associations_in_order(associations_of_the_cabpool)
@@ -145,19 +146,19 @@ RSpec.describe Cabpool, type: :model do
     expect(cabpool.localities).to eq localities
   end
 
-  it 'should add users in order in which its passed to it' do
+  it 'adds users in order in which its passed to it' do
     cabpool = build(:cabpool)
     user = build(:user)
     another_user = build(:user, :another_user)
     users = [user, another_user]
-    associations_of_the_cabpool = {users: users}
+    associations_of_the_cabpool = { users: users }
 
     cabpool.add_associations_in_order(associations_of_the_cabpool)
 
     expect(cabpool.users).to eq users
   end
 
-  it 'should add users and localities in order in which its passed to it' do
+  it 'adds users and localities in order in which its passed to it' do
     cabpool = build(:cabpool)
     locality1 = create(:locality, name: 'L1')
     locality2 = create(:locality, name: 'L2')
@@ -165,7 +166,7 @@ RSpec.describe Cabpool, type: :model do
     user = build(:user)
     another_user = build(:user, :another_user)
     users = [user, another_user]
-    associations_of_the_cabpool = {localities: localities, users: users}
+    associations_of_the_cabpool = { localities: localities, users: users }
 
     expect(cabpool.localities).to receive(:clear)
     cabpool.add_associations_in_order(associations_of_the_cabpool)
@@ -174,73 +175,73 @@ RSpec.describe Cabpool, type: :model do
     expect(cabpool.localities).to eq localities
   end
 
-  it 'should have validation errors on attributes and not on associations when attributes are invalid' do
+  it 'has validation errors on attributes and not on associations when attributes are invalid' do
     invalid_cabpool = build(:cabpool, :without_time_in)
     invalid_cabpool.users.clear
     invalid_cabpool.localities.clear
-    valid_associations = {localities: [build(:locality)], users: [build(:user)]}
+    valid_associations = { localities: [build(:locality)], users: [build(:user)] }
 
-    expect(invalid_cabpool.valid_including_associations? valid_associations).to be false
+    expect(invalid_cabpool.valid_including_associations?(valid_associations)).to be false
     expect(invalid_cabpool.errors.messages.empty?).to be false
     expect(invalid_cabpool.errors[:localities].empty?).to be true
     expect(invalid_cabpool.errors[:users].empty?).to be true
   end
 
-  it 'should have validation errors on associations and not on attributes when associations are invalid' do
+  it 'has validation errors on associations and not on attributes when associations are invalid' do
     invalid_cabpool = build(:cabpool)
     invalid_cabpool.users.clear
     invalid_cabpool.localities.clear
-    invalid_associations = {localities: [], users: []}
+    invalid_associations = { localities: [], users: [] }
 
-    expect(invalid_cabpool.valid_including_associations? invalid_associations).to be false
+    expect(invalid_cabpool.valid_including_associations?(invalid_associations)).to be false
     expect(invalid_cabpool.errors.messages.empty?).to be false
     expect(invalid_cabpool.errors[:timein].empty?).to be true
     expect(invalid_cabpool.errors[:localities].empty?).to be false
     expect(invalid_cabpool.errors[:users].empty?).to be false
   end
 
-  it 'should have validation errors on associations and attributes when attributes and associations are invalid' do
+  it 'has validation errors on associations and attributes when attributes and associations are invalid' do
     invalid_cabpool = build(:cabpool, :without_time_in)
     invalid_cabpool.users.clear
     invalid_cabpool.localities.clear
-    invalid_associations = {localities: [], users: []}
+    invalid_associations = { localities: [], users: [] }
 
-    expect(invalid_cabpool.valid_including_associations? invalid_associations).to be false
+    expect(invalid_cabpool.valid_including_associations?(invalid_associations)).to be false
     expect(invalid_cabpool.errors.messages.empty?).to be false
     expect(invalid_cabpool.errors[:timein].empty?).to be false
     expect(invalid_cabpool.errors[:localities].empty?).to be false
     expect(invalid_cabpool.errors[:users].empty?).to be false
   end
 
-  it 'should return true when the cabpool is company provided' do
+  it 'returns true when the cabpool is company provided' do
     cabpool = build(:cabpool, :without_cabpool_type)
     cabpool.cabpool_type = :company_provided_cab
 
     expect(cabpool.company_provided_cab?).to be true
   end
 
-  it 'should return false when the cabpool is not company provided' do
+  it 'returns false when the cabpool is not company provided' do
     cabpool = build(:cabpool, :without_cabpool_type)
     cabpool.cabpool_type = :personal_car
 
     expect(cabpool.company_provided_cab?).to be false
   end
 
-  it 'should return true when a user is part of a cabpool' do
+  it 'returns true when a user is part of a cabpool' do
     cabpool = build(:cabpool)
     user = build(:user)
     cabpool.users << [user]
 
-    expect(cabpool.user_is_part_of_cabpool? user).to be true
+    expect(cabpool.user_is_part_of_cabpool?(user)).to be true
   end
 
-  it 'should return false when a user is not part of a cabpool' do
+  it 'returns false when a user is not part of a cabpool' do
     cabpool = build(:cabpool)
     user = build(:user)
     another_user = build(:user, :another_user)
     cabpool.users = [another_user]
 
-    expect(cabpool.user_is_part_of_cabpool? user).to be false
+    expect(cabpool.user_is_part_of_cabpool?(user)).to be false
   end
 
   describe 'Order of localities' do
@@ -254,19 +255,19 @@ RSpec.describe Cabpool, type: :model do
       @cabpool = build(:cabpool, :without_localities)
     end
 
-    it 'should be L3 L2 L1 when assigned to the cabpool in the same way' do
+    it 'is L3 L2 L1 when assigned to the cabpool in the same way' do
       @cabpool.localities = [@locality3, @locality2, @locality1]
       @cabpool.save
       expect(@cabpool.ordered_localities).to eq [@locality3, @locality2, @locality1]
     end
 
-    it 'should be L1 L2 L3 when assigned to the cabpool in the same way' do
+    it 'is L1 L2 L3 when assigned to the cabpool in the same way' do
       @cabpool.localities = [@locality1, @locality2, @locality3]
       @cabpool.save
       expect(@cabpool.ordered_localities).to eq [@locality1, @locality2, @locality3]
     end
 
-    it 'should be L2 L3 L1 when assigned to the cabpool in the same way' do
+    it 'is L2 L3 L1 when assigned to the cabpool in the same way' do
       @cabpool.localities = [@locality2, @locality3, @locality1]
       @cabpool.save
       expect(@cabpool.ordered_localities).to eq [@locality2, @locality3, @locality1]

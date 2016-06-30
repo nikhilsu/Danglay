@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # == Schema Information
 #
 # Table name: cabpools
@@ -14,8 +15,7 @@
 #
 
 class Cabpool < ActiveRecord::Base
-
-  enum cabpool_type: {company_provided_cab: 1, external_cab: 2, personal_car: 3}
+  enum cabpool_type: { company_provided_cab: 1, external_cab: 2, personal_car: 3 }
   has_and_belongs_to_many :localities
   has_many :users
   has_many :requests
@@ -26,61 +26,58 @@ class Cabpool < ActiveRecord::Base
   validate :invalidate_empty_localities, :invalidate_duplicate_localities, :invalidate_more_than_five_localities,
            :invalidate_empty_cabpool_type, :invalidate_empty_users, :invalidate_having_more_users_than_capacity,
            :invalidate_timein_after_timeout, :invalidate_duplicate_users
-  validates :remarks, length: {maximum: 300}
+  validates :remarks, length: { maximum: 300 }
 
   def ordered_localities
-    return localities.order('cabpools_localities.created_at')
+    localities.order('cabpools_localities.created_at')
   end
 
-   def available_slots
+  def available_slots
     number_of_people - users.size
-  end
+ end
 
   def valid_including_associations?(associations_to_validate)
-    self.validate
+    validate
     associations_to_validate.each do |association_name, association_value|
-      self.errors[association_name].clear
+      errors[association_name].clear
       add_validation_errors_on_association(association_name, association_value)
     end
-    errors.messages.blank? or errors.messages.values.uniq.join.blank?
+    errors.messages.blank? || errors.messages.values.uniq.join.blank?
   end
 
-  def add_associations_in_order associations_of_the_cabpool
+  def add_associations_in_order(associations_of_the_cabpool)
     associations_of_the_cabpool.each do |association_name, association_value|
       if association_name == :users
-          self.users = association_value
+        self.users = association_value
       elsif association_name == :localities
-          self.localities.clear
-          self.localities = association_value
+        localities.clear
+        self.localities = association_value
       end
     end
   end
 
-  def user_is_part_of_cabpool? user
-    return users.include?(user)
+  def user_is_part_of_cabpool?(user)
+    users.include?(user)
   end
 
   private
+
   def add_validation_errors_on_association(association_name, association_to_validate)
-    cabpool_clone = self.dup
+    cabpool_clone = dup
     cabpool_clone.send("#{association_name}=", association_to_validate)
     cabpool_clone.validate
-    if !cabpool_clone.errors[association_name].blank?
-      self.errors[association_name] = cabpool_clone.errors[association_name].first
+    unless cabpool_clone.errors[association_name].blank?
+      errors[association_name] = cabpool_clone.errors[association_name].first
     end
   end
 
   def invalidate_empty_localities
-    if localities.empty?
-      errors.add(:localities, 'Localities cannot be empty')
-    end
+    errors.add(:localities, 'Localities cannot be empty') if localities.empty?
   end
 
   def invalidate_duplicate_localities
     difference = localities.size - localities.uniq.size
-    if difference != 0
-      errors[:localities] = 'Duplicate Localities entered'
-    end
+    errors[:localities] = 'Duplicate Localities entered' if difference != 0
   end
 
   def invalidate_more_than_five_localities
@@ -91,16 +88,12 @@ class Cabpool < ActiveRecord::Base
 
   # TODO: validates_presence_of?
   def invalidate_empty_cabpool_type
-    if cabpool_type.nil?
-      errors.add(:cabpool_type, 'This should not be empty.')
-    end
+    errors.add(:cabpool_type, 'This should not be empty.') if cabpool_type.nil?
   end
 
   # TODO: validates_presence_of?
   def invalidate_empty_users
-    if users.length == 0
-      errors.add(:users, 'Users Cannot be empty')
-    end
+    errors.add(:users, 'Users Cannot be empty') if users.empty?
   end
 
   def invalidate_having_more_users_than_capacity
@@ -111,16 +104,12 @@ class Cabpool < ActiveRecord::Base
 
   def invalidate_duplicate_users
     difference = users.size - users.uniq.size
-    if difference != 0
-      errors.add(:users, 'Duplicate User entered')
-    end
+    errors.add(:users, 'Duplicate User entered') if difference != 0
   end
 
   def invalidate_timein_after_timeout
-    if !timein.nil? and !timeout.nil?
-      if timein > timeout
-        errors.add(:timein, 'cannot be after Departure time.')
-      end
+    if !timein.nil? && !timeout.nil?
+      errors.add(:timein, 'cannot be after Departure time.') if timein > timeout
     end
   end
 end
