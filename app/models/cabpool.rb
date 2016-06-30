@@ -34,7 +34,7 @@ class Cabpool < ActiveRecord::Base
 
   def available_slots
     number_of_people - users.size
- end
+  end
 
   def valid_including_associations?(associations_to_validate)
     validate
@@ -108,8 +108,6 @@ class Cabpool < ActiveRecord::Base
   end
 
   def invalidate_timein_after_timeout
-    if !timein.nil? && !timeout.nil?
-      errors.add(:timein, 'cannot be after Departure time.') if timein > timeout
-    end
+    errors.add(:timein, 'cannot be after Departure time.') if timein.present? && timeout.present? && timein > timeout
   end
 end

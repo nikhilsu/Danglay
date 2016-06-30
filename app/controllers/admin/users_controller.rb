@@ -21,6 +21,7 @@ class Admin::UsersController < Admin::AdminController
   def user_params
     allowed_params = params.require(:user).permit(:emp_id, :address, :phone_no, :name, :email)
     locality_id = params[:user][:locality]
+    # TODO: Why hit the db here, just so that the params hash is populated with a retrieved AR object?
     locality = Locality.find_by_id(locality_id)
     allowed_params.merge(locality: locality)
   end

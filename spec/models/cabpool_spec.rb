@@ -17,162 +17,184 @@
 require 'rails_helper'
 
 RSpec.describe Cabpool, type: :model do
-  # TODO: Rewrite with shoulda-matchers gem so that these become one-liners
-  it 'Number of people should not be empty' do
-    cabpool = build(:cabpool, :without_number_of_people)
-    expect(cabpool.valid?).to be false
+  describe 'validations' do
+    describe 'number_of_people' do
+      # TODO: Rewrite with shoulda-matchers gem so that these become one-liners
+      it 'Number of people should not be empty' do
+        cabpool = build(:cabpool, :without_number_of_people)
+        expect(cabpool.valid?).to be false
+      end
+
+      it 'Number of people should be less than or equal to 6' do
+        cabpool = build(:cabpool, :more_than_six_people)
+        expect(cabpool.valid?).to be false
+      end
+
+      it 'Number of people should be greater than or equal to 1' do
+        cabpool = build(:cabpool, :lesser_than_one_person)
+        expect(cabpool.valid?).to be false
+      end
+    end
+
+    describe 'timein' do
+      it 'of the cabpool should not be empty' do
+        cabpool = build(:cabpool, :without_time_in)
+        expect(cabpool.valid?).to be false
+      end
+
+      it 'should be a in a HH:MM format' do
+        cabpool = build(:cabpool, :timein_in_invalid_format)
+        expect(cabpool.valid?).to be false
+      end
+
+      it 'can have seconds and milliseconds in its HH:MM format' do
+        cabpool = build(:cabpool, :timein_with_milliseconds)
+        expect(cabpool.valid?).to be true
+      end
+
+      it 'should be before timeout' do
+        cabpool = build(:cabpool, :timein_after_timeout)
+        expect(cabpool.valid?).to be false
+      end
+    end
+
+    describe 'timeout' do
+      it 'of the cabpool should not be empty' do
+        cabpool = build(:cabpool, :without_time_out)
+        expect(cabpool.valid?).to be false
+      end
+
+      it 'should be a in a HH:MM format' do
+        cabpool = build(:cabpool, :timeout_in_invalid_format)
+        expect(cabpool.valid?).to be false
+      end
+
+      it 'can have seconds and milliseconds in its HH:MM format' do
+        cabpool = build(:cabpool, :timeout_with_milliseconds)
+
+        expect(cabpool.valid?).to be true
+      end
+    end
+
+    describe 'localities' do
+      it 'Localities can\'t be empty' do
+        cabpool = build(:cabpool, :without_localities)
+        expect(cabpool.valid?).to be false
+      end
+
+      it 'Duplicate Localities should be invalid' do
+        cabpool = build(:cabpool, :with_duplicate_localities)
+        expect(cabpool.valid?).to be false
+      end
+
+      it 'More than Five Localities should be invalid' do
+        cabpool = build(:cabpool, :more_than_five_localities)
+        expect(cabpool.valid?).to be false
+      end
+    end
+
+    describe 'cabpool_type' do
+      it 'can\'t be empty' do
+        cabpool = build(:cabpool, :without_cabpool_type)
+        expect(cabpool.valid?).to be false
+      end
+    end
+
+    describe 'users' do
+      it 'users should not be empty' do
+        cabpool = build(:cabpool, :without_users)
+        expect(cabpool.users.length).to eq 0
+        expect(cabpool.valid?).to be false
+      end
+
+      it 'does not allow duplicate users to be part of the cabpool' do
+        cabpool = build(:cabpool, :without_users)
+        duplicate_user = build(:user)
+        cabpool.users = [duplicate_user, duplicate_user]
+        expect(cabpool.valid?).to be false
+        expect(cabpool.errors[:users]).to eq ['Duplicate User entered']
+      end
+    end
+
+    describe 'remarks' do
+      it 'length cannot be more than 300 characters' do
+        cabpool = build(:cabpool, :with_more_than_300_character_remarks)
+        expect(cabpool.remarks.length).to be > 300
+        expect(cabpool.valid?).to be false
+      end
+    end
   end
 
-  it 'Time in of the cabpool should not be empty' do
-    cabpool = build(:cabpool, :without_time_in)
-    expect(cabpool.valid?).to be false
+  describe 'relationships' do
+    describe 'destroy' do
+      it 'should nullify users when a cabpool is destroyed'
+      it 'should nullify requests when a cabpool is destroyed'
+    end
   end
 
-  it 'Time out of the cabpool should not be empty' do
-    cabpool = build(:cabpool, :without_time_out)
-    expect(cabpool.valid?).to be false
+  describe 'available_slots' do
+    it 'shows available slots when no users present' do
+      cabpool = build(:cabpool, :without_users)
+      expect(cabpool.available_slots).to eq 4
+    end
+
+    it 'shows available slots when one user is present' do
+      cabpool = build(:cabpool, :without_users)
+      user = build(:user)
+      cabpool.users = [user]
+      expect(cabpool.available_slots).to eq 3
+    end
+
+    it 'shows available slots when one request made' do
+      cabpool = build(:cabpool, :without_users)
+      user = build(:user)
+      cabpool.requested_users = [user]
+      expect(cabpool.available_slots).to eq 4
+    end
   end
 
-  it 'Number of people should be less than or equal to 6' do
-    cabpool = build(:cabpool, :more_than_six_people)
-    expect(cabpool.valid?).to be false
-  end
+  describe 'add_associations_in_order' do
+    it 'adds localities in order in which its passed to it' do
+      cabpool = build(:cabpool)
+      locality1 = create(:locality, name: 'L1')
+      locality2 = create(:locality, name: 'L2')
+      localities = [locality1, locality2]
+      associations_of_the_cabpool = { localities: localities }
 
-  it 'Number of people should be greater than or equal to 1' do
-    cabpool = build(:cabpool, :lesser_than_one_person)
-    expect(cabpool.valid?).to be false
-  end
+      expect(cabpool.localities).to receive(:clear)
+      cabpool.add_associations_in_order(associations_of_the_cabpool)
 
-  it 'Timein should be a in a HH:MM format' do
-    cabpool = build(:cabpool, :timein_in_invalid_format)
-    expect(cabpool.valid?).to be false
-  end
+      expect(cabpool.localities).to eq localities
+    end
 
-  it 'Timein can have seconds and milliseconds in its HH:MM format' do
-    cabpool = build(:cabpool, :timein_with_milliseconds)
-    expect(cabpool.valid?).to be true
-  end
+    it 'adds users in order in which its passed to it' do
+      cabpool = build(:cabpool)
+      user = build(:user)
+      another_user = build(:user, :another_user)
+      users = [user, another_user]
+      associations_of_the_cabpool = { users: users }
 
-  it 'Timeout should be a in a HH:MM format' do
-    cabpool = build(:cabpool, :timeout_in_invalid_format)
-    expect(cabpool.valid?).to be false
-  end
+      cabpool.add_associations_in_order(associations_of_the_cabpool)
 
-  it 'Timeout can have seconds and milliseconds in its HH:MM format' do
-    cabpool = build(:cabpool, :timeout_with_milliseconds)
+      expect(cabpool.users).to eq users
+    end
 
-    expect(cabpool.valid?).to be true
-  end
+    it 'adds users and localities in order in which its passed to it' do
+      cabpool = build(:cabpool)
+      locality1 = create(:locality, name: 'L1')
+      locality2 = create(:locality, name: 'L2')
+      localities = [locality1, locality2]
+      user = build(:user)
+      another_user = build(:user, :another_user)
+      users = [user, another_user]
+      associations_of_the_cabpool = { localities: localities, users: users }
 
-  it 'Localities can\'t be empty' do
-    cabpool = build(:cabpool, :without_localities)
-    expect(cabpool.valid?).to be false
-  end
+      expect(cabpool.localities).to receive(:clear)
+      cabpool.add_associations_in_order(associations_of_the_cabpool)
 
-  it 'cabpool_type can\'t be empty' do
-    cabpool = build(:cabpool, :without_cabpool_type)
-    expect(cabpool.valid?).to be false
-  end
-
-  it 'Duplicate Localities should be invalid' do
-    cabpool = build(:cabpool, :with_duplicate_localities)
-    expect(cabpool.valid?).to be false
-  end
-
-  it 'More than Five Localities should be invalid' do
-    cabpool = build(:cabpool, :more_than_five_localities)
-    expect(cabpool.valid?).to be false
-  end
-
-  it 'Timein after Timeout should be invalid ' do
-    cabpool = build(:cabpool, :timein_after_timeout)
-    expect(cabpool.valid?).to be false
-  end
-
-  it 'Cabpool is valid if everything is valid' do
-    cabpool = build(:cabpool)
-    expect(cabpool.valid?).to be true
-  end
-
-  it 'shows available slots when no users present' do
-    cabpool = build(:cabpool, :without_users)
-    expect(cabpool.available_slots).to eq 4
-  end
-
-  it 'shows available slots when one user is present' do
-    cabpool = build(:cabpool, :without_users)
-    user = build(:user)
-    cabpool.users = [user]
-    expect(cabpool.available_slots).to eq 3
-  end
-
-  it 'shows available slots when one request made' do
-    cabpool = build(:cabpool, :without_users)
-    user = build(:user)
-    cabpool.requested_users = [user]
-    expect(cabpool.available_slots).to eq 4
-  end
-
-  it 'users should not be empty' do
-    cabpool = build(:cabpool, :without_users)
-    expect(cabpool.users.length).to eq 0
-    expect(cabpool.valid?).to be false
-  end
-
-  it 'does not allow duplicate users to be part of the cabpool' do
-    cabpool = build(:cabpool, :without_users)
-    duplicate_user = build(:user)
-    cabpool.users = [duplicate_user, duplicate_user]
-    expect(cabpool.valid?).to be false
-    expect(cabpool.errors[:users]).to eq ['Duplicate User entered']
-  end
-
-  it 'does not allow the remarks to have more than 300 characters' do
-    cabpool = build(:cabpool, :with_more_than_300_character_remarks)
-    expect(cabpool.remarks.length).to be > 300
-    expect(cabpool.valid?).to be false
-  end
-
-  it 'adds localities in order in which its passed to it' do
-    cabpool = build(:cabpool)
-    locality1 = create(:locality, name: 'L1')
-    locality2 = create(:locality, name: 'L2')
-    localities = [locality1, locality2]
-    associations_of_the_cabpool = { localities: localities }
-
-    expect(cabpool.localities).to receive(:clear)
-    cabpool.add_associations_in_order(associations_of_the_cabpool)
-
-    expect(cabpool.localities).to eq localities
-  end
-
-  it 'adds users in order in which its passed to it' do
-    cabpool = build(:cabpool)
-    user = build(:user)
-    another_user = build(:user, :another_user)
-    users = [user, another_user]
-    associations_of_the_cabpool = { users: users }
-
-    cabpool.add_associations_in_order(associations_of_the_cabpool)
-
-    expect(cabpool.users).to eq users
-  end
-
-  it 'adds users and localities in order in which its passed to it' do
-    cabpool = build(:cabpool)
-    locality1 = create(:locality, name: 'L1')
-    locality2 = create(:locality, name: 'L2')
-    localities = [locality1, locality2]
-    user = build(:user)
-    another_user = build(:user, :another_user)
-    users = [user, another_user]
-    associations_of_the_cabpool = { localities: localities, users: users }
-
-    expect(cabpool.localities).to receive(:clear)
-    cabpool.add_associations_in_order(associations_of_the_cabpool)
-
-    expect(cabpool.users).to eq users
-    expect(cabpool.localities).to eq localities
+      expect(cabpool.users).to eq users
+      expect(cabpool.localities).to eq localities
+    end
   end
 
   it 'has validation errors on attributes and not on associations when attributes are invalid' do
@@ -213,35 +235,39 @@ RSpec.describe Cabpool, type: :model do
     expect(invalid_cabpool.errors[:users].empty?).to be false
   end
 
-  it 'returns true when the cabpool is company provided' do
-    cabpool = build(:cabpool, :without_cabpool_type)
-    cabpool.cabpool_type = :company_provided_cab
+  describe 'company_provided_cab?' do
+    it 'returns true when the cabpool is company provided' do
+      cabpool = build(:cabpool, :without_cabpool_type)
+      cabpool.cabpool_type = :company_provided_cab
 
-    expect(cabpool.company_provided_cab?).to be true
+      expect(cabpool.company_provided_cab?).to be true
+    end
+
+    it 'returns false when the cabpool is not company provided' do
+      cabpool = build(:cabpool, :without_cabpool_type)
+      cabpool.cabpool_type = :personal_car
+
+      expect(cabpool.company_provided_cab?).to be false
+    end
   end
 
-  it 'returns false when the cabpool is not company provided' do
-    cabpool = build(:cabpool, :without_cabpool_type)
-    cabpool.cabpool_type = :personal_car
+  describe 'user_is_part_of_cabpool' do
+    it 'returns true when a user is part of a cabpool' do
+      cabpool = build(:cabpool)
+      user = build(:user)
+      cabpool.users << [user]
 
-    expect(cabpool.company_provided_cab?).to be false
-  end
+      expect(cabpool.user_is_part_of_cabpool?(user)).to be true
+    end
 
-  it 'returns true when a user is part of a cabpool' do
-    cabpool = build(:cabpool)
-    user = build(:user)
-    cabpool.users << [user]
+    it 'returns false when a user is not part of a cabpool' do
+      cabpool = build(:cabpool)
+      user = build(:user)
+      another_user = build(:user, :another_user)
+      cabpool.users = [another_user]
 
-    expect(cabpool.user_is_part_of_cabpool?(user)).to be true
-  end
-
-  it 'returns false when a user is not part of a cabpool' do
-    cabpool = build(:cabpool)
-    user = build(:user)
-    another_user = build(:user, :another_user)
-    cabpool.users = [another_user]
-
-    expect(cabpool.user_is_part_of_cabpool?(user)).to be false
+      expect(cabpool.user_is_part_of_cabpool?(user)).to be false
+    end
   end
 
   describe 'Order of localities' do

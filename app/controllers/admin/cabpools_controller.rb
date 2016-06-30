@@ -39,7 +39,7 @@ class Admin::CabpoolsController < Admin::AdminController
     response = CabpoolService.persist(@cabpool, associations_of_cabpool)
     if response.success?
       MailService.send_email_to_cabpool_users_about_cabpool_update_by_admin(@cabpool, members_before_cabpool_update)
-      flash[:success] = 'Cabpool has been Updated'
+      flash[:success] = 'Cabpool has been updated'
       redirect_to('/admin') && return
     else
       flash[:danger] = response.message
@@ -64,12 +64,12 @@ class Admin::CabpoolsController < Admin::AdminController
 
   def cabpool_params
     allowed_params = params.require(:cabpool).permit(:number_of_people, :timein, :timeout, :route, :remarks)
-    cabpool_type = :company_provided_cab
-    allowed_params.merge(cabpool_type: cabpool_type)
+    allowed_params.merge(cabpool_type: :company_provided_cab)
   end
 
   def get_members_before_cabpool_update
     members = []
+    # TODO: Can't we use the #collect method here?
     @cabpool.users.each do |user|
       members << user
     end

@@ -32,11 +32,13 @@
 
 class User < ActiveRecord::Base
   before_create :set_default_role
+
   belongs_to :locality
   belongs_to :cabpool
   belongs_to :role
   has_many :requests
   has_many :requested_cabpools, through: :requests, source: :cabpool
+
   validates_presence_of :emp_id, :name, :email, :address, :locality, :phone_no
   validate :validate_phone_no
   validates :emp_id, length: { minimum: 4, maximum: 10 }, numericality: true, uniqueness: true
