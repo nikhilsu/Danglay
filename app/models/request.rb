@@ -24,9 +24,11 @@
 class Request < ActiveRecord::Base
   attr_accessor :approve_token
   before_create :create_approve_digest
+
   belongs_to :user
   belongs_to :cabpool
-  validates_presence_of :user, :cabpool
+
+  validates :user, :cabpool, presence: true
 
   def self.new_token
     SecureRandom.urlsafe_base64

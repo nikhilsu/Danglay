@@ -16,13 +16,14 @@
 
 class Cabpool < ActiveRecord::Base
   enum cabpool_type: { company_provided_cab: 1, external_cab: 2, personal_car: 3 }
+
   has_and_belongs_to_many :localities
   has_many :users
   has_many :requests
   has_many :requested_users, through: :requests, source: :user
 
   validates_time :timein, :timeout
-  validates_numericality_of :number_of_people, less_than_or_equal_to: 6, greater_than_or_equal_to: 1
+  validates :number_of_people, numericality: { less_than_or_equal_to: 6, greater_than_or_equal_to: 1 }
   validate :invalidate_empty_localities, :invalidate_duplicate_localities, :invalidate_more_than_five_localities,
            :invalidate_empty_cabpool_type, :invalidate_empty_users, :invalidate_having_more_users_than_capacity,
            :invalidate_timein_after_timeout, :invalidate_duplicate_users
