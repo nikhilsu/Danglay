@@ -1,0 +1,7 @@
+MetricFu.configuration.configure_metrics.each do |metric|
+  if [:churn, :flog].include?(metric.name)
+    metric.enabled = false
+  else
+    metric.enabled = true
+  end
+end

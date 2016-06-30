@@ -1,0 +1,120 @@
+require:
+  - rubocop-rspec
+
+AllCops:
+  Include:
+    - '**/Capfile'
+    - '**/Gemfile'
+    - '**/Rakefile'
+    - '**/config.ru'
+    - '**/app/**/*'
+    - '**/bin/**/*'
+    - '**/config/**/*'
+    - '**/db/**/*'
+    - '**/lib/**/*'
+    - '**/spec/**/*'
+  Exclude:
+    - '**/*.coffee'
+    - '**/*.conf'
+    - '**/*.css'
+    - '**/*.gif'
+    - '**/*.erb'
+    - '**/*.ico'
+    - '**/*.html'
+    - '**/*.jpeg'
+    - '**/*.jpg'
+    - '**/*.js'
+    - '**/*.jst.ejs'
+    - '**/*.png'
+    - '**/*.log'
+    - '**/*.scss*'
+    - '**/*.sql'
+    - '**/*.sqlite3'
+    - '**/*.txt'
+    - '**/*.yml'
+    - '**/app/assets/**/*'
+    - '**/coverage/**/*'
+    - '**/db/schema.rb'
+    - '**/log/**/*'
+    - '**/public/**/*'
+    - '**/tmp/**/*'
+Lint/HandleExceptions:
+  Exclude:
+    - 'bin/rails'
+    - 'bin/rake'
+    - 'bin/rspec'
+    - 'db/seeds.rb'
+Metrics/AbcSize:
+  Exclude:
+    - 'app/admin/campaign.rb'
+    - 'app/admin/dashboard.rb'
+    - 'app/admin/order.rb'
+    - 'app/importers/*_importer.rb'
+    - 'app/models/line_item.rb'
+    - 'app/models/line_item_campaign.rb'
+    - 'app/models/order.rb'
+    - 'app/models/product_store_leaf.rb'
+    - 'app/models/slab.rb'
+    - 'app/models/concerns/account_entry_reconciler.rb'
+    - 'app/models/concerns/account_entry_sms_notifier.rb'
+    - 'app/models/concerns/line_item_campaigns_reconciler.rb'
+    - 'app/models/concerns/order_sms_notifier.rb'
+    - 'app/models/concerns/paranoia_helper.rb'
+    - 'app/models/concerns/sms_notifier.rb'
+    - 'config/initializers/url_helper.rb'
+    - 'db/migrate/*create_users.rb'
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - 'app/importers/*_importer.rb'
+    - 'app/models/order.rb'
+    - 'app/models/product_store_leaf.rb'
+    - 'app/models/concerns/paranoia_helper.rb'
+    - 'config/initializers/url_helper.rb'
+Metrics/LineLength:
+  Enabled: false
+Metrics/MethodLength:
+  Exclude:
+    - 'app/importers/*_importer.rb'
+    - 'app/models/line_item.rb'
+    - 'app/models/order.rb'
+    - 'app/models/slab.rb'
+    - 'app/models/concerns/paranoia_helper.rb'
+    - 'app/models/concerns/sms_notifier.rb'
+    - 'config/initializers/url_helper.rb'
+    - 'db/migrate/*devise_create_admin_users.rb'
+    - 'db/migrate/*add_devise_to_users.rb'
+    - 'db/migrate/*create_campaign_products.rb'
+    - 'db/migrate/*create_line_items.rb'
+    - 'db/migrate/*create_products.rb'
+    - 'db/migrate/*create_product_store_leaves.rb'
+    - 'db/migrate/*create_stores.rb'
+    - 'db/migrate/*create_users.rb'
+Metrics/PerceivedComplexity:
+  Exclude:
+    - 'app/models/product_store_leaf.rb'
+    - 'config/initializers/url_helper.rb'
+Rails/FindEach:
+  Enabled: false
+Style/AlignHash:
+  EnforcedHashRocketStyle: table
+  EnforcedColonStyle: table
+Style/Documentation:
+  Enabled: false
+Style/RegexpLiteral:
+  Enabled: false
+Style/RescueModifier:
+  Exclude:
+    - 'db/seeds.rb'
+Style/CollectionMethods:
+  # Mapping from undesired method to desired_method
+  # e.g. to use `detect` over `find`:
+  #
+  # CollectionMethods:
+  #   PreferredMethods:
+  #     find: detect
+  PreferredMethods:
+    map: 'collect'
+    map!: 'collect!'
+    reduce: 'inject'
+    detect: 'find'
+    select: 'find_all'

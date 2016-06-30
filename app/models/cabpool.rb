@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: cabpools
+#
+#  id               :integer          not null, primary key
+#  number_of_people :integer
+#  timein           :time
+#  timeout          :time
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  route            :string
+#  remarks          :string
+#  cabpool_type     :integer
+#
+
 class Cabpool < ActiveRecord::Base
 
   enum cabpool_type: {company_provided_cab: 1, external_cab: 2, personal_car: 3}

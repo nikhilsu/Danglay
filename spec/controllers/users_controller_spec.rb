@@ -1,3 +1,34 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id          :integer          not null, primary key
+#  emp_id      :integer
+#  name        :string
+#  email       :string
+#  address     :text
+#  locality_id :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  cabpool_id  :integer
+#  status      :string
+#  phone_no    :string
+#  role_id     :integer
+#
+# Indexes
+#
+#  index_users_on_cabpool_id   (cabpool_id)
+#  index_users_on_emp_id       (emp_id) UNIQUE
+#  index_users_on_locality_id  (locality_id)
+#  index_users_on_role_id      (role_id)
+#
+# Foreign Keys
+#
+#  fk_rails_43d6d9310b  (cabpool_id => cabpools.id)
+#  fk_rails_642f17018b  (role_id => roles.id)
+#  fk_rails_67d309e01c  (locality_id => localities.id)
+#
+
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do

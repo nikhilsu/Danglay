@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: cabpools
+#
+#  id               :integer          not null, primary key
+#  number_of_people :integer
+#  timein           :time
+#  timeout          :time
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  route            :string
+#  remarks          :string
+#  cabpool_type     :integer
+#
+
 require 'rails_helper'
 
 RSpec.describe Cabpool, type: :model do

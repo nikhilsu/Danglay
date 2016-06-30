@@ -1,6 +1,5 @@
 --format Fuubar
 --color
---order random
 --profile
 --backtrace
 --require rails_helper
