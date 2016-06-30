@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    @localities = Locality.all << Locality.new(id: -1, name: 'Other')
+    @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
     session[:FirstName].capitalize!
     session[:LastName].capitalize!
     @user.name = "#{session[:FirstName]} #{session[:LastName]}"
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
       flash[:success] = 'Your Profile has been updated'
       redirect_back_or(root_path)
     else
-      @localities = Locality.all << Locality.new(id: -1, name: 'Other')
+      @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
       render new_user_path
     end
   end
@@ -31,12 +31,12 @@ class UsersController < ApplicationController
 
   def edit
     @user = current_user
-    @localities = Locality.all << Locality.new(id: -1, name: 'Other')
+    @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
   end
 
   def update
     @user = current_user
-    @localities = Locality.all << Locality.new(id: -1, name: 'Other')
+    @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
     add_new_valid_locality
     if @user.update_attributes(user_params_edit)
       flash[:success] = 'Profile updated'
