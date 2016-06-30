@@ -1,12 +1,16 @@
 desc 'Runs all the tests at local'
-task :all_test do
-  ENV['COVERAGE'] = 'true'
-  Rake::Task['db:drop'].invoke
-  Rake::Task['db:create'].invoke
-  Rake::Task['migrate_all'].invoke
-  Rake::Task['db:seed'].invoke
-  Rake::Task['spec'].invoke
-  Rake::Task['spec:javascript'].invoke
+task :all_test => [:turn_on_coverage, :set_test_env, 'db:drop', 'db:create', 'db:migrate', 'db:seed', :spec, 'spec:javascript'] do
   puts "\n\nChecking for vulnerabilities in gems...\n\n"
   system('bundle-audit check --update')
+end
+
+desc 'Rebuilds development database, cleans compiled assets and runs all tests'
+task :clean_test => [:set_test_env, 'db:drop', 'db:create', 'db:migrate', 'db:seed', 'spec:coverage', 'spec:javascript']
+
+task :turn_on_coverage do
+  ENV['COVERAGE'] = 'true'
+end
+
+task :set_test_env do
+  ENV['RAILS_ENV'] = 'test'
 end
