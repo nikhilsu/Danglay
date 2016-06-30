@@ -231,16 +231,11 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     request_one = build(:request)
     cabpool.requests = [request_one]
     allow(User).to receive(:find_by_email).and_return(user)
-    allow(Cabpool).to receive(:find).and_return(cabpool)
-    allow(cabpool).to receive(:destroy).and_return(true)
+    allow(Cabpool).to receive(:destroy).with(cabpool.id).and_return(true)
 
-    expect(Cabpool).to receive(:find).once.and_return(cabpool)
-    expect(cabpool).to receive(:destroy!).once
     delete :delete, id: cabpool.id
 
-    expect(cabpool.users).to be_empty
-    expect(cabpool.requests).to be_empty
-    expect(flash[:success]).to eq 'Cabpool has been Deleted'
+    expect(flash[:success]).to eq 'Cabpool has been deleted'
     expect(response).to redirect_to admin_path
   end
 end

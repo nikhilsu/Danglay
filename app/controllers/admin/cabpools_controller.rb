@@ -48,19 +48,12 @@ class Admin::CabpoolsController < Admin::AdminController
   end
 
   def delete
-    cabpool = Cabpool.find(params[:id])
-    destroy cabpool
-    flash[:success] = 'Cabpool has been Deleted'
+    Cabpool.destroy(params[:id])
+    flash[:success] = 'Cabpool has been deleted'
     redirect_to '/admin'
   end
 
   private
-
-  def destroy(cabpool)
-    cabpool.users.clear
-    cabpool.requests.clear
-    cabpool.destroy!
-  end
 
   def cabpool_params
     allowed_params = params.require(:cabpool).permit(:number_of_people, :timein, :timeout, :route, :remarks)

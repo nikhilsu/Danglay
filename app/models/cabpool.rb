@@ -18,8 +18,8 @@ class Cabpool < ActiveRecord::Base
   enum cabpool_type: { company_provided_cab: 1, external_cab: 2, personal_car: 3 }
 
   has_and_belongs_to_many :localities
-  has_many :users
-  has_many :requests
+  has_many :users, dependent: :nullify
+  has_many :requests, dependent: :nullify
   has_many :requested_users, through: :requests, source: :user
 
   validates_time :timein, :timeout
