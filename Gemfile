@@ -3,9 +3,8 @@ source 'https://rubygems.org'
 
 ruby '2.3.0'
 
-# TODO: Use annotate gem
 # TODO: Explicitly require some gems as false so that startup time is optimized in dev mode.
-gem 'rails',                   '4.2.5.2'
+gem 'rails',                   '4.2.6'
 gem 'bcrypt',                  '3.1.11'
 gem 'faker',                   '1.4.2' # TODO: Shouldn't this only be required for non-prod (or more specifically only for test) envs?
 gem 'carrierwave',             '0.10.0'
