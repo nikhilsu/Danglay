@@ -29,7 +29,7 @@ class Cabpool < ActiveRecord::Base
   validates :remarks, length: { maximum: 300 }
 
   def ordered_localities
-    localities.order('cabpools_localities.created_at')
+    localities.unscope(:order).order('cabpools_localities.created_at')
   end
 
   def available_slots
