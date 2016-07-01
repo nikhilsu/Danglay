@@ -15,9 +15,12 @@
     "App",
     "Rails"
   ],
-  "author": "",
+  "author": "Danglay Team, ThoughtWorks",
   "license": "ISC",
   "devDependencies": {
     "ios-sim": "^5.0.4"
+  },
+  "devDependencies": {
+    "phantomjs": "^2.1.7"
   }
 }
