@@ -2,7 +2,7 @@
 class Admin::UsersController < Admin::AdminController
   def new
     @user = User.new
-    @localities = Locality.all << Locality.new(id: -1, name: 'Other')
+    @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
   end
 
   def create
@@ -11,7 +11,7 @@ class Admin::UsersController < Admin::AdminController
       flash[:success] = 'The Profile has been updated'
       redirect_to admin_path
     else
-      @localities = Locality.all << Locality.new(id: -1, name: 'Other')
+      @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
       render 'admin/users/new'
     end
   end
