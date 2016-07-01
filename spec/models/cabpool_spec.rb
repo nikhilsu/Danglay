@@ -42,7 +42,7 @@ RSpec.describe Cabpool, type: :model do
         expect(cabpool.valid?).to be false
       end
 
-      it 'should be a in a HH:MM format' do
+      it 'is a in a HH:MM format' do
         cabpool = build(:cabpool, :timein_in_invalid_format)
         expect(cabpool.valid?).to be false
       end
@@ -52,7 +52,7 @@ RSpec.describe Cabpool, type: :model do
         expect(cabpool.valid?).to be true
       end
 
-      it 'should be before timeout' do
+      it 'is before timeout' do
         cabpool = build(:cabpool, :timein_after_timeout)
         expect(cabpool.valid?).to be false
       end
@@ -64,7 +64,7 @@ RSpec.describe Cabpool, type: :model do
         expect(cabpool.valid?).to be false
       end
 
-      it 'should be a in a HH:MM format' do
+      it 'is a in a HH:MM format' do
         cabpool = build(:cabpool, :timeout_in_invalid_format)
         expect(cabpool.valid?).to be false
       end
