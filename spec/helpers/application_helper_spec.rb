@@ -44,4 +44,13 @@ RSpec.describe CabpoolsHelper, type: :helper do
 
     expect(number_of_notifications).to eq 2
   end
+
+  it 'should return base_title when page title is blank' do
+    expect(full_title).to eq 'Danglay App'
+  end
+
+  it "should return page title with base title when page title is not blank" do
+    page_title = 'My Ride'
+    expect(full_title page_title).to eq "#{page_title} | Danglay App"
+  end
 end

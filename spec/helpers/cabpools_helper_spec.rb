@@ -100,6 +100,11 @@ RSpec.describe CabpoolsHelper, type: :helper do
     expect(current_users_requested_cabpool).to be user.requested_cabpools
   end
 
+  it 'returns empty array if current user is nil' do
+    allow(User).to receive(:find_by_email).and_return(nil)
+    expect(current_users_requested_cabpool).to eq []
+  end
+
   it 'returns true if current user has requested for cabpool' do
     user = build(:user)
     names = user.name.split(' ')
