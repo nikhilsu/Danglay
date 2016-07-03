@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
+    @localities = localities_for_dropdown
     session[:FirstName].capitalize!
     session[:LastName].capitalize!
     @user.name = "#{session[:FirstName]} #{session[:LastName]}"
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
       flash[:success] = 'Your Profile has been updated'
       redirect_back_or(root_path)
     else
-      @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
+      @localities = localities_for_dropdown
       render new_user_path
     end
   end
@@ -31,12 +31,12 @@ class UsersController < ApplicationController
 
   def edit
     @user = current_user
-    @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
+    @localities = localities_for_dropdown
   end
 
   def update
     @user = current_user
-    @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
+    @localities = localities_for_dropdown
     add_new_valid_locality
     if @user.update_attributes(user_params_edit)
       flash[:success] = 'Profile updated'
@@ -47,6 +47,11 @@ class UsersController < ApplicationController
   end
 
   private
+
+  # TODO: Since this is used only for the view, can we move this into the helper?
+  def localities_for_dropdown
+    Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
+  end
 
   def not_registered?
     redirect_to root_path if is_registered?
@@ -64,6 +69,7 @@ class UsersController < ApplicationController
     allowed_params.merge(locality: @user.locality)
   end
 
+  # TODO: This should be done at the model-level
   def add_new_valid_locality
     locality_id = params[:user][:locality]
     other_name = params[:user][:other]
@@ -71,6 +77,7 @@ class UsersController < ApplicationController
       unless other_name.blank?
         new_locality = Locality.new(name: other_name)
         if new_locality.save
+          # TODO: IF this is done within a transaction, we don't need to destroy the just-created record
           @user.locality = new_locality
           new_locality.destroy unless @user.valid?
         else

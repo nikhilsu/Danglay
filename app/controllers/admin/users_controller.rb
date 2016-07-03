@@ -2,7 +2,7 @@
 class Admin::UsersController < Admin::AdminController
   def new
     @user = User.new
-    @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
+    @localities = localities_for_dropdown
   end
 
   def create
@@ -11,12 +11,17 @@ class Admin::UsersController < Admin::AdminController
       flash[:success] = 'The Profile has been updated'
       redirect_to admin_path
     else
-      @localities = Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
+      @localities = localities_for_dropdown
       render 'admin/users/new'
     end
   end
 
   private
+
+  # TODO: Since this is used only for the view, can we move this into the helper?
+  def localities_for_dropdown
+    Locality.all.order(:name) << Locality.new(id: -1, name: 'Other')
+  end
 
   def user_params
     allowed_params = params.require(:user).permit(:emp_id, :address, :phone_no, :name, :email)
