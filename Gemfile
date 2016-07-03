@@ -90,7 +90,7 @@ group :development do
 end
 
 group :test do
-  gem 'simplecov', '0.11.2'
+  gem 'simplecov', '0.12.0'
 end
 
 group :production, :staging do
