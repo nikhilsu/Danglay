@@ -13,7 +13,7 @@ class Locality < ActiveRecord::Base
   has_many :users
   has_and_belongs_to_many :cabpools
 
-  validates :name, presence: true, uniqueness: true # TODO: Case-sensitivity is not validated?
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   # TODO: default order? this is being used as Locality.all.order in some places
 end
