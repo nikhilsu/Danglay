@@ -27,6 +27,7 @@
           <tbody>
           <% cabpool.users.each do |user| %>
               <tr>
+                <!-- TODO: Use built-in helpers instead of coding html directly -->
                 <td><a href="<%= user_show_path(id: user.id) %>" class="user-profile-link"><i class="fa fa-user"></i><%= user.name %></a></td>
                 <td><%= user.emp_id %></td>
                 <td><%= user.phone_no %></td>
@@ -51,6 +52,7 @@
           <%= hidden_field_tag 'cabpool_route', cabpool.route %>
           <div id="map" class="map_show pull-right"></div>
 
+          <!-- TODO: Use built-in helpers instead of coding html directly -->
           <button class="open-map" title="Expand map"><i class="fa fa-expand"></i></button>
 
           <div class="admin-view-route-info">
@@ -58,6 +60,7 @@
             <div class="delete-cabpool-icon">
               <%= form_for(cabpool, url: '/admin/cabpools/delete', method: :delete, :html => {onsubmit: "return popup_confirmation(this, 'Are you sure you want to delete this Cabpool?');"}) do %>
                   <%= hidden_field_tag 'id', cabpool.id %>
+                  <!-- TODO: Use built-in helpers instead of coding html directly -->
                   <button class="btn-alert" title="Delete Cabpool">
                     <i class="fa fa-trash fa-2x"></i>
                   </button>

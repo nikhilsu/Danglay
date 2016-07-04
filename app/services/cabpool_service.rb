@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 require 'response'
 class CabpoolService
+  # TODO: ALL places where this is invoked, we are loading a bunch of locality objects from the db based on some id array.
+  #  Why not pass the array here, and call LocalityService from here?
   def self.persist(cabpool, associations_of_cabpool)
     if cabpool.valid_including_associations? associations_of_cabpool
       cabpool.add_associations_in_order associations_of_cabpool

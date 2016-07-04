@@ -7,6 +7,7 @@
 
 <section class="user-wrapper">
   <table class="user-info">
+    <!-- TODO: Use built-in helpers instead of coding html directly -->
     <tr><td><label>Employee ID</label></td><td> <%= @user.emp_id %></td></tr>
     <tr><td><label>Email</label></td><td> <%= @user.email %></td></tr>
     <tr><td><label>Phone Number</label></td><td> <%= @user.phone_no %></td></tr>
@@ -17,14 +18,17 @@
   <div class="view-more-info">
     <h4>Also view on:</h4>
     <div>
+      <!-- TODO: Use built-in helpers instead of coding html directly -->
       <a href="https://jigsaw.thoughtworks.com/consultants/<%=@user.email.split('@')[0]%>" target="_blank">
         <%= image_tag('jigsaw-icon.png') %>
       </a>
 
+      <!-- TODO: Use built-in helpers instead of coding html directly -->
       <a href="https://contacts.thoughtworks.com/searchUser?searchQuery=<%=@user.email.split('@')[0]%>" target="_blank">
         <%= image_tag('contacts-icon.png') %>
       </a>
 
+      <!-- TODO: Use built-in helpers instead of coding html directly -->
       <a href="https://thoughtworks.jiveon.com/people/<%=@user.email.split('@')[0]%>" target="_blank">
         <%= image_tag('my-tw-icon.png') %>
       </a>

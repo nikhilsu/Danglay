@@ -27,6 +27,7 @@ class MailService
 
   def self.send_email_to_cabpool_users_on_member_leaving(users, current_user)
     users.collect do |user|
+      # TODO: Why not deliver to all the mail recipients in one shot? Why do we need to respond in a loop?
       CabpoolMailer.cabpool_leave_notifier(user, current_user).deliver_now
     end
   end
@@ -44,6 +45,7 @@ class MailService
       CabpoolMailer.admin_notifier_for_join_cabpool(cabpool, requesting_user, digest).deliver_now
     else
       cabpool.users.collect do |user|
+        # TODO: Why not deliver to all the mail recipients in one shot? Why do we need to respond in a loop?
         CabpoolMailer.cabpool_join_request(user, cabpool, requesting_user, digest).deliver_now
       end
     end
@@ -51,6 +53,7 @@ class MailService
 
   def self.send_emails_to_cabpool_members_when_admin_creates_a_pool(cabpool)
     cabpool.users.collect do |user|
+      # TODO: Why not deliver to all the mail recipients in one shot? Why do we need to respond in a loop?
       CabpoolMailer.cabpool_is_created(user, cabpool).deliver_now
     end
   end
@@ -58,6 +61,7 @@ class MailService
   def self.send_email_to_cabpool_users_about_cabpool_update_by_admin(cabpool, members_before_cabpool_update)
     members_to_be_notified = cabpool.users | members_before_cabpool_update
     members_to_be_notified.collect do |user|
+      # TODO: Why not deliver to all the mail recipients in one shot? Why do we need to respond in a loop?
       CabpoolMailer.cabpool_updated_by_admin(user, cabpool).deliver_now
     end
   end

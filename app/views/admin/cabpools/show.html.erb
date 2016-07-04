@@ -14,7 +14,7 @@
     </div>
     <ul>
       <% if @cabpools.empty? %>
-          <%= render partial: 'layouts/no_cabpools_found', object: {heading: 'No Cabpools Exists', additional_message: 'Please create one.'} %>
+          <%= render partial: 'layouts/no_cabpools_found', object: {heading: 'No Cabpool Exists', additional_message: 'Please create one.'} %>
       <% else %>
           <%= render @cabpools %>
     <% end %>
@@ -22,5 +22,6 @@
     <%= will_paginate @cabpools%>
   </div>
 </div>
+<!-- TODO: Use built-in helpers instead of coding html directly -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.secrets[:map_api_key] %>">
 </script>

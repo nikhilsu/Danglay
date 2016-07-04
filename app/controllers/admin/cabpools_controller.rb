@@ -57,6 +57,7 @@ class Admin::CabpoolsController < Admin::AdminController
 
   def cabpool_params
     allowed_params = params.require(:cabpool).permit(:number_of_people, :timein, :timeout, :route, :remarks)
+    # TODO: Why is this hard-coded?
     allowed_params.merge(cabpool_type: :company_provided_cab)
   end
 
@@ -72,7 +73,7 @@ class Admin::CabpoolsController < Admin::AdminController
   def company_provided_cabpool?
     @cabpool = Cabpool.find_by_id(params[:id])
     unless @cabpool.company_provided_cab?
-      flash[:danger] = 'Cannot Edit a Non-Company Provided Cabpool'
+      flash[:danger] = 'Cannot Edit a Non-Company-Provided Cabpool'
       redirect_to '/admin'
     end
   end

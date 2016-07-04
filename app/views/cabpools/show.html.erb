@@ -26,5 +26,6 @@
     <%= will_paginate @cabpools%>
   </div>
 </div>
+<!-- TODO: Use built-in helpers instead of coding html directly -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.secrets[:map_api_key] %>">
 </script>

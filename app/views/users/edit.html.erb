@@ -30,6 +30,7 @@
               <% unless @locality_errors.nil? %> field_with_errors
               <% end %>">
               <div>
+                <!-- TODO: Use built-in helpers instead of coding html directly -->
                 <input class="form-control" type="text" name="user[other]" id="otherBox" style="display: none" placeholder="(Enter Other Location)"/>
                 <%= render 'shared/error_messages', errors: @locality_errors if !@locality_errors.nil? %>
               </div>

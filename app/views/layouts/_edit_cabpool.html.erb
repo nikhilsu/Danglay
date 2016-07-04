@@ -17,6 +17,7 @@
         <%= render 'shared/error_messages', errors: @cabpool.errors[:remarks] if !@cabpool.errors[:remarks].empty? %>
 
         <div class="form-group">
+          <!-- TODO: Use built-in helpers instead of coding html directly -->
           <label class="label-blue" for="user_locality">Route :-</label>
           <%= render 'shared/error_messages', errors: @cabpool.errors[:localities] if !@cabpool.errors[:localities].empty? %>
           <label class="label-blue" for="user_locality">Start Point</label>
@@ -31,6 +32,7 @@
           </div>
           <div>
             <div class="localityForm">
+              <!-- TODO: Use built-in helpers instead of coding html directly -->
               <label class="control-label pull-left" for="user_locality">Via</label>
               <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true}, class: 'form-control add-locality') %>
             </div>
@@ -38,20 +40,20 @@
         </div>
 
         <div id="localitySelections">
-
           <% @cabpool.ordered_localities.drop(1).each do |locality| %>
               <div class="form-group">
                 <div class="localityForm">
+                  <!-- TODO: Use built-in helpers instead of coding html directly -->
                   <label class="control-label pull-left" for="user_locality">Via</label>
                   <%= collection_select(:localities, DateTime.now.strftime('%Q').to_i, Locality.all, :id, :name, {prompt: true, selected: locality.id}, class: 'form-control add-locality') %>
                 </div>
                 <button id="removeNewLocality">-</button>
               </div>
           <% end %>
-
         </div>
 
         <div class="form-group">
+          <!-- TODO: Use built-in helpers instead of coding html directly -->
           <label class="label-blue" for="user_locality">End Point</label>
           <span class="label-name">ThoughtWorks Pvt Ltd.</span>
         </div>
@@ -65,6 +67,7 @@
     <h2>Route Map</h2>
     <div id="map" class="map"></div>
   </div>
+  <!-- TODO: Use built-in helpers instead of coding html directly -->
   <script async defer
           src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.secrets[:map_api_key] %>&callback=initMap_show">
   </script>

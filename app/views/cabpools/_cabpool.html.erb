@@ -29,6 +29,7 @@
           <tbody>
           <% cabpool.users.each do |user| %>
               <tr>
+                <!-- TODO: Use built-in helpers instead of coding html directly -->
                 <td><a href="<%= user_show_path(id: user.id) %>" class="user-profile-link"><i class="fa fa-user"></i><%= user.name %></a></td>
                 <td><%= user.emp_id %></td>
                 <td><%= user.phone_no %></td>
@@ -56,7 +57,7 @@
           <button class="open-map" title="Expand map"><i class="fa fa-expand"></i></button>
 
           <div class="route-info"></div>
-            <% if !current_user.nil? %>
+            <% if current_user.present? %>
                 <%= render partial: 'join_cabpool', object: {cabpool: cabpool, join_button_style: 'btn-ride', popup_action_js: {onsubmit: "return popup_confirmation(this, '#{confirm_message_for_the_current_users_join_request cabpool}');"}} %>
             <% else %>
                 <%= render partial: 'join_cabpool', object: {cabpool: cabpool, join_button_style: 'btn-ride', popup_action_js: {}} %>

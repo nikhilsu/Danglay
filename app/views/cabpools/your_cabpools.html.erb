@@ -50,6 +50,7 @@
                     <tbody>
                     <% users_cabpool.users.each do |user| %>
                         <tr>
+                          <!-- TODO: Use built-in helpers instead of coding html directly -->
                           <td><a href="<%= user_show_path(id: user.id) %>" class="user-profile-link"><i class="fa fa-user"></i><%= user.name %></a></td>
                           <td><%= user.emp_id %></td>
                           <td><%= user.phone_no %></td>
@@ -99,6 +100,7 @@
   <% end %>
 </ul>
 </div>
+<!-- TODO: Use built-in helpers instead of coding html directly -->
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.secrets[:map_api_key] %>&callback=initMap_show">
 </script>

@@ -144,7 +144,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     get :edit, id: cabpool.id
 
     expect(response).to redirect_to '/admin'
-    expect(flash[:danger]).to eq 'Cannot Edit a Non-Company Provided Cabpool'
+    expect(flash[:danger]).to eq 'Cannot Edit a Non-Company-Provided Cabpool'
   end
 
   it 'redirects to admin home when admin tries to update a non company provided cabpool' do
@@ -158,7 +158,7 @@ RSpec.describe Admin::CabpoolsController, type: :controller do
     patch :update, id: cabpool_to_update.id, cabpool: { number_of_people: 1, remarks: 'Edited Remark' }, cabpool_type: { cabpool_type_one_id: '1' }
 
     expect(response).to redirect_to '/admin'
-    expect(flash[:danger]).to eq 'Cannot Edit a Non-Company Provided Cabpool'
+    expect(flash[:danger]).to eq 'Cannot Edit a Non-Company-Provided Cabpool'
   end
 
   it 'renders edit cabpool page when persistence of the cabpool fails' do

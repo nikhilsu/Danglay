@@ -37,6 +37,7 @@ class Cabpool < ActiveRecord::Base
     number_of_people - users.size
   end
 
+  # TODO: Can this be done with #validates_associated?
   def valid_including_associations?(associations_to_validate)
     validate
     associations_to_validate.each do |association_name, association_value|
@@ -72,27 +73,27 @@ class Cabpool < ActiveRecord::Base
     end
   end
 
+  # TODO: Can this be done as validates_presence_of?
   def invalidate_empty_localities
     errors.add(:localities, 'Localities cannot be empty') if localities.empty?
   end
 
+  # TODO: Why can't we silently remove duplicates? Why do we need the user to explicitly fix?
   def invalidate_duplicate_localities
     difference = localities.size - localities.uniq.size
     errors[:localities] = 'Duplicate Localities entered' if difference != 0
   end
 
   def invalidate_more_than_five_localities
-    if localities.length > 5
-      errors.add(:localities, 'Cannot have more than 5 localities.')
-    end
+    errors.add(:localities, 'Cannot have more than 5 localities.') if localities.length > 5
   end
 
-  # TODO: validates_presence_of?
+  # TODO: Can this be done as validates_presence_of?
   def invalidate_empty_cabpool_type
     errors.add(:cabpool_type, 'This should not be empty.') if cabpool_type.nil?
   end
 
-  # TODO: validates_presence_of?
+  # TODO: Can this be done as validates_presence_of?
   def invalidate_empty_users
     errors.add(:users, 'Users Cannot be empty') if users.empty?
   end
@@ -103,6 +104,7 @@ class Cabpool < ActiveRecord::Base
     end
   end
 
+  # TODO: Why can't we silently remove duplicates? Why do we need the user to explicitly fix?
   def invalidate_duplicate_users
     difference = users.size - users.uniq.size
     errors.add(:users, 'Duplicate User entered') if difference != 0

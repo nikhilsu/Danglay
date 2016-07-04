@@ -11,16 +11,20 @@
     <div class="row form-elements">
       <%= form_for(@user, layout: :horizontal) do |f| %>
           <div class="col-50 center-form">
+            <!-- TODO: Use built-in helpers instead of coding html directly -->
             <label class= "required" for="employee_id"> Employee ID </label>
             <div class = "empid-info"> Employee ID is not editable. Please ensure that you have entered it correctly before submitting.</div>
             <%= f.text_field :emp_id %>
             <%= render 'shared/error_messages', errors: @user.errors[:emp_id] if !@user.errors[:emp_id].empty? %>
-           <label class= "required" for="address"> Address </label>
+            <!-- TODO: Use built-in helpers instead of coding html directly -->
+            <label class= "required" for="address"> Address </label>
             <%= f.text_area :address %>
             <%= render 'shared/error_messages', errors: @user.errors[:address] if !@user.errors[:address].empty? %>
+            <!-- TODO: Use built-in helpers instead of coding html directly -->
             <label class= "required" for="phone_no"> Phone Number </label>
             <%= f.text_field :phone_no %>
             <%= render 'shared/error_messages', errors: @user.errors[:phone_no] if !@user.errors[:phone_no].empty? %>
+            <!-- TODO: Use built-in helpers instead of coding html directly -->
             <label class= "required" for="locality"> Locality </label>
 
             <div class="full-width-selectize">
@@ -31,6 +35,7 @@
               <% unless @locality_errors.nil? %> field_with_errors
               <% end %>">
               <div>
+                <!-- TODO: Use built-in helpers instead of coding html directly -->
                 <input class="form-control" type="text" name="user[other]" id="otherBox" style="display: none" placeholder="(Enter Other Location)"/>
                 <%= render 'shared/error_messages', errors: @locality_errors if !@locality_errors.nil? %>
               </div>

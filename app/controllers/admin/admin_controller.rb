@@ -3,8 +3,6 @@ class Admin::AdminController < ApplicationController
   before_action :authorized_admin?
 
   def authorized_admin?
-    if current_user.nil? || current_user.role.name != 'admin'
-      render 'custom_errors/not_found_error'
-    end
+    render 'custom_errors/not_found_error' if current_user.nil? || current_user.role.name != 'admin'
   end
 end

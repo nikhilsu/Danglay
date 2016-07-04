@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
 
   private
 
-  # TODO: Can this be a single-line validates method/macro call?
+  # TODO: Can this be a single-line validates method/macro call using format? Or can this be done with a gem?
   def validate_phone_no
     return if phone_no.nil?
 

@@ -7,6 +7,7 @@
           <%= link_to "Home", root_path %>
           <% if is_registered? && (user_cabpool_exists? || received_response_for_cabpool_request?) %>
           <div class="notification">
+            <!-- TODO: Use built-in helpers instead of coding html directly -->
             <a href="javascript:void(0)" tabindex="0" class="noti">
               <% if number_of_notifications != 0 %>
                     <span class='badge badge_notify'>
@@ -19,6 +20,7 @@
                   <li><p>You have no notifications!</p></li>
               <% elsif not current_user.status.nil? %>
                   <li>
+                    <!-- TODO: Use built-in helpers instead of coding html directly -->
                     <a href="#">
                       <%= form_tag controller: "/cabpools", action: "view_notification", method: 'post' do %>
                           <p onclick="$(this).parents('form:first').submit();">
@@ -48,6 +50,7 @@
           <% end %>
           <% if is_logged_in? %>
           <div class="user-profile">
+            <!-- TODO: Use built-in helpers instead of coding html directly -->
             <a href="javascript:void(0)" tabindex="0" class="user-btn"><span class="user-icon"></span> <span class="user-name"><%= @username %></span></a>
             <ul>
               <% if is_admin? %>

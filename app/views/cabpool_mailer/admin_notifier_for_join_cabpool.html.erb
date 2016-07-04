@@ -1,13 +1,11 @@
 <h4>Hi Admin!</h4>
 
-<p><strong><%= @user.name %> (<%= @user.email %>)</strong> has requested for a
-  cabpool having ID: <strong> <%= displayable @cabpool %></strong>. </p>
+<p><strong><%= @user.name %> (<%= @user.email %>)</strong> has requested for a cabpool having ID: <strong> <%= displayable @cabpool %></strong>. </p>
 
-<p> <%= @user.name %> lives at:</p>
+<p><%= @user.name %> lives at:</p>
 <p><%= @user.address %></p>
 
-<p>If you approve, <%= @user.name %> will be added to your carpool, and a confirmation email will
-  be sent to both <%= @user.name %>.
+<p>If you approve, <%= @user.name %> will be added to your carpool, and a confirmation email will be sent to both <%= @user.name %>.
 
 <p>What would you like to do?</p>
 

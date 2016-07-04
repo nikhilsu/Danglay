@@ -9,11 +9,9 @@ class CabpoolsController < ApplicationController
 
   def user_should_not_have_cabpool
     user = current_user
-    unless user.nil?
-      if user.cabpool
-        flash[:danger] = 'You are already part of a Cab pool. Please leave the cabpool to create a new cab pool.'
-        redirect_to your_cabpools_path
-      end
+    if user.present? && user.cabpool
+      flash[:danger] = 'You are already part of a Cab pool. Please leave the cabpool to create a new cab pool.'
+      redirect_to your_cabpools_path
     end
   end
 
@@ -68,8 +66,7 @@ class CabpoolsController < ApplicationController
   end
 
   def join
-    id = params[:cabpool][:id]
-    joining_cabpool = Cabpool.find_by_id(id)
+    joining_cabpool = Cabpool.find_by_id(params[:cabpool][:id])
     requesting_user = User.find_by_email(session[:Email])
     if joining_cabpool.available_slots > 0
       request = Request.create(user: requesting_user, cabpool: joining_cabpool)
@@ -183,6 +180,7 @@ class CabpoolsController < ApplicationController
     render 'request_accept'
   end
 
+  # TODO: Will this not be done if cascading deletion at the model level?
   def destroy(cabpool)
     cabpool.users.clear
     cabpool.requests.clear
@@ -208,6 +206,7 @@ class CabpoolsController < ApplicationController
   def cabpool_params
     allowed_params = params.require(:cabpool).permit(:number_of_people, :timein, :timeout, :route, :remarks)
     _, cabpool_type_id = params[:cabpool_type].first unless params[:cabpool_type].nil?
+    # TODO: Why hit the db so as to populate the params hash with a retrieved obj instead of its id?
     cabpool_type = get_cabpool_type_by_id(cabpool_type_id)
     allowed_params.merge!(cabpool_type: cabpool_type)
   end

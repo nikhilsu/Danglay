@@ -13,11 +13,7 @@ class SamlController < ApplicationController
 
     if response.is_valid?
       set_session response
-      if is_admin?
-        redirect_back_or(admin_url)
-      else
-        redirect_back_or(root_url)
-      end
+      redirect_back_or(is_admin? ? admin_url : root_url)
     else
       redirect_to(request.create(saml_settings))
     end

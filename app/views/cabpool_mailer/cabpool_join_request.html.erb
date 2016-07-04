@@ -1,15 +1,13 @@
 <h4>Hi <%= @user.name %>,</h4>
 
-<p><strong><%= @current_user.name %> (<%= @current_user.email %>)</strong> has requested
-  to join your carpool. </p>
+<p><strong><%= @current_user.name %> (<%= @current_user.email %>)</strong> has requested to join your carpool. </p>
 
 <p><%= @current_user.name %> lives at:</p>
 <p><%= @current_user.address %></p>
 <p><%= @current_user.locality.name %></p>
 <p><a href="<%= user_show_url(id: @current_user.id) %>">More information of the user.</a></p>
 
-<p>If you approve, <%= @current_user.name %> will be added to your carpool, and a confirmation email will
-  be sent to <%= @current_user.name %>.</p>
+<p>If you approve, <%= @current_user.name %> will be added to your carpool, and a confirmation email will be sent to <%= @current_user.name %>.</p>
 
 <p>What would you like to do?</p>
 

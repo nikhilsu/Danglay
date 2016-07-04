@@ -2,6 +2,7 @@
 <div class="container">
     <h2>Welcome, admin</h2>
     <ul class="tabs">
+      <!-- TODO: Use built-in helpers instead of coding html directly -->
       <li class="<%= admin[:create_tab]%>"><a href="<%= admin_cabpool_new_path %>"><i class="fa fa-pencil"></i> Create</a></li>
       <li class="<%= admin[:edit_tab]%>"><a href="<%= admin_path %>"><i class="fa fa-edit"></i> Edit</a></li>
       <li class="<%= admin[:add_user_tab]%>"><a href="<%= admin_user_new_path %>"><i class="fa fa-user"></i> Add User</a></li>

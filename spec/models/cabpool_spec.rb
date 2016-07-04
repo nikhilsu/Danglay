@@ -126,6 +126,11 @@ RSpec.describe Cabpool, type: :model do
   end
 
   describe 'relationships' do
+    xit { has_and_belongs_to_many(:localities) }
+    xit { has_many(:users).dependent(:nullify) }
+    xit { has_many(:requests).dependent(:nullify) }
+    xit { has_many(:requested_users).through(:requests) }
+
     describe 'destroy' do
       it 'should nullify users when a cabpool is destroyed'
       it 'should nullify requests when a cabpool is destroyed'
