@@ -1,6 +1,8 @@
 machine:
   ruby:
     version: 2.3.0
+dependencies:
+  - gem install bundler
 test:
   override:
     - bundle exec rake clean_test
