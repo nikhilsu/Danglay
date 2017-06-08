@@ -1,0 +1,8 @@
+machine:
+  ruby:
+    version: 2.3.0
+test:
+  override:
+    - bundle exec rake clean_test
+    - bundle exec rake spec:features
+    - zip -r danglay.zip $CIRCLE_ARTIFACTS
