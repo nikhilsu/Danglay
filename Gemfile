@@ -7,7 +7,7 @@ ruby '2.3.0'
 gem 'rails',                   '4.2.6'
 gem 'bcrypt',                  '3.1.11'
 gem 'faker',                   '1.4.2' # TODO: Shouldn't this only be required for non-prod (or more specifically only for test) envs?
-gem 'carrierwave',             '0.10.0'
+gem 'carrierwave',             '1.3.2'
 gem 'mini_magick',             '3.8.0'
 gem 'fog',                     '1.36.0'
 gem 'will_paginate',           '3.0.7'
