@@ -95,5 +95,5 @@ end
 
 group :production, :staging do
   gem 'rails_12factor', '0.0.2'
-  gem 'puma',           '4.3.8'
+  gem 'puma',           '4.3.11'
 end
